@@ -1,4 +1,4 @@
-# fa_flutter_ui_kit
+# FA Flutter UI Kit
 
 Official FA Flutter UI Kit.
 
