@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fa_flutter_ui_kit/src/data/models/country.dart';
+import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/no_items_found.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/search_text_field.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/stream_loading_widget.dart';
@@ -67,7 +67,9 @@ class _CountryPickerState extends State<CountryPicker> {
           title: const Text(
             "Select Country",
           ),
-          content: _MyDialog(),
+          content: _MyDialog(
+            list: widget.countryList,
+          ),
           actions: [
             FlatButton(
               padding: EdgeInsets.symmetric(

@@ -1,4 +1,4 @@
-import 'package:fa_flutter_ui_kit/src/data/models/country.dart';
+import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/login/index.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ class FALoginPage extends StatefulWidget {
   final bool autoValidateCode;
   final bool isPhoneSubmitted;
   final bool autoValidatePhone;
+  final List<Country> countryList;
   final Country selectedCountry;
   final void Function(Country item) onCountryChanged;
   final void Function(bool item) onPhoneSubmitChanged;
@@ -24,6 +25,7 @@ class FALoginPage extends StatefulWidget {
     this.codeController,
     this.phoneController,
     this.selectedCountry,
+    this.countryList,
     this.isPhoneSubmitted = false,
     this.autoValidateCode = false,
     this.autoValidatePhone = false,
@@ -118,6 +120,7 @@ class _FALoginPageState extends State<FALoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         CountryPicker(
+                          countryList: widget.countryList,
                           selectedCountryId: widget.selectedCountry.countryId,
                           onChanged: (val) {
                             widget.onCountryChanged(val);
