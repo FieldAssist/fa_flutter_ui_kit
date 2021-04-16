@@ -1,0 +1,207 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fa_flutter_ui_kit/src/data/models/country.dart';
+import 'package:fa_flutter_ui_kit/src/widgets/common/no_items_found.dart';
+import 'package:fa_flutter_ui_kit/src/widgets/common/search_text_field.dart';
+import 'package:fa_flutter_ui_kit/src/widgets/common/stream_loading_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
+
+class CountryPicker extends StatefulWidget {
+  const CountryPicker({
+    this.selectedCountryId,
+    this.onChanged,
+    this.countryList,
+  });
+
+  final List<Country> countryList;
+  final String selectedCountryId;
+  final void Function(Country item) onChanged;
+
+  @override
+  _CountryPickerState createState() => _CountryPickerState();
+}
+
+class _CountryPickerState extends State<CountryPicker> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: _showDialog,
+      child: Padding(
+        padding: const EdgeInsets.all(7.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _getCountry(widget.selectedCountryId).countryName,
+              style: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Row(
+              children: [
+                Text(
+                  '+${_getCountry(widget.selectedCountryId).dialCode}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                Icon(Icons.keyboard_arrow_down),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showDialog() async {
+    final result = await showDialog<Country>(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text(
+            "Select Country",
+          ),
+          content: _MyDialog(),
+          actions: [
+            FlatButton(
+              padding: EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 24,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("CANCEL"),
+            ),
+          ],
+        );
+      },
+    );
+    if (result != null) {
+      widget.onChanged(result);
+    }
+  }
+
+  Country _getCountry(String selectedCountryId) {
+    return widget.countryList.firstWhere(
+      (element) => element.countryId?.toLowerCase() == selectedCountryId,
+    );
+  }
+}
+
+class CountryTile extends StatelessWidget {
+  const CountryTile(this.country, {this.showName = true});
+
+  final Country country;
+  final bool showName;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      dense: true,
+      leading: CachedNetworkImage(
+        imageUrl: country.flagCode,
+        height: 16,
+        width: 32,
+        fit: BoxFit.cover,
+      ),
+      title: Text(
+        country.countryName,
+        style: TextStyle(fontSize: 16),
+      ),
+      trailing: Text('+${country.dialCode}'),
+    );
+  }
+}
+
+class _MyDialog extends StatefulWidget {
+  final List<Country> list;
+
+  _MyDialog({this.list});
+
+  @override
+  _MyDialogState createState() => _MyDialogState();
+}
+
+class _MyDialogState extends State<_MyDialog> {
+  BehaviorSubject subject;
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    subject = BehaviorSubject.seeded(widget.list);
+    controller.addListener(() {
+      if (!subject.isClosed) subject.sink.add(widget.list);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.shortestSide / 2,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: <Widget>[
+          SearchTextField(controller),
+          Expanded(
+            child: StreamBuilder<List<Country>>(
+              stream: subject.transform(streamTransformer).asBroadcastStream(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return StreamLoadingWidget();
+                }
+                if (snapshot.data.isEmpty) {
+                  return NoItemsFound();
+                }
+                return ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  children: <Widget>[
+                    ...snapshot.data.map(
+                      (item) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pop<Country>(context, item);
+                          },
+                          child: CountryTile(
+                            item,
+                            showName: true,
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  StreamTransformer<List<Country>, List<Country>> get streamTransformer =>
+      StreamTransformer<List<Country>, List<Country>>.fromHandlers(
+        handleData: (list, sink) {
+          if (controller.text != null && controller.text.isNotEmpty) {
+            final list1 = list.where((item) {
+              return item.countryName
+                      .toLowerCase()
+                      .contains(controller.text.toLowerCase()) ||
+                  item.dialCode
+                      .toLowerCase()
+                      .contains(controller.text.toLowerCase());
+            }).toList();
+            return sink.add(list1);
+          } else {
+            return sink.add(list);
+          }
+        },
+      );
+}

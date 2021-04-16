@@ -10,6 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  progress_dialog: ^1.2.4
+  rxdart: ^0.26.0
+  flare_flutter: ^2.0.6
+  cached_network_image: ^3.0.0-nullsafety
 
 dev_dependencies:
   flutter_test:
