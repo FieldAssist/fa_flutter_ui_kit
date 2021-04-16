@@ -3,7 +3,7 @@ import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/login/index.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
+class FALoginPage extends StatefulWidget {
   final GlobalKey scaffoldKey;
   final GlobalKey formKey;
   final TextEditingController codeController;
@@ -18,7 +18,7 @@ class LoginPage extends StatefulWidget {
   final Function getActivationCode;
   final Function verifyCode;
 
-  LoginPage({
+  FALoginPage({
     this.scaffoldKey,
     this.formKey,
     this.codeController,
@@ -34,10 +34,10 @@ class LoginPage extends StatefulWidget {
     this.verifyCode,
   });
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _FALoginPageState createState() => _FALoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _FALoginPageState extends State<FALoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

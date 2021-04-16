@@ -3,20 +3,20 @@ import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class SplashPage extends StatefulWidget {
+class FASplashPage extends StatefulWidget {
   final Widget errorPage;
   dynamic error;
 
-  SplashPage({
+  FASplashPage({
     @required this.errorPage,
     this.error,
   });
   @override
-  _SplashPageState createState() => _SplashPageState();
+  _FASplashPageState createState() => _FASplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with AfterLayoutMixin<SplashPage> {
+class _FASplashPageState extends State<FASplashPage>
+    with AfterLayoutMixin<FASplashPage> {
   double _opacity = 0;
 
   @override
