@@ -1,24 +1,18 @@
+/// Path of all the image assets in defined here
+/// Add image to assets/images at root and then add the path here.
+
 class Images {
-  static final Images _instance = Images._internal();
-  static Images get instance => _instance;
+  Images._();
 
-  factory Images() {
-    return _instance;
-  }
+  static const _basePath = 'assets/images';
 
-  Images._internal();
-  //TODO(Aashish): Set Base Path through Config.
-  String _basePath = '';
-
-  set setBasePath(String value) => _basePath = value;
-
-  String get fieldAssistLogo => '$_basePath/fieldassist_logo.jpeg';
-  String get fieldAssistFullLogo => '$_basePath/fieldassist_full_logo.png';
-  String get doubleRingLoader => '$_basePath/double_ring_loader.gif';
-  String get acceleratingGrowth => '$_basePath/accelerating_growth.png';
-  String get imagePlaceHolder => "$_basePath/image_placeholder.png";
-  String get launchingGrowth => '$_basePath/launching_growth.png';
-  String get thumbsUp => '$_basePath/thumbs_up.png';
-  String get shopLocation => '$_basePath/shop_location.png';
-  String get superCommander => '$_basePath/super_commander.png';
+  static const fieldAssistLogo = '$_basePath/fieldassist_logo.jpeg';
+  static const fieldAssistFullLogo = '$_basePath/fieldassist_full_logo.png';
+  static const doubleRingLoader = '$_basePath/double_ring_loader.gif';
+  static const acceleratingGrowth = '$_basePath/accelerating_growth.png';
+  static const imagePlaceHolder = "$_basePath/image_placeholder.png";
+  static const launchingGrowth = '$_basePath/launching_growth.png';
+  static const thumbsUp = '$_basePath/thumbs_up.png';
+  static const shopLocation = '$_basePath/shop_location.png';
+  static const superCommander = '$_basePath/super_commander.png';
 }

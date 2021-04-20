@@ -1,49 +1,99 @@
-import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
+import 'package:fa_flutter_ui_kit/src/config/index.dart';
+import 'package:fa_flutter_ui_kit/src/data/models/index.dart';
+import 'package:fa_flutter_ui_kit/src/modules/base/base_state.dart';
+import 'package:fa_flutter_ui_kit/src/modules/login/index.dart';
+import 'package:fa_flutter_ui_kit/src/utils/index.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/login/index.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class FALoginPage extends StatefulWidget {
-  final GlobalKey scaffoldKey;
-  final GlobalKey formKey;
-  final TextEditingController codeController;
-  final TextEditingController phoneController;
-  final bool isKeyboardOpen;
-  final bool autoValidateCode;
-  final bool isPhoneSubmitted;
-  final bool autoValidatePhone;
-  final List<Country> countryList;
-  final Country selectedCountry;
-  final void Function(Country item) onCountryChanged;
-  final void Function(bool item) onPhoneSubmitChanged;
-  final Function getActivationCode;
-  final Function verifyCode;
-
-  FALoginPage({
-    this.scaffoldKey,
-    this.formKey,
-    this.codeController,
-    this.phoneController,
-    this.selectedCountry,
-    this.countryList,
-    this.isPhoneSubmitted = false,
-    this.autoValidateCode = false,
-    this.autoValidatePhone = false,
-    this.isKeyboardOpen = false,
-    this.onCountryChanged,
-    this.onPhoneSubmitChanged,
-    this.getActivationCode,
-    this.verifyCode,
-  });
   @override
   _FALoginPageState createState() => _FALoginPageState();
 }
 
-class _FALoginPageState extends State<FALoginPage> {
+class _FALoginPageState extends BaseState<FALoginPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+  final _codeController = TextEditingController();
+  final _phoneController = TextEditingController();
+  bool _isKeyboardOpen = false;
+  bool _autoValidateCode = false;
+  bool _isPhoneSubmitted = false;
+  bool _autoValidatePhone = false;
+  final _loginDelegate = LoginDelegate();
+  List<Country> _countryList;
+  Country _selectedCountry;
+
+  @override
+  void initState() {
+    super.initState();
+    _countryList = AppConfig.instance.countryList;
+    _selectedCountry =
+        _countryList.firstWhere((element) => element.dialCode == '91');
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (visible) {
+        setState(() {
+          _isKeyboardOpen = visible;
+        });
+      },
+    );
+  }
+
+  Future<void> _getActivationCode() async {
+    if (_formKey.currentState.validate()) {
+      final phone = _phoneController.text;
+      await FAProgressDialog.show(context, message: 'Submitting Phone... ');
+      final data = await _loginDelegate.getActivationCodeFromPhone(phone);
+      await FAProgressDialog.hide();
+
+      await data.when(
+        success: () {
+          if (mounted) {
+            setState(() => _isPhoneSubmitted = true);
+          }
+        },
+        failure: showSnackBar,
+      );
+    } else {
+      if (mounted) {
+        setState(() => _autoValidatePhone = true);
+      }
+    }
+  }
+
+  Future<void> _verifyCode() async {
+    FocusScope.of(context).unfocus();
+    if (_formKey.currentState.validate()) {
+      final code = _codeController.text;
+      await FAProgressDialog.show(context, message: 'Verifying Code...');
+      final data = await _loginDelegate.verifyActivationCode(code);
+      await FAProgressDialog.hide();
+      await data.when(
+        success: (res) {
+          try {
+            String route = AppConfig
+                .instance.navigator.navigationMap[MapKeys.loginSuccess];
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                route, (Route<dynamic> route) => false);
+          } catch (e, stack) {
+            logger.e(e, stack);
+          }
+        },
+        failure: showSnackBar,
+      );
+    } else {
+      if (mounted) {
+        setState(() => _autoValidateCode = true);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: widget.scaffoldKey,
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         elevation: 0,
@@ -52,7 +102,7 @@ class _FALoginPageState extends State<FALoginPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Form(
-          key: widget.formKey,
+          key: _formKey,
           child: Center(
             child: ResponsiveContainer(
               width: 330,
@@ -71,23 +121,25 @@ class _FALoginPageState extends State<FALoginPage> {
                   ),
                   Spacer(),
                   Text(
-                    widget.isPhoneSubmitted ? 'ACTIVATION CODE' : 'LOGIN',
+                    _isPhoneSubmitted ? 'ACTIVATION CODE' : 'LOGIN',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   SizedBox(height: 24),
-                  if (widget.isPhoneSubmitted)
+                  if (_isPhoneSubmitted)
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         EnterCodeTextField(
-                          codeController: widget.codeController,
-                          autoValidate: widget.autoValidateCode,
+                          codeController: _codeController,
+                          autoValidate: _autoValidateCode,
                         ),
                         InkWell(
                           onTap: () {
-                            widget.onPhoneSubmitChanged(false);
-                            widget.codeController.clear();
+                            setState(() {
+                              _isPhoneSubmitted = false;
+                            });
+                            _codeController.clear();
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -120,23 +172,25 @@ class _FALoginPageState extends State<FALoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         CountryPicker(
-                          countryList: widget.countryList,
-                          selectedCountryId: widget.selectedCountry.countryId,
+                          countryList: _countryList,
+                          selectedCountryId: _selectedCountry.countryId,
                           onChanged: (val) {
-                            widget.onCountryChanged(val);
+                            setState(() {
+                              _selectedCountry = val;
+                            });
                           },
                         ),
                         SizedBox(width: 4),
                         Expanded(
                           child: EnterPhoneTextField(
-                            phoneController: widget.phoneController,
-                            autoValidate: widget.autoValidatePhone,
+                            phoneController: _phoneController,
+                            autoValidate: _autoValidatePhone,
                           ),
                         ),
                       ],
                     ),
                   Spacer(),
-                  if (!widget.isKeyboardOpen)
+                  if (!_isKeyboardOpen)
                     Center(
                       child: Hero(
                         tag: 'LaunchingGrowth',
@@ -146,10 +200,12 @@ class _FALoginPageState extends State<FALoginPage> {
                       ),
                     ),
                   Spacer(),
-                  if (!widget.isPhoneSubmitted)
+                  if (!_isPhoneSubmitted)
                     InkWell(
                       onTap: () {
-                        widget.onPhoneSubmitChanged(true);
+                        setState(() {
+                          _isPhoneSubmitted = true;
+                        });
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -185,11 +241,9 @@ class _FALoginPageState extends State<FALoginPage> {
         ),
       ),
       bottomNavigationBar: BottomActionButton(
-        title: widget.isPhoneSubmitted ? 'LOGIN' : 'GET ACTIVATION CODE',
+        title: _isPhoneSubmitted ? 'LOGIN' : 'GET ACTIVATION CODE',
         showIcon: false,
-        onPressed: widget.isPhoneSubmitted
-            ? widget.verifyCode
-            : widget.getActivationCode,
+        onPressed: _isPhoneSubmitted ? _verifyCode : _getActivationCode,
       ),
     );
   }
