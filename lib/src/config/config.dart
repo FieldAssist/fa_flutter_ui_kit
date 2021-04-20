@@ -5,6 +5,7 @@ import 'package:device_info/device_info.dart';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/src/core/device_info/device_info.dart';
 import 'package:fa_flutter_ui_kit/src/core/system_info/system_info.dart';
+import 'package:fa_flutter_ui_kit/src/data/local/coutries/countries.dart';
 import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
 import 'package:fa_flutter_ui_kit/src/data/remote/api_endpoints.dart';
 import 'package:fa_flutter_ui_kit/src/data/remote/api_helper.dart';
@@ -28,7 +29,7 @@ class AppConfig {
   String appHeader;
 
   //List of Countries
-  List<Country> _listOfCountries;
+  List<Country> _listOfCountries = <Country>[];
 
   List<Country> get countryList => [..._listOfCountries];
 
@@ -59,14 +60,16 @@ class AppConfig {
     return _instance;
   }
 
-  void initCountries() async {
+  Future<void> initiliaze() async {
+    await _initCountries();
+    await _initRepos();
+  }
+
+  Future<void> _initCountries() async {
     try {
-      final list = await rootBundle.loadStructuredData(
-        'assets/data/countries.json',
-        (value) async => (jsonDecode(value) as List)
-            .map((item) => Country.fromJson(item))
-            .toList(growable: false),
-      );
+      final list = countryData
+          .map((item) => Country.fromJson(item))
+          .toList(growable: false);
       _listOfCountries = list ?? [];
     } catch (e, s) {
       logger.e(e, s);
@@ -74,7 +77,7 @@ class AppConfig {
     }
   }
 
-  void initRepos() async {
+  Future<void> _initRepos() async {
     //Shared Preference
     appPrefs = SharedAppPrefs();
     await appPrefs.initialise();

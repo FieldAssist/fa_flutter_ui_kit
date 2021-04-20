@@ -132,13 +132,13 @@ class _MyDialog extends StatefulWidget {
 }
 
 class _MyDialogState extends State<_MyDialog> {
-  BehaviorSubject subject;
+  BehaviorSubject<List<Country>> subject;
   final controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    subject = BehaviorSubject.seeded(widget.list);
+    subject = BehaviorSubject<List<Country>>.seeded(widget.list);
     controller.addListener(() {
       if (!subject.isClosed) subject.sink.add(widget.list);
     });

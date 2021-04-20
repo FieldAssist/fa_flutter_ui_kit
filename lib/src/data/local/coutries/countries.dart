@@ -1,4 +1,4 @@
-[
+const countryData = [
   {
     "countryId": "13ed2480-9cda-4060-bd5b-e6cefac54019",
     "countryCode": "AF",
@@ -1615,4 +1615,4 @@
     "nationality": "Zimbabwean",
     "countryName": "Zimbabwe"
   }
-]
+];
