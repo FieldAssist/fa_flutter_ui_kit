@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
@@ -13,7 +12,6 @@ import 'package:fa_flutter_ui_kit/src/data/repo/login_repository_impl.dart';
 import 'package:fa_flutter_ui_kit/src/data/repo/user_repository_impl.dart';
 import 'package:fa_flutter_ui_kit/src/navigator/navigator.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
-import 'package:flutter/services.dart';
 
 class AppConfig {
   //Object of ApiHelper to make network calls
@@ -60,7 +58,7 @@ class AppConfig {
     return _instance;
   }
 
-  Future<void> initiliaze() async {
+  Future<void> initialize() async {
     await _initCountries();
     await _initRepos();
   }
