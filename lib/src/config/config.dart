@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:device_info/device_info.dart';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
-import 'package:fa_flutter_ui_kit/src/core/device_info/device_info.dart';
 import 'package:fa_flutter_ui_kit/src/core/system_info/system_info.dart';
 import 'package:fa_flutter_ui_kit/src/data/local/coutries/countries.dart';
 import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
@@ -26,18 +22,23 @@ class AppConfig {
   //App Header [e.g. - MT , GT ]
   String appHeader;
 
+  //System Info
+  SystemInfo systemInfo;
+
+  //AppPrefs Client
+  AppPrefs appPrefs;
+
   //List of Countries
   List<Country> _listOfCountries = <Country>[];
 
   List<Country> get countryList => [..._listOfCountries];
 
   //---------------------------Repositories--------------------------------//
+  //
   LoginRepositoryImpl loginRepositoryImpl;
   UserRepositoryImpl userRepositoryImpl;
-
-  //---------------------------Helpers--------------------------------//
-  SystemInfo systemInfo;
-  AppPrefs appPrefs;
+  //
+  //-----------------------------------------------------------------------//
 
   static AppConfig _instance = AppConfig._();
 
@@ -45,16 +46,19 @@ class AppConfig {
 
   AppConfig._();
 
-  factory AppConfig({
-    ApiHelper apiHelper,
-    ApiEndPoints apiEndPoints,
-    FANavigator navigator,
-    String appHeader,
-  }) {
+  factory AppConfig(
+      {ApiHelper apiHelper,
+      ApiEndPoints apiEndPoints,
+      FANavigator navigator,
+      String appHeader,
+      SystemInfo systemInfo,
+      AppPrefs appPrefs}) {
     _instance.apiHelper = apiHelper;
     _instance.apiEndPoints = apiEndPoints;
     _instance.navigator = navigator;
     _instance.appHeader = appHeader;
+    _instance.systemInfo = systemInfo;
+    _instance.appPrefs = appPrefs;
     return _instance;
   }
 
@@ -76,41 +80,16 @@ class AppConfig {
   }
 
   Future<void> _initRepos() async {
-    //Shared Preference
-    appPrefs = SharedAppPrefs();
-    await appPrefs.initialise();
-
-    //Device Info
-    DeviceInfo deviceInfo;
-    if (isMobile) {
-      final deviceInfoData = Platform.isAndroid
-          ? await DeviceInfoPlugin().androidInfo
-          : await DeviceInfoPlugin().iosInfo;
-      if (Platform.isAndroid) {
-        deviceInfo = AndroidDeviceInfoImpl(androidDeviceInfo: deviceInfoData);
-      } else {
-        deviceInfo = IosDeviceInfoImpl(iosDeviceInfo: deviceInfoData);
-      }
-    } else {
-      deviceInfo = UnknownDeviceInfoImpl();
-    }
-
-    //Package Info
-    final packageInfo = await PackageInformationImpl.getPackageInfo();
-
-    //System Info
-    systemInfo = SystemInfo(deviceInfo: deviceInfo, packageInfo: packageInfo);
-
     //Login Repository
     loginRepositoryImpl = LoginRepositoryImpl(
-        apiHelper: apiHelper,
-        systemInfo: systemInfo,
-        apiEndPoints: apiEndPoints);
+        apiHelper: _instance.apiHelper,
+        systemInfo: _instance.systemInfo,
+        apiEndPoints: _instance.apiEndPoints);
 
     //User Repository
     userRepositoryImpl = UserRepositoryImpl(
-      appPrefsClient: appPrefs,
-      appHeader: appHeader,
+      appPrefsClient: _instance.appPrefs,
+      appHeader: _instance.appHeader,
     );
   }
 }
