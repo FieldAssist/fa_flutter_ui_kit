@@ -4,7 +4,7 @@
 class Flares {
   Flares._();
 
-  static const _basePath = 'assets/flare';
+  static const _basePath = 'packages/fa_flutter_ui_kit/assets/flare';
 
   static const SUCCESS_CHECK = '$_basePath/success_check.flr';
 }
