@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:fa_flutter_ui_kit/src/config/index.dart';
 import 'package:fa_flutter_ui_kit/src/data/models/index.dart';
 import 'package:fa_flutter_ui_kit/src/modules/base/base_state.dart';
@@ -7,13 +10,15 @@ import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/login/index.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:mobile_number_picker/mobile_number_picker.dart';
 
 class FALoginPage extends StatefulWidget {
   @override
   _FALoginPageState createState() => _FALoginPageState();
 }
 
-class _FALoginPageState extends BaseState<FALoginPage> {
+class _FALoginPageState extends BaseState<FALoginPage>
+    with AfterLayoutMixin<FALoginPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   final _codeController = TextEditingController();
@@ -23,7 +28,9 @@ class _FALoginPageState extends BaseState<FALoginPage> {
   bool _isPhoneSubmitted = false;
   bool _autoValidatePhone = false;
   final _loginDelegate = LoginDelegate();
-  List<Country> _countryList;
+  final _mobileNumberPicker = MobileNumberPicker();
+  StreamSubscription _mobileStreamSubscription;
+  List<Country> _countryList = <Country>[];
   Country _selectedCountry;
 
   @override
@@ -41,13 +48,19 @@ class _FALoginPageState extends BaseState<FALoginPage> {
     );
   }
 
+  @override
+  void afterFirstLayout(BuildContext context) {
+    if (Platform.isAndroid) {
+      _initialiseMobilePicker();
+    }
+  }
+
   Future<void> _getActivationCode() async {
     if (_formKey.currentState.validate()) {
       final phone = _phoneController.text;
       await FAProgressDialog.show(context, message: 'Submitting Phone... ');
       final data = await _loginDelegate.getActivationCodeFromPhone(phone);
       await FAProgressDialog.hide();
-
       await data.when(
         success: () {
           if (mounted) {
@@ -88,6 +101,42 @@ class _FALoginPageState extends BaseState<FALoginPage> {
         setState(() => _autoValidateCode = true);
       }
     }
+  }
+
+  void _initialiseMobilePicker() {
+    try {
+      _mobileNumberPicker.mobileNumber();
+      _mobileStreamSubscription = _mobileNumberPicker.getMobileNumberStream
+          .listen((MobileNumber event) {
+        final mobileNumber = event;
+        if (mobileNumber.states == PhoneNumberStates.PhoneNumberSelected) {
+          _setUpAutoLogin(mobileNumber.phoneNumber, mobileNumber.countryCode);
+        }
+      });
+    } catch (e, stack) {
+      logger.e(e, stack);
+    }
+  }
+
+  void _setUpAutoLogin(String phoneNumber, String countryCode) {
+    final code = countryCode.replaceAll('+', '');
+    final country =
+        _countryList.firstWhere((element) => element.dialCode == code) ?? [];
+    _phoneController.text = phoneNumber;
+    setState(() {
+      _selectedCountry = country;
+      _isPhoneSubmitted = true;
+    });
+    _getActivationCode();
+  }
+
+  @override
+  void dispose() {
+    _mobileNumberPicker.dispose();
+    _phoneController?.dispose();
+    _codeController?.dispose();
+    _mobileStreamSubscription?.cancel();
+    super.dispose();
   }
 
   @override
