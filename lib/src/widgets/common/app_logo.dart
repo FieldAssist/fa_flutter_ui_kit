@@ -16,7 +16,7 @@ class FieldAssistLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      Images.instance.launchingGrowth,
+      Images.fieldAssistFullLogo,
       color: foregroundColor,
       width: width,
       height: height,

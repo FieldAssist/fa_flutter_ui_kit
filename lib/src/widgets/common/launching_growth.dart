@@ -13,7 +13,7 @@ class LaunchingGrowthImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      Images.instance.launchingGrowth,
+      Images.launchingGrowth,
       color: foregroundColor,
       width: width,
       height: height,

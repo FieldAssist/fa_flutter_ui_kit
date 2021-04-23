@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:progress_dialog/progress_dialog.dart';
 
-Widget _defaultProgressWidget = Image.asset(Images.instance.doubleRingLoader);
+Widget _defaultProgressWidget = Image.asset(Images.doubleRingLoader);
 
 class FAProgressDialog {
   static ProgressDialog _dialog;
@@ -34,7 +34,7 @@ class FAProgressDialog {
     update(
       message: message,
       progressWidget: FlareActor(
-        Flares.instance.successCheck,
+        Flares.SUCCESS_CHECK,
         alignment: Alignment.center,
         fit: BoxFit.contain,
         animation: 'success',
