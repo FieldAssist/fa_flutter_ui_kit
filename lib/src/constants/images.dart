@@ -4,7 +4,7 @@
 class Images {
   Images._();
 
-  static const _basePath = 'packages/fa_flutter_ui_kit/assets/images';
+  static const _basePath = 'assets/images';
 
   static const fieldAssistLogo = '$_basePath/fieldassist_logo.jpeg';
   static const fieldAssistFullLogo = '$_basePath/fieldassist_full_logo.png';
@@ -14,4 +14,5 @@ class Images {
   static const launchingGrowth = '$_basePath/launching_growth.png';
   static const thumbsUp = '$_basePath/thumbs_up.png';
   static const shopLocation = '$_basePath/shop_location.png';
+  static const superCommander = '$_basePath/super_commander.png';
 }

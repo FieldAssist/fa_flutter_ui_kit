@@ -1,22 +1,25 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
+import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/no_items_found.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/search_text_field.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/stream_loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CountryPicker extends StatefulWidget {
   const CountryPicker({
     this.selectedCountryId,
     this.onChanged,
-    this.countryList,
   });
 
-  final List<Country> countryList;
   final String selectedCountryId;
+
   final void Function(Country item) onChanged;
 
   @override
@@ -24,38 +27,62 @@ class CountryPicker extends StatefulWidget {
 }
 
 class _CountryPickerState extends State<CountryPicker> {
+  String _selectedCountryId;
+  Future<void> _countries;
+  List<Country> _countryList;
+
+  @override
+  void initState() {
+    super.initState();
+    _countryList = [];
+    _countries = _getCountriesFromAssets();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _showDialog,
-      child: Padding(
-        padding: const EdgeInsets.all(7.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              _getCountry(widget.selectedCountryId).countryName,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).primaryColor,
+    return FutureBuilder(
+      future: _countries,
+      builder: (_, dataSnap) {
+        if (dataSnap.hasError) {
+          return Container();
+        } else if (dataSnap.connectionState == ConnectionState.done &&
+            _countryList.isNotEmpty) {
+          _selectedCountryId = widget.selectedCountryId ?? _selectedCountryId;
+          return InkWell(
+            onTap: _showDialog,
+            child: Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _getCountry(_selectedCountryId).countryName,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '+${_getCountry(_selectedCountryId).dialCode}',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Icon(Icons.keyboard_arrow_down),
+                    ],
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              children: [
-                Text(
-                  '+${_getCountry(widget.selectedCountryId).dialCode}',
-                  style: TextStyle(fontSize: 18),
-                ),
-                Icon(Icons.keyboard_arrow_down),
-              ],
-            ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return StreamLoadingWidget();
+        }
+      },
     );
   }
 
@@ -68,7 +95,7 @@ class _CountryPickerState extends State<CountryPicker> {
             "Select Country",
           ),
           content: _MyDialog(
-            list: widget.countryList,
+            list: _countryList,
           ),
           actions: [
             FlatButton(
@@ -91,9 +118,29 @@ class _CountryPickerState extends State<CountryPicker> {
   }
 
   Country _getCountry(String selectedCountryId) {
-    return widget.countryList.firstWhere(
+    return _countryList.firstWhere(
       (element) => element.countryId?.toLowerCase() == selectedCountryId,
     );
+  }
+
+  Future<void> _getCountriesFromAssets() async {
+    try {
+      final list = await rootBundle.loadStructuredData(
+        'assets/data/countries.json',
+        (value) async => (jsonDecode(value) as List)
+            .map((item) => Country.fromJson(item))
+            .toList(growable: false),
+      );
+      _countryList = list ?? [];
+      _selectedCountryId = widget.selectedCountryId ??
+          _countryList
+              .firstWhere((element) => element.dialCode == '91')
+              .countryId;
+      // return list ?? [];
+    } catch (e, s) {
+      logger.e(e, s);
+      rethrow;
+    }
   }
 }
 

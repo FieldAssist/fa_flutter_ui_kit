@@ -7,7 +7,7 @@ import 'package:fa_flutter_ui_kit/src/data/remote/api_helper.dart';
 import 'package:fa_flutter_ui_kit/src/data/repo/login_repository_impl.dart';
 import 'package:fa_flutter_ui_kit/src/data/repo/user_repository_impl.dart';
 import 'package:fa_flutter_ui_kit/src/navigator/navigator.dart';
-import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
+// import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 
 class AppConfig {
   //Object of ApiHelper to make network calls
@@ -74,7 +74,7 @@ class AppConfig {
           .toList(growable: false);
       _listOfCountries = list ?? [];
     } catch (e, s) {
-      logger.e(e, s);
+      // logger.e(e, s);
       rethrow;
     }
   }

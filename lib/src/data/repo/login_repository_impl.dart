@@ -5,7 +5,7 @@ import 'package:fa_flutter_ui_kit/src/data/contract/login_repository.dart';
 import 'package:fa_flutter_ui_kit/src/data/models/auth_response.dart/auth_response.dart';
 import 'package:fa_flutter_ui_kit/src/data/remote/api_endpoints.dart';
 import 'package:fa_flutter_ui_kit/src/data/remote/api_helper.dart';
-import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
+// import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:meta/meta.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
@@ -30,7 +30,7 @@ class LoginRepositoryImpl implements LoginRepository {
       }
       return VoidResult.failure(reason: 'Unable to submit Phone');
     } catch (e, stk) {
-      logger.e(e, stk);
+      // logger.e(e, stk);
       return VoidResult.failure(reason: '$e');
     }
   }
@@ -73,7 +73,7 @@ class LoginRepositoryImpl implements LoginRepository {
       final data = AuthResponse.fromJson(res.data);
       return Result.success(data: data);
     } catch (e, stk) {
-      logger.e(e, stk);
+      // logger.e(e, stk);
       return Result.failure(reason: '$e');
     }
   }
