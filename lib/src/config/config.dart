@@ -1,6 +1,5 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/src/core/system_info/system_info.dart';
-import 'package:fa_flutter_ui_kit/src/data/local/coutries/countries.dart';
 import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
 import 'package:fa_flutter_ui_kit/src/data/remote/api_endpoints.dart';
 import 'package:fa_flutter_ui_kit/src/data/remote/api_helper.dart';
@@ -63,21 +62,9 @@ class AppConfig {
   }
 
   Future<void> initialize() async {
-    await _initCountries();
     await _initRepos();
   }
 
-  Future<void> _initCountries() async {
-    try {
-      final list = countryData
-          .map((item) => Country.fromJson(item))
-          .toList(growable: false);
-      _listOfCountries = list ?? [];
-    } catch (e, s) {
-      // logger.e(e, s);
-      rethrow;
-    }
-  }
 
   Future<void> _initRepos() async {
     //Login Repository
