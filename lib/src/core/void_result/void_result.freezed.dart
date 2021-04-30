@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'void_result.dart';
 
@@ -9,17 +9,18 @@ part of 'void_result.dart';
 
 T _$identity<T>(T value) => value;
 
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 /// @nodoc
 class _$VoidResultTearOff {
   const _$VoidResultTearOff();
 
-// ignore: unused_element
   Success success() {
     return const Success();
   }
 
-// ignore: unused_element
-  Failure failure({@required String reason}) {
+  Failure failure({required String reason}) {
     return Failure(
       reason: reason,
     );
@@ -27,33 +28,36 @@ class _$VoidResultTearOff {
 }
 
 /// @nodoc
-// ignore: unused_element
 const $VoidResult = _$VoidResultTearOff();
 
 /// @nodoc
 mixin _$VoidResult {
   @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult success(),
-    @required TResult failure(String reason),
-  });
+  TResult when<TResult extends Object?>({
+    required TResult Function() success,
+    required TResult Function(String reason) failure,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult success(),
-    TResult failure(String reason),
-    @required TResult orElse(),
-  });
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? success,
+    TResult Function(String reason)? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult success(Success value),
-    @required TResult failure(Failure value),
-  });
+  TResult map<TResult extends Object?>({
+    required TResult Function(Success value) success,
+    required TResult Function(Failure value) failure,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult success(Success value),
-    TResult failure(Failure value),
-    @required TResult orElse(),
-  });
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Success value)? success,
+    TResult Function(Failure value)? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -89,6 +93,7 @@ class _$SuccessCopyWithImpl<$Res> extends _$VoidResultCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$Success with DiagnosticableTreeMixin implements Success {
   const _$Success();
 
@@ -113,23 +118,20 @@ class _$Success with DiagnosticableTreeMixin implements Success {
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult success(),
-    @required TResult failure(String reason),
+  TResult when<TResult extends Object?>({
+    required TResult Function() success,
+    required TResult Function(String reason) failure,
   }) {
-    assert(success != null);
-    assert(failure != null);
     return success();
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult success(),
-    TResult failure(String reason),
-    @required TResult orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? success,
+    TResult Function(String reason)? failure,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (success != null) {
       return success();
     }
@@ -138,23 +140,20 @@ class _$Success with DiagnosticableTreeMixin implements Success {
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult success(Success value),
-    @required TResult failure(Failure value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Success value) success,
+    required TResult Function(Failure value) failure,
   }) {
-    assert(success != null);
-    assert(failure != null);
     return success(this);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult success(Success value),
-    TResult failure(Failure value),
-    @required TResult orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Success value)? success,
+    TResult Function(Failure value)? failure,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (success != null) {
       return success(this);
     }
@@ -184,17 +183,21 @@ class _$FailureCopyWithImpl<$Res> extends _$VoidResultCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object reason = freezed,
+    Object? reason = freezed,
   }) {
     return _then(Failure(
-      reason: reason == freezed ? _value.reason : reason as String,
+      reason: reason == freezed
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
+
 class _$Failure with DiagnosticableTreeMixin implements Failure {
-  const _$Failure({@required this.reason}) : assert(reason != null);
+  const _$Failure({required this.reason});
 
   @override
   final String reason;
@@ -231,23 +234,20 @@ class _$Failure with DiagnosticableTreeMixin implements Failure {
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult success(),
-    @required TResult failure(String reason),
+  TResult when<TResult extends Object?>({
+    required TResult Function() success,
+    required TResult Function(String reason) failure,
   }) {
-    assert(success != null);
-    assert(failure != null);
     return failure(reason);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult success(),
-    TResult failure(String reason),
-    @required TResult orElse(),
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? success,
+    TResult Function(String reason)? failure,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (failure != null) {
       return failure(reason);
     }
@@ -256,23 +256,20 @@ class _$Failure with DiagnosticableTreeMixin implements Failure {
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult success(Success value),
-    @required TResult failure(Failure value),
+  TResult map<TResult extends Object?>({
+    required TResult Function(Success value) success,
+    required TResult Function(Failure value) failure,
   }) {
-    assert(success != null);
-    assert(failure != null);
     return failure(this);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult success(Success value),
-    TResult failure(Failure value),
-    @required TResult orElse(),
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Success value)? success,
+    TResult Function(Failure value)? failure,
+    required TResult orElse(),
   }) {
-    assert(orElse != null);
     if (failure != null) {
       return failure(this);
     }
@@ -281,9 +278,9 @@ class _$Failure with DiagnosticableTreeMixin implements Failure {
 }
 
 abstract class Failure implements VoidResult {
-  const factory Failure({@required String reason}) = _$Failure;
+  const factory Failure({required String reason}) = _$Failure;
 
-  String get reason;
+  String get reason => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FailureCopyWith<Failure> get copyWith;
+  $FailureCopyWith<Failure> get copyWith => throw _privateConstructorUsedError;
 }

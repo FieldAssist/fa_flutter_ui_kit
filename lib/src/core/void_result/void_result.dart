@@ -7,5 +7,5 @@ part 'void_result.freezed.dart';
 abstract class VoidResult with _$VoidResult {
   const factory VoidResult.success() = Success;
 
-  const factory VoidResult.failure({@required String reason}) = Failure;
+  const factory VoidResult.failure({required String reason}) = Failure;
 }

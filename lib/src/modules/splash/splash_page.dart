@@ -8,7 +8,7 @@ class FASplashPage extends StatefulWidget {
   dynamic error;
 
   FASplashPage({
-    @required this.errorPage,
+    required this.errorPage,
     this.error,
   });
   @override

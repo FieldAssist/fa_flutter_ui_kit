@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'country.dart';
 
@@ -8,6 +8,10 @@ part of 'country.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 Country _$CountryFromJson(Map<String, dynamic> json) {
   return _Country.fromJson(json);
 }
@@ -16,14 +20,13 @@ Country _$CountryFromJson(Map<String, dynamic> json) {
 class _$CountryTearOff {
   const _$CountryTearOff();
 
-// ignore: unused_element
   _Country call(
-      {String countryId,
-      String countryCode,
-      String dialCode,
-      String flagCode,
-      String nationality,
-      String countryName}) {
+      {String? countryId,
+      String? countryCode,
+      String? dialCode,
+      String? flagCode,
+      String? nationality,
+      String? countryName}) {
     return _Country(
       countryId: countryId,
       countryCode: countryCode,
@@ -34,28 +37,26 @@ class _$CountryTearOff {
     );
   }
 
-// ignore: unused_element
   Country fromJson(Map<String, Object> json) {
     return Country.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $Country = _$CountryTearOff();
 
 /// @nodoc
 mixin _$Country {
-  String get countryId;
-  String get countryCode;
-  String get dialCode;
-  String get flagCode;
-  String get nationality;
-  String get countryName;
+  String? get countryId => throw _privateConstructorUsedError;
+  String? get countryCode => throw _privateConstructorUsedError;
+  String? get dialCode => throw _privateConstructorUsedError;
+  String? get flagCode => throw _privateConstructorUsedError;
+  String? get nationality => throw _privateConstructorUsedError;
+  String? get countryName => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CountryCopyWith<Country> get copyWith;
+  $CountryCopyWith<Country> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -63,12 +64,12 @@ abstract class $CountryCopyWith<$Res> {
   factory $CountryCopyWith(Country value, $Res Function(Country) then) =
       _$CountryCopyWithImpl<$Res>;
   $Res call(
-      {String countryId,
-      String countryCode,
-      String dialCode,
-      String flagCode,
-      String nationality,
-      String countryName});
+      {String? countryId,
+      String? countryCode,
+      String? dialCode,
+      String? flagCode,
+      String? nationality,
+      String? countryName});
 }
 
 /// @nodoc
@@ -81,23 +82,38 @@ class _$CountryCopyWithImpl<$Res> implements $CountryCopyWith<$Res> {
 
   @override
   $Res call({
-    Object countryId = freezed,
-    Object countryCode = freezed,
-    Object dialCode = freezed,
-    Object flagCode = freezed,
-    Object nationality = freezed,
-    Object countryName = freezed,
+    Object? countryId = freezed,
+    Object? countryCode = freezed,
+    Object? dialCode = freezed,
+    Object? flagCode = freezed,
+    Object? nationality = freezed,
+    Object? countryName = freezed,
   }) {
     return _then(_value.copyWith(
-      countryId: countryId == freezed ? _value.countryId : countryId as String,
-      countryCode:
-          countryCode == freezed ? _value.countryCode : countryCode as String,
-      dialCode: dialCode == freezed ? _value.dialCode : dialCode as String,
-      flagCode: flagCode == freezed ? _value.flagCode : flagCode as String,
-      nationality:
-          nationality == freezed ? _value.nationality : nationality as String,
-      countryName:
-          countryName == freezed ? _value.countryName : countryName as String,
+      countryId: countryId == freezed
+          ? _value.countryId
+          : countryId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      countryCode: countryCode == freezed
+          ? _value.countryCode
+          : countryCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dialCode: dialCode == freezed
+          ? _value.dialCode
+          : dialCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      flagCode: flagCode == freezed
+          ? _value.flagCode
+          : flagCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nationality: nationality == freezed
+          ? _value.nationality
+          : nationality // ignore: cast_nullable_to_non_nullable
+              as String?,
+      countryName: countryName == freezed
+          ? _value.countryName
+          : countryName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -108,12 +124,12 @@ abstract class _$CountryCopyWith<$Res> implements $CountryCopyWith<$Res> {
       __$CountryCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String countryId,
-      String countryCode,
-      String dialCode,
-      String flagCode,
-      String nationality,
-      String countryName});
+      {String? countryId,
+      String? countryCode,
+      String? dialCode,
+      String? flagCode,
+      String? nationality,
+      String? countryName});
 }
 
 /// @nodoc
@@ -127,30 +143,44 @@ class __$CountryCopyWithImpl<$Res> extends _$CountryCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object countryId = freezed,
-    Object countryCode = freezed,
-    Object dialCode = freezed,
-    Object flagCode = freezed,
-    Object nationality = freezed,
-    Object countryName = freezed,
+    Object? countryId = freezed,
+    Object? countryCode = freezed,
+    Object? dialCode = freezed,
+    Object? flagCode = freezed,
+    Object? nationality = freezed,
+    Object? countryName = freezed,
   }) {
     return _then(_Country(
-      countryId: countryId == freezed ? _value.countryId : countryId as String,
-      countryCode:
-          countryCode == freezed ? _value.countryCode : countryCode as String,
-      dialCode: dialCode == freezed ? _value.dialCode : dialCode as String,
-      flagCode: flagCode == freezed ? _value.flagCode : flagCode as String,
-      nationality:
-          nationality == freezed ? _value.nationality : nationality as String,
-      countryName:
-          countryName == freezed ? _value.countryName : countryName as String,
+      countryId: countryId == freezed
+          ? _value.countryId
+          : countryId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      countryCode: countryCode == freezed
+          ? _value.countryCode
+          : countryCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dialCode: dialCode == freezed
+          ? _value.dialCode
+          : dialCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      flagCode: flagCode == freezed
+          ? _value.flagCode
+          : flagCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nationality: nationality == freezed
+          ? _value.nationality
+          : nationality // ignore: cast_nullable_to_non_nullable
+              as String?,
+      countryName: countryName == freezed
+          ? _value.countryName
+          : countryName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
+@JsonSerializable()
 class _$_Country implements _Country {
   _$_Country(
       {this.countryId,
@@ -164,17 +194,17 @@ class _$_Country implements _Country {
       _$_$_CountryFromJson(json);
 
   @override
-  final String countryId;
+  final String? countryId;
   @override
-  final String countryCode;
+  final String? countryCode;
   @override
-  final String dialCode;
+  final String? dialCode;
   @override
-  final String flagCode;
+  final String? flagCode;
   @override
-  final String nationality;
+  final String? nationality;
   @override
-  final String countryName;
+  final String? countryName;
 
   @override
   String toString() {
@@ -228,28 +258,29 @@ class _$_Country implements _Country {
 
 abstract class _Country implements Country {
   factory _Country(
-      {String countryId,
-      String countryCode,
-      String dialCode,
-      String flagCode,
-      String nationality,
-      String countryName}) = _$_Country;
+      {String? countryId,
+      String? countryCode,
+      String? dialCode,
+      String? flagCode,
+      String? nationality,
+      String? countryName}) = _$_Country;
 
   factory _Country.fromJson(Map<String, dynamic> json) = _$_Country.fromJson;
 
   @override
-  String get countryId;
+  String? get countryId => throw _privateConstructorUsedError;
   @override
-  String get countryCode;
+  String? get countryCode => throw _privateConstructorUsedError;
   @override
-  String get dialCode;
+  String? get dialCode => throw _privateConstructorUsedError;
   @override
-  String get flagCode;
+  String? get flagCode => throw _privateConstructorUsedError;
   @override
-  String get nationality;
+  String? get nationality => throw _privateConstructorUsedError;
   @override
-  String get countryName;
+  String? get countryName => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$CountryCopyWith<_Country> get copyWith;
+  _$CountryCopyWith<_Country> get copyWith =>
+      throw _privateConstructorUsedError;
 }

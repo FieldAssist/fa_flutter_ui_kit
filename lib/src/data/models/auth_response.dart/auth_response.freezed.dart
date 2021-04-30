@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'auth_response.dart';
 
@@ -8,6 +8,10 @@ part of 'auth_response.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) {
   return _AuthResponse.fromJson(json);
 }
@@ -16,38 +20,36 @@ AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) {
 class _$AuthResponseTearOff {
   const _$AuthResponseTearOff();
 
-// ignore: unused_element
   _AuthResponse call(
       {@JsonKey(name: 'success', disallowNullValue: true, required: true)
-          bool isSuccess,
+          bool? isSuccess,
       @JsonKey(disallowNullValue: true, required: true)
-          EmployeeData employee}) {
+          EmployeeData? employee}) {
     return _AuthResponse(
       isSuccess: isSuccess,
       employee: employee,
     );
   }
 
-// ignore: unused_element
   AuthResponse fromJson(Map<String, Object> json) {
     return AuthResponse.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $AuthResponse = _$AuthResponseTearOff();
 
 /// @nodoc
 mixin _$AuthResponse {
   @JsonKey(name: 'success', disallowNullValue: true, required: true)
-  bool get isSuccess;
+  bool? get isSuccess => throw _privateConstructorUsedError;
   @JsonKey(disallowNullValue: true, required: true)
-  EmployeeData get employee;
+  EmployeeData? get employee => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AuthResponseCopyWith<AuthResponse> get copyWith;
+  $AuthResponseCopyWith<AuthResponse> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -57,11 +59,11 @@ abstract class $AuthResponseCopyWith<$Res> {
       _$AuthResponseCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'success', disallowNullValue: true, required: true)
-          bool isSuccess,
+          bool? isSuccess,
       @JsonKey(disallowNullValue: true, required: true)
-          EmployeeData employee});
+          EmployeeData? employee});
 
-  $EmployeeDataCopyWith<$Res> get employee;
+  $EmployeeDataCopyWith<$Res>? get employee;
 }
 
 /// @nodoc
@@ -74,22 +76,28 @@ class _$AuthResponseCopyWithImpl<$Res> implements $AuthResponseCopyWith<$Res> {
 
   @override
   $Res call({
-    Object isSuccess = freezed,
-    Object employee = freezed,
+    Object? isSuccess = freezed,
+    Object? employee = freezed,
   }) {
     return _then(_value.copyWith(
-      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
-      employee:
-          employee == freezed ? _value.employee : employee as EmployeeData,
+      isSuccess: isSuccess == freezed
+          ? _value.isSuccess
+          : isSuccess // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      employee: employee == freezed
+          ? _value.employee
+          : employee // ignore: cast_nullable_to_non_nullable
+              as EmployeeData?,
     ));
   }
 
   @override
-  $EmployeeDataCopyWith<$Res> get employee {
+  $EmployeeDataCopyWith<$Res>? get employee {
     if (_value.employee == null) {
       return null;
     }
-    return $EmployeeDataCopyWith<$Res>(_value.employee, (value) {
+
+    return $EmployeeDataCopyWith<$Res>(_value.employee!, (value) {
       return _then(_value.copyWith(employee: value));
     });
   }
@@ -104,12 +112,12 @@ abstract class _$AuthResponseCopyWith<$Res>
   @override
   $Res call(
       {@JsonKey(name: 'success', disallowNullValue: true, required: true)
-          bool isSuccess,
+          bool? isSuccess,
       @JsonKey(disallowNullValue: true, required: true)
-          EmployeeData employee});
+          EmployeeData? employee});
 
   @override
-  $EmployeeDataCopyWith<$Res> get employee;
+  $EmployeeDataCopyWith<$Res>? get employee;
 }
 
 /// @nodoc
@@ -124,20 +132,24 @@ class __$AuthResponseCopyWithImpl<$Res> extends _$AuthResponseCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object isSuccess = freezed,
-    Object employee = freezed,
+    Object? isSuccess = freezed,
+    Object? employee = freezed,
   }) {
     return _then(_AuthResponse(
-      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
-      employee:
-          employee == freezed ? _value.employee : employee as EmployeeData,
+      isSuccess: isSuccess == freezed
+          ? _value.isSuccess
+          : isSuccess // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      employee: employee == freezed
+          ? _value.employee
+          : employee // ignore: cast_nullable_to_non_nullable
+              as EmployeeData?,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
+@JsonSerializable()
 class _$_AuthResponse implements _AuthResponse {
   _$_AuthResponse(
       {@JsonKey(name: 'success', disallowNullValue: true, required: true)
@@ -150,10 +162,10 @@ class _$_AuthResponse implements _AuthResponse {
 
   @override
   @JsonKey(name: 'success', disallowNullValue: true, required: true)
-  final bool isSuccess;
+  final bool? isSuccess;
   @override
   @JsonKey(disallowNullValue: true, required: true)
-  final EmployeeData employee;
+  final EmployeeData? employee;
 
   @override
   String toString() {
@@ -192,22 +204,23 @@ class _$_AuthResponse implements _AuthResponse {
 abstract class _AuthResponse implements AuthResponse {
   factory _AuthResponse(
       {@JsonKey(name: 'success', disallowNullValue: true, required: true)
-          bool isSuccess,
+          bool? isSuccess,
       @JsonKey(disallowNullValue: true, required: true)
-          EmployeeData employee}) = _$_AuthResponse;
+          EmployeeData? employee}) = _$_AuthResponse;
 
   factory _AuthResponse.fromJson(Map<String, dynamic> json) =
       _$_AuthResponse.fromJson;
 
   @override
   @JsonKey(name: 'success', disallowNullValue: true, required: true)
-  bool get isSuccess;
+  bool? get isSuccess => throw _privateConstructorUsedError;
   @override
   @JsonKey(disallowNullValue: true, required: true)
-  EmployeeData get employee;
+  EmployeeData? get employee => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AuthResponseCopyWith<_AuthResponse> get copyWith;
+  _$AuthResponseCopyWith<_AuthResponse> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 EmployeeData _$EmployeeDataFromJson(Map<String, dynamic> json) {
@@ -218,18 +231,17 @@ EmployeeData _$EmployeeDataFromJson(Map<String, dynamic> json) {
 class _$EmployeeDataTearOff {
   const _$EmployeeDataTearOff();
 
-// ignore: unused_element
   _EmployeeData call(
       {@JsonKey(name: 'Name', disallowNullValue: true, required: true)
-          String name,
+          String? name,
       @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-          String companyName,
+          String? companyName,
       @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-          int companyId,
+          int? companyId,
       @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-          String authToken,
+          String? authToken,
       @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-          String deviceId}) {
+          String? deviceId}) {
     return _EmployeeData(
       name: name,
       companyName: companyName,
@@ -239,32 +251,31 @@ class _$EmployeeDataTearOff {
     );
   }
 
-// ignore: unused_element
   EmployeeData fromJson(Map<String, Object> json) {
     return EmployeeData.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $EmployeeData = _$EmployeeDataTearOff();
 
 /// @nodoc
 mixin _$EmployeeData {
   @JsonKey(name: 'Name', disallowNullValue: true, required: true)
-  String get name;
+  String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-  String get companyName;
+  String? get companyName => throw _privateConstructorUsedError;
   @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-  int get companyId;
+  int? get companyId => throw _privateConstructorUsedError;
   @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-  String get authToken;
+  String? get authToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-  String get deviceId;
+  String? get deviceId => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $EmployeeDataCopyWith<EmployeeData> get copyWith;
+  $EmployeeDataCopyWith<EmployeeData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -274,15 +285,15 @@ abstract class $EmployeeDataCopyWith<$Res> {
       _$EmployeeDataCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'Name', disallowNullValue: true, required: true)
-          String name,
+          String? name,
       @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-          String companyName,
+          String? companyName,
       @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-          int companyId,
+          int? companyId,
       @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-          String authToken,
+          String? authToken,
       @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-          String deviceId});
+          String? deviceId});
 }
 
 /// @nodoc
@@ -295,19 +306,33 @@ class _$EmployeeDataCopyWithImpl<$Res> implements $EmployeeDataCopyWith<$Res> {
 
   @override
   $Res call({
-    Object name = freezed,
-    Object companyName = freezed,
-    Object companyId = freezed,
-    Object authToken = freezed,
-    Object deviceId = freezed,
+    Object? name = freezed,
+    Object? companyName = freezed,
+    Object? companyId = freezed,
+    Object? authToken = freezed,
+    Object? deviceId = freezed,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed ? _value.name : name as String,
-      companyName:
-          companyName == freezed ? _value.companyName : companyName as String,
-      companyId: companyId == freezed ? _value.companyId : companyId as int,
-      authToken: authToken == freezed ? _value.authToken : authToken as String,
-      deviceId: deviceId == freezed ? _value.deviceId : deviceId as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      companyName: companyName == freezed
+          ? _value.companyName
+          : companyName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      companyId: companyId == freezed
+          ? _value.companyId
+          : companyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      authToken: authToken == freezed
+          ? _value.authToken
+          : authToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deviceId: deviceId == freezed
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -321,15 +346,15 @@ abstract class _$EmployeeDataCopyWith<$Res>
   @override
   $Res call(
       {@JsonKey(name: 'Name', disallowNullValue: true, required: true)
-          String name,
+          String? name,
       @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-          String companyName,
+          String? companyName,
       @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-          int companyId,
+          int? companyId,
       @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-          String authToken,
+          String? authToken,
       @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-          String deviceId});
+          String? deviceId});
 }
 
 /// @nodoc
@@ -344,26 +369,39 @@ class __$EmployeeDataCopyWithImpl<$Res> extends _$EmployeeDataCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object name = freezed,
-    Object companyName = freezed,
-    Object companyId = freezed,
-    Object authToken = freezed,
-    Object deviceId = freezed,
+    Object? name = freezed,
+    Object? companyName = freezed,
+    Object? companyId = freezed,
+    Object? authToken = freezed,
+    Object? deviceId = freezed,
   }) {
     return _then(_EmployeeData(
-      name: name == freezed ? _value.name : name as String,
-      companyName:
-          companyName == freezed ? _value.companyName : companyName as String,
-      companyId: companyId == freezed ? _value.companyId : companyId as int,
-      authToken: authToken == freezed ? _value.authToken : authToken as String,
-      deviceId: deviceId == freezed ? _value.deviceId : deviceId as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      companyName: companyName == freezed
+          ? _value.companyName
+          : companyName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      companyId: companyId == freezed
+          ? _value.companyId
+          : companyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      authToken: authToken == freezed
+          ? _value.authToken
+          : authToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deviceId: deviceId == freezed
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
+@JsonSerializable()
 class _$_EmployeeData implements _EmployeeData {
   _$_EmployeeData(
       {@JsonKey(name: 'Name', disallowNullValue: true, required: true)
@@ -382,19 +420,19 @@ class _$_EmployeeData implements _EmployeeData {
 
   @override
   @JsonKey(name: 'Name', disallowNullValue: true, required: true)
-  final String name;
+  final String? name;
   @override
   @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-  final String companyName;
+  final String? companyName;
   @override
   @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-  final int companyId;
+  final int? companyId;
   @override
   @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-  final String authToken;
+  final String? authToken;
   @override
   @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-  final String deviceId;
+  final String? deviceId;
 
   @override
   String toString() {
@@ -444,35 +482,36 @@ class _$_EmployeeData implements _EmployeeData {
 abstract class _EmployeeData implements EmployeeData {
   factory _EmployeeData(
       {@JsonKey(name: 'Name', disallowNullValue: true, required: true)
-          String name,
+          String? name,
       @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-          String companyName,
+          String? companyName,
       @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-          int companyId,
+          int? companyId,
       @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-          String authToken,
+          String? authToken,
       @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-          String deviceId}) = _$_EmployeeData;
+          String? deviceId}) = _$_EmployeeData;
 
   factory _EmployeeData.fromJson(Map<String, dynamic> json) =
       _$_EmployeeData.fromJson;
 
   @override
   @JsonKey(name: 'Name', disallowNullValue: true, required: true)
-  String get name;
+  String? get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-  String get companyName;
+  String? get companyName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-  int get companyId;
+  int? get companyId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-  String get authToken;
+  String? get authToken => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-  String get deviceId;
+  String? get deviceId => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$EmployeeDataCopyWith<_EmployeeData> get copyWith;
+  _$EmployeeDataCopyWith<_EmployeeData> get copyWith =>
+      throw _privateConstructorUsedError;
 }

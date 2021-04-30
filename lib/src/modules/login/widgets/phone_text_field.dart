@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 
 class EnterPhoneTextField extends StatelessWidget {
   const EnterPhoneTextField({
-    @required this.phoneController,
+    required this.phoneController,
     this.autoValidate = false,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final bool autoValidate;
@@ -38,7 +38,7 @@ class EnterPhoneTextField extends StatelessWidget {
           validator: (phone) {
             const pattern = r'(^[6-9]\d{9}$)';
             final regExp = RegExp(pattern);
-            if (phone.isEmpty) {
+            if (phone!.isEmpty) {
               return 'Please enter mobile number';
             } else if (!regExp.hasMatch(phone)) {
               return 'Please enter valid mobile number';

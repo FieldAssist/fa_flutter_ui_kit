@@ -10,20 +10,20 @@ import 'package:meta/meta.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
   const LoginRepositoryImpl({
-    @required this.apiHelper,
-    @required this.systemInfo,
-    @required this.apiEndPoints,
+    required this.apiHelper,
+    required this.systemInfo,
+    required this.apiEndPoints,
   });
 
-  final ApiHelper apiHelper;
-  final ApiEndPoints apiEndPoints;
-  final SystemInfo systemInfo;
+  final ApiHelper? apiHelper;
+  final ApiEndPoints? apiEndPoints;
+  final SystemInfo? systemInfo;
 
   @override
   Future<VoidResult> getActivationCodeFromPhone(String phone) async {
     try {
-      final res = await apiHelper.get(
-        url: apiEndPoints.getActivationCodeFromPhone(phone),
+      final res = await apiHelper!.get(
+        url: apiEndPoints!.getActivationCodeFromPhone(phone),
       );
       if (res.statusCode == 200) {
         return VoidResult.success();
@@ -64,9 +64,9 @@ class LoginRepositoryImpl implements LoginRepository {
   @override
   Future<Result<AuthResponse>> verifyActivationCode(String code) async {
     try {
-      final body = systemInfo.map;
-      final res = await apiHelper.post(
-        endpoint: apiEndPoints.verifyActivationCode(code),
+      final body = systemInfo!.map;
+      final res = await apiHelper!.post(
+        endpoint: apiEndPoints!.verifyActivationCode(code),
         body: json.encode(body),
       );
 

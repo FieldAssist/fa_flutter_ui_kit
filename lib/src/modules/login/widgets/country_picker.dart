@@ -18,18 +18,18 @@ class CountryPicker extends StatefulWidget {
     this.onChanged,
   });
 
-  final String selectedCountryId;
+  final String? selectedCountryId;
 
-  final void Function(Country item) onChanged;
+  final void Function(Country item)? onChanged;
 
   @override
   _CountryPickerState createState() => _CountryPickerState();
 }
 
 class _CountryPickerState extends State<CountryPicker> {
-  String _selectedCountryId;
-  Future<void> _countries;
-  List<Country> _countryList;
+  String? _selectedCountryId;
+  Future<void>? _countries;
+  List<Country>? _countryList;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _CountryPickerState extends State<CountryPicker> {
         if (dataSnap.hasError) {
           return Container();
         } else if (dataSnap.connectionState == ConnectionState.done &&
-            _countryList.isNotEmpty) {
+            _countryList!.isNotEmpty) {
           _selectedCountryId = widget.selectedCountryId ?? _selectedCountryId;
           return InkWell(
             onTap: _showDialog,
@@ -57,7 +57,7 @@ class _CountryPickerState extends State<CountryPicker> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    _getCountry(_selectedCountryId).countryName,
+                    _getCountry(_selectedCountryId).countryName!,
                     style: TextStyle(
                       fontSize: 14,
                       color: Theme.of(context).primaryColor,
@@ -113,12 +113,12 @@ class _CountryPickerState extends State<CountryPicker> {
       },
     );
     if (result != null) {
-      widget.onChanged(result);
+      widget.onChanged!(result);
     }
   }
 
-  Country _getCountry(String selectedCountryId) {
-    return _countryList.firstWhere(
+  Country _getCountry(String? selectedCountryId) {
+    return _countryList!.firstWhere(
       (element) => element.countryId?.toLowerCase() == selectedCountryId,
     );
   }
@@ -133,7 +133,7 @@ class _CountryPickerState extends State<CountryPicker> {
       );
       _countryList = list ?? [];
       _selectedCountryId = widget.selectedCountryId ??
-          _countryList
+          _countryList!
               .firstWhere((element) => element.dialCode == '91')
               .countryId;
       // return list ?? [];
@@ -155,13 +155,13 @@ class CountryTile extends StatelessWidget {
     return ListTile(
       dense: true,
       leading: CachedNetworkImage(
-        imageUrl: country.flagCode,
+        imageUrl: country.flagCode!,
         height: 16,
         width: 32,
         fit: BoxFit.cover,
       ),
       title: Text(
-        country.countryName,
+        country.countryName!,
         style: TextStyle(fontSize: 16),
       ),
       trailing: Text('+${country.dialCode}'),
@@ -170,7 +170,7 @@ class CountryTile extends StatelessWidget {
 }
 
 class _MyDialog extends StatefulWidget {
-  final List<Country> list;
+  final List<Country>? list;
 
   _MyDialog({this.list});
 
@@ -179,13 +179,13 @@ class _MyDialog extends StatefulWidget {
 }
 
 class _MyDialogState extends State<_MyDialog> {
-  BehaviorSubject<List<Country>> subject;
+  late BehaviorSubject<List<Country>?> subject;
   final controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    subject = BehaviorSubject<List<Country>>.seeded(widget.list);
+    subject = BehaviorSubject<List<Country>?>.seeded(widget.list);
     controller.addListener(() {
       if (!subject.isClosed) subject.sink.add(widget.list);
     });
@@ -206,13 +206,13 @@ class _MyDialogState extends State<_MyDialog> {
                 if (snapshot.data == null) {
                   return StreamLoadingWidget();
                 }
-                if (snapshot.data.isEmpty) {
+                if (snapshot.data!.isEmpty) {
                   return NoItemsFound();
                 }
                 return ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   children: <Widget>[
-                    ...snapshot.data.map(
+                    ...snapshot.data!.map(
                       (item) {
                         return InkWell(
                           onTap: () {
@@ -240,10 +240,10 @@ class _MyDialogState extends State<_MyDialog> {
         handleData: (list, sink) {
           if (controller.text != null && controller.text.isNotEmpty) {
             final list1 = list.where((item) {
-              return item.countryName
+              return item.countryName!
                       .toLowerCase()
                       .contains(controller.text.toLowerCase()) ||
-                  item.dialCode
+                  item.dialCode!
                       .toLowerCase()
                       .contains(controller.text.toLowerCase());
             }).toList();

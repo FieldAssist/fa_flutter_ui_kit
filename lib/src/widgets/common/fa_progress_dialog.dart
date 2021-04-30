@@ -8,7 +8,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 Widget _defaultProgressWidget = Image.asset(Images.doubleRingLoader);
 
 class FAProgressDialog {
-  static ProgressDialog _dialog;
+  static ProgressDialog? _dialog;
 
   static Future<bool> show(
     BuildContext context, {
@@ -21,10 +21,10 @@ class FAProgressDialog {
         progressWidget: _defaultProgressWidget,
         padding: const EdgeInsets.symmetric(vertical: 8),
       );
-    return _dialog.show();
+    return _dialog!.show();
   }
 
-  static void update({String message, Widget progressWidget}) =>
+  static void update({required String message, required Widget progressWidget}) =>
       _dialog?.update(
         message: message,
         progressWidget: progressWidget,
@@ -44,5 +44,5 @@ class FAProgressDialog {
     await hide();
   }
 
-  static Future<bool> hide() => _dialog.hide()..then((_) => _dialog = null);
+  static Future<bool> hide() => _dialog!.hide()..then((_) => _dialog = null);
 }

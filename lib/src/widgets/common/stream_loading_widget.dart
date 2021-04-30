@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class StreamLoadingWidget extends StatelessWidget {
   const StreamLoadingWidget({this.message});
 
-  final String message;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +13,10 @@ class StreamLoadingWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           MyCircularProgress(),
-          if (message != null && message.isNotEmpty)
+          if (message != null && message!.isNotEmpty)
             Container(
               margin: EdgeInsets.only(top: 24),
-              child: Text(message),
+              child: Text(message!),
             )
         ],
       ),

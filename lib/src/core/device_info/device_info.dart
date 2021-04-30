@@ -10,7 +10,7 @@ abstract class DeviceInfo {
 
   String get os;
 
-  int get sdk;
+  int? get sdk;
 
   String get id;
 }
@@ -18,7 +18,7 @@ abstract class DeviceInfo {
 class IosDeviceInfoImpl implements DeviceInfo {
   final IosDeviceInfo iosDeviceInfo;
 
-  const IosDeviceInfoImpl({@required this.iosDeviceInfo});
+  const IosDeviceInfoImpl({required this.iosDeviceInfo});
 
   @override
   String get brand => 'Apple Inc';
@@ -33,7 +33,7 @@ class IosDeviceInfoImpl implements DeviceInfo {
   String get os => '${iosDeviceInfo.systemName} ${iosDeviceInfo.systemVersion}';
 
   @override
-  int get sdk => null;
+  int? get sdk => null;
 
   @override
   String get id => iosDeviceInfo.identifierForVendor;
@@ -42,7 +42,7 @@ class IosDeviceInfoImpl implements DeviceInfo {
 class AndroidDeviceInfoImpl implements DeviceInfo {
   final AndroidDeviceInfo androidDeviceInfo;
 
-  const AndroidDeviceInfoImpl({@required this.androidDeviceInfo});
+  const AndroidDeviceInfoImpl({required this.androidDeviceInfo});
 
   @override
   String get brand => androidDeviceInfo.brand;

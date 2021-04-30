@@ -11,7 +11,7 @@ _$_AuthResponse _$_$_AuthResponseFromJson(Map<String, dynamic> json) {
       requiredKeys: const ['success', 'employee'],
       disallowNullValues: const ['success', 'employee']);
   return _$_AuthResponse(
-    isSuccess: json['success'] as bool,
+    isSuccess: json['success'] as bool?,
     employee: json['employee'] == null
         ? null
         : EmployeeData.fromJson(json['employee'] as Map<String, dynamic>),
@@ -47,11 +47,11 @@ _$_EmployeeData _$_$_EmployeeDataFromJson(Map<String, dynamic> json) {
     'DeviceId'
   ]);
   return _$_EmployeeData(
-    name: json['Name'] as String,
-    companyName: json['CompanyName'] as String,
-    companyId: json['CompanyId'] as int,
-    authToken: json['AuthToken'] as String,
-    deviceId: json['DeviceId'] as String,
+    name: json['Name'] as String?,
+    companyName: json['CompanyName'] as String?,
+    companyId: json['CompanyId'] as int?,
+    authToken: json['AuthToken'] as String?,
+    deviceId: json['DeviceId'] as String?,
   );
 }
 

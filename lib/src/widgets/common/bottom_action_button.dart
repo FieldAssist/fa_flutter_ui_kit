@@ -7,9 +7,9 @@ class BottomActionButton extends StatelessWidget {
   final bool showIcon;
   final Icon icon;
   final Color color;
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
   final bool isCustomChildren;
-  final Widget child;
+  final Widget? child;
   final Color titleColor;
   final double height;
   final GestureTapCallback onPressed;
@@ -17,9 +17,9 @@ class BottomActionButton extends StatelessWidget {
   final bool forceButtonColor;
 
   const BottomActionButton({
-    Key key,
-    @required this.title,
-    @required this.onPressed,
+    Key? key,
+    required this.title,
+    required this.onPressed,
     this.isCustomChildren = false,
     this.child,
     this.color = const Color(0xff0097cd),
@@ -77,7 +77,7 @@ class BottomActionButton extends StatelessWidget {
                 ? child
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: iconText,
+                    children: iconText!,
                   ),
           ),
         ),

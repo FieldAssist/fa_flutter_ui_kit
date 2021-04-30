@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ResponsiveContainer extends StatelessWidget {
   const ResponsiveContainer({
-    @required this.child,
+    required this.child,
     this.width = 500,
   });
 

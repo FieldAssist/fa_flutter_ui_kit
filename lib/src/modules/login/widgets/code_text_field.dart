@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 
 class EnterCodeTextField extends StatelessWidget {
   const EnterCodeTextField({
-    @required this.codeController,
+    required this.codeController,
     this.autoValidate = false,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final bool autoValidate;
@@ -36,7 +36,7 @@ class EnterCodeTextField extends StatelessWidget {
           ),
           autovalidate: autoValidate,
           validator: (code) {
-            if (code.isEmpty) {
+            if (code!.isEmpty) {
               return 'Please enter code';
               // TODO(someshubham): change code validation when details provided
             } else if (code.length < 7) {

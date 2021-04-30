@@ -8,12 +8,12 @@ part of 'country.dart';
 
 _$_Country _$_$_CountryFromJson(Map<String, dynamic> json) {
   return _$_Country(
-    countryId: json['countryId'] as String,
-    countryCode: json['countryCode'] as String,
-    dialCode: json['dialCode'] as String,
-    flagCode: json['flagCode'] as String,
-    nationality: json['nationality'] as String,
-    countryName: json['countryName'] as String,
+    countryId: json['countryId'] as String?,
+    countryCode: json['countryCode'] as String?,
+    dialCode: json['dialCode'] as String?,
+    flagCode: json['flagCode'] as String?,
+    nationality: json['nationality'] as String?,
+    countryName: json['countryName'] as String?,
   );
 }
 

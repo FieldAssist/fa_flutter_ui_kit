@@ -7,11 +7,11 @@ class NoItemsFound extends StatelessWidget {
     this.onTap,
   });
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
-  final String text;
+  final String? text;
 
-  final IconData iconData;
+  final IconData? iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,9 @@ class NoItemsFound extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              text != null && text.isNotEmpty ? text : "No items found",
+              text != null && text!.isNotEmpty ? text! : "No items found",
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.display1.copyWith(
+              style: Theme.of(context).textTheme.display1!.copyWith(
                     fontSize: 16,
                   ),
             ),

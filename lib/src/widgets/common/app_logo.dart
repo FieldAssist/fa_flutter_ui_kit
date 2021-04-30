@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 
 class FieldAssistLogo extends StatelessWidget {
   const FieldAssistLogo({
-    Key key,
+    Key? key,
     this.foregroundColor,
     this.width,
     this.height,
   }) : super(key: key);
 
-  final Color foregroundColor;
-  final double width;
-  final double height;
+  final Color? foregroundColor;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {

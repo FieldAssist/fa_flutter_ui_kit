@@ -148,7 +148,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "1.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -170,20 +170,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
-  flare_dart:
-    dependency: transitive
-    description:
-      name: flare_dart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.3.4"
   flare_flutter:
     dependency: transitive
     description:
       name: flare_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "3.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -219,7 +212,7 @@ packages:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0"
+    version: "0.14.1"
   http:
     dependency: transitive
     description:
@@ -254,7 +247,7 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "4.0.1"
   keyboard_visibility:
     dependency: transitive
     description:

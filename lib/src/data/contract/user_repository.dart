@@ -1,19 +1,19 @@
 abstract class UserRepository {
-  String get authToken;
+  String? get authToken;
 
-  set authToken(String value);
+  set authToken(String? value);
 
-  String get userName;
+  String? get userName;
 
-  set userName(String value);
+  set userName(String? value);
 
-  String get companyName;
+  String? get companyName;
 
-  set companyName(String value);
+  set companyName(String? value);
 
-  int get companyId;
+  int? get companyId;
 
-  set companyId(int value);
+  set companyId(int? value);
 
   bool get isUserLoggedIn;
 

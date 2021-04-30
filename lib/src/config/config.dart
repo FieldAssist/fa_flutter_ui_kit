@@ -10,22 +10,22 @@ import 'package:fa_flutter_ui_kit/src/navigator/navigator.dart';
 
 class AppConfig {
   //Object of ApiHelper to make network calls
-  ApiHelper apiHelper;
+  ApiHelper? apiHelper;
 
   //ApiEndpoint contains baseurl and endpoints in the form of map
-  ApiEndPoints apiEndPoints;
+  ApiEndPoints? apiEndPoints;
 
   //Contains navigation map
-  FANavigator navigator;
+  FANavigator? navigator;
 
   //App Header [e.g. - MT , GT ]
-  String appHeader;
+  String? appHeader;
 
   //System Info
-  SystemInfo systemInfo;
+  SystemInfo? systemInfo;
 
   //AppPrefs Client
-  AppPrefs appPrefs;
+  AppPrefs? appPrefs;
 
   //List of Countries
   List<Country> _listOfCountries = <Country>[];
@@ -34,8 +34,8 @@ class AppConfig {
 
   //---------------------------Repositories--------------------------------//
   //
-  LoginRepositoryImpl loginRepositoryImpl;
-  UserRepositoryImpl userRepositoryImpl;
+  LoginRepositoryImpl? loginRepositoryImpl;
+  UserRepositoryImpl? userRepositoryImpl;
   //
   //-----------------------------------------------------------------------//
 
@@ -46,12 +46,12 @@ class AppConfig {
   AppConfig._();
 
   factory AppConfig(
-      {ApiHelper apiHelper,
-      ApiEndPoints apiEndPoints,
-      FANavigator navigator,
-      String appHeader,
-      SystemInfo systemInfo,
-      AppPrefs appPrefs}) {
+      {ApiHelper? apiHelper,
+      ApiEndPoints? apiEndPoints,
+      FANavigator? navigator,
+      String? appHeader,
+      SystemInfo? systemInfo,
+      AppPrefs? appPrefs}) {
     _instance.apiHelper = apiHelper;
     _instance.apiEndPoints = apiEndPoints;
     _instance.navigator = navigator;
@@ -75,7 +75,7 @@ class AppConfig {
 
     //User Repository
     userRepositoryImpl = UserRepositoryImpl(
-      appPrefsClient: _instance.appPrefs,
+      appPrefsClient: _instance.appPrefs!,
       appHeader: _instance.appHeader,
     );
   }

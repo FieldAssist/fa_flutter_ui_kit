@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 enum SnackBarType { warning, error, success }
 
-extension SnackBarTypeX on SnackBarType {
-  Color get color => {
+extension SnackBarTypeX on SnackBarType? {
+  Color? get color => {
         SnackBarType.warning: Colors.orange,
         SnackBarType.error: Colors.red,
         SnackBarType.success: Colors.green,
-      }[this];
+      }[this!];
 }
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
@@ -16,18 +16,18 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
 
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
 
-  void hideSnackBar() => _scaffoldKey.currentState.removeCurrentSnackBar();
+  void hideSnackBar() => _scaffoldKey.currentState!.removeCurrentSnackBar();
 
   Future<SnackBarClosedReason> showSnackBar(
     String message, {
     SnackBarType type = SnackBarType.error,
     String actionLabel = 'DISMISS',
     Duration duration = const Duration(milliseconds: 2000),
-    VoidCallback onActionPressed,
+    VoidCallback? onActionPressed,
   }) {
-    _scaffoldKey.currentState.removeCurrentSnackBar();
+    _scaffoldKey.currentState!.removeCurrentSnackBar();
 
-    return _scaffoldKey.currentState
+    return _scaffoldKey.currentState!
         .showSnackBar(
           _snackBar(
             message ?? Constants.errorSomethingWentWrong,
@@ -42,12 +42,12 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
 
   SnackBar _snackBar(
     String message, {
-    SnackBarType type,
+    SnackBarType? type,
     Duration duration = const Duration(milliseconds: 2000),
-    String actionLabel,
-    VoidCallback onActionPressed,
+    String? actionLabel,
+    VoidCallback? onActionPressed,
   }) {
-    SnackBarAction action;
+    SnackBarAction? action;
     if (actionLabel != null) {
       action = SnackBarAction(
         label: actionLabel,

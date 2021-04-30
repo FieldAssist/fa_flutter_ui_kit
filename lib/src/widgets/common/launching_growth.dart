@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 class LaunchingGrowthImage extends StatelessWidget {
   const LaunchingGrowthImage(
-      {Key key, this.foregroundColor, this.width, this.height})
+      {Key? key, this.foregroundColor, this.width, this.height})
       : super(key: key);
 
-  final Color foregroundColor;
-  final double width;
-  final double height;
+  final Color? foregroundColor;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {

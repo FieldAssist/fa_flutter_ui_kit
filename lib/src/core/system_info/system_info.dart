@@ -3,7 +3,7 @@ import 'package:fa_flutter_ui_kit/src/core/device_info/device_info.dart';
 import 'package:meta/meta.dart';
 
 class SystemInfo implements DeviceInfo, PackageInformation {
-  const SystemInfo({@required this.deviceInfo, @required this.packageInfo});
+  const SystemInfo({required this.deviceInfo, required this.packageInfo});
 
   final DeviceInfo deviceInfo;
   final PackageInformation packageInfo;
@@ -36,7 +36,7 @@ class SystemInfo implements DeviceInfo, PackageInformation {
   String get os => deviceInfo.os;
 
   @override
-  int get sdk => deviceInfo.sdk;
+  int? get sdk => deviceInfo.sdk;
 
   Map<String, dynamic> get map => {
         "AppVersionName": appName,

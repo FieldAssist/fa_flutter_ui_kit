@@ -5,12 +5,12 @@ part 'auth_response.freezed.dart';
 part 'auth_response.g.dart';
 
 @freezed
-abstract class AuthResponse with _$AuthResponse {
+class AuthResponse with _$AuthResponse {
   factory AuthResponse({
     @JsonKey(name: 'success', disallowNullValue: true, required: true)
-        final bool isSuccess,
+        final bool? isSuccess,
     @JsonKey(disallowNullValue: true, required: true)
-        final EmployeeData employee,
+        final EmployeeData? employee,
   }) = _AuthResponse;
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) =>
@@ -18,18 +18,18 @@ abstract class AuthResponse with _$AuthResponse {
 }
 
 @freezed
-abstract class EmployeeData with _$EmployeeData {
+class EmployeeData with _$EmployeeData {
   factory EmployeeData({
     @JsonKey(name: 'Name', disallowNullValue: true, required: true)
-        final String name,
+        final String? name,
     @JsonKey(name: 'CompanyName', disallowNullValue: true, required: true)
-        final String companyName,
+        final String? companyName,
     @JsonKey(name: 'CompanyId', disallowNullValue: true, required: true)
-        final int companyId,
+        final int? companyId,
     @JsonKey(name: 'AuthToken', disallowNullValue: true, required: true)
-        final String authToken,
+        final String? authToken,
     @JsonKey(name: 'DeviceId', disallowNullValue: true, required: true)
-        final String deviceId,
+        final String? deviceId,
   }) = _EmployeeData;
 
   factory EmployeeData.fromJson(Map<String, dynamic> json) =>
