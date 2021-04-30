@@ -65,7 +65,6 @@ class AppConfig {
     await _initRepos();
   }
 
-
   Future<void> _initRepos() async {
     //Login Repository
     loginRepositoryImpl = LoginRepositoryImpl(
