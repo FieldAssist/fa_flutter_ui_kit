@@ -43,3 +43,18 @@ flutter:
     - assets/images/
     - assets/flare/
     - assets/data/
+
+  fonts:
+    - family: Trueno
+      fonts:
+        - asset: assets/fonts/TruenoBd.otf
+          weight: 700
+        - asset: assets/fonts/TruenoBdIt.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/TruenoLt.otf
+          weight: 100
+        - asset: assets/fonts/TruenoLtIt.otf
+          weight: 100
+          style: italic
+        - asset: assets/fonts/TruenoRg.otf
