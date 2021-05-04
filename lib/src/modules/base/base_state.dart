@@ -19,7 +19,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   void hideSnackBar() => _scaffoldKey.currentState!.removeCurrentSnackBar();
 
   Future<SnackBarClosedReason> showSnackBar(
-    String message, {
+    String? message, {
     SnackBarType type = SnackBarType.error,
     String actionLabel = 'DISMISS',
     Duration duration = const Duration(milliseconds: 2000),

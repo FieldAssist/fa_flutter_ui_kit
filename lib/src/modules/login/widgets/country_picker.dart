@@ -125,7 +125,7 @@ class _CountryPickerState extends State<CountryPicker> {
 
   Future<void> _getCountriesFromAssets() async {
     try {
-      final list = await rootBundle.loadStructuredData(
+      final List<Country>? list = await rootBundle.loadStructuredData(
         'assets/data/countries.json',
         (value) async => (jsonDecode(value) as List)
             .map((item) => Country.fromJson(item))
@@ -136,7 +136,6 @@ class _CountryPickerState extends State<CountryPicker> {
           _countryList!
               .firstWhere((element) => element.dialCode == '91')
               .countryId;
-      // return list ?? [];
     } catch (e, s) {
       logger.e(e, s);
       rethrow;
