@@ -33,17 +33,17 @@ flutter pub get && flutter pub run build_runner build --delete-conflicting-outpu
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Tushar2212>
-            <img src=https://avatars.githubusercontent.com/u/29337816?v=4 width="100;"  alt=Tushar2212/>
-            <br />
-            <sub style="font-size:14px"><b>Tushar2212</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/TusharFA>
             <img src=https://avatars.githubusercontent.com/u/82998121?v=4 width="100;"  alt=TusharFA/>
             <br />
             <sub style="font-size:14px"><b>TusharFA</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Tushar2212>
+            <img src=https://avatars.githubusercontent.com/u/29337816?v=4 width="100;"  alt=Tushar2212/>
+            <br />
+            <sub style="font-size:14px"><b>Tushar2212</b></sub>
         </a>
     </td>
 </tr>
