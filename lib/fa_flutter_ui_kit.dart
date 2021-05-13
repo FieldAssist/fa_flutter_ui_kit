@@ -10,3 +10,4 @@ export 'src/navigator/index.dart';
 export 'src/utils/index.dart';
 export 'src/widgets/index.dart';
 export 'src/app/index.dart';
+export 'src/core/location_info/index.dart';
