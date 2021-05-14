@@ -12,7 +12,7 @@ class BottomActionButton extends StatelessWidget {
   final Widget? child;
   final Color titleColor;
   final double height;
-  final GestureTapCallback onPressed;
+  final GestureTapCallback? onPressed;
   final IconPosition iconPosition;
   final bool forceButtonColor;
 
