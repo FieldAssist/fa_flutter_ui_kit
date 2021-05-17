@@ -12,6 +12,7 @@ class SearchListItem {
     this.subtitle,
     this.isSelected = false,
   });
+
   final String title;
   final String? subtitle;
   final bool isSelected;
@@ -23,13 +24,15 @@ typedef GetSelectedItem<T> = void Function(T item);
 
 typedef OnItemSearch<T> = bool Function(T item, String query);
 
+typedef BottomActionBuilder = Widget Function();
+
 class SearchList<T> extends StatefulWidget {
   SearchList({
     required this.data,
     required this.selectedItem,
-    required this.onBottomBarTap,
-    required this.bottomBarTitle,
     required this.itemBuilder,
+    this.onBottomBarTap,
+    this.bottomBarTitle = 'NEXT',
     this.onSearch,
     this.bottomBarColor = const Color(0xff0097cd),
     this.bottomBarTitleColor = Colors.white,
@@ -37,6 +40,8 @@ class SearchList<T> extends StatefulWidget {
     this.displayBottomBarIcon = true,
     this.appBarTitle = 'Select Beats',
     this.searchBarTitle = 'Search for Beats',
+    this.bottomActionBuilder,
+    this.showBottomActionBar = true,
     Key? key,
   }) : super(key: key);
 
@@ -50,6 +55,8 @@ class SearchList<T> extends StatefulWidget {
   final bool displayBottomBarIcon;
   final String appBarTitle;
   final String searchBarTitle;
+  final BottomActionBuilder? bottomActionBuilder;
+  final bool showBottomActionBar;
 
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
@@ -228,18 +235,22 @@ class _SearchListState<T> extends State<SearchList<T>> {
                   ),
                 ),
               ),
-        bottomNavigationBar: BottomActionButton(
-          title: widget.bottomBarTitle,
-          showIcon: widget.displayBottomBarIcon,
-          onPressed: widget.onBottomBarTap,
-          color: widget.bottomBarColor,
-          titleColor: widget.bottomBarTitleColor,
-          icon: Icon(
-            Icons.arrow_forward,
-            color: widget.bottomBarTitleColor,
-            size: 18,
-          ),
-        ),
+        bottomNavigationBar: !widget.showBottomActionBar
+            ? null
+            : widget.bottomActionBuilder != null
+                ? widget.bottomActionBuilder!.call()
+                : BottomActionButton(
+                    title: widget.bottomBarTitle,
+                    showIcon: widget.displayBottomBarIcon,
+                    onPressed: widget.onBottomBarTap,
+                    color: widget.bottomBarColor,
+                    titleColor: widget.bottomBarTitleColor,
+                    icon: Icon(
+                      Icons.arrow_forward,
+                      color: widget.bottomBarTitleColor,
+                      size: 18,
+                    ),
+                  ),
       ),
     );
   }
