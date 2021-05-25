@@ -21,13 +21,13 @@ class EnterPhoneTextField extends StatelessWidget {
           inputFormatters: [WhitelistingTextInputFormatter(RegExp(r'[0-9]'))],
           controller: phoneController,
           keyboardType: TextInputType.phone,
-          maxLength: 13,
+          maxLength: 10,
           style: TextStyle(
             fontSize: 18,
           ),
           decoration: InputDecoration(
               labelText: 'Phone Number',
-              hintText: '123-456-7890',
+              hintText: '1234567890',
               labelStyle: TextStyle(
                 height: 0.8,
               ),
