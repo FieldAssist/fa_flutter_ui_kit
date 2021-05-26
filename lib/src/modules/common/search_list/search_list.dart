@@ -1,9 +1,8 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/search_app_bar.dart';
+import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:flutter/material.dart';
-
-final TextEditingController searchQueryController = TextEditingController();
 
 class SearchListItem {
   SearchListItem({
@@ -42,8 +41,10 @@ class SearchList<T> extends StatefulWidget {
     this.appBarTitle,
     this.searchBarTitle,
     this.enableSearch,
+    this.textEditingController,
     Key? key,
-  }) : super(key: key);
+  })  : assert(!showDefaultAppBar ? textEditingController != null : true),
+        super(key: key);
 
   final List<T> data;
   final SearchItemBuilder<T> itemBuilder;
@@ -58,6 +59,7 @@ class SearchList<T> extends StatefulWidget {
   final bool? enableSearch;
   final String? appBarTitle;
   final String? searchBarTitle;
+  final TextEditingController? textEditingController;
 
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
@@ -71,11 +73,18 @@ class _SearchListState<T> extends State<SearchList<T>> {
   late SearchListBloc<T> _bloc;
   late Map<T, bool> selectedItemMap;
   int lastSelectedItemIndex = -1;
+  TextEditingController? searchQueryController;
 
   @override
   void initState() {
     super.initState();
-    searchQueryController.addListener(_onSearchQueryChanged);
+
+    searchQueryController = !widget.showDefaultAppBar
+        ? widget.textEditingController!
+        : TextEditingController();
+
+    searchQueryController!.addListener(_onSearchQueryChanged);
+
     selectedItemMap = {for (var item in list) item: false};
     _bloc = SearchListBloc<T>(
       searchItems: list,
@@ -85,7 +94,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
   }
 
   void _onSearchQueryChanged() {
-    _bloc.searchList(searchQueryController.text);
+    _bloc.searchList(searchQueryController!.text);
   }
 
   @override
@@ -158,6 +167,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
     return widget.showDefaultAppBar
         ? Scaffold(
             appBar: SearchAppBar(
+              textEditingController: searchQueryController!,
               enableSearch: widget.enableSearch ?? true,
               appBarTitle: widget.appBarTitle!,
               searchBarTitle: widget.searchBarTitle ?? 'Search',
