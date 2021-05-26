@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'search_list.dart';
 import 'integrated_search_bar.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -9,10 +8,12 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String searchBarTitle;
   final PreferredSizeWidget? bottom;
   final List<Widget>? actions;
+  final TextEditingController textEditingController;
 
   const SearchAppBar({
     required this.enableSearch,
     required this.appBarTitle,
+    required this.textEditingController,
     this.searchBarTitle = 'Search',
     this.bottom,
     this.actions,
@@ -36,13 +37,13 @@ class _SearchAppBarState extends State<SearchAppBar> {
             leading: BackButton(
               onPressed: () => setState(
                 () {
-                  searchQueryController.clear();
+                  widget.textEditingController.clear();
                   _isSearchActive = !_isSearchActive;
                 },
               ),
             ),
             searchFieldLabel: widget.searchBarTitle,
-            queryTextController: searchQueryController,
+            queryTextController: widget.textEditingController,
             actions: <Widget>[
               IconButton(
                 icon: Icon(
@@ -54,10 +55,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   vertical: VisualDensity.minimumDensity,
                 ),
                 onPressed: () {
-                  if (searchQueryController.value.text.isEmpty) {
+                  if (widget.textEditingController.value.text.isEmpty) {
                     setState(() => _isSearchActive = !_isSearchActive);
                   } else {
-                    searchQueryController.clear();
+                    widget.textEditingController.clear();
                   }
                 },
               )
