@@ -169,7 +169,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
             appBar: SearchAppBar(
               textEditingController: searchQueryController!,
               enableSearch: widget.enableSearch ?? true,
-              appBarTitle: widget.appBarTitle!,
+              appBarTitle: widget.appBarTitle ?? 'Select',
               searchBarTitle: widget.searchBarTitle ?? 'Search',
             ),
             body: _child,

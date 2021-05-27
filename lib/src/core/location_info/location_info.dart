@@ -138,7 +138,7 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   Future<LocationData> _parseLocation(Position location) async {
-    final _address = await getAddress(location);
+    final String? _address = await getAddress(location);
     final locationData = LocationData(
       latitude: location.latitude,
       longitude: location.longitude,
