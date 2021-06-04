@@ -1,3 +1,4 @@
+import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
 
 import 'integrated_search_bar.dart';
@@ -23,7 +24,8 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   _SearchAppBarState createState() => _SearchAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(56);
+  Size get preferredSize =>
+      isAndroid ? Size.fromHeight(56) : Size.fromHeight(112);
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
@@ -44,6 +46,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
             ),
             searchFieldLabel: widget.searchBarTitle,
             queryTextController: widget.textEditingController,
+            bottom: widget.bottom,
             actions: <Widget>[
               IconButton(
                 icon: Icon(
