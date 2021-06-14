@@ -25,7 +25,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      isAndroid ? Size.fromHeight(56) : Size.fromHeight(112);
+      this.bottom == null ? Size.fromHeight(56) : Size.fromHeight(112);
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
