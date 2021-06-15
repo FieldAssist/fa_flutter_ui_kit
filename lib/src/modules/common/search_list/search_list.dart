@@ -42,6 +42,7 @@ class SearchList<T> extends StatefulWidget {
     this.searchBarTitle,
     this.enableSearch,
     this.textEditingController,
+    this.appBarSubTitle,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -60,6 +61,7 @@ class SearchList<T> extends StatefulWidget {
   final String? appBarTitle;
   final String? searchBarTitle;
   final TextEditingController? textEditingController;
+  final String? appBarSubTitle;
 
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
@@ -171,6 +173,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
               enableSearch: widget.enableSearch ?? true,
               appBarTitle: widget.appBarTitle ?? 'Select',
               searchBarTitle: widget.searchBarTitle ?? 'Search',
+              appBarSubTitle: widget.appBarSubTitle,
             ),
             body: _child,
             bottomNavigationBar: !widget.showBottomActionBar

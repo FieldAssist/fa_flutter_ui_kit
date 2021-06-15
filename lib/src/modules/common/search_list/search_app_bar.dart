@@ -10,6 +10,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   final List<Widget>? actions;
   final TextEditingController textEditingController;
+  final String? appBarSubTitle;
 
   const SearchAppBar({
     required this.enableSearch,
@@ -18,6 +19,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.searchBarTitle = 'Search',
     this.bottom,
     this.actions,
+    this.appBarSubTitle,
   });
 
   @override
@@ -71,7 +73,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
-            title: Text(widget.appBarTitle),
+            title: widget.appBarSubTitle == null
+                ? Text(widget.appBarTitle)
+                : ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      widget.appBarTitle ?? '--',
+                    ),
+                    subtitle: Text(
+                      widget.appBarSubTitle ?? '--',
+                    ),
+                  ),
             bottom: widget.bottom,
             actions: <Widget>[
               if (widget.enableSearch)
