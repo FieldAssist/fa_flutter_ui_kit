@@ -151,7 +151,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
                   index,
                 ) =>
                     const Divider(
-                  thickness: 1,
+                  thickness: 0,
                 ),
               );
             },

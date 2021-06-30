@@ -1,4 +1,3 @@
-import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
 
 import 'integrated_search_bar.dart';
@@ -11,6 +10,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final TextEditingController textEditingController;
   final String? appBarSubTitle;
+  final Color? appBarColor;
 
   const SearchAppBar({
     required this.enableSearch,
@@ -20,6 +20,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.bottom,
     this.actions,
     this.appBarSubTitle,
+    this.appBarColor,
   });
 
   @override
@@ -37,7 +38,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
   Widget build(BuildContext context) {
     return _isSearchActive
         ? IntegratedSearchBar(
-            backgroundColor: Colors.white,
+            backgroundColor: widget.appBarColor ?? Colors.white,
             leading: BackButton(
               onPressed: () => setState(
                 () {
@@ -70,6 +71,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
             ],
           )
         : AppBar(
+            backgroundColor:
+                widget.appBarColor ?? Theme.of(context).appBarTheme.color,
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
@@ -78,7 +81,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                 : ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      widget.appBarTitle ?? '--',
+                      widget.appBarTitle,
                     ),
                     subtitle: Text(
                       widget.appBarSubTitle ?? '--',
