@@ -11,17 +11,18 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final TextEditingController textEditingController;
   final String? appBarSubTitle;
   final Color? appBarColor;
+  final Color textColor;
 
-  const SearchAppBar({
-    required this.enableSearch,
-    required this.appBarTitle,
-    required this.textEditingController,
-    this.searchBarTitle = 'Search',
-    this.bottom,
-    this.actions,
-    this.appBarSubTitle,
-    this.appBarColor,
-  });
+  const SearchAppBar(
+      {required this.enableSearch,
+      required this.appBarTitle,
+      required this.textEditingController,
+      this.searchBarTitle = 'Search',
+      this.bottom,
+      this.actions,
+      this.appBarSubTitle,
+      this.appBarColor,
+      this.textColor = Colors.black});
 
   @override
   _SearchAppBarState createState() => _SearchAppBarState();
@@ -77,14 +78,19 @@ class _SearchAppBarState extends State<SearchAppBar> {
               color: Colors.black,
             ),
             title: widget.appBarSubTitle == null
-                ? Text(widget.appBarTitle)
+                ? Text(
+                    widget.appBarTitle,
+                    style: TextStyle(color: widget.textColor),
+                  )
                 : ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
                       widget.appBarTitle,
+                      style: TextStyle(color: widget.textColor),
                     ),
                     subtitle: Text(
                       widget.appBarSubTitle ?? '--',
+                      style: TextStyle(color: widget.textColor),
                     ),
                   ),
             bottom: widget.bottom,

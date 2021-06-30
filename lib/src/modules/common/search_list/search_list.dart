@@ -43,6 +43,7 @@ class SearchList<T> extends StatefulWidget {
     this.enableSearch,
     this.textEditingController,
     this.appBarSubTitle,
+    this.showDivider = true,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -62,6 +63,7 @@ class SearchList<T> extends StatefulWidget {
   final String? searchBarTitle;
   final TextEditingController? textEditingController;
   final String? appBarSubTitle;
+  final bool showDivider;
 
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
@@ -150,9 +152,13 @@ class _SearchListState<T> extends State<SearchList<T>> {
                   context,
                   index,
                 ) =>
-                    const Divider(
-                  thickness: 0,
-                ),
+                    widget.showDivider
+                        ? const Divider(
+                            thickness: 0,
+                          )
+                        : Container(
+                            height: 4,
+                          ),
               );
             },
           )
