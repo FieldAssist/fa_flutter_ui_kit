@@ -10,4 +10,7 @@ class SvgIcons {
   static const clockCircularOutline = '$_basePath/clock_circular_outline.svg';
   static const inventoryIcon = '$_basePath/list_icon.svg';
   static const search = "$_basePath/search.svg";
+  static const bill = "$_basePath/bill.svg";
+  static const historyClock = "$_basePath/history_clock.svg";
+  static const summaryPieChart = "$_basePath/pie_chart.svg";
 }
