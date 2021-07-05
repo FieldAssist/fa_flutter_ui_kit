@@ -12,6 +12,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String? appBarSubTitle;
   final Color? appBarColor;
   final Color textColor;
+  final Widget? leading;
 
   const SearchAppBar(
       {required this.enableSearch,
@@ -22,7 +23,8 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
       this.actions,
       this.appBarSubTitle,
       this.appBarColor,
-      this.textColor = Colors.black});
+      this.textColor = Colors.black,
+      this.leading});
 
   @override
   _SearchAppBarState createState() => _SearchAppBarState();
@@ -72,6 +74,11 @@ class _SearchAppBarState extends State<SearchAppBar> {
             ],
           )
         : AppBar(
+            leading: widget.leading == null
+                ? BackButton(
+                    onPressed: () => Navigator.of(context).maybePop(),
+                  )
+                : widget.leading,
             backgroundColor:
                 widget.appBarColor ?? Theme.of(context).appBarTheme.color,
             iconTheme: IconThemeData(
