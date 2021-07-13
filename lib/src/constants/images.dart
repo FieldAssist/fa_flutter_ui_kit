@@ -15,4 +15,5 @@ class Images {
   static const thumbsUp = '$_basePath/thumbs_up.png';
   static const shopLocation = '$_basePath/shop_location.png';
   static const superCommander = '$_basePath/super_commander.png';
+  static const lateLogo = '$_basePath/late.svg';
 }

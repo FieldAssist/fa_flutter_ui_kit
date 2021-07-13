@@ -16,3 +16,4 @@ export 'my_linear_progress_indicator.dart';
 export 'outlined_icon_button.dart';
 export 'error/index.dart';
 export 'svg_asset_icon.dart';
+export 'svg_asset_img.dart';

@@ -65,10 +65,9 @@ class BottomActionButton extends StatelessWidget {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: InkWell(
+      child: GestureDetector(
         onTap: onPressed,
-        splashColor: Colors.white38,
-        child: Ink(
+        child: Container(
           width: MediaQuery.of(context).size.width,
           height: height,
           color: buttonColor,
