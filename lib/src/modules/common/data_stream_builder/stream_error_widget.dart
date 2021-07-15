@@ -39,9 +39,7 @@ class StreamErrorWidget extends StatelessWidget {
       return InternetNotAvailable(onTap);
     } else if (streamError is ClientError || streamError is ServerError) {
       return ServerErrorWidget(streamError.toString(), onTap);
-      //TODO(TusharFA): Import LocationException once LocationImp moved to core.
-      // } else if (streamError is LocationException) {
-    } else if (streamError is Exception) {
+    } else if (streamError is LocationException) {
       return LocationErrorWidget(
           error: streamError.toString(), onRefreshTap: onTap);
     } else {
