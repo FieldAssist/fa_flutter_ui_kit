@@ -19,6 +19,7 @@ class MyTheme {
         primaryColorDark: _primaryColorDark,
         hintColor: _hintColor,
         appBarTheme: AppBarTheme(
+          titleSpacing: 0,
           color: Colors.white,
           elevation: 2,
           brightness: Brightness.light,

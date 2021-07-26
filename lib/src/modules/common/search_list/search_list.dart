@@ -44,6 +44,8 @@ class SearchList<T> extends StatefulWidget {
     this.textEditingController,
     this.appBarSubTitle,
     this.showDivider = true,
+    this.defaultAppBarColor,
+    this.defaultAppBarTextColor,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -64,7 +66,8 @@ class SearchList<T> extends StatefulWidget {
   final TextEditingController? textEditingController;
   final String? appBarSubTitle;
   final bool showDivider;
-
+  final Color? defaultAppBarColor;
+  final Color? defaultAppBarTextColor;
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
 
@@ -132,6 +135,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
                   final item = list[i];
                   final isSelected = itemMap[item]!;
                   return GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         // setState(() {
                         //   selectedItemList[i] = true;
@@ -175,6 +179,8 @@ class _SearchListState<T> extends State<SearchList<T>> {
     return widget.showDefaultAppBar
         ? Scaffold(
             appBar: SearchAppBar(
+              textColor: widget.defaultAppBarTextColor ?? Colors.black,
+              appBarColor: widget.defaultAppBarColor,
               textEditingController: searchQueryController!,
               enableSearch: widget.enableSearch ?? true,
               appBarTitle: widget.appBarTitle ?? 'Select',

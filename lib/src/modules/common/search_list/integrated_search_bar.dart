@@ -47,7 +47,6 @@ class _IntegratedSearchBarState extends State<IntegratedSearchBar> {
       //iconTheme: theme.primaryIconTheme,
       leading: widget.leading,
       elevation: widget.elevation,
-      titleSpacing: 0,
       title: Container(
         child: Card(
           elevation: 2,

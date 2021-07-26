@@ -43,6 +43,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         ? IntegratedSearchBar(
             backgroundColor: widget.appBarColor ?? Colors.white,
             leading: BackButton(
+              color: widget.textColor,
               onPressed: () => setState(
                 () {
                   widget.textEditingController.clear();
@@ -75,9 +76,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
           )
         : AppBar(
             leading: widget.leading == null
-                ? BackButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                  )
+                ? IconButton(
+                    color: widget.textColor,
+                    icon: Icon(Icons.clear),
+                    onPressed: () => Navigator.pop(context))
                 : widget.leading,
             backgroundColor:
                 widget.appBarColor ?? Theme.of(context).appBarTheme.color,
