@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
 
 import 'integrated_search_bar.dart';
@@ -31,7 +32,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      this.bottom == null ? Size.fromHeight(56) : Size.fromHeight(112);
+      this.bottom == null ? Size.fromHeight(56) : Size.fromHeight(100);
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
@@ -86,7 +87,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
-            title: widget.appBarSubTitle == null
+            title: (widget.appBarSubTitle == null ||
+                    widget.appBarSubTitle!.isEmpty)
                 ? Text(
                     widget.appBarTitle,
                     style: TextStyle(color: widget.textColor),
@@ -105,21 +107,14 @@ class _SearchAppBarState extends State<SearchAppBar> {
             bottom: widget.bottom,
             actions: <Widget>[
               if (widget.enableSearch)
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 10,
-                    bottom: 10,
-                    right: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
+                CircleAvatar(
+                  radius: 18,
+                  backgroundColor: Colors.white,
                   child: IconButton(
+                      iconSize: 20,
                       icon: Icon(
-                        Icons.search,
+                        Icons.search_rounded,
                         color: Colors.blue,
-                        size: 20,
                       ),
                       onPressed: () {
                         setState(() {
