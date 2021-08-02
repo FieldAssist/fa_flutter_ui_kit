@@ -18,7 +18,7 @@ class SearchListItem {
 
 typedef SearchItemBuilder<T> = Widget Function(T item, bool isSelected);
 
-typedef GetSelectedItem<T> = void Function(T item);
+typedef GetSelectedItem<T> = void Function(T? item);
 
 typedef OnItemSearch<T> = bool Function(T item, String query);
 
@@ -145,7 +145,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
                         //   lastSelectedItemIndex = i;
                         // });
                         _bloc.updateSelectedItem(item);
-                        widget.selectedItem(item);
+                        widget.selectedItem(!isSelected ? item : null);
                       },
                       child: widget.itemBuilder(
                         item,
@@ -277,6 +277,13 @@ class SearchListBloc<T> {
   }
 
   void updateSelectedItem(T selectedItem) {
+    if (isItemSelectedMap[selectedItem]) {
+      isItemSelectedMap[selectedItem] = false;
+      lastSelectedItem = null;
+      _subjectSelectedItem.add(null);
+      return;
+    }
+
     isItemSelectedMap[selectedItem] = true;
 
     if (lastSelectedItem != null) {
