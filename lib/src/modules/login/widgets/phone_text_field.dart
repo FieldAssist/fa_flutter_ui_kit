@@ -5,10 +5,12 @@ class EnterPhoneTextField extends StatelessWidget {
   const EnterPhoneTextField({
     required this.phoneController,
     this.autoValidate = false,
+    this.validator,
     Key? key,
   }) : super(key: key);
 
   final bool autoValidate;
+  final String? Function(String?)? validator;
   final TextEditingController phoneController;
 
   @override
@@ -35,16 +37,18 @@ class EnterPhoneTextField extends StatelessWidget {
               //border: const OutlineInputBorder(),
               ),
           autovalidate: autoValidate,
-          validator: (phone) {
-            const pattern = r'(^[6-9]\d{9}$)';
-            final regExp = RegExp(pattern);
-            if (phone!.isEmpty) {
-              return 'Please enter mobile number';
-            } else if (!regExp.hasMatch(phone)) {
-              return 'Please enter valid mobile number';
-            }
-            return null;
-          },
+          validator: (validator == null)
+              ? (phone) {
+                  const pattern = r'(^[6-9]\d{9}$)';
+                  final regExp = RegExp(pattern);
+                  if (phone!.isEmpty) {
+                    return 'Please enter mobile number';
+                  } else if (!regExp.hasMatch(phone)) {
+                    return 'Please enter valid mobile number';
+                  }
+                  return null;
+                }
+              : validator!.call,
         ),
       ],
     );

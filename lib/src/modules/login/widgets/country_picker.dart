@@ -16,11 +16,13 @@ class CountryPicker extends StatefulWidget {
   const CountryPicker({
     this.selectedCountryId,
     this.onChanged,
+    this.onCancel,
   });
 
   final String? selectedCountryId;
 
   final void Function(Country item)? onChanged;
+  final VoidCallback? onCancel;
 
   @override
   _CountryPickerState createState() => _CountryPickerState();
@@ -104,7 +106,11 @@ class _CountryPickerState extends State<CountryPicker> {
                 horizontal: 24,
               ),
               onPressed: () {
-                Navigator.of(context).pop();
+                if (widget.onCancel == null) {
+                  Navigator.of(context).pop();
+                } else {
+                  widget.onCancel!.call();
+                }
               },
               child: Text("CANCEL"),
             ),
