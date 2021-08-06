@@ -13,4 +13,8 @@ class SvgIcons {
   static const bill = "$_basePath/bill.svg";
   static const historyClock = "$_basePath/history_clock.svg";
   static const summaryPieChart = "$_basePath/pie_chart.svg";
+  static const addComment = "$_basePath/add_comment.svg";
+  static const cloudOff = "$_basePath/cloud_off.svg";
+  static const whatsapp = "$_basePath/whatsapp.svg";
+  static const whatsappColored = "$_basePath/whatsapp_colored.svg";
 }

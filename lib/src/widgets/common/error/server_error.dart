@@ -1,4 +1,5 @@
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
+import 'package:fa_flutter_ui_kit/src/constants/images.dart';
 import 'package:flutter/material.dart';
 
 import '../outlined_icon_button.dart';
