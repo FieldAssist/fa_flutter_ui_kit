@@ -39,7 +39,7 @@ class DayStartButton extends StatelessWidget {
                     ),
         ),
         padding: EdgeInsets.zero,
-        minimumSize: Size.fromHeight(64),
+        minimumSize: Size.fromHeight(56),
         backgroundColor:
             dayStartButtonBorderStyle == DayStartButtonBorderStyle.fullBorder
                 ? Colors.white
