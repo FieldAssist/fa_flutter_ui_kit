@@ -71,6 +71,7 @@ class DayStartButton extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ),
