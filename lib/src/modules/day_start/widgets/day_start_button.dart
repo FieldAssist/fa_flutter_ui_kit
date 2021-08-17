@@ -7,6 +7,7 @@ class DayStartButton extends StatelessWidget {
     required this.text,
     required this.borderColor,
     required this.onPressed,
+    this.titleColor = Colors.black,
     required this.isDisabled,
     this.dayStartButtonBorderStyle = DayStartButtonBorderStyle.singleBorder,
     this.isDarkMode = false,
@@ -16,6 +17,7 @@ class DayStartButton extends StatelessWidget {
   final DayStartButtonBorderStyle dayStartButtonBorderStyle;
 
   final String text;
+  final Color titleColor;
   final Color borderColor;
   final VoidCallback onPressed;
   final bool isDisabled;
@@ -70,7 +72,7 @@ class DayStartButton extends StatelessWidget {
                 text,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: titleColor,
                   fontWeight: FontWeight.w300,
                 ),
               ),
