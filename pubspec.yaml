@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   progress_dialog: ^1.2.4
-  rxdart: ^0.27.1
   flare_flutter: ^3.0.0
   cached_network_image: ^3.0.0
   keyboard_visibility: ^0.5.6
