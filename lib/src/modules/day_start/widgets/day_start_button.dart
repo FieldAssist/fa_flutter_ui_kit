@@ -50,7 +50,7 @@ class DayStartButton extends StatelessWidget {
         children: [
           SizedBox(
             width: 10,
-            height: 70,
+            height: 64,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: borderColor,
