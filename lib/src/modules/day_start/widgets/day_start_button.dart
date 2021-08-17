@@ -80,7 +80,7 @@ class DayStartButton extends StatelessWidget {
           ),
           Icon(
             Icons.arrow_forward,
-            size: 24,
+            size: 20,
             color: Colors.grey,
           ),
           SizedBox(
