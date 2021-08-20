@@ -30,8 +30,6 @@ class SvgAssetIcon extends StatelessWidget {
             path,
             color: color ?? Theme.of(context).iconTheme.color,
             semanticsLabel: labelText,
-            width: width,
-            height: height,
           ),
         ),
       ),
