@@ -17,4 +17,10 @@ class SvgIcons {
   static const cloudOff = "$_basePath/cloud_off.svg";
   static const whatsapp = "$_basePath/whatsapp.svg";
   static const whatsappColored = "$_basePath/whatsapp_colored.svg";
+  static const minus = "$_basePath/minus.svg";
+  static const add = "$_basePath/add.svg";
+  static const photoCamera = "$_basePath/photo_camera.svg";
+  static const orderList = "$_basePath/order_list.svg";
+  static const close = "$_basePath/close.svg";
+  static const check = "$_basePath/check.svg";
 }
