@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../fonts.dart';
 import 'material_color.dart';
@@ -10,7 +11,7 @@ class MyTheme {
   static final Color _primaryColorDark = Color(0xFF005486);
   static final Color _hintColor = Color(0xffaaaaaa);
   static final Color _unselectedWidgetColor = Color(0xffcccccc);
-  static final Color _scaffoldBackgroundColor = Colors.white;
+  static final Color _scaffoldBackgroundColor = Colors.grey[50]!;
 
   ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,

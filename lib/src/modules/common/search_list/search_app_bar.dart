@@ -14,6 +14,8 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Color? appBarColor;
   final Color textColor;
   final Widget? leading;
+  final double? bottomHeight;
+  final double? elevation;
 
   const SearchAppBar(
       {required this.enableSearch,
@@ -25,14 +27,20 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
       this.appBarSubTitle,
       this.appBarColor,
       this.textColor = Colors.black,
-      this.leading});
+      this.leading,
+      this.bottomHeight,
+      this.elevation});
+
+  final _appbarHeight = 56.0;
 
   @override
   _SearchAppBarState createState() => _SearchAppBarState();
 
   @override
-  Size get preferredSize =>
-      this.bottom == null ? Size.fromHeight(56) : Size.fromHeight(100);
+  Size get preferredSize => this.bottom == null
+      ? Size.fromHeight(_appbarHeight)
+      : Size.fromHeight(
+          bottomHeight != null ? (_appbarHeight + bottomHeight!) : 100);
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
@@ -42,6 +50,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
   Widget build(BuildContext context) {
     return _isSearchActive
         ? IntegratedSearchBar(
+            elevation: widget.elevation ?? 4,
             backgroundColor: widget.appBarColor ?? Colors.white,
             leading: BackButton(
               color: widget.textColor,
@@ -76,10 +85,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
             ],
           )
         : AppBar(
+            elevation: widget.elevation,
             leading: widget.leading == null
-                ? IconButton(
+                ? BackButton(
                     color: widget.textColor,
-                    icon: Icon(Icons.clear),
                     onPressed: () => Navigator.pop(context))
                 : widget.leading,
             backgroundColor:
@@ -91,7 +100,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     widget.appBarSubTitle!.isEmpty)
                 ? Text(
                     widget.appBarTitle,
-                    style: TextStyle(color: widget.textColor),
+                    style: TextStyle(
+                        color: widget.textColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
                   )
                 : ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -108,20 +120,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
             actions: <Widget>[
               if (widget.enableSearch)
                 CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Colors.white,
-                  child: IconButton(
-                      iconSize: 20,
-                      icon: Icon(
-                        Icons.search_rounded,
-                        color: Colors.blue,
-                      ),
-                      onPressed: () {
+                    radius: 18,
+                    backgroundColor: Colors.white,
+                    child: SvgAssetIcon(
+                      path: SvgIcons.search,
+                      color: Color(0xff0097cd),
+                      onTap: () {
                         setState(() {
                           _isSearchActive = !_isSearchActive;
                         });
-                      }),
-                ),
+                      },
+                    )),
               if (widget.actions != null) ...widget.actions!
             ],
           );

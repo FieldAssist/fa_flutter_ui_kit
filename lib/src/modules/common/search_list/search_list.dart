@@ -46,6 +46,7 @@ class SearchList<T> extends StatefulWidget {
     this.showDivider = true,
     this.defaultAppBarColor,
     this.defaultAppBarTextColor,
+    this.leading,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -70,6 +71,7 @@ class SearchList<T> extends StatefulWidget {
   final Color? defaultAppBarTextColor;
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
+  final Widget? leading;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -107,64 +109,68 @@ class _SearchListState<T> extends State<SearchList<T>> {
   @override
   Widget build(BuildContext context) {
     Widget _child = checkIfListIsNotEmpty(list)
-        ? StreamBuilder<Map<T, bool>>(
-            stream: _bloc.filteredList,
-            initialData: selectedItemMap,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: Text('Nothing Found'),
-                );
-              }
-              final itemMap = snapshot.data!;
-              final list = itemMap.keys.toList();
-              if (!checkIfListIsNotEmpty(list)) {
-                return Center(
-                  child: Text(
-                    'No Data Found',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
+        ? Scaffold(
+            backgroundColor: Colors.grey[50],
+            body: StreamBuilder<Map<T, bool>>(
+              stream: _bloc.filteredList,
+              initialData: selectedItemMap,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: Text('Nothing Found'),
+                  );
+                }
+                final itemMap = snapshot.data!;
+                final list = itemMap.keys.toList();
+                if (!checkIfListIsNotEmpty(list)) {
+                  return Center(
+                    child: Text(
+                      'No Data Found',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
+                  );
+                }
+                return ListView.separated(
+                  itemCount: list.length,
+                  itemBuilder: (c, i) {
+                    final item = list[i];
+                    final isSelected = itemMap[item]!;
+                    return GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          // setState(() {
+                          //   selectedItemList[i] = true;
+                          //   if (lastSelectedItemIndex != -1) {
+                          //     selectedItemList[lastSelectedItemIndex] = false;
+                          //   }
+                          //   lastSelectedItemIndex = i;
+                          // });
+                          _bloc.updateSelectedItem(item);
+                          widget.selectedItem(!isSelected ? item : null);
+                        },
+                        child: widget.itemBuilder(
+                          item,
+                          isSelected,
+                        ));
+                  },
+                  separatorBuilder: (
+                    context,
+                    index,
+                  ) =>
+                      widget.showDivider
+                          ? Container(
+                              height: 0.5,
+                              color: Colors.grey,
+                            )
+                          : Container(
+                              height: 4,
+                            ),
                 );
-              }
-              return ListView.separated(
-                itemCount: list.length,
-                itemBuilder: (c, i) {
-                  final item = list[i];
-                  final isSelected = itemMap[item]!;
-                  return GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        // setState(() {
-                        //   selectedItemList[i] = true;
-                        //   if (lastSelectedItemIndex != -1) {
-                        //     selectedItemList[lastSelectedItemIndex] = false;
-                        //   }
-                        //   lastSelectedItemIndex = i;
-                        // });
-                        _bloc.updateSelectedItem(item);
-                        widget.selectedItem(!isSelected ? item : null);
-                      },
-                      child: widget.itemBuilder(
-                        item,
-                        isSelected,
-                      ));
-                },
-                separatorBuilder: (
-                  context,
-                  index,
-                ) =>
-                    widget.showDivider
-                        ? const Divider(
-                            thickness: 0,
-                          )
-                        : Container(
-                            height: 4,
-                          ),
-              );
-            },
+              },
+            ),
           )
         : Center(
             child: Text(
@@ -178,6 +184,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
 
     return widget.showDefaultAppBar
         ? Scaffold(
+            backgroundColor: Colors.grey[50],
             appBar: SearchAppBar(
               textColor: widget.defaultAppBarTextColor ?? Colors.black,
               appBarColor: widget.defaultAppBarColor,
@@ -186,6 +193,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
               appBarTitle: widget.appBarTitle ?? 'Select',
               searchBarTitle: widget.searchBarTitle ?? 'Search',
               appBarSubTitle: widget.appBarSubTitle,
+              leading: widget.leading,
             ),
             body: _child,
             bottomNavigationBar: !widget.showBottomActionBar

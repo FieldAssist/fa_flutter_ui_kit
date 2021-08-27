@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-enum DayStartButtonBorderStyle { singleBorder, fullBorder }
+enum DayStartButtonBorderStyle { singleBorder, fullBorder, singleBorderWhiteBg }
 
 class DayStartButton extends StatelessWidget {
   const DayStartButton({
     required this.text,
-    required this.borderColor,
     required this.onPressed,
     this.titleColor = Colors.black,
     required this.isDisabled,
     this.dayStartButtonBorderStyle = DayStartButtonBorderStyle.singleBorder,
     this.isDarkMode = false,
+    this.borderColor = Colors.transparent,
     Key? key,
   }) : super(key: key);
 
@@ -42,17 +42,19 @@ class DayStartButton extends StatelessWidget {
         ),
         padding: EdgeInsets.zero,
         minimumSize: Size.fromHeight(48),
-        backgroundColor:
-            dayStartButtonBorderStyle == DayStartButtonBorderStyle.fullBorder
-                ? Colors.white
-                : Color(0xffE5F8FF),
+        backgroundColor: (dayStartButtonBorderStyle ==
+                    DayStartButtonBorderStyle.fullBorder ||
+                dayStartButtonBorderStyle ==
+                    DayStartButtonBorderStyle.singleBorderWhiteBg)
+            ? Colors.white
+            : Color(0xffE5F8FF),
       ),
       onPressed: isDisabled ? null : onPressed,
       child: Row(
         children: [
           SizedBox(
             width: 10,
-            height: 64,
+            height: 56,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: borderColor,
