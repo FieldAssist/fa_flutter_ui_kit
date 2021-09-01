@@ -35,7 +35,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.5.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -345,7 +345,7 @@ packages:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   geocoder:
     dependency: "direct main"
     description:
@@ -359,21 +359,21 @@ packages:
       name: geocoding
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   geocoding_platform_interface:
     dependency: transitive
     description:
       name: geocoding_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   geolocator:
     dependency: "direct main"
     description:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.4.0"
+    version: "7.6.0"
   geolocator_android:
     dependency: transitive
     description:
@@ -387,14 +387,14 @@ packages:
       name: geolocator_apple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.2.0"
   geolocator_platform_interface:
     dependency: transitive
     description:
       name: geolocator_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.4"
   geolocator_web:
     dependency: transitive
     description:
@@ -506,7 +506,7 @@ packages:
       name: logger
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   logging:
     dependency: transitive
     description:
@@ -695,7 +695,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -723,7 +723,7 @@ packages:
       name: shared_preferences_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   shared_preferences_windows:
     dependency: transitive
     description:
@@ -770,14 +770,14 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0+3"
+    version: "2.0.0+4"
   sqflite_common:
     dependency: transitive
     description:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0+2"
+    version: "2.0.1"
   stack_trace:
     dependency: transitive
     description:
@@ -875,7 +875,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.5"
+    version: "2.0.5"
   xdg_directories:
     dependency: transitive
     description:
@@ -898,5 +898,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.13.0 <3.0.0"
+  dart: ">=2.12.0 <3.0.0"
   flutter: ">=2.0.0"
