@@ -234,7 +234,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "44f33a6364450ab4c279ce38ab1eade39b700b42"
+      resolved-ref: f79a2b33385512c33de01e7aa4c70ced5949468d
       url: "https://github.com/FieldAssist/fa_flutter_api_client.git"
     source: git
     version: "2.0.1"
@@ -745,6 +745,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  shimmer:
+    dependency: "direct main"
+    description:
+      name: shimmer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

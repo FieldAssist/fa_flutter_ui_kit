@@ -19,6 +19,7 @@ dependencies:
   json_annotation: ^4.0.1
   jiffy: ^4.1.0
   flutter_svg: ^0.22.0
+  shimmer: ^2.0.0
 
   #Location
   geolocator: ^7.0.1
