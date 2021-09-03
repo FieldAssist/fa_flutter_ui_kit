@@ -102,7 +102,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     widget.appBarTitle,
                     style: TextStyle(
                         color: widget.textColor,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold),
                   )
                 : ListTile(
