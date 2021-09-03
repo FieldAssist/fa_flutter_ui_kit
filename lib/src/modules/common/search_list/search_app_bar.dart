@@ -102,8 +102,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     widget.appBarTitle,
                     style: TextStyle(
                         color: widget.textColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   )
                 : ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -124,6 +124,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     backgroundColor: Colors.white,
                     child: SvgAssetIcon(
                       path: SvgIcons.search,
+                      height: 20,
+                      width: 20,
                       color: Color(0xff0097cd),
                       onTap: () {
                         setState(() {
