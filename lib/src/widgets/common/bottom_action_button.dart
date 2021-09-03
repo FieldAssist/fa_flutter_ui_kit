@@ -27,7 +27,7 @@ class BottomActionButton extends StatelessWidget {
     this.titleColor = Colors.white,
     this.showIcon = true,
     this.iconPosition = IconPosition.end,
-    this.height = 56,
+    this.height = 60,
     this.forceButtonColor = false,
     this.icon = const Icon(
       Icons.arrow_forward,
