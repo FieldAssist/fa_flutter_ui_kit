@@ -109,7 +109,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     contentPadding: EdgeInsets.zero,
                     title: Text(
                       widget.appBarTitle,
-                      style: TextStyle(color: widget.textColor),
+                      style: TextStyle(
+                        color: widget.textColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     subtitle: Text(
                       widget.appBarSubTitle ?? '--',
