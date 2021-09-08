@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:flutter/material.dart';
 
 class IntegratedSearchBar extends StatefulWidget
@@ -16,8 +17,8 @@ class IntegratedSearchBar extends StatefulWidget
     this.backgroundColor,
     Key? key,
   })  : preferredSize = Size.fromHeight(
-          kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
-        ),
+    kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
+  ),
         super(key: key);
 
   final Widget leading;
@@ -59,31 +60,14 @@ class _IntegratedSearchBarState extends State<IntegratedSearchBar> {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
-                  onTap: widget.onTap,
-                  controller: widget.queryTextController,
-                  style: TextStyle(color: Colors.black),
-                  autofocus: true,
-                  textInputAction: widget.textInputAction,
-                  keyboardType: widget.keyboardType,
-                  onSubmitted: widget.onSubmitted,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    hintText: widget.searchFieldLabel,
-                    hintStyle: TextStyle(
-                      color: Colors.black26,
-                    ),
-                  ),
-                ),
-              ),
+                  child: IntegratedSearchTextField(
+                searchFieldLabel: widget.searchFieldLabel,
+                textInputAction: widget.textInputAction,
+                queryTextController: widget.queryTextController,
+                keyboardType: widget.keyboardType,
+                onSubmitted: widget.onSubmitted,
+                onTap: widget.onTap,
+              )),
               ...widget.actions,
             ],
           ),
