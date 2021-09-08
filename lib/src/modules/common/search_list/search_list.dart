@@ -1,4 +1,5 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/search_app_bar.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
@@ -21,6 +22,8 @@ typedef SearchItemBuilder<T> = Widget Function(T item, bool isSelected);
 typedef GetSelectedItem<T> = void Function(T? item);
 
 typedef OnItemSearch<T> = bool Function(T item, String query);
+
+enum SearchListType { SearchBarInAppBar, SearchBarInBody, NoSearchBar }
 
 typedef BottomActionBuilder = Widget Function();
 
@@ -47,6 +50,7 @@ class SearchList<T> extends StatefulWidget {
     this.defaultAppBarColor,
     this.defaultAppBarTextColor,
     this.leading,
+    this.type = SearchListType.NoSearchBar,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -72,6 +76,7 @@ class SearchList<T> extends StatefulWidget {
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
   final Widget? leading;
+  final SearchListType type;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -181,39 +186,52 @@ class _SearchListState<T> extends State<SearchList<T>> {
               ),
             ),
           );
-
-    return widget.showDefaultAppBar
-        ? Scaffold(
-            backgroundColor: Colors.grey[50],
-            appBar: SearchAppBar(
-              textColor: widget.defaultAppBarTextColor ?? Colors.black,
-              appBarColor: widget.defaultAppBarColor,
-              textEditingController: searchQueryController!,
-              enableSearch: widget.enableSearch ?? true,
-              appBarTitle: widget.appBarTitle ?? 'Select',
-              searchBarTitle: widget.searchBarTitle ?? 'Search',
-              appBarSubTitle: widget.appBarSubTitle,
-              leading: widget.leading,
-            ),
-            body: _child,
-            bottomNavigationBar: !widget.showBottomActionBar
-                ? null
-                : widget.bottomActionBuilder != null
-                    ? widget.bottomActionBuilder!.call()
-                    : BottomActionButton(
-                        title: widget.bottomBarTitle,
-                        showIcon: widget.displayBottomBarIcon,
-                        onPressed: widget.onBottomBarTap,
-                        color: widget.bottomBarColor,
-                        titleColor: widget.bottomBarTitleColor,
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: widget.bottomBarTitleColor,
-                          size: 18,
-                        ),
-                      ),
-          )
-        : _child;
+    if (widget.type == SearchListType.SearchBarInAppBar)
+      return Scaffold(
+        backgroundColor: Colors.grey[50],
+        appBar: SearchAppBar(
+          textColor: widget.defaultAppBarTextColor ?? Colors.black,
+          appBarColor: widget.defaultAppBarColor,
+          textEditingController: searchQueryController!,
+          enableSearch: widget.enableSearch ?? true,
+          appBarTitle: widget.appBarTitle ?? 'Select',
+          searchBarTitle: widget.searchBarTitle ?? 'Search',
+          appBarSubTitle: widget.appBarSubTitle,
+          leading: widget.leading,
+        ),
+        body: _child,
+        bottomNavigationBar: !widget.showBottomActionBar
+            ? null
+            : widget.bottomActionBuilder != null
+                ? widget.bottomActionBuilder!.call()
+                : BottomActionButton(
+                    title: widget.bottomBarTitle,
+                    showIcon: widget.displayBottomBarIcon,
+                    onPressed: widget.onBottomBarTap,
+                    color: widget.bottomBarColor,
+                    titleColor: widget.bottomBarTitleColor,
+                    icon: Icon(
+                      Icons.arrow_forward,
+                      color: widget.bottomBarTitleColor,
+                      size: 18,
+                    ),
+                  ),
+      );
+    else if (widget.type == SearchListType.SearchBarInBody)
+      return Column(
+        children: [
+          IntegratedSearchTextField(
+            elevation: 2,
+            prefixIcon: Icon(Icons.search),
+            bgColor: Color(0xffe5f8ff),
+            queryTextController: searchQueryController!,
+            searchFieldLabel: widget.searchBarTitle ?? 'Search',
+          ),
+          Expanded(child: _child),
+        ],
+      );
+    else
+      return _child;
   }
 }
 
