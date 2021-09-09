@@ -35,7 +35,7 @@ class AppErrorPage extends StatelessWidget {
     if (e is Exception) {
       return LocationErrorWidget(
         error: e.toString(),
-        onRefreshTap: () => onRetryTap,
+        onRefreshTap: onRetryTap ?? () {},
         pop: false,
       );
     } else {
