@@ -39,7 +39,8 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => this.bottom == null
       ? Size.fromHeight(_appbarHeight)
-      : Size.fromHeight(bottomHeight != null ? (_appbarHeight + bottomHeight!) : 100);
+      : Size.fromHeight(
+          bottomHeight != null ? (_appbarHeight + bottomHeight!) : 100);
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
@@ -86,13 +87,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
         : AppBar(
             elevation: widget.elevation,
             leading: widget.leading == null
-                ? BackButton(color: widget.textColor, onPressed: () => Navigator.pop(context))
+                ? BackButton(
+                    color: widget.textColor,
+                    onPressed: () => Navigator.pop(context))
                 : widget.leading,
-            backgroundColor: widget.appBarColor ?? Theme.of(context).appBarTheme.color,
+            backgroundColor:
+                widget.appBarColor ?? Theme.of(context).appBarTheme.color,
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
-            title: (widget.appBarSubTitle == null || widget.appBarSubTitle!.isEmpty)
+            title: (widget.appBarSubTitle == null ||
+                    widget.appBarSubTitle!.isEmpty)
                 ? Text(
                     widget.appBarTitle,
                     style: TextStyle(
@@ -112,7 +117,11 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     ),
                     subtitle: Text(
                       widget.appBarSubTitle ?? '--',
-                      style: TextStyle(color: widget.textColor),
+                      style: TextStyle(
+                        color: widget.textColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w100,
+                      ),
                     ),
                   ),
             bottom: widget.bottom,
