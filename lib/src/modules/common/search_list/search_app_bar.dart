@@ -101,9 +101,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
                 ? Text(
                     widget.appBarTitle,
                     style: TextStyle(
-                        color: widget.textColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                      color: widget.textColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   )
                 : ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -116,13 +117,23 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     ),
                     subtitle: Text(
                       widget.appBarSubTitle ?? '--',
-                      style: TextStyle(color: widget.textColor),
+                      style: TextStyle(
+                        color: widget.textColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w100,
+                      ),
                     ),
                   ),
             bottom: widget.bottom,
             actions: <Widget>[
               if (widget.enableSearch)
-                CircleAvatar(
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isSearchActive = !_isSearchActive;
+                    });
+                  },
+                  child: CircleAvatar(
                     radius: 18,
                     backgroundColor: Colors.white,
                     child: SvgAssetIcon(
@@ -130,12 +141,9 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       height: 20,
                       width: 20,
                       color: Color(0xff0097cd),
-                      onTap: () {
-                        setState(() {
-                          _isSearchActive = !_isSearchActive;
-                        });
-                      },
-                    )),
+                    ),
+                  ),
+                ),
               if (widget.actions != null) ...widget.actions!
             ],
           );
