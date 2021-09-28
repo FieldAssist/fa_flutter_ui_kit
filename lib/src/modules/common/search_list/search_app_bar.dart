@@ -138,8 +138,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     backgroundColor: Colors.white,
                     child: SvgAssetIcon(
                       path: SvgIcons.search,
-                      height: 20,
-                      width: 20,
+                      height: 18,
+                      width: 18,
                       color: Color(0xff0097cd),
                     ),
                   ),
