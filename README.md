@@ -61,6 +61,15 @@ flutter pub get && flutter pub run build_runner build --delete-conflicting-outpu
         </a>
     </td>
 </tr>
+<tr>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Ritsz123>
+            <img src=https://avatars.githubusercontent.com/u/48131636?v=4 width="100;"  alt=Ritesh Khadse/>
+            <br />
+            <sub style="font-size:14px"><b>Ritesh Khadse</b></sub>
+        </a>
+    </td>
+</tr>
 </table>
 
 <table>
