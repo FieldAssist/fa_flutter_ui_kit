@@ -15,12 +15,15 @@ import 'package:rxdart/rxdart.dart';
 class CountryPicker extends StatefulWidget {
   const CountryPicker({
     this.selectedCountryId,
+    this.selectedCountryName,
     this.onChanged,
     this.onCancel,
+    this.isSelectEnable = true,
   });
 
   final String? selectedCountryId;
-
+  final String? selectedCountryName;
+  final bool isSelectEnable;
   final void Function(Country item)? onChanged;
   final VoidCallback? onCancel;
 
@@ -51,7 +54,7 @@ class _CountryPickerState extends State<CountryPicker> {
             _countryList!.isNotEmpty) {
           _selectedCountryId = widget.selectedCountryId ?? _selectedCountryId;
           return InkWell(
-            onTap: _showDialog,
+            onTap: widget.isSelectEnable ? _showDialog : null,
             child: Padding(
               padding: const EdgeInsets.all(7.0),
               child: Column(
@@ -138,10 +141,19 @@ class _CountryPickerState extends State<CountryPicker> {
             .toList(growable: false),
       );
       _countryList = list ?? [];
-      _selectedCountryId = widget.selectedCountryId ??
-          _countryList!
-              .firstWhere((element) => element.dialCode == '91')
-              .countryId;
+      if (widget.selectedCountryId != null) {
+        _selectedCountryId = widget.selectedCountryId;
+      } else if (widget.selectedCountryName != null) {
+        _selectedCountryId = _countryList!
+            .firstWhere((element) =>
+                element.countryName?.toLowerCase() ==
+                widget.selectedCountryName?.toLowerCase())
+            .countryId;
+      } else {
+        _selectedCountryId = _countryList!
+            .firstWhere((element) => element.dialCode == '91')
+            .countryId;
+      }
     } catch (e, s) {
       logger.e(e, s);
       rethrow;

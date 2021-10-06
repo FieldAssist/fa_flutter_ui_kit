@@ -6,12 +6,15 @@ class EnterPhoneTextField extends StatelessWidget {
     required this.phoneController,
     this.autoValidate = false,
     this.validator,
+    this.maxLength = 10,
     Key? key,
   }) : super(key: key);
 
   final bool autoValidate;
   final String? Function(String?)? validator;
   final TextEditingController phoneController;
+  //for countries like Thailand,Indonesia
+  final int maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class EnterPhoneTextField extends StatelessWidget {
           inputFormatters: [WhitelistingTextInputFormatter(RegExp(r'[0-9]'))],
           controller: phoneController,
           keyboardType: TextInputType.phone,
-          maxLength: 10,
+          maxLength: maxLength,
           style: TextStyle(
             fontSize: 18,
           ),
