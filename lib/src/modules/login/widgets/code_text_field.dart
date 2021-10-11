@@ -42,7 +42,7 @@ class EnterCodeTextField extends StatelessWidget {
               // TODO(someshubham): change code validation when details provided
             } else if (codeMaxLength != null && code.length < codeMaxLength!) {
               return 'Code length must equal to $codeMaxLength';
-            } else if (code.length > 8 || code.length < 7) {
+            } else if (code.length > 9 || code.length < 7) {
               return 'Please enter valid code';
             }
             return null;
