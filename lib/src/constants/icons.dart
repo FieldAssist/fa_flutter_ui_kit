@@ -25,4 +25,5 @@ class SvgIcons {
   static const orderList = "$_basePath/order_list.svg";
   static const close = "$_basePath/close.svg";
   static const check = "$_basePath/check.svg";
+  static const myPerformance = "$_basePath/timeline_1.svg";
 }
