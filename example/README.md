@@ -1,6 +1,6 @@
-# example
+# ui_kit_sample_app
 
-A new Flutter project.
+A new Flutter project for Displaying the widgets that we are using in our UI-Kit
 
 ## Getting Started
 
