@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'index_screen.dart';
 
 class WidgetPreview extends StatelessWidget {
-  WidgetPreview({required this.wid});
+  const WidgetPreview({required this.widgetData});
 
-  final WidgetData wid;
+  final WidgetData widgetData;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(wid.name),
+        title: Text(widgetData.name),
       ),
       body: Center(
-        child: (wid.position == Position.center ? wid.widget : null),
+        child:
+            (widgetData.position == Position.center ? widgetData.widget : null),
       ),
       bottomNavigationBar:
-          (wid.position == Position.bottom ? wid.widget : null),
+          (widgetData.position == Position.bottom ? widgetData.widget : null),
     );
   }
 }

@@ -17,11 +17,6 @@ class WidgetData {
 }
 
 class IndexScreen extends StatelessWidget {
-  // final _list = ["Button", "Text", "Loading"];
-  // Map<String, Map<dynamic, >> _myMap = {
-  //   "Internet Not Available": InternetNotAvailable(() {})
-  // };
-
   final _list = [
     WidgetData(
       widget: InternetNotAvailable(() {}),
@@ -120,7 +115,7 @@ class IndexScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(builder: (context) {
                         return WidgetPreview(
-                          wid: _list[index],
+                          widgetData: _list[index],
                         );
                       }),
                     );
