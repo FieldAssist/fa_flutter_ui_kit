@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  progress_dialog: ^1.2.4
   flare_flutter: ^3.0.2
   cached_network_image: ^3.1.0
   keyboard_visibility: ^0.5.6
@@ -23,7 +22,6 @@ dependencies:
 
   #Location
   geolocator: 7.5.0
-  geocoder: ^0.2.1
   geocoding: ^2.0.1
   google_maps_flutter: ^2.0.8
 

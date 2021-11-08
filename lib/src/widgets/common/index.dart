@@ -1,6 +1,6 @@
 export 'app_logo.dart';
 export 'bottom_action_button.dart';
-export 'fa_progress_dialog.dart';
+export 'progress_dialog/fa_progress_dialog.dart';
 export 'flavor/flavor.dart';
 export 'flavor/flavor_banner.dart';
 export 'launching_growth.dart';
