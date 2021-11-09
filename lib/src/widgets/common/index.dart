@@ -17,3 +17,4 @@ export 'outlined_icon_button.dart';
 export 'error/index.dart';
 export 'svg_asset_icon.dart';
 export 'svg_asset_img.dart';
+export 'exit_dialog.dart';
