@@ -20,3 +20,4 @@ export 'svg_asset_img.dart';
 export 'exit_dialog.dart';
 export 'gt_progress_dialog.dart';
 export 'linear_gradient_container.dart';
+export 'no_internet_widget.dart';
