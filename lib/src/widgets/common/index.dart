@@ -18,3 +18,4 @@ export 'error/index.dart';
 export 'svg_asset_icon.dart';
 export 'svg_asset_img.dart';
 export 'exit_dialog.dart';
+export 'gt_progress_dialog.dart';
