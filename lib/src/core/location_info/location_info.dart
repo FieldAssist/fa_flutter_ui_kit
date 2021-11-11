@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
-import 'package:fa_flutter_ui_kit/src/utils/date_utils.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
