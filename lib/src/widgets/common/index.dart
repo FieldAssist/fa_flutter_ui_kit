@@ -22,3 +22,4 @@ export 'gt_progress_dialog.dart';
 export 'linear_gradient_container.dart';
 export 'no_internet_widget.dart';
 export 'primary_raised_button.dart';
+export 'tag_container.dart';
