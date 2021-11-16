@@ -20,7 +20,10 @@ class ExitDialog extends StatelessWidget {
   final VoidCallback? leftButtonFunction;
 
   final _btnTextStyle = TextStyle(
-      color: Colors.white, fontWeight: FontWeight.normal, fontSize: 14);
+    color: Colors.white,
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+  );
 
   @override
   Widget build(BuildContext context) {

@@ -23,8 +23,10 @@ class GTProgressDialog {
     return _dialog!.show();
   }
 
-  static void update(
-          {required String message, required Widget progressWidget}) =>
+  static void update({
+    required String message,
+    required Widget progressWidget,
+  }) =>
       _dialog?.update(
         message: message,
         progressWidget: progressWidget,
