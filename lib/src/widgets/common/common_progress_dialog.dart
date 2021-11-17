@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 Widget _defaultProgressWidget = Image.asset(Images.doubleRingLoader);
 
-class GTProgressDialog {
+class CommonProgressDialog {
   static ProgressDialog? _dialog;
 
   static Future<bool> show(

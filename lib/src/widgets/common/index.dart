@@ -18,7 +18,7 @@ export 'error/index.dart';
 export 'svg_asset_icon.dart';
 export 'svg_asset_img.dart';
 export 'exit_dialog.dart';
-export 'gt_progress_dialog.dart';
+export 'common_progress_dialog.dart';
 export 'linear_gradient_container.dart';
 export 'no_internet_widget.dart';
 export 'primary_raised_button.dart';
