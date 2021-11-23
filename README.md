@@ -4,7 +4,42 @@ Official FA Flutter UI Kit.
 
 ## Getting Started
 
-TBD
+- Import the 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart' to get all the widgets in your projects that are avilable in FA Flutter UI Kit.FieldAssist
+
+## List of Widgets in UI Kit.
+
+1. Internet Not Available
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/internetnotavilable.gif)
+
+2. Bottom Action Button
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/bottom_action_button.gif)
+
+3. My Circular Progress
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/my_circular_progress.gif)
+
+4. My Linear Progress Indicator
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/linear_progress_indicator.gif)
+
+5. No Items Found
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/no_items_found.gif)
+
+6. Outlined Icon Button
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/outlined_icon_button.gif)
+
+7. Responsive Container
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/responsive_container.gif)
+
+8. Stream Loading Widget
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/stream_loading.gif)
+
+9. Search Text Field
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/search_text_field.gif)
+
+10. Generic Dialog
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/generic_dialog.gif)
+
+11. Progress Dialog
+![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/progress_dialog.gif)
 
 ## Extra(s)
 
