@@ -45,7 +45,7 @@ class GenericDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      title: Text(title!),
+      title: Text(title ?? ''),
       titlePadding: EdgeInsets.only(top: 16, left: 16, right: 16),
       contentPadding: EdgeInsets.all(16),
       content: Column(
@@ -53,7 +53,7 @@ class GenericDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            subtitle!,
+            subtitle ?? '',
             style: TextStyle(color: Colors.grey[600], fontSize: 14),
           ),
           SizedBox(
