@@ -10,7 +10,7 @@ Official FA Flutter UI Kit.
 
 1. Internet Not Available
 <!-- ![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/internetnotavilable.gif) -->
-<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/internetnotavilable.gif" width="500" height="900">
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/internetnotavilable.gif" width="200" height="500">
 
 2. Bottom Action Button
 ![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/bottom_action_button.gif)
