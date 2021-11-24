@@ -9,37 +9,37 @@ Official FA Flutter UI Kit.
 ## List of Widgets in UI Kit.
 
 1. Internet Not Available
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/internetnotavilable.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/internetnotavilable.gif" width="250" height="500">
 
 2. Bottom Action Button
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/bottom_action_button.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/bottom_action_button.gif" width="250" height="500">
 
 3. My Circular Progress
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/my_circular_progress.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/my_circular_progress.gif" width="250" height="500">
 
 4. My Linear Progress Indicator
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/linear_progress_indicator.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/linear_progress_indicator.gif" width="250" height="500">
 
 5. No Items Found
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/no_items_found.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/no_items_found.gif" width="250" height="500">
 
 6. Outlined Icon Button
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/outlined_icon_button.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/outlined_icon_button.gif" width="250" height="500">
 
 7. Responsive Container
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/responsive_container.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/responsive_container.gif" width="250" height="500">
 
 8. Stream Loading Widget
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/stream_loading.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/stream_loading.gif" width="250" height="500">
 
 9. Search Text Field
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/search_text_field.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/search_text_field.gif" width="250" height="500">
 
 10. Generic Dialog
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/generic_dialog.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/generic_dialog.gif" width="250" height="500">
 
 11. Progress Dialog
-![](https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/progress_dialog.gif)
+<img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/progress_dialog.gif" width="250" height="500">
 
 ## Extra(s)
 
