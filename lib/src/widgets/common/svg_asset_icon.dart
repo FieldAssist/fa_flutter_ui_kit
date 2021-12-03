@@ -9,6 +9,7 @@ class SvgAssetIcon extends StatelessWidget {
     this.width = 14,
     this.color,
     this.labelText = "",
+    this.padding,
   });
 
   final String path;
@@ -16,11 +17,12 @@ class SvgAssetIcon extends StatelessWidget {
   final double width;
   final Color? color;
   final String labelText;
+  final double? padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(6),
+      padding: EdgeInsets.all(padding ?? 6),
       child: SizedBox(
         height: height,
         width: width,
