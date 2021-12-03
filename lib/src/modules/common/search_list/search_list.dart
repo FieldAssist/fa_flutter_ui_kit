@@ -1,7 +1,6 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/search_app_bar.dart';
-import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +39,6 @@ class SearchList<T> extends StatefulWidget {
     this.displayBottomBarIcon = true,
     this.bottomActionBuilder,
     this.showBottomActionBar = true,
-    this.showDefaultAppBar = true,
     this.appBarTitle,
     this.searchBarTitle,
     this.enableSearch,
@@ -52,7 +50,9 @@ class SearchList<T> extends StatefulWidget {
     this.leading,
     this.type = SearchListType.NoSearchBar,
     Key? key,
-  })  : assert(!showDefaultAppBar ? textEditingController != null : true),
+  })  : assert(type == SearchListType.NoSearchBar
+            ? textEditingController != null
+            : true),
         super(key: key);
 
   final List<T> data;
@@ -64,7 +64,6 @@ class SearchList<T> extends StatefulWidget {
   final bool displayBottomBarIcon;
   final BottomActionBuilder? bottomActionBuilder;
   final bool showBottomActionBar;
-  final bool showDefaultAppBar;
   final bool? enableSearch;
   final String? appBarTitle;
   final String? searchBarTitle;
@@ -93,7 +92,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
   void initState() {
     super.initState();
 
-    searchQueryController = !widget.showDefaultAppBar
+    searchQueryController = widget.type == SearchListType.NoSearchBar
         ? widget.textEditingController!
         : TextEditingController();
 

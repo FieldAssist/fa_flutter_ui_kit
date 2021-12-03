@@ -17,8 +17,8 @@ class IntegratedSearchBar extends StatefulWidget
     this.backgroundColor,
     Key? key,
   })  : preferredSize = Size.fromHeight(
-    kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
-  ),
+          kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
+        ),
         super(key: key);
 
   final Widget leading;
