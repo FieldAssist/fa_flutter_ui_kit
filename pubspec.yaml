@@ -21,7 +21,7 @@ dependencies:
   shimmer: ^2.0.0
 
   #Location
-  geolocator: 7.5.0
+  geolocator: ^7.6.2
   geocoding: ^2.0.1
   google_maps_flutter: ^2.0.8
 
