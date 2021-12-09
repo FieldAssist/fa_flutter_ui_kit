@@ -20,7 +20,7 @@ class EnterCodeTextField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextFormField(
-          inputFormatters: [WhitelistingTextInputFormatter(RegExp(r'[0-9]'))],
+          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
           controller: codeController,
           keyboardType: TextInputType.number,
           style: TextStyle(
@@ -35,7 +35,7 @@ class EnterCodeTextField extends StatelessWidget {
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
-          autovalidate: autoValidate,
+          autovalidateMode: (autoValidate == true) ? AutovalidateMode.always : AutovalidateMode.disabled,
           validator: (code) {
             if (code!.isEmpty) {
               return 'Please enter code';
