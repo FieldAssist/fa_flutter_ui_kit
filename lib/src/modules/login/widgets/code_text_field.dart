@@ -35,7 +35,7 @@ class EnterCodeTextField extends StatelessWidget {
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
-          autovalidateMode: (autoValidate == true) ? AutovalidateMode.always : AutovalidateMode.disabled,
+          autovalidateMode: (autoValidate) ? AutovalidateMode.always : AutovalidateMode.disabled,
           validator: (code) {
             if (code!.isEmpty) {
               return 'Please enter code';

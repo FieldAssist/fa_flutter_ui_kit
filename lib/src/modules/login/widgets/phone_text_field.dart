@@ -39,7 +39,7 @@ class EnterPhoneTextField extends StatelessWidget {
               floatingLabelBehavior: FloatingLabelBehavior.always
               //border: const OutlineInputBorder(),
               ),
-          autovalidateMode: (autoValidate == true) ? AutovalidateMode.always : AutovalidateMode.disabled,
+          autovalidateMode: (autoValidate) ? AutovalidateMode.always : AutovalidateMode.disabled,
           validator: (validator == null)
               ? (phone) {
                   const pattern = r'(^[6-9]\d{9}$)';
