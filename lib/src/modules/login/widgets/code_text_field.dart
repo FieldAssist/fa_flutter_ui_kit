@@ -4,14 +4,10 @@ import 'package:flutter/services.dart';
 class EnterCodeTextField extends StatelessWidget {
   const EnterCodeTextField({
     required this.codeController,
-    this.codeMaxLength,
-    this.autoValidate = false,
     Key? key,
   }) : super(key: key);
 
-  final bool autoValidate;
   final TextEditingController codeController;
-  final int? codeMaxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +16,9 @@ class EnterCodeTextField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextFormField(
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+          ],
           controller: codeController,
           keyboardType: TextInputType.number,
           style: TextStyle(
@@ -35,17 +33,9 @@ class EnterCodeTextField extends StatelessWidget {
             ),
             floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
-          autovalidateMode: (autoValidate) ? AutovalidateMode.always : AutovalidateMode.disabled,
           validator: (code) {
-            if (code!.isEmpty) {
-              return 'Please enter code';
-              // TODO(someshubham): change code validation when details provided
-            } else if (codeMaxLength != null && code.length < codeMaxLength!) {
-              return 'Code length must equal to $codeMaxLength';
-            } else if (code.length > 9 || code.length < 7) {
-              return 'Please enter valid code';
-            }
-            return null;
+            //Code length changes from back end.
+            return (code ?? "").isEmpty ? 'Please enter code' : null;
           },
         ),
       ],

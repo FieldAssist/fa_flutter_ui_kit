@@ -23,7 +23,9 @@ class EnterPhoneTextField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextFormField(
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+          ],
           controller: phoneController,
           keyboardType: TextInputType.phone,
           maxLength: maxLength,
@@ -39,7 +41,9 @@ class EnterPhoneTextField extends StatelessWidget {
               floatingLabelBehavior: FloatingLabelBehavior.always
               //border: const OutlineInputBorder(),
               ),
-          autovalidateMode: (autoValidate) ? AutovalidateMode.always : AutovalidateMode.disabled,
+          autovalidateMode: (autoValidate)
+              ? AutovalidateMode.always
+              : AutovalidateMode.disabled,
           validator: (validator == null)
               ? (phone) {
                   const pattern = r'(^[6-9]\d{9}$)';
