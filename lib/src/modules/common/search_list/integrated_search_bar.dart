@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class IntegratedSearchBar extends StatefulWidget
     implements PreferredSizeWidget {
   IntegratedSearchBar({
-    required this.leading,
+    this.leading,
     required this.queryTextController,
     required this.actions,
     this.elevation = 4,
@@ -20,7 +20,7 @@ class IntegratedSearchBar extends StatefulWidget
         ),
         super(key: key);
 
-  final Widget leading;
+  final Widget? leading;
   final String searchFieldLabel;
   final double elevation;
   final List<Widget> actions;
@@ -43,6 +43,7 @@ class _IntegratedSearchBarState extends State<IntegratedSearchBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: widget.backgroundColor,
       //iconTheme: theme.primaryIconTheme,
       leading: widget.leading,
