@@ -15,6 +15,7 @@ class IntegratedSearchBar extends StatefulWidget
     this.textInputAction = TextInputAction.search,
     this.onTap,
     this.backgroundColor,
+    this.autoFocus,
     Key? key,
   })  : preferredSize = Size.fromHeight(
           kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
@@ -32,6 +33,7 @@ class IntegratedSearchBar extends StatefulWidget
   final TextEditingController queryTextController;
   final VoidCallback? onTap;
   final Color? backgroundColor;
+  final bool? autoFocus;
 
   @override
   _IntegratedSearchBarState createState() => _IntegratedSearchBarState();
@@ -62,6 +64,7 @@ class _IntegratedSearchBarState extends State<IntegratedSearchBar> {
               Expanded(
                   child: IntegratedSearchTextField(
                 searchFieldLabel: widget.searchFieldLabel,
+                autoFocus: widget.autoFocus ?? true,
                 textInputAction: widget.textInputAction,
                 queryTextController: widget.queryTextController,
                 keyboardType: widget.keyboardType,
