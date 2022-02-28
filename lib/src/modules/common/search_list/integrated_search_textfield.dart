@@ -10,6 +10,7 @@ class IntegratedSearchTextField extends StatefulWidget {
       this.bgColor,
       this.onTap,
       this.elevation,
+      this.autoFocus,
       required this.queryTextController,
       Key? key})
       : super(key: key);
@@ -23,6 +24,7 @@ class IntegratedSearchTextField extends StatefulWidget {
   final void Function(String query)? onSubmitted;
   final TextEditingController queryTextController;
   final VoidCallback? onTap;
+  final bool? autoFocus;
 
   // final SearchListBloc _searchListBloc=SearchListBloc();
 
@@ -42,7 +44,7 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
           onTap: widget.onTap,
           controller: widget.queryTextController,
           style: TextStyle(color: Colors.black),
-          autofocus: true,
+          autofocus: widget.autoFocus ?? true,
           textInputAction: widget.textInputAction,
           keyboardType: widget.keyboardType,
           onSubmitted: widget.onSubmitted,

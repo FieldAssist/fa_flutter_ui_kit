@@ -48,6 +48,7 @@ class SearchList<T> extends StatefulWidget {
     this.defaultAppBarColor,
     this.defaultAppBarTextColor,
     this.leading,
+    this.autoFocus,
     this.type = SearchListType.NoSearchBar,
     Key? key,
   })  : assert(type == SearchListType.NoSearchBar
@@ -76,6 +77,7 @@ class SearchList<T> extends StatefulWidget {
   final Color bottomBarTitleColor;
   final Widget? leading;
   final SearchListType type;
+  final bool? autoFocus;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -221,6 +223,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
         children: [
           IntegratedSearchTextField(
             elevation: 2,
+            autoFocus: widget.autoFocus ?? true,
             prefixIcon: Icon(Icons.search),
             bgColor: Color(0xffe5f8ff),
             queryTextController: searchQueryController!,
