@@ -111,8 +111,10 @@ class LocationInfoImpl implements LocationInfo {
 
   void _startLocationFetchStream() {
     locationStreamSubs ??= Geolocator.getPositionStream(
-      desiredAccuracy: LocationAccuracy.medium,
-      intervalDuration: Duration(seconds: 5),
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.medium,
+        timeLimit: Duration(seconds: 5),
+      ),
     ).asBroadcastStream().shareValue().listen((position) async {
       if (position != null) {
         final locationData = await _parseLocation(position);
@@ -257,8 +259,10 @@ class LocationInfoImpl implements LocationInfo {
   Stream<LocationData> get locationStream {
     if (isMobile) {
       return Geolocator.getPositionStream(
-        desiredAccuracy: LocationAccuracy.medium,
-        intervalDuration: Duration(milliseconds: 10000),
+        locationSettings: LocationSettings(
+          accuracy: LocationAccuracy.medium,
+          timeLimit: Duration(milliseconds: 10000),
+        ),
       ).asBroadcastStream().shareValue().transform(
         StreamTransformer.fromHandlers(
           handleData: (data, sink) async {
