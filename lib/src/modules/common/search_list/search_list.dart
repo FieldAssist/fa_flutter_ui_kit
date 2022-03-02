@@ -1,4 +1,5 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/search_app_bar.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
@@ -21,6 +22,8 @@ typedef SearchItemBuilder<T> = Widget Function(T item, bool isSelected);
 typedef GetSelectedItem<T> = void Function(T? item);
 
 typedef OnItemSearch<T> = bool Function(T item, String query);
+
+enum SearchListType { SearchBarInBody }
 
 typedef BottomActionBuilder = Widget Function();
 
@@ -47,6 +50,8 @@ class SearchList<T> extends StatefulWidget {
     this.defaultAppBarColor,
     this.defaultAppBarTextColor,
     this.leading,
+    this.autoFocus,
+    this.type,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -72,6 +77,8 @@ class SearchList<T> extends StatefulWidget {
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
   final Widget? leading;
+  final SearchListType? type;
+  final bool? autoFocus;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -181,6 +188,21 @@ class _SearchListState<T> extends State<SearchList<T>> {
               ),
             ),
           );
+
+    if (widget.type == SearchListType.SearchBarInBody)
+      return Column(
+        children: [
+          IntegratedSearchTextField(
+            elevation: 2,
+            autoFocus: widget.autoFocus ?? true,
+            prefixIcon: Icon(Icons.search),
+            bgColor: Color(0xffe5f8ff),
+            queryTextController: searchQueryController!,
+            searchFieldLabel: widget.searchBarTitle ?? 'Search',
+          ),
+          Expanded(child: _child),
+        ],
+      );
 
     return widget.showDefaultAppBar
         ? Scaffold(

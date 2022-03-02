@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:flutter/material.dart';
 
 class IntegratedSearchBar extends StatefulWidget
@@ -14,6 +15,8 @@ class IntegratedSearchBar extends StatefulWidget
     this.textInputAction = TextInputAction.search,
     this.onTap,
     this.backgroundColor,
+    this.autoFocus,
+    this.useIntegratedSearchTextField = false,
     Key? key,
   })  : preferredSize = Size.fromHeight(
           kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
@@ -31,6 +34,8 @@ class IntegratedSearchBar extends StatefulWidget
   final TextEditingController queryTextController;
   final VoidCallback? onTap;
   final Color? backgroundColor;
+  final bool? autoFocus;
+  final bool useIntegratedSearchTextField;
 
   @override
   _IntegratedSearchBarState createState() => _IntegratedSearchBarState();
@@ -60,30 +65,40 @@ class _IntegratedSearchBarState extends State<IntegratedSearchBar> {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
-                  onTap: widget.onTap,
-                  controller: widget.queryTextController,
-                  style: TextStyle(color: Colors.black),
-                  autofocus: true,
-                  textInputAction: widget.textInputAction,
-                  keyboardType: widget.keyboardType,
-                  onSubmitted: widget.onSubmitted,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    hintText: widget.searchFieldLabel,
-                    hintStyle: TextStyle(
-                      color: Colors.black26,
-                    ),
-                  ),
-                ),
+                child: (widget.useIntegratedSearchTextField)
+                    ? IntegratedSearchTextField(
+                        searchFieldLabel: widget.searchFieldLabel,
+                        autoFocus: widget.autoFocus ?? true,
+                        textInputAction: widget.textInputAction,
+                        queryTextController: widget.queryTextController,
+                        keyboardType: widget.keyboardType,
+                        onSubmitted: widget.onSubmitted,
+                        onTap: widget.onTap,
+                      )
+                    : TextField(
+                        onTap: widget.onTap,
+                        controller: widget.queryTextController,
+                        style: TextStyle(color: Colors.black),
+                        autofocus: true,
+                        textInputAction: widget.textInputAction,
+                        keyboardType: widget.keyboardType,
+                        onSubmitted: widget.onSubmitted,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          hintText: widget.searchFieldLabel,
+                          hintStyle: TextStyle(
+                            color: Colors.black26,
+                          ),
+                        ),
+                      ),
               ),
               ...widget.actions,
             ],
