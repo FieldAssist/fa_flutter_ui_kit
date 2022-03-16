@@ -32,20 +32,25 @@ class DialogUtils {
     );
   }
 
-  static void showMonthRangePicker({
-    // required GlobalKey<NavigatorState> navKey,
-    required BuildContext context,
-  }) {
+  static void showMonthRangePicker(
+      {required BuildContext context,
+
+      ///This function will return data as startMonthNumber, endMonthNumber, startMonthName, EndMonthName, year format
+      required Function(int, int, String, String, int)
+          pickedRange}) {
     showDialog(
       barrierColor: Colors.white.withOpacity(0.1),
-      // context: navKey.currentState!.overlay!.context,
       context: context,
       builder: (context) {
-        return const AlertDialog(
+        return AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(12.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
-          content: MonthCalendar(),
+          content: MonthCalendar(
+            rangeData: (startMonth, endMonth, sMonthName, eMonthName, year) {
+              pickedRange.call(startMonth, endMonth, sMonthName, eMonthName, year);
+            },
+          ),
         );
       },
     );

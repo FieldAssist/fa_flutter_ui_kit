@@ -3,7 +3,14 @@ import 'package:fa_flutter_ui_kit/src/widgets/month_range_picker/month_calendar.
 import 'package:flutter/material.dart';
 
 class MonthView extends StatefulWidget {
+  final Function(
+    int startMonthNumber,
+    int endMonthNumber,
+    String startMonth,
+    String endmonth,
+  ) callback;
   const MonthView({
+    required this.callback,
     Key? key,
   }) : super(key: key);
 
@@ -12,12 +19,14 @@ class MonthView extends StatefulWidget {
 }
 
 class _MonthViewState extends State<MonthView> {
+  var selectedMonths = <String>[];
+  int currentYear = 0;
   void validate() {
     if (selectedMonths.length == 3) {
       for (var element in calendarItem) {
         element.isEnabled = false;
       }
-    } else {}
+    }
   }
 
   String startMonth() {
@@ -67,9 +76,14 @@ class _MonthViewState extends State<MonthView> {
                 onTap: e.isEnabled || e.isTapped
                     ? () {
                         if (e.isTapped) {
-                          for (int i = 0; i < selectedMonths.length; i++) {
-                            selectedMonths.removeAt(i);
+                          selectedMonths.clear();
+                          widget.callback.call(0, 0, '', '');
+                          for (var data in calendarItem) {
+                            data.isEnabled = true;
+                            data.isTapped = false;
+                            data.isSelected = false;
                           }
+
                           setState(() {});
                         } else {
                           for (int i = index; i < index + 3; i++) {
@@ -80,19 +94,14 @@ class _MonthViewState extends State<MonthView> {
                             });
                           }
                           validate();
-                          setState(() {
-                            // e.isTapped = !e.isTapped;
-                            // e.isSelected = !e.isSelected;
-                          });
-                          print(
-                            'start month - ' +
-                                startMonth() +
-                                '\nend month - ' +
-                                endMonth() +
-                                '\nyear - ' +
-                                getYear().toString(),
-                          );
+                          setState(() {});
                         }
+                        int sMonth = calendarItem.indexWhere(
+                            (element) => element.month == startMonth());
+                        int eMonth = calendarItem.indexWhere(
+                            (element) => element.month == endMonth());
+                        widget.callback.call(
+                            sMonth + 1, eMonth + 1, startMonth(), endMonth());
                       }
                     : null,
                 child: Container(

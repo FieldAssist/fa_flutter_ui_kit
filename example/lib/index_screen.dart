@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit_sample_app/main.dart';
@@ -178,7 +180,10 @@ class _ShowMonthRangePickerState extends State<ShowMonthRangePicker> {
         onPressed: () {
           setState(() {
             DialogUtils.showMonthRangePicker(
-              // navKey: widget.navKeyMonthPicker!,
+              pickedRange:
+                  (startMonth, endMonth, sMonthName, eMonthName, year) {
+                log('$startMonth($sMonthName)-$year -- $endMonth($eMonthName)-$year');
+              },
               context: context,
             );
           });

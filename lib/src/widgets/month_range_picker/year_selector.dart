@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'month_calendar.dart';
 
 class YearSelector extends StatefulWidget {
+  final Function(int) yearCallback;
   const YearSelector({
+    required this.yearCallback,
     Key? key,
   }) : super(key: key);
 
@@ -12,10 +14,14 @@ class YearSelector extends StatefulWidget {
 }
 
 class _YearSelectorState extends State<YearSelector> {
+  var selectedMonths = <String>[];
+  late int currentYear;
   @override
   void initState() {
     super.initState();
     currentYear = DateTime.now().year;
+    WidgetsBinding.instance
+        ?.addPostFrameCallback((_) => widget.yearCallback.call(currentYear));
   }
 
   void valueCounter(YearCounter counterType) {
@@ -26,6 +32,7 @@ class _YearSelectorState extends State<YearSelector> {
     } else {
       currentYear--;
     }
+    widget.yearCallback.call(currentYear);
     setState(() {});
   }
 
