@@ -1,7 +1,6 @@
 import 'package:fa_flutter_ui_kit/src/constants/text_style.dart';
 import 'package:flutter/material.dart';
 
-
 class SelectedMonthIndicator extends StatelessWidget {
   final String label;
   final String month;
@@ -29,9 +28,10 @@ class SelectedMonthIndicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(label, style:KTextStyle.dateTextStyle),
+          Text(label, style: KTextStyle.dateTextStyle),
           Text(month,
-              style: KTextStyle.dateTextStyle.copyWith(color: Colors.blue.shade400))
+              style: KTextStyle.dateTextStyle
+                  .copyWith(color: Colors.blue.shade400))
         ],
       ),
     );

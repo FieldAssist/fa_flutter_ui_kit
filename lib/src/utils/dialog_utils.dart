@@ -32,12 +32,14 @@ class DialogUtils {
     );
   }
 
- static void showMonthRangePicker({
-    required GlobalKey<NavigatorState> navKey,
+  static void showMonthRangePicker({
+    // required GlobalKey<NavigatorState> navKey,
+    required BuildContext context,
   }) {
     showDialog(
       barrierColor: Colors.white.withOpacity(0.1),
-      context: navKey.currentState!.overlay!.context,
+      // context: navKey.currentState!.overlay!.context,
+      context: context,
       builder: (context) {
         return const AlertDialog(
           shape: RoundedRectangleBorder(

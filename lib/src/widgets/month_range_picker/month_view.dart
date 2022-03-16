@@ -1,4 +1,5 @@
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
+import 'package:fa_flutter_ui_kit/src/widgets/month_range_picker/month_calendar.dart';
 import 'package:flutter/material.dart';
 
 class MonthView extends StatefulWidget {
@@ -11,13 +12,30 @@ class MonthView extends StatefulWidget {
 }
 
 class _MonthViewState extends State<MonthView> {
-  var selectedMonths = <String>[];
   void validate() {
     if (selectedMonths.length == 3) {
       for (var element in calendarItem) {
         element.isEnabled = false;
       }
     } else {}
+  }
+
+  String startMonth() {
+    if (selectedMonths.isNotEmpty) {
+      return selectedMonths.first;
+    } else
+      return '';
+  }
+
+  String endMonth() {
+    if (selectedMonths.isNotEmpty) {
+      return selectedMonths.last;
+    } else
+      return '';
+  }
+
+  int getYear() {
+    return currentYear;
   }
 
   bool isRounded = false;
@@ -27,6 +45,12 @@ class _MonthViewState extends State<MonthView> {
         (e) => ItemModel(month: e),
       )
       .toList();
+
+  @override
+  void initState() {
+    selectedMonths = [];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +75,23 @@ class _MonthViewState extends State<MonthView> {
                           for (int i = index; i < index + 3; i++) {
                             calendarItem[i].isSelected = true;
                             calendarItem[i].isTapped = true;
-                            selectedMonths.add(calendarItem[i].month);
+                            setState(() {
+                              selectedMonths.add(calendarItem[i].month);
+                            });
                           }
                           validate();
                           setState(() {
                             // e.isTapped = !e.isTapped;
                             // e.isSelected = !e.isSelected;
                           });
+                          print(
+                            'start month - ' +
+                                startMonth() +
+                                '\nend month - ' +
+                                endMonth() +
+                                '\nyear - ' +
+                                getYear().toString(),
+                          );
                         }
                       }
                     : null,

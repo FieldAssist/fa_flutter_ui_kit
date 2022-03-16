@@ -4,6 +4,8 @@ import 'month_indicator.dart';
 import 'month_view.dart';
 import 'year_selector.dart';
 
+var selectedMonths = <String>[];
+late int currentYear;
 
 class MonthCalendar extends StatelessWidget {
   const MonthCalendar({
