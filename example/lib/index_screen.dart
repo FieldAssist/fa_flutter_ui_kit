@@ -178,15 +178,12 @@ class _ShowMonthRangePickerState extends State<ShowMonthRangePicker> {
       bottomNavigationBar: BottomActionButton(
         title: "Press to Open Dialog Box",
         onPressed: () {
-          setState(() {
-            DialogUtils.showMonthRangePicker(
-              pickedRange:
-                  (startMonth, endMonth, sMonthName, eMonthName, year) {
-                log('$startMonth($sMonthName)-$year -- $endMonth($eMonthName)-$year');
-              },
-              context: context,
-            );
-          });
+          DialogUtils.showMonthRangePicker(
+            pickedRange: (startMonth, endMonth, sMonthName, eMonthName, year) {
+              log('$startMonth($sMonthName)-$year -- $endMonth($eMonthName)-$year');
+            },
+            context: context,
+          );
         },
       ),
     );

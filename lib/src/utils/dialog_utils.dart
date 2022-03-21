@@ -36,8 +36,7 @@ class DialogUtils {
       {required BuildContext context,
 
       ///This function will return data as startMonthNumber, endMonthNumber, startMonthName, EndMonthName, year format
-      required Function(int, int, String, String, int)
-          pickedRange}) {
+      required Function(int, int, String, String, int) pickedRange}) {
     showDialog(
       barrierColor: Colors.white.withOpacity(0.1),
       context: context,
@@ -48,7 +47,8 @@ class DialogUtils {
           contentPadding: EdgeInsets.only(top: 10.0),
           content: MonthCalendar(
             rangeData: (startMonth, endMonth, sMonthName, eMonthName, year) {
-              pickedRange.call(startMonth, endMonth, sMonthName, eMonthName, year);
+              pickedRange.call(
+                  startMonth, endMonth, sMonthName, eMonthName, year);
             },
           ),
         );

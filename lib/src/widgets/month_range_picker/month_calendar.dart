@@ -17,8 +17,11 @@ class MonthCalendar extends StatefulWidget {
 }
 
 class _MonthCalendarState extends State<MonthCalendar> {
-  List<String> selectedMonth = <String>[];
+  List<String?>? selectedMonth = <String?>[];
   int? currentYear;
+  int startMonth = 1;
+  int endMonth = 3;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -30,19 +33,27 @@ class _MonthCalendarState extends State<MonthCalendar> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             MonthIndicator(
-              selectedMonths: selectedMonth,
+              selectedMonths: selectedMonth?.cast() ?? [],
               currentYear: currentYear,
             ),
             YearSelector(
               yearCallback: (year) {
                 currentYear = year;
+                //  widget.rangeData.call(
+                //      startMonth,
+                //    endMonth,
+                //    selectedMonth?[0] ?? '',
+                //   selectedMonth?[1] ?? '',
+                //     currentYear?.toInt() ?? 0);
                 setState(() {});
               },
             ),
             MonthView(
               callback: (startMonth, endMonth, sMonthName, eMonthName) {
-                selectedMonth.add(sMonthName);
-                selectedMonth.add(eMonthName);
+                selectedMonth?.add(sMonthName);
+                selectedMonth?.add(eMonthName);
+                startMonth = startMonth;
+                endMonth = endMonth;
                 widget.rangeData.call(startMonth, endMonth, sMonthName,
                     eMonthName, currentYear?.toInt() ?? 0);
                 setState(() {});
