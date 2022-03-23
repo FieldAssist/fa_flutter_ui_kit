@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'month_indicator.dart';
 import 'month_view.dart';
-import 'year_selector.dart';
 
 class MonthCalendar extends StatefulWidget {
   const MonthCalendar({
@@ -24,6 +22,7 @@ class _MonthCalendarState extends State<MonthCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    print('gfhh');
     return SizedBox(
         height: 250,
         width: 300,
@@ -32,28 +31,15 @@ class _MonthCalendarState extends State<MonthCalendar> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            MonthIndicator(
-              selectedMonths: selectedMonth?.cast() ?? [],
-              currentYear: currentYear,
-            ),
-            YearSelector(
-              yearCallback: (year) {
-                currentYear = year;
-                //  widget.rangeData.call(
-                //      startMonth,
-                //    endMonth,
-                //    selectedMonth?[0] ?? '',
-                //   selectedMonth?[1] ?? '',
-                //     currentYear?.toInt() ?? 0);
-                setState(() {});
-              },
-            ),
             MonthView(
-              callback: (startMonth, endMonth, sMonthName, eMonthName) {
+              currentYear: currentYear,
+              callback: (startMonth, endMonth, sMonthName, eMonthName,
+                  currentYearMonth) {
                 selectedMonth?.add(sMonthName);
                 selectedMonth?.add(eMonthName);
                 startMonth = startMonth;
                 endMonth = endMonth;
+                currentYear = currentYearMonth;
                 widget.rangeData.call(startMonth, endMonth, sMonthName,
                     eMonthName, currentYear?.toInt() ?? 0);
                 setState(() {});
