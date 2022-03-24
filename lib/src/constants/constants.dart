@@ -16,6 +16,21 @@ class Constants {
 
   static const String underConstruction = "Under Construction";
 
+  static const List<String> monthList = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
   //KEYS:
   static const String kLastReatailingDoneKey = "LAST_DATE_FOR_RETAILING";
 }

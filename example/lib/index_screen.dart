@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_kit_sample_app/main.dart';
 import 'package:ui_kit_sample_app/widget_preview.dart';
 
 enum Position { bottom, center }
@@ -18,6 +21,10 @@ class WidgetData {
 
 class IndexScreen extends StatelessWidget {
   final _list = [
+    WidgetData(
+      widget: ShowMonthRangePicker(),
+      name: "Month Range Picker",
+    ),
     WidgetData(
       widget: InternetNotAvailable(() {}),
       name: "Internet Not Available",
@@ -149,6 +156,34 @@ class _ShowDialogBoxState extends State<ShowDialogBox> {
             FAProgressDialog.show(context);
             FAProgressDialog.doneAndHide();
           });
+        },
+      ),
+    );
+  }
+}
+
+class ShowMonthRangePicker extends StatefulWidget {
+  // final GlobalKey<NavigatorState>? navKeyMonthPicker =
+  //     GlobalKey<NavigatorState>();
+  ShowMonthRangePicker({Key? key}) : super(key: key);
+
+  @override
+  State<ShowMonthRangePicker> createState() => _ShowMonthRangePickerState();
+}
+
+class _ShowMonthRangePickerState extends State<ShowMonthRangePicker> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomActionButton(
+        title: "Press to Open Dialog Box",
+        onPressed: () {
+          DialogUtils.showMonthRangePicker(
+            pickedRange: (startMonth, endMonth, sMonthName, eMonthName, year) {
+              log('$startMonth($sMonthName)-$year -- $endMonth($eMonthName)-$year');
+            },
+            context: context,
+          );
         },
       ),
     );
