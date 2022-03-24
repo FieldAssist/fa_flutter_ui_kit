@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 class SelectedMonthIndicator extends StatelessWidget {
   final String label;
   final String month;
-  final double width;
+
   const SelectedMonthIndicator({
     required this.month,
     required this.label,
-    required this.width,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
+      // width: width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
@@ -29,6 +28,9 @@ class SelectedMonthIndicator extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(label, style: KTextStyle.dateTextStyle),
+          SizedBox(
+            width: 5,
+          ),
           Text(month,
               style: KTextStyle.dateTextStyle
                   .copyWith(color: Colors.blue.shade400))

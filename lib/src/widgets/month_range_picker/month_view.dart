@@ -67,7 +67,7 @@ class _MonthViewState extends State<MonthView> {
   // int getYear() {
   //   return currentYear;
   // }
-  generateMonths() async {
+  void generateMonths() async {
     calendarItem = Constants.monthList
         .map<ItemModel>(
           (e) => ItemModel(
@@ -97,24 +97,25 @@ class _MonthViewState extends State<MonthView> {
         children: [
           // Month Indicator
           LayoutBuilder(builder: (context, cons) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SelectedMonthIndicator(
-                  width: cons.maxWidth * 0.45,
-                  month: selectedMonths.isEmpty
-                      ? '--'
-                      : selectedMonths[0] + '-' + selectedYear.toString(),
-                  label: 'Start Month',
-                ),
-                SelectedMonthIndicator(
-                  width: cons.maxWidth * 0.45,
-                  month: selectedMonths.isEmpty
-                      ? '--'
-                      : selectedMonths.last + '-' + selectedYear.toString(),
-                  label: 'End Month',
-                ),
-              ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SelectedMonthIndicator(
+                    month: selectedMonths.isEmpty
+                        ? '--'
+                        : selectedMonths[0] + '-' + selectedYear.toString(),
+                    label: 'Start Month',
+                  ),
+                  SelectedMonthIndicator(
+                    month: selectedMonths.isEmpty
+                        ? '--'
+                        : selectedMonths.last + '-' + selectedYear.toString(),
+                    label: 'End Month',
+                  ),
+                ],
+              ),
             );
           }),
           // Year Selector
