@@ -11,10 +11,12 @@ class MonthView extends StatefulWidget {
     int currentYear,
   ) callback;
   final currentYear;
+  final Color selectedColour;
   const MonthView({
     required this.callback,
     Key? key,
     this.currentYear,
+    required this.selectedColour,
   }) : super(key: key);
 
   @override
@@ -107,12 +109,14 @@ class _MonthViewState extends State<MonthView> {
                         ? '--'
                         : selectedMonths[0] + '-' + selectedYear.toString(),
                     label: 'Start Month',
+                    selectedColour: widget.selectedColour,
                   ),
                   SelectedMonthIndicator(
                     month: selectedMonths.isEmpty
                         ? '--'
                         : selectedMonths.last + '-' + selectedYear.toString(),
                     label: 'End Month',
+                    selectedColour: widget.selectedColour,
                   ),
                 ],
               ),
@@ -186,7 +190,9 @@ class _MonthViewState extends State<MonthView> {
                                     data.isTapped = false;
                                     data.isSelected = false;
                                   }
-                                  for (int i = index; i < index + 3; i++) {
+                                  for (int i = index;
+                                      i < 12 && i < index + 3;
+                                      i++) {
                                     if (calendarItem[i].canSelect) {
                                       calendarItem[i].isEnabled = true;
                                     }
@@ -206,14 +212,14 @@ class _MonthViewState extends State<MonthView> {
                             int eMonth = calendarItem.indexWhere(
                                 (element) => element.month == endMonth());
                             widget.callback.call(sMonth + 1, eMonth + 1,
-                                startMonth(), endMonth(), currentYear);
+                                startMonth(), endMonth(), selectedYear);
                           }
                         : null,
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
                           color: e.isTapped
-                              ? Colors.blue.withOpacity(0.5)
+                              ? widget.selectedColour
                               : Colors.transparent,
                           borderRadius:
                               BorderRadius.circular(isRounded ? 30 : 0)),
