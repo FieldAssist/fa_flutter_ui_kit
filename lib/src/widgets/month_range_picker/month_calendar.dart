@@ -6,10 +6,12 @@ class MonthCalendar extends StatefulWidget {
   const MonthCalendar({
     required this.rangeData,
     Key? key,
+    required this.selectedColour,
   }) : super(key: key);
 
   /// This function will return data as startMonthNumber, endMonthNumber, startMonthName, EndMonthName, year format
   final Function(int, int, String, String, int) rangeData;
+  final Color selectedColour;
   @override
   State<MonthCalendar> createState() => _MonthCalendarState();
 }
@@ -23,7 +25,7 @@ class _MonthCalendarState extends State<MonthCalendar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 250,
+        height: 260,
         width: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -43,6 +45,7 @@ class _MonthCalendarState extends State<MonthCalendar> {
                     eMonthName, currentYear?.toInt() ?? 0);
                 setState(() {});
               },
+              selectedColour: widget.selectedColour,
             ),
           ],
         ));
