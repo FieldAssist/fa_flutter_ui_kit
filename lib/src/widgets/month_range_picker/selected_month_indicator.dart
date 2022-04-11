@@ -23,7 +23,7 @@ class SelectedMonthIndicator extends StatelessWidget {
             width: 0.4,
             color: selectedColour,
           )),
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

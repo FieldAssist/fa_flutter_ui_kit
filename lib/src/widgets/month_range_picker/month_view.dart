@@ -100,7 +100,7 @@ class _MonthViewState extends State<MonthView> {
           // Month Indicator
           LayoutBuilder(builder: (context, cons) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
