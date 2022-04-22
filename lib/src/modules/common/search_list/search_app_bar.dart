@@ -16,20 +16,23 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? leading;
   final double? bottomHeight;
   final double? elevation;
+  final Widget? searchIcon;
 
-  const SearchAppBar(
-      {required this.enableSearch,
-      required this.appBarTitle,
-      required this.textEditingController,
-      this.searchBarTitle = 'Search',
-      this.bottom,
-      this.actions,
-      this.appBarSubTitle,
-      this.appBarColor,
-      this.textColor = Colors.black,
-      this.leading,
-      this.bottomHeight,
-      this.elevation});
+  const SearchAppBar({
+    required this.enableSearch,
+    required this.appBarTitle,
+    required this.textEditingController,
+    this.searchBarTitle = 'Search',
+    this.bottom,
+    this.actions,
+    this.appBarSubTitle,
+    this.appBarColor,
+    this.textColor = Colors.black,
+    this.leading,
+    this.bottomHeight,
+    this.elevation,
+    this.searchIcon,
+  });
 
   final _appbarHeight = 56.0;
 
@@ -133,16 +136,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       _isSearchActive = !_isSearchActive;
                     });
                   },
-                  child: CircleAvatar(
-                    radius: 18,
-                    backgroundColor: Colors.white,
-                    child: SvgAssetIcon(
-                      path: SvgIcons.search,
-                      height: 18,
-                      width: 18,
-                      color: Color(0xff0097cd),
-                    ),
-                  ),
+                  child: widget.searchIcon ??
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.white,
+                        child: SvgAssetIcon(
+                          path: SvgIcons.search,
+                          height: 18,
+                          width: 18,
+                          color: Color(0xff0097cd),
+                        ),
+                      ),
                 ),
               if (widget.actions != null) ...widget.actions!
             ],
