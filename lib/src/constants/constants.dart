@@ -16,6 +16,8 @@ class Constants {
 
   static const String underConstruction = "Under Construction";
 
+  static const String done = "Done";
+
   static const List<String> monthList = [
     'Jan',
     'Feb',
