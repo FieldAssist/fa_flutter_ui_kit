@@ -2,6 +2,8 @@ import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/month_range_picker/selected_month_indicator.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants/text_style.dart';
+
 class MonthView extends StatefulWidget {
   final Function(
     int startMonthNumber,
@@ -96,6 +98,7 @@ class _MonthViewState extends State<MonthView> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Month Indicator
           LayoutBuilder(builder: (context, cons) {
@@ -207,12 +210,6 @@ class _MonthViewState extends State<MonthView> {
                               // validate();
 
                             }
-                            int sMonth = calendarItem.indexWhere(
-                                (element) => element.month == startMonth());
-                            int eMonth = calendarItem.indexWhere(
-                                (element) => element.month == endMonth());
-                            widget.callback.call(sMonth + 1, eMonth + 1,
-                                startMonth(), endMonth(), selectedYear);
                           }
                         : null,
                     child: Container(
@@ -241,6 +238,24 @@ class _MonthViewState extends State<MonthView> {
               addRepaintBoundaries: false,
             ),
           ),
+          //Done Button
+          Container(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  int sMonth = calendarItem
+                      .indexWhere((element) => element.month == startMonth());
+                  int eMonth = calendarItem
+                      .indexWhere((element) => element.month == endMonth());
+                  widget.callback.call(sMonth + 1, eMonth + 1, startMonth(),
+                      endMonth(), selectedYear);
+                },
+                child: Text(Constants.done,
+                    style: TextStyle(color: widget.selectedColour)),
+              ),
+            ),
+          )
         ],
       ),
     );

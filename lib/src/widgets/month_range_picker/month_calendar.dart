@@ -25,7 +25,7 @@ class _MonthCalendarState extends State<MonthCalendar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 260,
+        height: 320,
         width: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
