@@ -12,7 +12,7 @@ class AnimatedLoader extends StatelessWidget {
     final width = MediaQuery.of(context).size.width * 0.7;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      height: 8,
+      height: height,
       width: width,
       decoration: BoxDecoration(
         // color: Theme.of(context).disabledColor,
