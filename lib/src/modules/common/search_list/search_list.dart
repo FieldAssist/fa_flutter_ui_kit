@@ -52,6 +52,7 @@ class SearchList<T> extends StatefulWidget {
     this.leading,
     this.autoFocus,
     this.type,
+    this.searchIcon,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -79,6 +80,7 @@ class SearchList<T> extends StatefulWidget {
   final Widget? leading;
   final SearchListType? type;
   final bool? autoFocus;
+  final Widget? searchIcon;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -216,6 +218,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
               searchBarTitle: widget.searchBarTitle ?? 'Search',
               appBarSubTitle: widget.appBarSubTitle,
               leading: widget.leading,
+              searchIcon: widget.searchIcon,
             ),
             body: _child,
             bottomNavigationBar: !widget.showBottomActionBar

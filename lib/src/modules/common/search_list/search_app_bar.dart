@@ -140,12 +140,13 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       CircleAvatar(
                         radius: 18,
                         backgroundColor: Colors.white,
-                        child: SvgAssetIcon(
-                          path: SvgIcons.search,
-                          height: 18,
-                          width: 18,
-                          color: Color(0xff0097cd),
-                        ),
+                        child: widget.searchIcon ??
+                            SvgAssetIcon(
+                              path: SvgIcons.search,
+                              height: 18,
+                              width: 18,
+                              color: Color(0xff0097cd),
+                            ),
                       ),
                 ),
               if (widget.actions != null) ...widget.actions!
