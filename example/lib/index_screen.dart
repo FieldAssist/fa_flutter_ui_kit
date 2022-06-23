@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_kit_sample_app/main.dart';
 import 'package:ui_kit_sample_app/widget_preview.dart';
 
 enum Position { bottom, center }
@@ -24,6 +22,14 @@ class IndexScreen extends StatelessWidget {
     WidgetData(
       widget: ShowMonthRangePicker(),
       name: "Month Range Picker",
+    ),
+    WidgetData(
+      widget: ShowCalendarDatePicker(),
+      name: "Date Picker",
+    ),
+    WidgetData(
+      widget: ShowRangeCalendarDatePicker(),
+      name: "Date Range Picker",
     ),
     WidgetData(
       widget: InternetNotAvailable(() {}),
@@ -181,9 +187,71 @@ class _ShowMonthRangePickerState extends State<ShowMonthRangePicker> {
           DialogUtils.showMonthRangePicker(
             pickedRange: (startMonth, endMonth, sMonthName, eMonthName, year) {
               log('$startMonth($sMonthName)-$year -- $endMonth($eMonthName)-$year');
+              Navigator.pop(context);
             },
             context: context,
           );
+        },
+      ),
+    );
+  }
+}
+
+class ShowCalendarDatePicker extends StatefulWidget {
+  const ShowCalendarDatePicker({Key? key}) : super(key: key);
+
+  @override
+  State<ShowCalendarDatePicker> createState() => _ShowCalendarDatePickerState();
+}
+
+class _ShowCalendarDatePickerState extends State<ShowCalendarDatePicker> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomActionButton(
+        title: "Press to Open Dialog Box",
+        onPressed: () {
+          DialogUtils.showCalendarDatePicker(
+              context: context,
+              onDateSelected: (date) {
+                Navigator.pop(context);
+                print(date);
+              },
+              startDate: DateTime.now(),
+              selectedDate: DateTime.now(),
+              dayDiff: 37);
+        },
+      ),
+    );
+  }
+}
+
+class ShowRangeCalendarDatePicker extends StatefulWidget {
+  const ShowRangeCalendarDatePicker({Key? key}) : super(key: key);
+
+  @override
+  State<ShowRangeCalendarDatePicker> createState() =>
+      _ShowRangeCalendarDatePickerState();
+}
+
+class _ShowRangeCalendarDatePickerState
+    extends State<ShowRangeCalendarDatePicker> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomActionButton(
+        title: "Press to Open Dialog Box",
+        onPressed: () {
+          DialogUtils.showRangeCalendarDatePicker(
+              context: context,
+              startDate: DateTime.now(),
+              endDate: DateTime.now(),
+              dayDiff: 365,
+              shiftEndDate: 90,
+              dateRangeSelected: (startDate, endDate) {
+                print('$startDate  $endDate');
+                Navigator.pop(context);
+              });
         },
       ),
     );

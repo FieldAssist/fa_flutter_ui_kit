@@ -2,8 +2,6 @@ import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/month_range_picker/selected_month_indicator.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/text_style.dart';
-
 class MonthView extends StatefulWidget {
   final Function(
     int startMonthNumber,

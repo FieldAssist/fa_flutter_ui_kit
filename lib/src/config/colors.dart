@@ -18,4 +18,10 @@ class AppColors {
   static Color kTagColor = Color(0xFFf9c446).withAlpha(200);
 
   static Color kCustomDarkBlue = Color(0xFF005486);
+
+  static Color kOutlinedIconButtonBackgroundColor = Color(0xffFAFAFA);
+
+  static Color kOutlinedIconButtonBorderColor = Color(0xffDCDCDC);
+
+  static Color colorGreenLight = Color(0xFF4BA42A);
 }

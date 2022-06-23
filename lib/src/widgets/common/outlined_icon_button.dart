@@ -1,4 +1,4 @@
-import 'package:fa_flutter_ui_kit/src/widgets/constants.dart';
+import 'package:fa_flutter_ui_kit/src/config/colors.dart';
 import 'package:flutter/material.dart';
 
 class OutlinedIconButton extends StatelessWidget {
@@ -12,10 +12,10 @@ class OutlinedIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      color: kOutlinedIconButtonBackgroundColor,
+      color: AppColors.kOutlinedIconButtonBackgroundColor,
       shape: RoundedRectangleBorder(
         side: BorderSide(
-          color: kOutlinedIconButtonBorderColor,
+          color: AppColors.kOutlinedIconButtonBorderColor,
           width: 2,
           style: BorderStyle.solid,
         ),
