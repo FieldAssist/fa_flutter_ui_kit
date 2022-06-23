@@ -33,6 +33,23 @@ class Constants {
     'Dec'
   ];
 
+  static const text_calendar = 'Calendar';
+
+  static const text_yesterday = 'Yesterday';
+
+  static const text_today = 'Today';
+
+  static const text_mtd = 'MTD';
+
+  static const text_last_three_month = 'Last 3 Months';
+
+  static const text_done = 'Done';
+
+  static const errorSomethingWrong500 = "Something went wrong! ErrorCode: 500";
+
   //KEYS:
   static const String kLastReatailingDoneKey = "LAST_DATE_FOR_RETAILING";
+
+  static const dialogHeight = 450.0;
+  static const dialogWidth = 450.0;
 }
