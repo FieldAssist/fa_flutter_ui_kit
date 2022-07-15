@@ -8,6 +8,7 @@ export 'my_circular_progress.dart';
 export 'no_items_found.dart';
 export 'responsive_container.dart';
 export 'search_text_field.dart';
+export 'search_widget.dart';
 export 'stream_loading_widget.dart';
 export 'company_logo.dart';
 export 'generic_dialog.dart';
