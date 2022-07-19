@@ -24,6 +24,8 @@ dependencies:
   geocoding: ^2.0.2
   google_maps_flutter: ^2.1.1
 
+  qr_code_scanner: ^1.0.0
+
   # Core
   fa_flutter_core:
     git:
