@@ -1,4 +1,5 @@
 export 'app_logo.dart';
+export 'animating_location_pin.dart';
 export 'bottom_action_button.dart';
 export 'progress_dialog/fa_progress_dialog.dart';
 export 'flavor/flavor.dart';
