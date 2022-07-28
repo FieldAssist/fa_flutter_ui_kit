@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/flick2know-mac/Documents/src/flutter
-FLUTTER_APPLICATION_PATH=/Users/flick2know-mac/Documents/fieldassist/fa_flutter_ui_kit/example
+FLUTTER_ROOT=/Users/raghavpawar/MobileDev/flutter
+FLUTTER_APPLICATION_PATH=/Users/raghavpawar/Desktop/Coding/Flutter/fa_flutter_ui_kit/example
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
