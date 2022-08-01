@@ -9,27 +9,61 @@ import 'package:flutter/material.dart';
 class StreamErrorWidget extends StatelessWidget {
   const StreamErrorWidget(
     this.streamError,
-    this.onTap,
-  );
+    this.onTap, {
+    this.userName,
+    this.userErpId = '--',
+    this.currentTime = '--',
+  });
 
   final dynamic streamError;
   final VoidCallback onTap;
+  final String? userName;
+  final String? userErpId;
+  final String? currentTime;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            getWidget(),
-            /*SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (userName != null)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Name - $userName',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.greenAccent,
+                  ),
+                ),
+                Text(
+                  'ErpId - $userErpId',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.greenAccent,
+                  ),
+                ),
+                Text(
+                  'Time - $currentTime',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.greenAccent,
+                  ),
+                ),
+              ],
+            ),
+          SizedBox(
+            height: 5,
+          ),
+          getWidget(),
+          /*SizedBox(
               height: 8,
             ),
             SupportErrorWidget(streamError),*/
-          ],
-        ),
+        ],
       ),
     );
   }
