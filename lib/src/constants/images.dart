@@ -17,4 +17,5 @@ class Images {
   static const superCommander = '$_basePath/super_commander.png';
   static const lateLogo = '$_basePath/late.svg';
   static const binoculars = "$_basePath/binoculars.png";
+  static const forbidden = "$_basePath/forbidden.png";
 }
