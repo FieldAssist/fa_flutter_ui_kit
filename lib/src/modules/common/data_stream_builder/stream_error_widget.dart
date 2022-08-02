@@ -13,6 +13,7 @@ class StreamErrorWidget extends StatelessWidget {
     this.userName,
     this.userErpId = '--',
     this.currentTime = '--',
+    this.isMtError = false,
   });
 
   final dynamic streamError;
@@ -20,6 +21,7 @@ class StreamErrorWidget extends StatelessWidget {
   final String? userName;
   final String? userErpId;
   final String? currentTime;
+  final bool isMtError;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,15 @@ class StreamErrorWidget extends StatelessWidget {
   }
 
   Widget getWidget() {
-    if (streamError is NoInternetError) {
+    if (isMtError && streamError is UnauthorizedError) {
+      return UnknownErrorWidget(
+        onTap,
+        message: streamError?.toString() ?? Constants.errorSomethingWentWrong,
+        errorImage: Images.forbidden,
+        showErrorSubtitle: false,
+        errorTitle: 'Forbidden!',
+      );
+    } else if (streamError is NoInternetError) {
       return InternetNotAvailable(onTap);
     } else if (streamError is ClientError || streamError is ServerError) {
       return ServerErrorWidget(streamError.toString(), onTap);
