@@ -8,11 +8,23 @@ class UnknownErrorWidget extends StatelessWidget {
     this.onTap, {
     this.pop = true,
     this.message,
+    this.errorImage = Images.superCommander,
+    this.errorTitle = 'Something is wrong.',
+    this.errorSubtitle = 'Supercommander FA is fixing it',
+    this.showErrorImage = true,
+    this.showErrorTitle = true,
+    this.showErrorSubtitle = true,
   });
 
   final VoidCallback onTap;
   final bool pop;
   final String? message;
+  final String errorImage;
+  final String errorTitle;
+  final String errorSubtitle;
+  final bool showErrorImage;
+  final bool showErrorTitle;
+  final bool showErrorSubtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,32 +34,38 @@ class UnknownErrorWidget extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                Images.superCommander,
-                width: MediaQuery.of(context).size.width * 0.5,
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Text(
-                'Something is wrong.',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
+              if (showErrorImage) ...[
+                Image.asset(
+                  errorImage,
+                  width: MediaQuery.of(context).size.width * 0.5,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Supercommander FA is fixing it',
-                style: TextStyle(
-                  fontSize: 15,
+                SizedBox(
+                  height: 50,
+                )
+              ],
+              if (showErrorTitle) ...[
+                Text(
+                  errorTitle,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 100,
-              ),
+                SizedBox(
+                  height: 20,
+                )
+              ],
+              if (showErrorSubtitle) ...[
+                Text(
+                  errorSubtitle,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                SizedBox(
+                  height: 100,
+                )
+              ],
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
