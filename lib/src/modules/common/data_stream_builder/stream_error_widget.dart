@@ -13,7 +13,6 @@ class StreamErrorWidget extends StatelessWidget {
     this.userName,
     this.userErpId = '--',
     this.currentTime = '--',
-    this.isMtError = false,
   });
 
   final dynamic streamError;
@@ -21,7 +20,6 @@ class StreamErrorWidget extends StatelessWidget {
   final String? userName;
   final String? userErpId;
   final String? currentTime;
-  final bool isMtError;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +69,7 @@ class StreamErrorWidget extends StatelessWidget {
   }
 
   Widget getWidget() {
-    if (isMtError && streamError is UnauthorizedError) {
+    if (streamError is UnauthorizedError) {
       return UnknownErrorWidget(
         onTap,
         message: streamError?.toString() ?? Constants.errorSomethingWentWrong,
