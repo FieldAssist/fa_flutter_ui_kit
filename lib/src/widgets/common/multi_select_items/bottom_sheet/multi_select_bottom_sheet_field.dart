@@ -373,6 +373,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
   _showBottomSheet(BuildContext ctx) async {
     await showModalBottomSheet(
         isDismissible: false,
+        enableDrag: false,
         backgroundColor: widget.backgroundColor,
         barrierColor: widget.barrierColor,
         shape: widget.shape ??
