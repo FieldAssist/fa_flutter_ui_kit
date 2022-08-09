@@ -144,7 +144,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
           child: Expanded(
             child: Text(
               item.label,
-              overflow: TextOverflow.ellipsis,
+              maxLines: 4,
               style: TextStyle(
                 color: colorator != null && colorator!(item.value) != null
                     ? textStyle != null
