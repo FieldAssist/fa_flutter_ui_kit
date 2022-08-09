@@ -11,3 +11,4 @@ export 'src/utils/index.dart';
 export 'src/widgets/index.dart';
 export 'src/app/index.dart';
 export 'src/core/location_info/index.dart';
+export 'src/widgets/common/multi_select_items/multi_select_flutter.dart';
