@@ -18,4 +18,7 @@ class Images {
   static const lateLogo = '$_basePath/late.svg';
   static const binoculars = "$_basePath/binoculars.png";
   static const forbidden = "$_basePath/forbidden.png";
+  static const appUpdate = "$_basePath/app_update.png";
+  static const noInternet = "$_basePath/no_internet.png";
+  static const proudPartnerLogo = "$_basePath/proud_partner.png";
 }
