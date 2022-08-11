@@ -22,6 +22,13 @@ class InternetNotAvailable extends StatelessWidget {
             SizedBox(
               height: 24,
             ),*/
+            Image.asset(
+              Images.noInternet,
+              width: MediaQuery.of(context).size.width * 0.5,
+            ),
+            SizedBox(
+              height: 100,
+            ),
             Text(
               Constants.errorInternetError,
               textAlign: TextAlign.center,
