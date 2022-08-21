@@ -95,19 +95,19 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Aashishm178>
-            <img src=https://avatars.githubusercontent.com/u/43882770?v=4 width="100;"  alt=Aashish Rathore/>
+        <a href=https://github.com/Sam1kumar>
+            <img src=https://avatars.githubusercontent.com/u/86761543?v=4 width="100;"  alt=Sameer Kumar/>
             <br />
-            <sub style="font-size:14px"><b>Aashish Rathore</b></sub>
+            <sub style="font-size:14px"><b>Sameer Kumar</b></sub>
         </a>
     </td>
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Sam1kumar>
-            <img src=https://avatars.githubusercontent.com/u/86761543?v=4 width="100;"  alt=Sameer Kumar/>
+        <a href=https://github.com/Aashishm178>
+            <img src=https://avatars.githubusercontent.com/u/43882770?v=4 width="100;"  alt=Aashish Rathore/>
             <br />
-            <sub style="font-size:14px"><b>Sameer Kumar</b></sub>
+            <sub style="font-size:14px"><b>Aashish Rathore</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
