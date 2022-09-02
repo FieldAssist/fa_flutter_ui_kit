@@ -12,6 +12,7 @@ class IntegratedSearchTextField extends StatefulWidget {
       this.elevation,
       this.autoFocus,
       required this.queryTextController,
+      this.showCrossbutton = false,
       Key? key})
       : super(key: key);
 
@@ -25,6 +26,7 @@ class IntegratedSearchTextField extends StatefulWidget {
   final TextEditingController queryTextController;
   final VoidCallback? onTap;
   final bool? autoFocus;
+  final bool showCrossbutton;
 
   // final SearchListBloc _searchListBloc=SearchListBloc();
 
@@ -62,6 +64,29 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
               vertical: 8,
             ),
             hintText: widget.searchFieldLabel,
+            suffixIcon: widget.showCrossbutton
+                ? Container(
+                    width: 18,
+                    height: 18,
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(9),
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                    child: InkWell(
+                      onTap: widget.queryTextController.clear,
+                      child: Icon(
+                        Icons.close,
+                        size: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : null,
+            suffixIconConstraints: BoxConstraints(
+              maxHeight: 38,
+              maxWidth: 38,
+            ),
             hintStyle: TextStyle(
               color: Colors.black26,
             ),

@@ -1,7 +1,6 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/search_app_bar.dart';
-import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
 import 'package:flutter/material.dart';
 
@@ -53,6 +52,7 @@ class SearchList<T> extends StatefulWidget {
     this.autoFocus,
     this.type,
     this.searchIcon,
+    this.showCrossbutton = false,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -81,6 +81,7 @@ class SearchList<T> extends StatefulWidget {
   final SearchListType? type;
   final bool? autoFocus;
   final Widget? searchIcon;
+  final bool showCrossbutton;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -201,6 +202,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
             bgColor: Color(0xffe5f8ff),
             queryTextController: searchQueryController!,
             searchFieldLabel: widget.searchBarTitle ?? 'Search',
+            showCrossbutton: widget.showCrossbutton,
           ),
           Expanded(child: _child),
         ],
