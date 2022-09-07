@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import '../../utils/log_utils.dart';
-
 class QrCodeScanner extends StatefulWidget {
   const QrCodeScanner({Key? key}) : super(key: key);
 
@@ -16,7 +14,7 @@ class _QrScannerState extends State<QrCodeScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
-  bool containsUPI = false;
+  String? parsedData;
   final upiRegx = RegExp("[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}");
 
   @override
@@ -48,9 +46,13 @@ class _QrScannerState extends State<QrCodeScanner> {
 
                 controller.scannedDataStream.listen((scanData) {
                   if (scanData.code != null) {
-                    setState(() {
-                      result = scanData;
-                    });
+                    if (upiRegx.hasMatch(scanData.code!)) {
+                      parsedData = _extractUPIID(scanData.code!);
+                    } else {
+                      parsedData = scanData.code!;
+                    }
+                    result = scanData;
+                    setState(() {});
                     controller.stopCamera();
                   }
                 });
@@ -62,7 +64,7 @@ class _QrScannerState extends State<QrCodeScanner> {
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(result!.code ?? ''),
+                child: Text(parsedData ?? ''),
               ),
             ),
           Expanded(
@@ -74,10 +76,14 @@ class _QrScannerState extends State<QrCodeScanner> {
               children: [
                 IconButton(
                   onPressed: () {
-                    setState(() {
-                      result = null;
-                    });
-                    controller?.resumeCamera();
+                    if (result != null) {
+                      setState(() {
+                        result = null;
+                      });
+                      controller?.resumeCamera();
+                    } else {
+                      Navigator.pop(context);
+                    }
                   },
                   color: Colors.red,
                   iconSize: 35,
@@ -101,11 +107,10 @@ class _QrScannerState extends State<QrCodeScanner> {
   void onPressSubmit() {
     if (result != null) {
       String? dataToReturn;
-      final scannedData = result!.code;
-      if (scannedData != null && upiRegx.hasMatch(scannedData)) {
-        dataToReturn = _extractUPIID(scannedData);
-      } else if (scannedData != null) {
-        dataToReturn = scannedData;
+      if (parsedData != null) {
+        dataToReturn = parsedData;
+      } else if (result!.code != null) {
+        dataToReturn = result!.code!;
       } else {
         throw Exception("Scanned data is empty");
       }
