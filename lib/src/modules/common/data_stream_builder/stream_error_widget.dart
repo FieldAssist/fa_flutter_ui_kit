@@ -13,6 +13,7 @@ class StreamErrorWidget extends StatelessWidget {
     this.userName,
     this.userErpId = '--',
     this.currentTime = '--',
+    this.currentAppVersion = '--',
   });
 
   final dynamic streamError;
@@ -20,6 +21,7 @@ class StreamErrorWidget extends StatelessWidget {
   final String? userName;
   final String? userErpId;
   final String? currentTime;
+  final String? currentAppVersion;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,13 @@ class StreamErrorWidget extends StatelessWidget {
                 ),
                 Text(
                   'Time - $currentTime',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.greenAccent,
+                  ),
+                ),
+                Text(
+                  'Version - $currentAppVersion',
                   style: TextStyle(
                     fontSize: 10,
                     color: Colors.greenAccent,
