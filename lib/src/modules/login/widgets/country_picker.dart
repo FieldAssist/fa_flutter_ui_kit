@@ -1,16 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
-import 'package:fa_flutter_ui_kit/src/data/models/country/country.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/no_items_found.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/search_text_field.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/stream_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rxdart/rxdart.dart';
 
 class CountryPicker extends StatefulWidget {
   const CountryPicker({

@@ -1,5 +1,6 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
+
 import '../../config/typedef.dart';
 import 'models.dart';
 
@@ -127,7 +128,7 @@ class _YearState extends State<Year> {
   final ScrollController _controller = ScrollController();
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.selectedDate!.month == widget.startDate!.month) {
         _controller.jumpTo(_controller.position.maxScrollExtent);
       }

@@ -1,7 +1,8 @@
+import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/src/constants/flares.dart';
 import 'package:fa_flutter_ui_kit/src/constants/images.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+
 import 'progress_dialog.dart';
 
 Widget _defaultProgressWidget = Image.asset(Images.doubleRingLoader);

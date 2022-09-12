@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../multi_select_flutter.dart';
 
 class MultiSelectChipField<V> extends FormField<List<V>> {
@@ -270,7 +271,7 @@ class __MultiSelectChipFieldViewState<V>
       _selectedValues.addAll(widget.initialValue!);
     }
     if (widget.scrollControl != null && widget.scroll)
-      WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToPosition());
+      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToPosition());
   }
 
   _scrollToPosition() {

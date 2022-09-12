@@ -10,19 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flare_flutter: ^3.0.2
-  cached_network_image: ^3.2.0
   mobile_number_picker: ^0.0.1+5
-  json_annotation: ^4.4.0
-  jiffy: ^5.0.0
-  flutter_svg: ^1.0.3
-  shimmer: ^2.0.0
-
-  #Location
-  geolocator: ^8.2.0
-  geocoding: ^2.0.2
-  google_maps_flutter: ^2.1.1
-
   qr_code_scanner: ^1.0.0
 
   # Core
