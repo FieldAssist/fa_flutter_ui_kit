@@ -1,5 +1,5 @@
+import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SvgAssetImage extends StatelessWidget {
   const SvgAssetImage({

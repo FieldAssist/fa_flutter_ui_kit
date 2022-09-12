@@ -4,14 +4,6 @@ import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
-
-import 'location_exception.dart';
-import 'models/location_data.dart';
 
 abstract class LocationInfo {
   LocationData get currentLocation;
