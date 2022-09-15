@@ -15,7 +15,7 @@ class _QrScannerState extends State<QrCodeScanner> {
   Barcode? result;
   QRViewController? controller;
   String? parsedData;
-  final upiRegx = RegExp("[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}");
+  final upiRegx = RegExp(r'[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}');
 
   @override
   void reassemble() {
@@ -120,7 +120,7 @@ class _QrScannerState extends State<QrCodeScanner> {
 
   String _extractUPIID(String scannedData) {
     final startIndex = scannedData.indexOf('?pa=') + 4;
-    final endIndex = scannedData.indexOf('&pn=');
+    final endIndex = scannedData.indexOf('&');
     return scannedData.substring(startIndex, endIndex);
   }
 
