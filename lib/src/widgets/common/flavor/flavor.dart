@@ -24,7 +24,7 @@ extension FlavorX on Flavor {
       case Flavor.DEBUG3:
         return "Debug 3";
       case Flavor.DEBUGA:
-        return "Debug 4";
+        return "Debug A";
     }
   }
 
