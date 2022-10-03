@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   mobile_number_picker: ^0.0.1+5
-  qr_code_scanner: ^1.0.0
+  qr_code_scanner: ^1.0.1
 
   # Core
   fa_flutter_core:
