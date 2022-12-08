@@ -17,6 +17,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double? bottomHeight;
   final double? elevation;
   final Widget? searchIcon;
+  final Color? searchBarColor;
 
   const SearchAppBar({
     required this.enableSearch,
@@ -32,6 +33,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.bottomHeight,
     this.elevation,
     this.searchIcon,
+    this.searchBarColor,
   });
 
   final _appbarHeight = 56.0;
@@ -53,6 +55,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
   Widget build(BuildContext context) {
     return _isSearchActive
         ? IntegratedSearchBar(
+            searchBarColor: widget.searchBarColor,
             elevation: widget.elevation ?? 4,
             backgroundColor: widget.appBarColor ?? Colors.white,
             leading: BackButton(

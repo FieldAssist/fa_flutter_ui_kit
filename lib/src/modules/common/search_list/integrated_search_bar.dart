@@ -17,6 +17,7 @@ class IntegratedSearchBar extends StatefulWidget
     this.backgroundColor,
     this.autoFocus,
     this.useIntegratedSearchTextField = false,
+    this.searchBarColor,
     Key? key,
   })  : preferredSize = Size.fromHeight(
           kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
@@ -36,6 +37,7 @@ class IntegratedSearchBar extends StatefulWidget
   final Color? backgroundColor;
   final bool? autoFocus;
   final bool useIntegratedSearchTextField;
+  final Color? searchBarColor;
 
   @override
   _IntegratedSearchBarState createState() => _IntegratedSearchBarState();
@@ -61,7 +63,7 @@ class _IntegratedSearchBarState extends State<IntegratedSearchBar> {
             borderRadius: BorderRadius.circular(24),
           ),
           clipBehavior: Clip.antiAlias,
-          color: Color(0xFFE5F8FF),
+          color: widget.searchBarColor ?? Color(0xFFE5F8FF),
           child: Row(
             children: <Widget>[
               Expanded(
