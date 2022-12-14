@@ -1,19 +1,3 @@
-/// Using [GenericDialog]:
-
-/// showDialog(
-///     context: context,
-///    builder: (_) => GenericDialog(
-///           title: 'Exit',
-///           subtitle: 'Are you sure?',
-///           rightActionText: 'Yes',
-///           rightButtonFunction: () {
-///               Right Action Here
-///           },
-///           leftButtonFunction: () {
-///               Left Action Here
-///           },
-///           leftActionText: 'No',
-///         ));
 import 'package:flutter/material.dart';
 
 class GenericDialog extends StatelessWidget {
@@ -25,7 +9,7 @@ class GenericDialog extends StatelessWidget {
     this.rightActionText,
     this.leftButtonFunction,
     this.rightButtonFunction,
-    this.subdescription,
+    this.subDescription,
     this.buttonBgColor = Colors.transparent,
     this.buttonTextBgColor,
     this.rightTextColor,
@@ -38,7 +22,7 @@ class GenericDialog extends StatelessWidget {
   final String? rightActionText;
   final Function? rightButtonFunction;
   final Function? leftButtonFunction;
-  final String? subdescription;
+  final String? subDescription;
   final Color buttonBgColor;
   final Color? buttonTextBgColor;
   final Color? rightTextColor;
@@ -63,12 +47,13 @@ class GenericDialog extends StatelessWidget {
             height: 20,
           ),
           Text(
-            subdescription ?? "",
+            subDescription ?? "",
             style: TextStyle(color: Colors.grey, fontSize: 12),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          if (subDescription?.isNotEmpty ?? false)
+            SizedBox(
+              height: 20,
+            ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -79,7 +64,7 @@ class GenericDialog extends StatelessWidget {
                     child: Text(
                       leftActionText!,
                       style: TextStyle(
-                        color: Colors.blue[600],
+                        color: buttonTextBgColor ?? Colors.blue[600],
                       ),
                     ),
                     style: ButtonStyle(
