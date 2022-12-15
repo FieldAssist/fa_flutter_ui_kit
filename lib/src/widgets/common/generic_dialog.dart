@@ -1,36 +1,20 @@
-import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
-
-/// Using [GenericDialog]:
-
-/// showDialog(
-///     context: context,
-///    builder: (_) => GenericDialog(
-///           title: 'Exit',
-///           subtitle: 'Are you sure?',
-///           rightActionText: 'Yes',
-///           rightButtonFunction: () {
-///               Right Action Here
-///           },
-///           leftButtonFunction: () {
-///               Left Action Here
-///           },
-///           leftActionText: 'No',
-///         ));
-
 import 'package:flutter/material.dart';
 
 class GenericDialog extends StatelessWidget {
-  const GenericDialog(
-      {Key? key,
-      this.title,
-      this.subtitle,
-      this.leftActionText,
-      this.rightActionText,
-      this.leftButtonFunction,
-      this.rightButtonFunction,
-      this.buttonBgColor = Colors.transparent,
-      this.buttonTextBgColor})
-      : super(key: key);
+  const GenericDialog({
+    Key? key,
+    this.title,
+    this.subtitle,
+    this.leftActionText,
+    this.rightActionText,
+    this.leftButtonFunction,
+    this.rightButtonFunction,
+    this.subDescription,
+    this.buttonBgColor = Colors.transparent,
+    this.buttonTextBgColor,
+    this.rightTextColor,
+    this.rightButtonBgColor,
+  }) : super(key: key);
 
   final String? title;
   final String? subtitle;
@@ -38,8 +22,11 @@ class GenericDialog extends StatelessWidget {
   final String? rightActionText;
   final Function? rightButtonFunction;
   final Function? leftButtonFunction;
+  final String? subDescription;
   final Color buttonBgColor;
   final Color? buttonTextBgColor;
+  final Color? rightTextColor;
+  final Color? rightButtonBgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +46,14 @@ class GenericDialog extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
+          Text(
+            subDescription ?? "",
+            style: TextStyle(color: Colors.grey, fontSize: 12),
+          ),
+          if (subDescription?.isNotEmpty ?? false)
+            SizedBox(
+              height: 20,
+            ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -66,9 +61,12 @@ class GenericDialog extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => leftButtonFunction?.call(),
-                    child: Text(leftActionText!,
-                        style: TextStyle(
-                            color: buttonTextBgColor ?? Colors.blue[600])),
+                    child: Text(
+                      leftActionText!,
+                      style: TextStyle(
+                        color: buttonTextBgColor ?? Colors.blue[600],
+                      ),
+                    ),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                         (states) => buttonBgColor,
@@ -82,17 +80,19 @@ class GenericDialog extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    rightButtonFunction?.call() ??
-                        () {
-                          Navigator.pop(context);
-                        };
+                    rightButtonFunction?.call() ?? Navigator.pop(context);
                   },
-                  child: Text(rightActionText ?? 'Okay',
-                      style: TextStyle(
-                          color: buttonTextBgColor ?? Colors.blue[600])),
+                  child: Text(
+                    rightActionText ?? 'Okay',
+                    style: TextStyle(
+                      color: rightTextColor ??
+                          buttonTextBgColor ??
+                          Colors.blue[600],
+                    ),
+                  ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (states) => buttonBgColor,
+                      (states) => rightButtonBgColor ?? buttonBgColor,
                     ),
                   ),
                 ),
