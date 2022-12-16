@@ -80,7 +80,11 @@ class GenericDialog extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    rightButtonFunction?.call() ?? Navigator.pop(context);
+                    if (rightButtonFunction != null) {
+                      rightButtonFunction?.call();
+                    } else {
+                      Navigator.pop(context);
+                    }
                   },
                   child: Text(
                     rightActionText ?? 'Okay',
