@@ -1,6 +1,4 @@
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
-import 'package:fa_flutter_ui_kit/src/constants/images.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/outlined_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class UnknownErrorWidget extends StatelessWidget {
@@ -14,6 +12,10 @@ class UnknownErrorWidget extends StatelessWidget {
     this.showErrorImage = true,
     this.showErrorTitle = true,
     this.showErrorSubtitle = true,
+    this.padding,
+    this.errorTitleStyle,
+    this.errorSubtitleStyle,
+    this.messageStyle,
   });
 
   final VoidCallback onTap;
@@ -25,92 +27,95 @@ class UnknownErrorWidget extends StatelessWidget {
   final bool showErrorImage;
   final bool showErrorTitle;
   final bool showErrorSubtitle;
+  final EdgeInsetsGeometry? padding;
+  final TextStyle? errorTitleStyle, errorSubtitleStyle, messageStyle;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      padding: padding,
+      alignment: Alignment.center,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (showErrorImage) ...[
-                Image.asset(
-                  errorImage,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                ),
-                SizedBox(
-                  height: 50,
-                )
-              ],
-              if (showErrorTitle) ...[
-                Text(
-                  errorTitle,
-                  style: TextStyle(
+          if (showErrorImage) ...[
+            Image.asset(
+              errorImage,
+              width: MediaQuery.of(context).size.width * 0.5,
+            ),
+            SizedBox(
+              height: 50,
+            )
+          ],
+          if (showErrorTitle) ...[
+            Text(
+              errorTitle,
+              style: errorTitleStyle ??
+                  TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                )
-              ],
-              if (showErrorSubtitle) ...[
-                Text(
-                  errorSubtitle,
-                  style: TextStyle(
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+          if (showErrorSubtitle) ...[
+            Text(
+              errorSubtitle,
+              style: errorSubtitleStyle ??
+                  TextStyle(
                     fontSize: 15,
                   ),
+            ),
+            SizedBox(
+              height: 100,
+            )
+          ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (pop)
+                Flexible(
+                  child: OutlinedIconButton(
+                    endAction: () {
+                      Navigator.pop(context);
+                    },
+                    endIcon: Icon(Icons.keyboard_arrow_left),
+                    endText: Text('GO BACK'),
+                  ),
                 ),
-                SizedBox(
-                  height: 100,
-                )
-              ],
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  if (pop)
-                    Flexible(
-                      child: OutlinedIconButton(
-                        endAction: () {
-                          Navigator.pop(context);
-                        },
-                        endIcon: Icon(Icons.keyboard_arrow_left),
-                        endText: Text('GO BACK'),
+              if (onTap != null)
+                Flexible(
+                  child: OutlinedIconButton(
+                    endAction: onTap,
+                    endIcon: Icon(
+                      Icons.replay,
+                      color: Colors.green,
+                    ),
+                    endText: Text(
+                      'RETRY',
+                      style: TextStyle(
+                        color: Colors.green,
                       ),
                     ),
-                  if (onTap != null)
-                    Flexible(
-                      child: OutlinedIconButton(
-                        endAction: onTap,
-                        endIcon: Icon(
-                          Icons.replay,
-                          color: Colors.green,
-                        ),
-                        endText: Text(
-                          'RETRY',
-                          style: TextStyle(
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              if (message != null)
-                SizedBox(
-                  height: 30,
-                ),
-              if (message != null)
-                Text(
-                  message ?? '',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 10,
                   ),
                 ),
             ],
           ),
+          if (message != null)
+            SizedBox(
+              height: 30,
+            ),
+          if (message != null)
+            Text(
+              message ?? '',
+              style: messageStyle ??
+                  TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 10,
+                  ),
+            ),
         ],
       ),
     );
