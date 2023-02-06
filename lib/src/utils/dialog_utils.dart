@@ -75,6 +75,8 @@ class DialogUtils {
     required DateTime startDate,
     required DateTime selectedDate,
     required int dayDiff,
+    double? rowCellHeight,
+    double? rowCellWidth,
   }) {
     showDialog(
         barrierColor: Colors.white.withOpacity(0.1),
@@ -94,6 +96,8 @@ class DialogUtils {
               ],
             ),
             content: Calendar(
+              cellWidth: rowCellWidth,
+              rowCellHeight: rowCellHeight,
               onDateSelected: onDateSelected,
               dayDiff: dayDiff,
               startDate: startDate,

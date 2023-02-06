@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../config/typedef.dart';
 import 'models.dart';
 
-const weekRowHeight = 32.0;
-const dayCellWidth = 28.0;
+var weekRowHeight = 32.0;
+var dayCellWidth = 28.0;
 const overheadSpace = 80.0;
 
 class DateChip extends StatelessWidget {
