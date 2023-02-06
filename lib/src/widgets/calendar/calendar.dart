@@ -1,13 +1,16 @@
 import 'package:fa_flutter_ui_kit/src/constants/constants.dart';
 import 'package:flutter/material.dart';
+
 import '../../config/typedef.dart';
 import 'widgets.dart';
 
-class Calendar extends StatelessWidget {
+class Calendar extends StatefulWidget {
   final DateTime startDate;
   final DateTime? selectedDate;
   final int? dayDiff;
   final DateSelected onDateSelected;
+  final double? rowCellHeight;
+  final double? cellWidth;
 
   const Calendar({
     Key? key,
@@ -15,7 +18,30 @@ class Calendar extends StatelessWidget {
     this.dayDiff,
     required this.onDateSelected,
     this.selectedDate,
+    this.cellWidth,
+    this.rowCellHeight,
   }) : super(key: key);
+
+  @override
+  State<Calendar> createState() => _CalendarState();
+}
+
+class _CalendarState extends State<Calendar> {
+  @override
+  void initState() {
+    super.initState();
+    updateCalendarConstraints();
+  }
+
+  void updateCalendarConstraints() {
+    if (widget.cellWidth != null) {
+      dayCellWidth = widget.cellWidth ?? 28;
+    }
+
+    if (widget.rowCellHeight != null) {
+      weekRowHeight = widget.rowCellHeight ?? 32;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +56,26 @@ class Calendar extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  onDateSelected(startDate.subtract(Duration(days: 1)));
+                  widget.onDateSelected(
+                      widget.startDate.subtract(Duration(days: 1)));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: DateChip(
                     text: Constants.text_yesterday,
-                    date: startDate.subtract(Duration(days: 1)),
+                    date: widget.startDate.subtract(Duration(days: 1)),
                   ),
                 ),
               ),
               InkWell(
                 onTap: () {
-                  onDateSelected(startDate);
+                  widget.onDateSelected(widget.startDate);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: DateChip(
                     text: Constants.text_today,
-                    date: startDate,
+                    date: widget.startDate,
                   ),
                 ),
               )
@@ -57,10 +84,10 @@ class Calendar extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Year.fromRange(
-              startDate,
-              dayDiff ?? 365,
-              onDateSelected,
-              selectedDate,
+              widget.startDate,
+              widget.dayDiff ?? 365,
+              widget.onDateSelected,
+              widget.selectedDate,
             ),
           )
         ],
