@@ -98,11 +98,12 @@ class _CountryPickerState extends State<CountryPicker> {
             list: _countryList,
           ),
           actions: [
-            FlatButton(
-              padding: EdgeInsets.symmetric(
+            OutlinedButton(
+              style: ButtonStyle(
+                  padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
                 vertical: 16,
                 horizontal: 24,
-              ),
+              ))),
               onPressed: () {
                 if (widget.onCancel == null) {
                   Navigator.of(context).pop();

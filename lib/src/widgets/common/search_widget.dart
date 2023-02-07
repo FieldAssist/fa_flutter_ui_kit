@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 
 typedef QueryListItemBuilder<T> = Widget Function(T item);
@@ -218,7 +217,7 @@ class MySingleChoiceSearchState<T> extends State<SearchWidget<T>> {
 
   void onTap() {
     final textFieldRenderBox = context.findRenderObject() as RenderBox?;
-    final overlay = Overlay.of(context)?.context.findRenderObject();
+    final overlay = Overlay.of(context).context.findRenderObject();
     final width = textFieldRenderBox!.paintBounds.size.width;
     final position = RelativeRect.fromRect(
       Rect.fromPoints(
@@ -296,7 +295,7 @@ class MySingleChoiceSearchState<T> extends State<SearchWidget<T>> {
         );
       },
     );
-    Overlay.of(context)?.insert(overlayEntry!);
+    Overlay.of(context).insert(overlayEntry!);
   }
 
   void onDeleteSelectedItem() {

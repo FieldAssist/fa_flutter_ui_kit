@@ -11,15 +11,18 @@ class OutlinedIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      color: AppColors.kOutlinedIconButtonBackgroundColor,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: AppColors.kOutlinedIconButtonBorderColor,
-          width: 2,
-          style: BorderStyle.solid,
-        ),
-        borderRadius: BorderRadius.circular(5),
+    return OutlinedButton(
+      style: ButtonStyle(
+        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+          side: BorderSide(
+            color: AppColors.kOutlinedIconButtonBorderColor,
+            width: 2,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: BorderRadius.circular(5),
+        )),
+        backgroundColor: MaterialStatePropertyAll(
+            AppColors.kOutlinedIconButtonBackgroundColor),
       ),
       onPressed: () => endAction.call(),
       child: Row(

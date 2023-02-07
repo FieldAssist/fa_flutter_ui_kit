@@ -206,7 +206,6 @@ class _MonthViewState extends State<MonthView> {
                               }
 
                               // validate();
-
                             }
                           }
                         : null,
