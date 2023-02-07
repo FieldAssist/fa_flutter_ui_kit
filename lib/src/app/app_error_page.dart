@@ -1,6 +1,4 @@
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/error/location_error.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/error/unknown_error.dart';
 import 'package:flutter/material.dart';
 
 class AppErrorPage extends StatelessWidget {

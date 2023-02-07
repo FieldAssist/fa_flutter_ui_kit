@@ -12,9 +12,10 @@ extension SnackBarTypeX on SnackBarType? {
 }
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
 
-  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
+  GlobalKey<ScaffoldMessengerState> get scaffoldKey => _scaffoldKey;
 
   void hideSnackBar() => _scaffoldKey.currentState!.removeCurrentSnackBar();
 

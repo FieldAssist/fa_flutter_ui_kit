@@ -26,7 +26,7 @@ class DialogUtils {
           content ?? '-',
         ),
         actions: <Widget>[
-          FlatButton(
+          OutlinedButton(
             onPressed: () {
               navKey.currentState!.pop();
             },

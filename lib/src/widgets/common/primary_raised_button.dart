@@ -19,15 +19,18 @@ class PrimaryRaisedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return icon != null
-        ? RaisedButton.icon(
+        ? OutlinedButton.icon(
+            style: ButtonStyle(
+              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4))),
+              backgroundColor: MaterialStatePropertyAll(color ?? Colors.blue),
+              textStyle:
+                  MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+            ),
             icon: Icon(
               icon,
               size: 20,
             ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            color: color ?? Colors.blue,
-            textColor: Colors.white,
             onPressed: onTap,
             label: Text(
               checkIfNotEmpty(text) ? text : 'NA',
@@ -37,11 +40,14 @@ class PrimaryRaisedButton extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           )
-        : RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            color: color ?? Colors.blue,
-            textColor: Colors.white,
+        : OutlinedButton(
+            style: ButtonStyle(
+              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4))),
+              backgroundColor: MaterialStatePropertyAll(color ?? Colors.blue),
+              textStyle:
+                  MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+            ),
             onPressed: onTap,
             child: Text(
               checkIfNotEmpty(text) ? text : 'NA',
