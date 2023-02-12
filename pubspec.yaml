@@ -17,13 +17,13 @@ dependencies:
   fa_flutter_core:
     git:
       url: https://github.com/FieldAssist/fa_flutter_core.git
-      ref: main
+      ref: main-downgrade
 
   # Api service
   fa_flutter_api_client:
     git:
       url: https://github.com/FieldAssist/fa_flutter_api_client.git
-      ref: main
+      ref: main-downgrade
 
 dev_dependencies:
   flutter_test:
