@@ -107,6 +107,10 @@ class IndexScreen extends StatelessWidget {
       widget: const ShowDialogBox(),
       name: "Progress Dialog",
     ),
+    WidgetData(
+      widget: const ShowSearchableDropDown(),
+      name: "Searchable DropDown",
+    ),
   ];
 
   @override
@@ -254,6 +258,37 @@ class _ShowRangeCalendarDatePickerState
               });
         },
       ),
+    );
+  }
+}
+
+class ShowSearchableDropDown extends StatefulWidget {
+  const ShowSearchableDropDown({Key? key}) : super(key: key);
+
+  @override
+  State<ShowSearchableDropDown> createState() => _ShowSearchableDropDownState();
+}
+
+class _ShowSearchableDropDownState extends State<ShowSearchableDropDown> {
+  final List<int> items = List.generate(1000, (index) => index + 1);
+  int? selectedItem;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SearchableDropDownWidget<int>(
+          items: items,
+          itemBuilder: (item) => ListTile(title: Text("$item")),
+          onSearch: (item, query) => item.toString().contains(query),
+          onSelect: (value) {
+            selectedItem = value;
+            setState(() {});
+          },
+          selectedItem: ListTile(
+            title: Text("${selectedItem ?? "Select"}"),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -26,7 +26,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     Duration duration = const Duration(milliseconds: 2000),
     VoidCallback? onActionPressed,
   }) {
-    _scaffoldKey.currentState!.removeCurrentSnackBar();
+    _scaffoldKey.currentState?.removeCurrentSnackBar();
 
     return _scaffoldKey.currentState!
         .showSnackBar(
