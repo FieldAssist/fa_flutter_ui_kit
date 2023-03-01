@@ -16,13 +16,13 @@ Official FA Flutter UI Kit.
 | ------------------------- | ------------------------- | ------------------------ |
 | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/linear_progress_indicator.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/no_items_found.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/outlined_icon_button.gif" width="250" height="500"> |
 
-|7.Responsive Container | 8. Stream Loading Widget | 9. Search Text Field |
+| 7. Responsive Container | 8. Stream Loading Widget | 9. Search Text Field |
 |  -------------------------- | ------------------------- | ------------------------- |
 | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/responsive_container.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/stream_loading.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/search_text_field.gif" width="250" height="500"> |
 
-| 10. Generic Dialog | 11. Progress Dialog | Searchable DropDown
-| ------------------------ | -------------------------- |
-| <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/generic_dialog.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/progress_dialog.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/dropdown.gif" width="250" height="500">
+| 10. Generic Dialog | 11. Progress Dialog | 12. Searchable DropDown |
+|  -------------------------- | ------------------------- | ------------------------- |
+| <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/generic_dialog.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/progress_dialog.gif" width="250" height="500"> | <img src="https://github.com/FieldAssist/fa_flutter_ui_kit/blob/main/assets/gif/dropdown.gif" width="250" height="500"> |
 
 
 ## Extra(s)
