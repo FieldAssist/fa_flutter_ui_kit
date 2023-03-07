@@ -14,6 +14,18 @@ class MultiSelectActions<T> {
     return selectedValues;
   }
 
+  List<MultiSelectItem<T>> clearPreviousSelectedItems(
+      List<MultiSelectItem<T>> items) {
+    List<MultiSelectItem<T>> _clearSelectedItems = [];
+
+    for (int i = 0; i < items.length; i++) {
+      items[i].selected = false;
+      _clearSelectedItems.add(items[i]);
+    }
+
+    return _clearSelectedItems;
+  }
+
   /// Pops the dialog from the navigation stack and returns the initially selected values.
   void onCancelTap(BuildContext ctx, List<T> initiallySelectedValues) {
     Navigator.pop(ctx, initiallySelectedValues);

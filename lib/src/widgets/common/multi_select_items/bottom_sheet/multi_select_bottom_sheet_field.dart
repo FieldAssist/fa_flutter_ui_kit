@@ -103,6 +103,9 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// Only Single item will be selected
+  final bool isSingleSelect;
+
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
@@ -141,6 +144,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.isSingleSelect = false,
     this.key,
     this.onSaved,
     this.validator,
@@ -185,6 +189,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 separateSelectedItems: separateSelectedItems,
                 shape: shape,
                 checkColor: checkColor,
+                isSingleSelect: isSingleSelect,
               );
               return _MultiSelectBottomSheetFieldView<V?>._withState(
                   view as _MultiSelectBottomSheetFieldView<V?>, state);
@@ -224,6 +229,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final TextStyle? searchHintStyle;
   final bool separateSelectedItems;
   final Color? checkColor;
+  final bool isSingleSelect;
   FormFieldState<List<V>>? state;
 
   _MultiSelectBottomSheetFieldView({
@@ -258,6 +264,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.isSingleSelect = false,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetField.
@@ -294,6 +301,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         selectedItemsTextStyle = field.selectedItemsTextStyle,
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
+        isSingleSelect = field.isSingleSelect,
         state = state;
 
   @override
@@ -414,6 +422,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             initialChildSize: widget.initialChildSize,
             minChildSize: widget.minChildSize,
             maxChildSize: widget.maxChildSize,
+            isSingleSelect: widget.isSingleSelect,
           );
         });
   }
