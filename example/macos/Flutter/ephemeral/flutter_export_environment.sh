@@ -1,12 +1,12 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/flick2know-mac/Documents/src/flutter"
-export "FLUTTER_APPLICATION_PATH=/Users/flick2know-mac/Documents/fieldassist/fa_flutter_ui_kit/example"
+export "FLUTTER_ROOT=/Users/vipinvishwakarma/develop/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/vipinvishwakarma/projects/fa/fa_flutter_ui_kit/example"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"
 export "FLUTTER_BUILD_NUMBER=1"
 export "DART_OBFUSCATION=false"
-export "TRACK_WIDGET_CREATION=false"
+export "TRACK_WIDGET_CREATION=true"
 export "TREE_SHAKE_ICONS=false"
 export "PACKAGE_CONFIG=.dart_tool/package_config.json"
