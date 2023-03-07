@@ -79,6 +79,9 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  /// Only Single item will be selected
+  final bool isSingleSelect;
+
   MultiSelectBottomSheet({
     required this.items,
     required this.initialValue,
@@ -104,6 +107,7 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
     this.selectedItemsTextStyle,
     this.separateSelectedItems = false,
     this.checkColor,
+    this.isSingleSelect = false,
   });
 
   @override
@@ -155,6 +159,11 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: (checked) {
           setState(() {
+            if (widget.isSingleSelect) {
+              _items = widget.clearPreviousSelectedItems(_items);
+              _selectedValues.clear();
+            }
+
             _selectedValues = widget.onItemCheckedChange(
                 _selectedValues, item.value, checked!);
 
