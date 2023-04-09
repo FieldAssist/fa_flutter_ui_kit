@@ -51,6 +51,7 @@ class SearchList<T> extends StatefulWidget {
     this.leading,
     this.autoFocus,
     this.type,
+    this.searchThroughMic = false,
     this.searchIcon,
     this.showCrossbutton = false,
     Key? key,
@@ -82,6 +83,7 @@ class SearchList<T> extends StatefulWidget {
   final bool? autoFocus;
   final Widget? searchIcon;
   final bool showCrossbutton;
+  final bool searchThroughMic;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -197,6 +199,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
         children: [
           IntegratedSearchTextField(
             elevation: 2,
+            searchThroughMic: widget.searchThroughMic,
             autoFocus: widget.autoFocus ?? true,
             prefixIcon: Icon(Icons.search),
             bgColor: Color(0xffe5f8ff),

@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   mobile_number_picker: ^0.0.1+5
   qr_code_scanner: ^1.0.1
+  speech_to_text: ^6.1.1
+  flutter_tts: ^3.6.3
 
   # Core
   fa_flutter_core:
