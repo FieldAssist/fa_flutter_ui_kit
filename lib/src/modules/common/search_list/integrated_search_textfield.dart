@@ -105,7 +105,7 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
             if (widget.searchThroughMic)
               IconButton(
                 onPressed: () async {
-                  _speakPrompt();
+                  await _speakPrompt();
                   await Future.delayed(
                     const Duration(seconds: 1),
                   );
@@ -132,7 +132,7 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
     );
   }
 
-  void _speakPrompt() async {
+  Future<void> _speakPrompt() async {
     await _flutterTts.speak('Please speak now.');
   }
 }
