@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class IntegratedSearchTextField extends StatefulWidget {
   const IntegratedSearchTextField(
@@ -8,6 +10,7 @@ class IntegratedSearchTextField extends StatefulWidget {
       this.onSubmitted,
       this.prefixIcon,
       this.bgColor,
+      this.searchThroughMic = false,
       this.onTap,
       this.elevation,
       this.autoFocus,
@@ -27,6 +30,7 @@ class IntegratedSearchTextField extends StatefulWidget {
   final VoidCallback? onTap;
   final bool? autoFocus;
   final bool showCrossbutton;
+  final bool searchThroughMic;
 
   // final SearchListBloc _searchListBloc=SearchListBloc();
 
@@ -36,63 +40,99 @@ class IntegratedSearchTextField extends StatefulWidget {
 }
 
 class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
+  stt.SpeechToText speech = stt.SpeechToText();
+  String recognizedText = '';
+  FlutterTts _flutterTts = FlutterTts();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
         elevation: widget.elevation ?? 0,
-        child: TextField(
-          onTap: widget.onTap,
-          controller: widget.queryTextController,
-          style: TextStyle(color: Colors.black),
-          autofocus: widget.autoFocus ?? true,
-          textInputAction: widget.textInputAction,
-          keyboardType: widget.keyboardType,
-          onSubmitted: widget.onSubmitted,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: widget.bgColor,
-            prefixIcon: widget.prefixIcon,
-            isDense: true,
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(5),
+        child: Row(
+          children: <Widget>[
+            TextField(
+              onTap: widget.onTap,
+              controller: widget.queryTextController,
+              style: TextStyle(color: Colors.black),
+              autofocus: widget.autoFocus ?? true,
+              textInputAction: widget.textInputAction,
+              keyboardType: widget.keyboardType,
+              onSubmitted: widget.onSubmitted,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: widget.bgColor,
+                prefixIcon: widget.prefixIcon,
+                isDense: true,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                hintText: widget.searchFieldLabel,
+                suffixIcon: widget.showCrossbutton
+                    ? Container(
+                        width: 18,
+                        height: 18,
+                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(9),
+                          color: Colors.black.withOpacity(0.4),
+                        ),
+                        child: InkWell(
+                          onTap: widget.queryTextController.clear,
+                          child: Icon(
+                            Icons.close,
+                            size: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    : null,
+                suffixIconConstraints: BoxConstraints(
+                  maxHeight: 38,
+                  maxWidth: 38,
+                ),
+                hintStyle: TextStyle(
+                  color: Colors.black26,
+                ),
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            hintText: widget.searchFieldLabel,
-            suffixIcon: widget.showCrossbutton
-                ? Container(
-                    width: 18,
-                    height: 18,
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(9),
-                      color: Colors.black.withOpacity(0.4),
-                    ),
-                    child: InkWell(
-                      onTap: widget.queryTextController.clear,
-                      child: Icon(
-                        Icons.close,
-                        size: 12,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                : null,
-            suffixIconConstraints: BoxConstraints(
-              maxHeight: 38,
-              maxWidth: 38,
-            ),
-            hintStyle: TextStyle(
-              color: Colors.black26,
-            ),
-          ),
+            if (widget.searchThroughMic)
+              IconButton(
+                onPressed: () async {
+                  await _speakPrompt();
+                  await Future.delayed(
+                    const Duration(seconds: 1),
+                  );
+                  var available = await speech.initialize();
+                  if (available) {
+                    await speech.listen(
+                      onResult: (result) {
+                        setState(() {
+                          recognizedText = result.recognizedWords;
+                          widget.queryTextController.text = recognizedText;
+                        });
+                        if (result.finalResult) {
+                          speech.stop();
+                        }
+                      },
+                    );
+                  }
+                },
+                icon: Icon(Icons.mic),
+              ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> _speakPrompt() async {
+    await _flutterTts.speak('Please speak now.');
   }
 }
