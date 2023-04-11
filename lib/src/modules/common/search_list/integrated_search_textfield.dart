@@ -73,6 +73,24 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
             hintText: widget.searchFieldLabel,
             suffixIcon: Row(
               children: <Widget>[
+                if (widget.showCrossbutton)
+                  Container(
+                    width: 18,
+                    height: 18,
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(9),
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                    child: InkWell(
+                      onTap: widget.queryTextController.clear,
+                      child: Icon(
+                        Icons.close,
+                        size: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 if (widget.searchThroughMic)
                   SizedBox(
                     width: 20,
@@ -100,24 +118,6 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
                         }
                       },
                       icon: Icon(Icons.mic),
-                    ),
-                  ),
-                if (widget.showCrossbutton)
-                  Container(
-                    width: 18,
-                    height: 18,
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(9),
-                      color: Colors.black.withOpacity(0.4),
-                    ),
-                    child: InkWell(
-                      onTap: widget.queryTextController.clear,
-                      child: Icon(
-                        Icons.close,
-                        size: 12,
-                        color: Colors.white,
-                      ),
                     ),
                   ),
               ],
