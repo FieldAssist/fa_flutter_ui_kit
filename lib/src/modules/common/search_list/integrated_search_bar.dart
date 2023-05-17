@@ -1,4 +1,3 @@
-import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:flutter/material.dart';
 
 class IntegratedSearchBar extends StatefulWidget
@@ -68,15 +67,17 @@ class _IntegratedSearchBarState extends State<IntegratedSearchBar> {
             children: <Widget>[
               Expanded(
                 child: (widget.useIntegratedSearchTextField)
-                    ? IntegratedSearchTextField(
-                        searchFieldLabel: widget.searchFieldLabel,
-                        autoFocus: widget.autoFocus ?? true,
-                        textInputAction: widget.textInputAction,
-                        queryTextController: widget.queryTextController,
-                        keyboardType: widget.keyboardType,
-                        onSubmitted: widget.onSubmitted,
-                        onTap: widget.onTap,
-                      )
+                    ? Container()
+
+                    //  IntegratedSearchTextField(
+                    //     searchFieldLabel: widget.searchFieldLabel,
+                    //     autoFocus: widget.autoFocus ?? true,
+                    //     textInputAction: widget.textInputAction,
+                    //     queryTextController: widget.queryTextController,
+                    //     keyboardType: widget.keyboardType,
+                    //     onSubmitted: widget.onSubmitted,
+                    //     onTap: widget.onTap,
+                    //   )
                     : TextField(
                         onTap: widget.onTap,
                         controller: widget.queryTextController,

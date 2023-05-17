@@ -197,16 +197,16 @@ class _SearchListState<T> extends State<SearchList<T>> {
     if (widget.type == SearchListType.SearchBarInBody)
       return Column(
         children: [
-          IntegratedSearchTextField(
-            elevation: 2,
-            searchThroughMic: widget.searchThroughMic,
-            autoFocus: widget.autoFocus ?? true,
-            prefixIcon: Icon(Icons.search),
-            bgColor: Color(0xffe5f8ff),
-            queryTextController: searchQueryController!,
-            searchFieldLabel: widget.searchBarTitle ?? 'Search',
-            showCrossbutton: widget.showCrossbutton,
-          ),
+          // IntegratedSearchTextField(
+          //   elevation: 2,
+          //   searchThroughMic: widget.searchThroughMic,
+          //   autoFocus: widget.autoFocus ?? true,
+          //   prefixIcon: Icon(Icons.search),
+          //   bgColor: Color(0xffe5f8ff),
+          //   queryTextController: searchQueryController!,
+          //   searchFieldLabel: widget.searchBarTitle ?? 'Search',
+          //   showCrossbutton: widget.showCrossbutton,
+          // ),
           Expanded(child: _child),
         ],
       );
