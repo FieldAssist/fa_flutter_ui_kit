@@ -6,6 +6,8 @@ import 'package:fa_flutter_ui_kit/src/widgets/common/error/unknown_error.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/internet_not_available.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/location_info/location_exception.dart';
+
 class StreamErrorWidget extends StatelessWidget {
   const StreamErrorWidget(
     this.streamError,
