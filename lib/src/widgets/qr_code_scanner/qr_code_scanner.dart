@@ -37,10 +37,18 @@ class _QrScannerState extends State<QrCodeScanner> {
             child: QRView(
               key: qrKey,
               cameraFacing: CameraFacing.back,
+              overlay: QrScannerOverlayShape(
+                borderRadius: 12,
+                borderColor: Colors.green,
+                borderWidth: 10,
+                cutOutSize: 350,
+              ),
               onQRViewCreated: (controller) {
-                setState(() {
-                  this.controller = controller;
-                });
+                if (this.controller == null) {
+                  setState(() {
+                    this.controller = controller;
+                  });
+                }
 
                 controller.resumeCamera(); //BUG
 
