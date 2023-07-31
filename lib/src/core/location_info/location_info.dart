@@ -130,8 +130,7 @@ class LocationInfoImpl implements LocationInfo {
   Future<LocationData> _parseLocation(Position location) async {
     final String? _address = await getAddress(location);
 
-    /// TODO(@singhtaranjeet): make a single to create placemark data and
-    /// create address from that only.
+    /// TODO(@singhtaranjeet): make a single call to get placemarkData and use it to get address.
     final placemark = await getPlacemarkDataFromCoordinates(location);
     final locationData = LocationData(
       latitude: location.latitude,
