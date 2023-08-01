@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
+import 'package:fa_flutter_ui_kit/src/core/location_info/models/place_mark_data/place_mark_data.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -127,7 +128,7 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   Future<LocationData> _parseLocation(Position location) async {
-    final String? _address = await getAddress(location);
+    final placemark = await getPlacemarkDataFromCoordinates(location);
     final locationData = LocationData(
       latitude: location.latitude,
       longitude: location.longitude,
@@ -136,7 +137,8 @@ class LocationInfoImpl implements LocationInfo {
       captureLocationTime: DateTimeUtils.getCurrentISOTimeString(
           dateTime: location.timestamp!.toLocal()),
       source: isAndroid ? 'Android' : (isIOS ? 'iOS' : 'Unknown'),
-      capturedAddress: _address ?? 'NA',
+      capturedAddress: placemark.getFullAddress(),
+      placeMarkData: placemark,
     );
     return locationData;
   }
@@ -212,39 +214,22 @@ class LocationInfoImpl implements LocationInfo {
   Future<String> getAddress(Position location) async {
     String _address = "";
     try {
-      final placemark = await placemarkFromCoordinates(
-        location.latitude,
-        location.longitude,
-      );
-      if (checkIfListIsNotEmpty(placemark)) {
-        final list = <String?>[];
-        if (checkIfNotEmpty(placemark[0].name)) {
-          list.add(placemark[0].name);
-        }
-        if (checkIfNotEmpty(placemark[0].subLocality)) {
-          list.add(placemark[0].subLocality);
-        }
-        if (checkIfNotEmpty(placemark[0].locality)) {
-          list.add(placemark[0].locality);
-        }
-        if (checkIfNotEmpty(placemark[0].subAdministrativeArea)) {
-          list.add(placemark[0].subAdministrativeArea);
-        }
-        if (checkIfNotEmpty(placemark[0].administrativeArea)) {
-          list.add(placemark[0].administrativeArea);
-        }
-        if (checkIfNotEmpty(placemark[0].postalCode)) {
-          list.add(placemark[0].postalCode);
-        }
-        if (checkIfNotEmpty(placemark[0].country)) {
-          list.add(placemark[0].country);
-        }
-        _address = list.join(', ');
-      }
+      final placemark = await getPlacemarkDataFromCoordinates(location);
+
+      _address = placemark.getFullAddress();
     } catch (e, s) {
       logger.e(e, s);
     }
     return checkIfNotEmpty(_address) ? _address : 'NA';
+  }
+
+  Future<PlaceMarkData> getPlacemarkDataFromCoordinates(
+      Position location) async {
+    final placemark = await placemarkFromCoordinates(
+      location.latitude,
+      location.longitude,
+    );
+    return PlaceMarkData.fromPlacemark(placemark[0]);
   }
 
   @override

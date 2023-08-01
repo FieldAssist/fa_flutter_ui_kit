@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/src/core/location_info/models/place_mark_data/place_mark_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'location_data.freezed.dart';
@@ -10,6 +11,7 @@ abstract class LocationData with _$LocationData {
     @JsonKey(name: 'Latitude', required: true) final double? latitude,
     @JsonKey(defaultValue: 0) final int? accuracy,
     @JsonKey(defaultValue: "NA") final String? source,
+    final PlaceMarkData? placeMarkData,
     final int? captureTime,
     final String? capturedAddress,
     final String? captureLocationTime,

@@ -16,6 +16,9 @@ _$_LocationData _$$_LocationDataFromJson(Map<String, dynamic> json) {
     latitude: (json['Latitude'] as num?)?.toDouble(),
     accuracy: json['accuracy'] as int? ?? 0,
     source: json['source'] as String? ?? 'NA',
+    placeMarkData: json['placeMarkData'] == null
+        ? null
+        : PlaceMarkData.fromJson(json['placeMarkData'] as Map<String, dynamic>),
     captureTime: json['captureTime'] as int?,
     capturedAddress: json['capturedAddress'] as String?,
     captureLocationTime: json['captureLocationTime'] as String?,
@@ -28,6 +31,7 @@ Map<String, dynamic> _$$_LocationDataToJson(_$_LocationData instance) =>
       'Latitude': instance.latitude,
       'accuracy': instance.accuracy,
       'source': instance.source,
+      'placeMarkData': instance.placeMarkData,
       'captureTime': instance.captureTime,
       'capturedAddress': instance.capturedAddress,
       'captureLocationTime': instance.captureLocationTime,

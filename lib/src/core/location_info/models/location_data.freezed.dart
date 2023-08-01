@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'location_data.dart';
 
@@ -11,42 +12,11 @@ part of 'location_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 LocationData _$LocationDataFromJson(Map<String, dynamic> json) {
   return _LocationData.fromJson(json);
 }
-
-/// @nodoc
-class _$LocationDataTearOff {
-  const _$LocationDataTearOff();
-
-  _LocationData call(
-      {@JsonKey(name: 'Longitude', required: true) double? longitude,
-      @JsonKey(name: 'Latitude', required: true) double? latitude,
-      @JsonKey(defaultValue: 0) int? accuracy,
-      @JsonKey(defaultValue: "NA") String? source,
-      int? captureTime,
-      String? capturedAddress,
-      String? captureLocationTime}) {
-    return _LocationData(
-      longitude: longitude,
-      latitude: latitude,
-      accuracy: accuracy,
-      source: source,
-      captureTime: captureTime,
-      capturedAddress: capturedAddress,
-      captureLocationTime: captureLocationTime,
-    );
-  }
-
-  LocationData fromJson(Map<String, Object> json) {
-    return LocationData.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $LocationData = _$LocationDataTearOff();
 
 /// @nodoc
 mixin _$LocationData {
@@ -58,6 +28,7 @@ mixin _$LocationData {
   int? get accuracy => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: "NA")
   String? get source => throw _privateConstructorUsedError;
+  PlaceMarkData? get placeMarkData => throw _privateConstructorUsedError;
   int? get captureTime => throw _privateConstructorUsedError;
   String? get capturedAddress => throw _privateConstructorUsedError;
   String? get captureLocationTime => throw _privateConstructorUsedError;
@@ -72,131 +43,164 @@ mixin _$LocationData {
 abstract class $LocationDataCopyWith<$Res> {
   factory $LocationDataCopyWith(
           LocationData value, $Res Function(LocationData) then) =
-      _$LocationDataCopyWithImpl<$Res>;
+      _$LocationDataCopyWithImpl<$Res, LocationData>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'Longitude', required: true) double? longitude,
       @JsonKey(name: 'Latitude', required: true) double? latitude,
       @JsonKey(defaultValue: 0) int? accuracy,
       @JsonKey(defaultValue: "NA") String? source,
+      PlaceMarkData? placeMarkData,
       int? captureTime,
       String? capturedAddress,
       String? captureLocationTime});
+
+  $PlaceMarkDataCopyWith<$Res>? get placeMarkData;
 }
 
 /// @nodoc
-class _$LocationDataCopyWithImpl<$Res> implements $LocationDataCopyWith<$Res> {
+class _$LocationDataCopyWithImpl<$Res, $Val extends LocationData>
+    implements $LocationDataCopyWith<$Res> {
   _$LocationDataCopyWithImpl(this._value, this._then);
 
-  final LocationData _value;
   // ignore: unused_field
-  final $Res Function(LocationData) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? longitude = freezed,
     Object? latitude = freezed,
     Object? accuracy = freezed,
     Object? source = freezed,
+    Object? placeMarkData = freezed,
     Object? captureTime = freezed,
     Object? capturedAddress = freezed,
     Object? captureLocationTime = freezed,
   }) {
     return _then(_value.copyWith(
-      longitude: longitude == freezed
+      longitude: freezed == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
-      latitude: latitude == freezed
+      latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
               as double?,
-      accuracy: accuracy == freezed
+      accuracy: freezed == accuracy
           ? _value.accuracy
           : accuracy // ignore: cast_nullable_to_non_nullable
               as int?,
-      source: source == freezed
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String?,
-      captureTime: captureTime == freezed
+      placeMarkData: freezed == placeMarkData
+          ? _value.placeMarkData
+          : placeMarkData // ignore: cast_nullable_to_non_nullable
+              as PlaceMarkData?,
+      captureTime: freezed == captureTime
           ? _value.captureTime
           : captureTime // ignore: cast_nullable_to_non_nullable
               as int?,
-      capturedAddress: capturedAddress == freezed
+      capturedAddress: freezed == capturedAddress
           ? _value.capturedAddress
           : capturedAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      captureLocationTime: captureLocationTime == freezed
+      captureLocationTime: freezed == captureLocationTime
           ? _value.captureLocationTime
           : captureLocationTime // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PlaceMarkDataCopyWith<$Res>? get placeMarkData {
+    if (_value.placeMarkData == null) {
+      return null;
+    }
+
+    return $PlaceMarkDataCopyWith<$Res>(_value.placeMarkData!, (value) {
+      return _then(_value.copyWith(placeMarkData: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$LocationDataCopyWith<$Res>
+abstract class _$$_LocationDataCopyWith<$Res>
     implements $LocationDataCopyWith<$Res> {
-  factory _$LocationDataCopyWith(
-          _LocationData value, $Res Function(_LocationData) then) =
-      __$LocationDataCopyWithImpl<$Res>;
+  factory _$$_LocationDataCopyWith(
+          _$_LocationData value, $Res Function(_$_LocationData) then) =
+      __$$_LocationDataCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'Longitude', required: true) double? longitude,
       @JsonKey(name: 'Latitude', required: true) double? latitude,
       @JsonKey(defaultValue: 0) int? accuracy,
       @JsonKey(defaultValue: "NA") String? source,
+      PlaceMarkData? placeMarkData,
       int? captureTime,
       String? capturedAddress,
       String? captureLocationTime});
+
+  @override
+  $PlaceMarkDataCopyWith<$Res>? get placeMarkData;
 }
 
 /// @nodoc
-class __$LocationDataCopyWithImpl<$Res> extends _$LocationDataCopyWithImpl<$Res>
-    implements _$LocationDataCopyWith<$Res> {
-  __$LocationDataCopyWithImpl(
-      _LocationData _value, $Res Function(_LocationData) _then)
-      : super(_value, (v) => _then(v as _LocationData));
+class __$$_LocationDataCopyWithImpl<$Res>
+    extends _$LocationDataCopyWithImpl<$Res, _$_LocationData>
+    implements _$$_LocationDataCopyWith<$Res> {
+  __$$_LocationDataCopyWithImpl(
+      _$_LocationData _value, $Res Function(_$_LocationData) _then)
+      : super(_value, _then);
 
-  @override
-  _LocationData get _value => super._value as _LocationData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? longitude = freezed,
     Object? latitude = freezed,
     Object? accuracy = freezed,
     Object? source = freezed,
+    Object? placeMarkData = freezed,
     Object? captureTime = freezed,
     Object? capturedAddress = freezed,
     Object? captureLocationTime = freezed,
   }) {
-    return _then(_LocationData(
-      longitude: longitude == freezed
+    return _then(_$_LocationData(
+      longitude: freezed == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
-      latitude: latitude == freezed
+      latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
               as double?,
-      accuracy: accuracy == freezed
+      accuracy: freezed == accuracy
           ? _value.accuracy
           : accuracy // ignore: cast_nullable_to_non_nullable
               as int?,
-      source: source == freezed
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String?,
-      captureTime: captureTime == freezed
+      placeMarkData: freezed == placeMarkData
+          ? _value.placeMarkData
+          : placeMarkData // ignore: cast_nullable_to_non_nullable
+              as PlaceMarkData?,
+      captureTime: freezed == captureTime
           ? _value.captureTime
           : captureTime // ignore: cast_nullable_to_non_nullable
               as int?,
-      capturedAddress: capturedAddress == freezed
+      capturedAddress: freezed == capturedAddress
           ? _value.capturedAddress
           : capturedAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      captureLocationTime: captureLocationTime == freezed
+      captureLocationTime: freezed == captureLocationTime
           ? _value.captureLocationTime
           : captureLocationTime // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -212,6 +216,7 @@ class _$_LocationData implements _LocationData {
       @JsonKey(name: 'Latitude', required: true) this.latitude,
       @JsonKey(defaultValue: 0) this.accuracy,
       @JsonKey(defaultValue: "NA") this.source,
+      this.placeMarkData,
       this.captureTime,
       this.capturedAddress,
       this.captureLocationTime});
@@ -232,6 +237,8 @@ class _$_LocationData implements _LocationData {
   @JsonKey(defaultValue: "NA")
   final String? source;
   @override
+  final PlaceMarkData? placeMarkData;
+  @override
   final int? captureTime;
   @override
   final String? capturedAddress;
@@ -240,90 +247,86 @@ class _$_LocationData implements _LocationData {
 
   @override
   String toString() {
-    return 'LocationData(longitude: $longitude, latitude: $latitude, accuracy: $accuracy, source: $source, captureTime: $captureTime, capturedAddress: $capturedAddress, captureLocationTime: $captureLocationTime)';
+    return 'LocationData(longitude: $longitude, latitude: $latitude, accuracy: $accuracy, source: $source, placeMarkData: $placeMarkData, captureTime: $captureTime, capturedAddress: $capturedAddress, captureLocationTime: $captureLocationTime)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _LocationData &&
+        (other.runtimeType == runtimeType &&
+            other is _$_LocationData &&
             (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.longitude, longitude)) &&
+                other.longitude == longitude) &&
             (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.latitude, latitude)) &&
+                other.latitude == latitude) &&
             (identical(other.accuracy, accuracy) ||
-                const DeepCollectionEquality()
-                    .equals(other.accuracy, accuracy)) &&
-            (identical(other.source, source) ||
-                const DeepCollectionEquality().equals(other.source, source)) &&
+                other.accuracy == accuracy) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.placeMarkData, placeMarkData) ||
+                other.placeMarkData == placeMarkData) &&
             (identical(other.captureTime, captureTime) ||
-                const DeepCollectionEquality()
-                    .equals(other.captureTime, captureTime)) &&
+                other.captureTime == captureTime) &&
             (identical(other.capturedAddress, capturedAddress) ||
-                const DeepCollectionEquality()
-                    .equals(other.capturedAddress, capturedAddress)) &&
+                other.capturedAddress == capturedAddress) &&
             (identical(other.captureLocationTime, captureLocationTime) ||
-                const DeepCollectionEquality()
-                    .equals(other.captureLocationTime, captureLocationTime)));
+                other.captureLocationTime == captureLocationTime));
   }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(longitude) ^
-      const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(accuracy) ^
-      const DeepCollectionEquality().hash(source) ^
-      const DeepCollectionEquality().hash(captureTime) ^
-      const DeepCollectionEquality().hash(capturedAddress) ^
-      const DeepCollectionEquality().hash(captureLocationTime);
 
   @JsonKey(ignore: true)
   @override
-  _$LocationDataCopyWith<_LocationData> get copyWith =>
-      __$LocationDataCopyWithImpl<_LocationData>(this, _$identity);
+  int get hashCode => Object.hash(runtimeType, longitude, latitude, accuracy,
+      source, placeMarkData, captureTime, capturedAddress, captureLocationTime);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_LocationDataCopyWith<_$_LocationData> get copyWith =>
+      __$$_LocationDataCopyWithImpl<_$_LocationData>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_LocationDataToJson(this);
+    return _$$_LocationDataToJson(
+      this,
+    );
   }
 }
 
 abstract class _LocationData implements LocationData {
   factory _LocationData(
-      {@JsonKey(name: 'Longitude', required: true) double? longitude,
-      @JsonKey(name: 'Latitude', required: true) double? latitude,
-      @JsonKey(defaultValue: 0) int? accuracy,
-      @JsonKey(defaultValue: "NA") String? source,
-      int? captureTime,
-      String? capturedAddress,
-      String? captureLocationTime}) = _$_LocationData;
+      {@JsonKey(name: 'Longitude', required: true) final double? longitude,
+      @JsonKey(name: 'Latitude', required: true) final double? latitude,
+      @JsonKey(defaultValue: 0) final int? accuracy,
+      @JsonKey(defaultValue: "NA") final String? source,
+      final PlaceMarkData? placeMarkData,
+      final int? captureTime,
+      final String? capturedAddress,
+      final String? captureLocationTime}) = _$_LocationData;
 
   factory _LocationData.fromJson(Map<String, dynamic> json) =
       _$_LocationData.fromJson;
 
   @override
   @JsonKey(name: 'Longitude', required: true)
-  double? get longitude => throw _privateConstructorUsedError;
+  double? get longitude;
   @override
   @JsonKey(name: 'Latitude', required: true)
-  double? get latitude => throw _privateConstructorUsedError;
+  double? get latitude;
   @override
   @JsonKey(defaultValue: 0)
-  int? get accuracy => throw _privateConstructorUsedError;
+  int? get accuracy;
   @override
   @JsonKey(defaultValue: "NA")
-  String? get source => throw _privateConstructorUsedError;
+  String? get source;
   @override
-  int? get captureTime => throw _privateConstructorUsedError;
+  PlaceMarkData? get placeMarkData;
   @override
-  String? get capturedAddress => throw _privateConstructorUsedError;
+  int? get captureTime;
   @override
-  String? get captureLocationTime => throw _privateConstructorUsedError;
+  String? get capturedAddress;
+  @override
+  String? get captureLocationTime;
   @override
   @JsonKey(ignore: true)
-  _$LocationDataCopyWith<_LocationData> get copyWith =>
+  _$$_LocationDataCopyWith<_$_LocationData> get copyWith =>
       throw _privateConstructorUsedError;
 }
