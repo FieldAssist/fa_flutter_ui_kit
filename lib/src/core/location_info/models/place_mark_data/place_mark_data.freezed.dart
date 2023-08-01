@@ -228,7 +228,7 @@ class __$$_PlaceMarkDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PlaceMarkData implements _PlaceMarkData {
+class _$_PlaceMarkData extends _PlaceMarkData {
   _$_PlaceMarkData(
       {this.name,
       this.street,
@@ -240,7 +240,8 @@ class _$_PlaceMarkData implements _PlaceMarkData {
       this.locality,
       this.subLocality,
       this.thoroughfare,
-      this.subThoroughfare});
+      this.subThoroughfare})
+      : super._();
 
   factory _$_PlaceMarkData.fromJson(Map<String, dynamic> json) =>
       _$$_PlaceMarkDataFromJson(json);
@@ -329,7 +330,7 @@ class _$_PlaceMarkData implements _PlaceMarkData {
   }
 }
 
-abstract class _PlaceMarkData implements PlaceMarkData {
+abstract class _PlaceMarkData extends PlaceMarkData {
   factory _PlaceMarkData(
       {final String? name,
       final String? street,
@@ -342,6 +343,7 @@ abstract class _PlaceMarkData implements PlaceMarkData {
       final String? subLocality,
       final String? thoroughfare,
       final String? subThoroughfare}) = _$_PlaceMarkData;
+  _PlaceMarkData._() : super._();
 
   factory _PlaceMarkData.fromJson(Map<String, dynamic> json) =
       _$_PlaceMarkData.fromJson;

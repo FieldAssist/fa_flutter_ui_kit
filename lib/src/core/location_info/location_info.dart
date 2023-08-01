@@ -128,9 +128,6 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   Future<LocationData> _parseLocation(Position location) async {
-    final String? _address = await getAddress(location);
-
-    /// TODO(@singhtaranjeet): make a single call to get placemarkData and use it to get address.
     final placemark = await getPlacemarkDataFromCoordinates(location);
     final locationData = LocationData(
       latitude: location.latitude,
@@ -140,7 +137,7 @@ class LocationInfoImpl implements LocationInfo {
       captureLocationTime: DateTimeUtils.getCurrentISOTimeString(
           dateTime: location.timestamp!.toLocal()),
       source: isAndroid ? 'Android' : (isIOS ? 'iOS' : 'Unknown'),
-      capturedAddress: _address ?? 'NA',
+      capturedAddress: placemark.getFullAddress(),
       placeMarkData: placemark,
     );
     return locationData;
@@ -219,29 +216,7 @@ class LocationInfoImpl implements LocationInfo {
     try {
       final placemark = await getPlacemarkDataFromCoordinates(location);
 
-      final list = <String?>[];
-      if (checkIfNotEmpty(placemark.name)) {
-        list.add(placemark.name);
-      }
-      if (checkIfNotEmpty(placemark.subLocality)) {
-        list.add(placemark.subLocality);
-      }
-      if (checkIfNotEmpty(placemark.locality)) {
-        list.add(placemark.locality);
-      }
-      if (checkIfNotEmpty(placemark.subAdministrativeArea)) {
-        list.add(placemark.subAdministrativeArea);
-      }
-      if (checkIfNotEmpty(placemark.administrativeArea)) {
-        list.add(placemark.administrativeArea);
-      }
-      if (checkIfNotEmpty(placemark.postalCode)) {
-        list.add(placemark.postalCode);
-      }
-      if (checkIfNotEmpty(placemark.country)) {
-        list.add(placemark.country);
-      }
-      _address = list.join(', ');
+      _address = placemark.getFullAddress();
     } catch (e, s) {
       logger.e(e, s);
     }
