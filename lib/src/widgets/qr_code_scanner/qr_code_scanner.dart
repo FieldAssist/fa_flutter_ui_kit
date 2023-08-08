@@ -95,6 +95,7 @@ class _QrScannerState extends State<QrCodeScanner> {
               children: [
                 IconButton(
                   onPressed: () {
+                    ScaffoldMessenger.of(context).clearSnackBars();
                     if (result != null) {
                       setState(() {
                         result = null;
@@ -130,6 +131,7 @@ class _QrScannerState extends State<QrCodeScanner> {
       if (widget.validationRegex != null &&
           validationRegex != null &&
           !validationRegex!.hasMatch(result!.code!)) {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
