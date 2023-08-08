@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrCodeScanner extends StatefulWidget {
-  const QrCodeScanner({Key? key}) : super(key: key);
+  const QrCodeScanner({Key? key, this.validationRegex}) : super(key: key);
+
+  final String? validationRegex;
 
   @override
   State<QrCodeScanner> createState() => _QrScannerState();
@@ -16,6 +18,15 @@ class _QrScannerState extends State<QrCodeScanner> {
   QRViewController? controller;
   String? parsedData;
   final upiRegx = RegExp(r'[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}');
+  RegExp? validationRegex;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.validationRegex != null) {
+      validationRegex = RegExp(widget.validationRegex!);
+    }
+  }
 
   @override
   void reassemble() {
@@ -115,6 +126,20 @@ class _QrScannerState extends State<QrCodeScanner> {
   void onPressSubmit() {
     if (result != null) {
       String? dataToReturn;
+
+      if (widget.validationRegex != null &&
+          validationRegex != null &&
+          !validationRegex!.hasMatch(result!.code!)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Scanned QR code does not match the validation checks, Please try again.",
+            ),
+          ),
+        );
+        return;
+      }
+
       if (parsedData != null) {
         dataToReturn = parsedData;
       } else if (result!.code != null) {
