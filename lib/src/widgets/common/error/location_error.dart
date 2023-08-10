@@ -1,12 +1,10 @@
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
-import 'package:fa_flutter_ui_kit/src/constants/images.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/outlined_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class LocationErrorWidget extends StatelessWidget {
   const LocationErrorWidget({
     required this.error,
-    required this.onRefreshTap,
+    this.onRefreshTap,
     this.pop = true,
     Key? key,
   }) : super(key: key);
@@ -14,7 +12,7 @@ class LocationErrorWidget extends StatelessWidget {
   final String error;
 
   final bool pop;
-  final VoidCallback onRefreshTap;
+  final VoidCallback? onRefreshTap;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +66,7 @@ class LocationErrorWidget extends StatelessWidget {
               if (onRefreshTap != null)
                 Flexible(
                   child: OutlinedIconButton(
-                    endAction: onRefreshTap,
+                    endAction: onRefreshTap!,
                     endIcon: Icon(
                       Icons.replay,
                       color: Colors.green,
