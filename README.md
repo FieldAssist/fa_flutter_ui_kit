@@ -81,17 +81,17 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/apgapg>
-            <img src=https://avatars.githubusercontent.com/u/13887407?v=4 width="100;"  alt=Ayush P Gupta/>
-            <br />
-            <sub style="font-size:14px"><b>Ayush P Gupta</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Ritsz123>
             <img src=https://avatars.githubusercontent.com/u/48131636?v=4 width="100;"  alt=Ritesh Khadse/>
             <br />
             <sub style="font-size:14px"><b>Ritesh Khadse</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/apgapg>
+            <img src=https://avatars.githubusercontent.com/u/13887407?v=4 width="100;"  alt=Ayush P Gupta/>
+            <br />
+            <sub style="font-size:14px"><b>Ayush P Gupta</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
