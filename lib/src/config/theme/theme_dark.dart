@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../fonts.dart';
 import 'material_color.dart';
@@ -6,14 +7,14 @@ import 'material_color.dart';
 class ThemeDark {
   static final ThemeData themeData = ThemeData(
     brightness: Brightness.dark,
-    primarySwatch: _primarySwatch,
     primaryColor: _primaryColor,
     hintColor: _hintColor,
     appBarTheme: _appBarTheme,
     fontFamily: Fonts.defaultFont,
     scaffoldBackgroundColor: _scaffoldBackgroundColor,
     unselectedWidgetColor: _unselectedWidgetColor,
-    accentColor: _primaryColor,
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: _primarySwatch)
+        .copyWith(secondary: _primaryColor),
   );
 
   static final MaterialColor _primarySwatch =
@@ -26,7 +27,8 @@ class ThemeDark {
   static final AppBarTheme _appBarTheme = AppBarTheme(
     color: Colors.black,
     elevation: 2,
-    brightness: Brightness.dark,
+    systemOverlayStyle:
+        SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
     iconTheme: IconThemeData(color: _primarySwatch),
     actionsIconTheme: IconThemeData(color: _primarySwatch),
 //    textTheme: TextTheme(

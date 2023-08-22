@@ -25,7 +25,7 @@ class AnimatedLoader extends StatelessWidget {
         children: [
           Container(),
           CustomShimmer(
-            baseColor: Theme.of(context).accentColor,
+            baseColor: Theme.of(context).colorScheme.secondary,
             highlightColor: Theme.of(context).primaryColorDark,
             child: AnimatedContainer(
               height: height,

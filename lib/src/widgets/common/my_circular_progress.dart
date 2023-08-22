@@ -5,7 +5,8 @@ class MyCircularProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),
+      valueColor: AlwaysStoppedAnimation<Color>(
+          Theme.of(context).colorScheme.secondary),
       strokeWidth: 1,
     );
   }
