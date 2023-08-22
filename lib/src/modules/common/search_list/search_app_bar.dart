@@ -97,8 +97,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     color: widget.textColor,
                     onPressed: () => Navigator.pop(context))
                 : widget.leading,
-            backgroundColor:
-                widget.appBarColor ?? Theme.of(context).appBarTheme.color,
+            backgroundColor: widget.appBarColor ??
+                Theme.of(context).appBarTheme.backgroundColor,
             iconTheme: IconThemeData(
               color: Colors.black,
             ),

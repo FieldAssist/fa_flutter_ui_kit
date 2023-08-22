@@ -15,7 +15,6 @@ class MyTheme {
 
   ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
-        primarySwatch: _primarySwatch,
         primaryColor: _primaryColor,
         primaryColorDark: _primaryColorDark,
         hintColor: _hintColor,
@@ -23,12 +22,12 @@ class MyTheme {
           titleSpacing: 0,
           color: Colors.white,
           elevation: 2,
-          brightness: Brightness.light,
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         ),
         fontFamily: Fonts.defaultFont,
         scaffoldBackgroundColor: _scaffoldBackgroundColor,
         unselectedWidgetColor: _unselectedWidgetColor,
-        accentColor: _primaryColor,
         snackBarTheme: SnackBarThemeData(
           contentTextStyle: TextStyle(
             color: Colors.white,
@@ -36,16 +35,19 @@ class MyTheme {
           ),
           actionTextColor: Colors.white,
         ),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: _primarySwatch)
+            .copyWith(secondary: _primaryColor),
       );
 
   ThemeData get darkTheme => ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: _primarySwatch,
         appBarTheme: AppBarTheme(
           elevation: 2,
-          brightness: Brightness.dark,
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
         ),
         fontFamily: Fonts.defaultFont,
-        accentColor: _primaryColor,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: _primarySwatch)
+            .copyWith(secondary: _primaryColor),
       );
 }
