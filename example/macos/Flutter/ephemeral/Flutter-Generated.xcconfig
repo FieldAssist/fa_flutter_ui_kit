@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/home/ritesh/fvm/versions/3.7.6
-FLUTTER_APPLICATION_PATH=/home/ritesh/fieldassist/fa_flutter_ui_kit/example
+FLUTTER_ROOT=/Users/flick2know-mac/Documents/src/flutter
+FLUTTER_APPLICATION_PATH=/Users/flick2know-mac/Documents/fieldassist/Flutter/fa_flutter_ui_kit/example
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
