@@ -341,8 +341,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: main
-      resolved-ref: de445c4b3a9df67506463b9e1aadc2208b6b5bf6
+      ref: main-new
+      resolved-ref: "2e429ea17105d34762b115cd822f808c0af65410"
       url: "https://github.com/FieldAssist/fa_dart_core.git"
     source: git
     version: "2.0.0+2"
@@ -369,7 +369,7 @@ packages:
     description:
       path: "."
       ref: main-new
-      resolved-ref: "82969b8a0c44bc8d43f3f17fb8b5e42008489853"
+      resolved-ref: "40751dafef39e09dcc435f14007064d1143ff282"
       url: "https://github.com/FieldAssist/fa_flutter_core.git"
     source: git
     version: "2.0.2"
@@ -752,10 +752,10 @@ packages:
     dependency: transitive
     description:
       name: get_it
-      sha256: "529de303c739fca98cd7ece5fca500d8ff89649f1bb4b4e94fb20954abcd7468"
+      sha256: "66c270f23f1b49d3af9c6651d8c40367319f4abefffc23380e4e7c5efd9fe4a7"
       url: "https://pub.dev"
     source: hosted
-    version: "7.6.0"
+    version: "7.6.2"
   glob:
     dependency: transitive
     description:
@@ -776,10 +776,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter
-      sha256: "71b26389e86b17e2e8a8403318c92f316655f089580236892969c230013c6e38"
+      sha256: d4914cb38b3dcb62c39c085d968d434de0f8050f00f4d9f5ba4a7c7e004934cb
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.5.0"
   google_maps_flutter_android:
     dependency: transitive
     description:
@@ -832,10 +832,10 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.6"
+    version: "1.1.0"
   http_multi_server:
     dependency: transitive
     description:
@@ -880,10 +880,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_for_web
-      sha256: "869fe8a64771b7afbc99fc433a5f7be2fea4d1cb3d7c11a48b6b579eb9c797f0"
+      sha256: "50bc9ae6a77eea3a8b11af5eb6c661eeb858fdd2f734c2a4fd17086922347ef7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "3.0.1"
   image_picker_ios:
     dependency: transitive
     description:
@@ -944,10 +944,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.17.0"
+    version: "0.18.1"
   io:
     dependency: transitive
     description:
@@ -960,10 +960,10 @@ packages:
     dependency: transitive
     description:
       name: jiffy
-      sha256: "85172c4fc975a50224521c05bf43abc845288863b19d91bd3c221a96a8785dd3"
+      sha256: c3c1da3fe0c08bba3c2c455e8a3e724dfe7ea34dbe8069b992cab90ea1fe40b6
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.1"
   js:
     dependency: transitive
     description:
@@ -1565,18 +1565,18 @@ packages:
     dependency: transitive
     description:
       name: url_launcher
-      sha256: "38d8e783681bc342e92dc9799cbe4421d08c4d210a67ee9d61d0f7310491a465"
+      sha256: "47e208a6711459d813ba18af120d9663c20bdf6985d6ad39fe165d2538378d27"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.13"
+    version: "6.1.14"
   url_launcher_android:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: ef7e34951ffa963fb7a65928deeb38d40fb3c5975baf93c1d631341ff7f2650a
+      sha256: b04af59516ab45762b2ca6da40fa830d72d0f6045cd97744450b73493fa76330
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.39"
+    version: "6.1.0"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1605,10 +1605,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_platform_interface
-      sha256: "4d0dae953f80dc06fa24c58d0f8381302139c22c2dad301417787ad96f5f73bd"
+      sha256: "95465b39f83bfe95fcb9d174829d6476216f2d548b79c38ab2506e0458787618"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   url_launcher_web:
     dependency: transitive
     description:
@@ -1701,10 +1701,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter_android
-      sha256: "8545719bbf06f5c4b850f0d5f86da1fe837b1953c56b9af579a26be73627c98d"
+      sha256: "0d8f5ac96a155e672129bf94c7abf625de01241d44d269dbaff083f1b4deb1aa"
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.4"
+    version: "3.9.5"
   webview_flutter_platform_interface:
     dependency: transitive
     description:
@@ -1725,18 +1725,18 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "5a751eddf9db89b3e5f9d50c20ab8612296e4e8db69009788d6c8b060a84191c"
+      sha256: "9e82a402b7f3d518fb9c02d0e9ae45952df31b9bf34d77baf19da2de03fc2aaa"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.4"
+    version: "5.0.7"
   win32_registry:
     dependency: transitive
     description:
       name: win32_registry
-      sha256: "1c52f994bdccb77103a6231ad4ea331a244dbcef5d1f37d8462f713143b0bfae"
+      sha256: e4506d60b7244251bc59df15656a3093501c37fb5af02105a944d73eb95be4c9
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   xdg_directories:
     dependency: transitive
     description:
