@@ -327,10 +327,14 @@ class MySingleChoiceSearchState<T> extends State<SearchWidget<T>> {
 class NoItemFound extends StatelessWidget {
   final String title;
   final IconData icon;
+  final TextStyle? textStyle;
+  final Color? iconColor;
 
   const NoItemFound({
     this.title = "No data found",
     this.icon = Icons.folder_open,
+    this.textStyle,
+    this.iconColor,
   });
 
   @override
@@ -339,14 +343,16 @@ class NoItemFound extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Icon(icon, size: 24, color: Colors.grey[900]!.withOpacity(0.7)),
+          Icon(icon,
+              size: 24, color: iconColor ?? Colors.grey[900]!.withOpacity(0.7)),
           SizedBox(width: 10.0),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 16.0,
-              color: Colors.grey[900]!.withOpacity(0.7),
-            ),
+            style: textStyle ??
+                TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey[900]!.withOpacity(0.7),
+                ),
           ),
         ],
       ),
