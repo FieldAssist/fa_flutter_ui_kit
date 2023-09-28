@@ -4,6 +4,7 @@ import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/core/location_info/models/place_mark_data/place_mark_data.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 abstract class LocationInfo {
@@ -44,6 +45,8 @@ class LocationInfoImpl implements LocationInfo {
 
   @override
   LocationData get currentLocation => _deviceLocation.value!;
+
+  Stream<Position>? positionStream;
 
   @override
   Future initLocation() async {
@@ -92,7 +95,7 @@ class LocationInfoImpl implements LocationInfo {
 
   static Future<Position> _getLocation() async {
     final location = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.low,
+      desiredAccuracy: LocationAccuracy.high,
     );
     return location;
   }
@@ -102,18 +105,42 @@ class LocationInfoImpl implements LocationInfo {
         permission != LocationPermission.deniedForever;
   }
 
+  LocationSettings getLocationSetting() {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return AndroidSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 10,
+        intervalDuration: const Duration(seconds: 10),
+      );
+    } else if (defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.macOS) {
+      return AppleSettings(
+        accuracy: LocationAccuracy.high,
+        activityType: ActivityType.fitness,
+        distanceFilter: 10,
+      );
+    } else {
+      return LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 10,
+      );
+    }
+  }
+
   void _startLocationFetchStream() {
-    locationStreamSubs ??= Geolocator.getPositionStream(
-      locationSettings: LocationSettings(
-        accuracy: LocationAccuracy.medium,
-        timeLimit: Duration(seconds: 5),
-      ),
-    ).asBroadcastStream().shareValue().listen((position) async {
+    positionStream ??= Geolocator.getPositionStream(
+      locationSettings: getLocationSetting(),
+    ).asBroadcastStream().shareValue();
+    locationStreamSubs ??= positionStream?.listen((position) async {
       if (position != null) {
         final locationData = await _parseLocation(position);
         _setLocation(locationData);
       }
     });
+  }
+
+  void stopLocationFetchStream() {
+    locationStreamSubs?.cancel();
   }
 
   void _setLocation(LocationData location) {
@@ -171,12 +198,6 @@ class LocationInfoImpl implements LocationInfo {
   Future _startFetchingLocation() async {
     Position location;
     location = await _getLocation();
-
-    /* if (Platform.isIOS) {
-      location = await _getLocationIOS();
-    } else {
-      location = await _getLocation();
-    }*/
     if (location == null) {
       throw LocationException(
         '${Constants.locationNotAvailable}\n$defaultLocationReason',
@@ -234,13 +255,8 @@ class LocationInfoImpl implements LocationInfo {
 
   @override
   Stream<LocationData> get locationStream {
-    if (isMobile) {
-      return Geolocator.getPositionStream(
-        locationSettings: LocationSettings(
-          accuracy: LocationAccuracy.medium,
-          timeLimit: Duration(milliseconds: 10000),
-        ),
-      ).asBroadcastStream().shareValue().transform(
+    if (isMobile && positionStream != null) {
+      return positionStream!.transform(
         StreamTransformer.fromHandlers(
           handleData: (data, sink) async {
             if (data != null) {
