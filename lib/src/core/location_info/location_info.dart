@@ -246,11 +246,20 @@ class LocationInfoImpl implements LocationInfo {
 
   Future<PlaceMarkData> getPlacemarkDataFromCoordinates(
       Position location) async {
-    final placemark = await placemarkFromCoordinates(
-      location.latitude,
-      location.longitude,
-    );
-    return PlaceMarkData.fromPlacemark(placemark[0]);
+    try {
+      final placemark = await placemarkFromCoordinates(
+        location.latitude,
+        location.longitude,
+      );
+      return PlaceMarkData.fromPlacemark(placemark[0]);
+    } catch (e, s) {
+      logger.e(e, s);
+      /// TODO(@singhtaranjeet): Do not throw only LocationException on every exception
+      /// Use different exception for different cases
+      throw LocationException(
+        '${Constants.locationNotAvailable}\n$defaultLocationReason',
+      );
+    }
   }
 
   @override
