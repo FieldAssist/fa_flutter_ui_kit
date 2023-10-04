@@ -8,7 +8,7 @@ class Constants {
       " Check location is on"
       " and is set to High Accuracy\n- Check if location permission"
       " to the app is enabled\n- Close the App and open Google Maps. "
-      "If location gets available to Maps then reopen FA MT App."
+      "If location gets available to Maps then reopen this App."
       " It will detect location.";
 
   static const String errorInternetError =
