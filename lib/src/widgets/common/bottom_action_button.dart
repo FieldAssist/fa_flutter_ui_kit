@@ -67,6 +67,7 @@ class BottomActionButton extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: onPressed,
+        onDoubleTap: onPressed,
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: height,
