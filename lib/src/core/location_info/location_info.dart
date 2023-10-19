@@ -110,6 +110,9 @@ class LocationInfoImpl implements LocationInfo {
       return AndroidSettings(
         accuracy: LocationAccuracy.high,
         distanceFilter: 10,
+
+        /// TODO(@vatsal201): check intervalDuration whether
+        /// this is working properly or not.
         intervalDuration: const Duration(seconds: 10),
       );
     } else if (defaultTargetPlatform == TargetPlatform.iOS ||
@@ -130,7 +133,13 @@ class LocationInfoImpl implements LocationInfo {
   void _startLocationFetchStream() {
     positionStream ??= Geolocator.getPositionStream(
       locationSettings: getLocationSetting(),
-    ).asBroadcastStream().shareValue();
+    ).bufferTime(const Duration(seconds: 2)).transform<Position>(
+      StreamTransformer.fromHandlers(handleData: (d, sink) {
+        if (d.isNotEmpty) {
+          sink.add(d.last);
+        }
+      }),
+    ).shareValue();
     locationStreamSubs ??= positionStream?.listen((position) async {
       if (position != null) {
         final locationData = await _parseLocation(position);
@@ -254,6 +263,7 @@ class LocationInfoImpl implements LocationInfo {
       return PlaceMarkData.fromPlacemark(placemark[0]);
     } catch (e, s) {
       logger.e(e, s);
+
       /// TODO(@singhtaranjeet): Do not throw only LocationException on every exception
       /// Use different exception for different cases
       throw LocationException(
@@ -269,9 +279,11 @@ class LocationInfoImpl implements LocationInfo {
         StreamTransformer.fromHandlers(
           handleData: (data, sink) async {
             if (data != null) {
-              final locationData = await _parseLocation(data);
-              _setLocation(locationData);
-              return sink.add(locationData);
+              /// Adding the current location because
+              /// it is already fetched and parsed from [positionStream] listener
+              if (_deviceLocation.value != null) {
+                sink.add(currentLocation);
+              }
             }
           },
         ),
