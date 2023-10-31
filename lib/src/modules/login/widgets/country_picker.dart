@@ -248,11 +248,11 @@ class _MyDialogState extends State<_MyDialog> {
     );
   }
 
-  StreamTransformer<List<Country>, List<Country>> get streamTransformer =>
-      StreamTransformer<List<Country>, List<Country>>.fromHandlers(
+  StreamTransformer<List<Country>?, List<Country>> get streamTransformer =>
+      StreamTransformer<List<Country>?, List<Country>>.fromHandlers(
         handleData: (list, sink) {
           if (controller.text != null && controller.text.isNotEmpty) {
-            final list1 = list.where((item) {
+            final list1 = list?.where((item) {
               return item.countryName!
                       .toLowerCase()
                       .contains(controller.text.toLowerCase()) ||
@@ -260,9 +260,9 @@ class _MyDialogState extends State<_MyDialog> {
                       .toLowerCase()
                       .contains(controller.text.toLowerCase());
             }).toList();
-            return sink.add(list1);
+            return sink.add(list1 ?? []);
           } else {
-            return sink.add(list);
+            return sink.add(list ?? []);
           }
         },
       );
