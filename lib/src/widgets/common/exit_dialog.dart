@@ -58,6 +58,7 @@ class ExitDialog extends StatelessWidget {
                   child: MaterialButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      leftButtonFunction?.call();
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
