@@ -1,8 +1,6 @@
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
 
-import 'integrated_search_bar.dart';
-
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool enableSearch;
   final String appBarTitle;
@@ -18,6 +16,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double? elevation;
   final Widget? searchIcon;
   final Color? searchBarColor;
+  final bool showBackButton;
 
   const SearchAppBar({
     required this.enableSearch,
@@ -34,6 +33,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.elevation,
     this.searchIcon,
     this.searchBarColor,
+    this.showBackButton = true,
   });
 
   final _appbarHeight = 56.0;
@@ -92,11 +92,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
           )
         : AppBar(
             elevation: widget.elevation,
-            leading: widget.leading == null
-                ? BackButton(
-                    color: widget.textColor,
-                    onPressed: () => Navigator.pop(context))
-                : widget.leading,
+            automaticallyImplyLeading: widget.showBackButton,
+            leading: getLeadingWidget(context),
             backgroundColor: widget.appBarColor ??
                 Theme.of(context).appBarTheme.backgroundColor,
             iconTheme: IconThemeData(
@@ -104,16 +101,21 @@ class _SearchAppBarState extends State<SearchAppBar> {
             ),
             title: (widget.appBarSubTitle == null ||
                     widget.appBarSubTitle!.isEmpty)
-                ? Text(
-                    widget.appBarTitle,
-                    style: TextStyle(
-                      color: widget.textColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                ? Padding(
+                    padding:
+                        EdgeInsets.only(left: !widget.showBackButton ? 16 : 0),
+                    child: Text(
+                      widget.appBarTitle,
+                      style: TextStyle(
+                        color: widget.textColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   )
                 : ListTile(
-                    contentPadding: EdgeInsets.zero,
+                    contentPadding:
+                        EdgeInsets.only(left: !widget.showBackButton ? 16 : 0),
                     title: Text(
                       widget.appBarTitle,
                       style: TextStyle(
@@ -155,5 +157,18 @@ class _SearchAppBarState extends State<SearchAppBar> {
               if (widget.actions != null) ...widget.actions!
             ],
           );
+  }
+
+  Widget? getLeadingWidget(BuildContext context) {
+    if (!widget.showBackButton) {
+      return null;
+    }
+
+    if (widget.leading == null) {
+      return BackButton(
+          color: widget.textColor, onPressed: () => Navigator.pop(context));
+    }
+
+    return widget.leading;
   }
 }
