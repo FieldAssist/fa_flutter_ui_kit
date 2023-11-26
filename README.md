@@ -67,13 +67,6 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/someshubham>
-            <img src=https://avatars.githubusercontent.com/u/49554541?v=4 width="100;"  alt=Shubham Jain/>
-            <br />
-            <sub style="font-size:14px"><b>Shubham Jain</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/namanpopli>
             <img src=https://avatars.githubusercontent.com/u/46225601?v=4 width="100;"  alt=Naman Popli/>
             <br />
@@ -101,8 +94,6 @@ compileSdkVersion 32
             <sub style="font-size:14px"><b>Sameer Kumar</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/singhtaranjeet>
             <img src=https://avatars.githubusercontent.com/u/22328750?v=4 width="100;"  alt=Taranjeet Singh/>
@@ -110,6 +101,8 @@ compileSdkVersion 32
             <sub style="font-size:14px"><b>Taranjeet Singh</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/vatsal201>
             <img src=https://avatars.githubusercontent.com/u/85787993?v=4 width="100;"  alt=Vatsal Gandhi/>
