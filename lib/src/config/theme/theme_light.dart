@@ -26,6 +26,7 @@ class MyTheme {
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         ),
         fontFamily: Fonts.defaultFont,
+        fontFamilyFallback: ['Roboto', 'SanFrancisco', 'Halvetica'],
         scaffoldBackgroundColor: _scaffoldBackgroundColor,
         unselectedWidgetColor: _unselectedWidgetColor,
         snackBarTheme: SnackBarThemeData(
