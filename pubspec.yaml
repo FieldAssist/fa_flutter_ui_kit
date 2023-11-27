@@ -54,3 +54,7 @@ flutter:
           weight: 100
           style: italic
         - asset: assets/fonts/TruenoRg.otf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+
