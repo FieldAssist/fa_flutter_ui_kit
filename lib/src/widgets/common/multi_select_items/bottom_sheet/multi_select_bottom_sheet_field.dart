@@ -191,8 +191,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 checkColor: checkColor,
                 isSingleSelect: isSingleSelect,
               );
-              return _MultiSelectBottomSheetFieldView<V?>._withState(
-                  view as _MultiSelectBottomSheetFieldView<V?>, state);
+              return _MultiSelectBottomSheetFieldView<V>._withState(
+                  view as _MultiSelectBottomSheetFieldView<V>, state);
             });
 }
 
