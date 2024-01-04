@@ -19,13 +19,13 @@ dependencies:
   fa_flutter_core:
     git:
       url: https://github.com/FieldAssist/fa_flutter_core.git
-      ref: main-new
+      ref: main
 
   # Api service
   fa_flutter_api_client:
     git:
       url: https://github.com/FieldAssist/fa_flutter_api_client.git
-      ref: main-new
+      ref: main
 
 dev_dependencies:
   flutter_test:
