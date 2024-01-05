@@ -8,6 +8,7 @@ class TagContainer extends StatelessWidget {
     this.icon,
     this.iconColor,
     this.borderColor,
+    this.padding,
   });
 
   final String text;
@@ -16,12 +17,12 @@ class TagContainer extends StatelessWidget {
   final IconData? icon;
   final Color? iconColor;
   final Color? borderColor;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: 12, vertical: textColor == null ? 0 : 4),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: bgColor ?? Theme.of(context).primaryColorLight,
         borderRadius: BorderRadius.all(Radius.circular(10)),
