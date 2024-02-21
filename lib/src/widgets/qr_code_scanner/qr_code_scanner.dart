@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrCodeScanner extends StatefulWidget {
-  const QrCodeScanner({Key? key, this.validationRegex}) : super(key: key);
+  const QrCodeScanner({Key? key, this.validationRegex, this.scannedValues})
+      : super(key: key);
 
   final String? validationRegex;
+  final List<String>? scannedValues;
 
   @override
   State<QrCodeScanner> createState() => _QrScannerState();
@@ -149,6 +152,22 @@ class _QrScannerState extends State<QrCodeScanner> {
       } else {
         throw Exception("Scanned data is empty");
       }
+
+      //incase of unique scans.
+      if (checkIfListIsNotEmpty(widget.scannedValues)) {
+        if (widget.scannedValues!.contains(dataToReturn)) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "You have already scanned this QR code.",
+              ),
+            ),
+          );
+          return;
+        }
+      }
+
       Navigator.pop(context, dataToReturn);
     }
   }

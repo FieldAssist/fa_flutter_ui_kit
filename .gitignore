@@ -81,3 +81,5 @@ build/
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 
+# FVM Version Cache
+.fvm/
