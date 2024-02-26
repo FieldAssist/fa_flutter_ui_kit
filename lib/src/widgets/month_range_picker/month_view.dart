@@ -1,21 +1,22 @@
+import 'dart:developer';
+
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/month_range_picker/selected_month_indicator.dart';
 import 'package:flutter/material.dart';
 
 class MonthView extends StatefulWidget {
   final Function(
-    int startMonthNumber,
-    int endMonthNumber,
-    String startMonth,
-    String endmonth,
-    int currentYear,
+    DateTime start,
+    DateTime end,
   ) callback;
   final currentYear;
   final Color selectedColour;
+  final int maxMonthSelectable;
   const MonthView({
     required this.callback,
     Key? key,
     this.currentYear,
+    required this.maxMonthSelectable,
     required this.selectedColour,
   }) : super(key: key);
 
@@ -24,7 +25,7 @@ class MonthView extends StatefulWidget {
 }
 
 class _MonthViewState extends State<MonthView> {
-  var selectedMonths = <String>[];
+  var selectedMonths = <DateTime>[];
   late int currentYear;
   late int selectedYear;
   static const double iconSize = 12;
@@ -37,52 +38,61 @@ class _MonthViewState extends State<MonthView> {
         selectedYear++;
       }
     } else {
-      selectedYear--;
+      selectedYear = DateTime.now().year - 1;
     }
-    selectedMonths.clear();
+    // selectedMonths.clear();
     generateMonths();
   }
 
   // int currentYear = 0;
-  void validate() {
-    if (selectedMonths.length >= 3) {
-      for (var element in calendarItem) {
-        element.isEnabled = false;
-      }
-    }
-  }
+  // void validate() {
+  //   if (selectedMonths.length >= 3) {
+  //     for (var element in calendarItem) {
+  //       element.isEnabled = false;
+  //     }
+  //   }
+  // }
 
-  String startMonth() {
+  DateTime get startMonth {
     if (selectedMonths.isNotEmpty) {
       return selectedMonths.first;
     } else
-      return '';
+      return DateTime.now();
   }
 
-  String endMonth() {
+  DateTime get endMonth {
     if (selectedMonths.isNotEmpty) {
       return selectedMonths.last;
     } else
-      return '';
+      return DateTime.now();
   }
 
   // int getYear() {
   //   return currentYear;
   // }
   void generateMonths() async {
-    calendarItem = Constants.monthList
-        .map<ItemModel>(
-          (e) => ItemModel(
-              month: e,
-              year: selectedYear.toString(),
-              canSelect: selectedYear != currentYear ||
-                  DateTime.now().month > Constants.monthList.indexOf(e)),
-        )
-        .toList();
+    calendarItem = List.generate(
+      Constants.monthList.length,
+      (index) {
+        final item = Constants.monthList[index];
+        final model = ItemModel(monthYear: DateTime(selectedYear, index + 1));
+        if (selectedYear < currentYear) {
+          final allowedMonth =
+              (DateTime.now().month - widget.maxMonthSelectable).abs();
+          model.canSelect = index + allowedMonth >= 12;
+        } else {
+          model.canSelect =
+              (DateTime.now().month > Constants.monthList.indexOf(item));
+        }
+        return model;
+      },
+    );
 
-    // await Future.delayed(Duration(seconds: 1));
     setState(() {});
   }
+
+  bool get showYearSelector =>
+      (DateTime.now().month - widget.maxMonthSelectable).isNegative;
 
   @override
   void initState() {
@@ -94,8 +104,10 @@ class _MonthViewState extends State<MonthView> {
 
   @override
   Widget build(BuildContext context) {
+    log(selectedMonths.toString());
     return Expanded(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.min,
         children: [
           // Month Indicator
@@ -108,14 +120,18 @@ class _MonthViewState extends State<MonthView> {
                   SelectedMonthIndicator(
                     month: selectedMonths.isEmpty
                         ? '--'
-                        : selectedMonths[0] + '-' + selectedYear.toString(),
+                        : Constants.monthList[selectedMonths[0].month - 1] +
+                            '-' +
+                            selectedMonths[0].year.toString(),
                     label: 'Start Month',
                     selectedColour: widget.selectedColour,
                   ),
                   SelectedMonthIndicator(
                     month: selectedMonths.isEmpty
                         ? '--'
-                        : selectedMonths.last + '-' + selectedYear.toString(),
+                        : Constants.monthList[selectedMonths.last.month - 1] +
+                            '-' +
+                            selectedMonths.last.year.toString(),
                     label: 'End Month',
                     selectedColour: widget.selectedColour,
                   ),
@@ -124,14 +140,17 @@ class _MonthViewState extends State<MonthView> {
             );
           }),
           // Year Selector
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                   splashRadius: 12,
-                  onPressed: () {
-                    valueCounter(YearCounter.decrement);
-                  },
+                  onPressed: !showYearSelector
+                      ? null
+                      : () {
+                          valueCounter(YearCounter.decrement);
+                        },
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     size: iconSize,
@@ -146,9 +165,11 @@ class _MonthViewState extends State<MonthView> {
               (selectedYear != DateTime.now().year)
                   ? IconButton(
                       splashRadius: 12,
-                      onPressed: () {
-                        valueCounter(YearCounter.increment);
-                      },
+                      onPressed: !showYearSelector
+                          ? null
+                          : () {
+                              valueCounter(YearCounter.increment);
+                            },
                       icon: const Icon(
                         Icons.arrow_forward_ios,
                         size: iconSize,
@@ -158,6 +179,7 @@ class _MonthViewState extends State<MonthView> {
                     ),
             ],
           ),
+
           // Month View
           GridView.custom(
             shrinkWrap: true,
@@ -174,8 +196,11 @@ class _MonthViewState extends State<MonthView> {
                     onTap: (e.isEnabled || e.isTapped) && e.canSelect
                         ? () {
                             if (e.isTapped) {
-                              selectedMonths.clear();
-                              widget.callback.call(0, 0, '', '', currentYear);
+                              // selectedMonths.clear();
+                              widget.callback.call(
+                                  DateTime.now().copyWith(
+                                      month: DateTime.now().month - 1),
+                                  DateTime.now());
                               for (var data in calendarItem) {
                                 data.isEnabled = true;
                                 data.isTapped = false;
@@ -201,7 +226,8 @@ class _MonthViewState extends State<MonthView> {
                                 }
                                 calendarItem[index].isSelected = true;
                                 calendarItem[index].isTapped = true;
-                                selectedMonths.add(calendarItem[index].month);
+                                selectedMonths
+                                    .add(calendarItem[index].monthYear);
                                 setState(() {});
                               }
 
@@ -219,7 +245,7 @@ class _MonthViewState extends State<MonthView> {
                               BorderRadius.circular(isRounded ? 30 : 0)),
                       alignment: Alignment.center,
                       child: Text(
-                        e.month,
+                        Constants.monthList[e.monthYear.month - 1],
                         style: Theme.of(context).textTheme.button?.copyWith(
                               color:
                                   (e.isEnabled || e.isSelected) && e.canSelect
@@ -241,12 +267,7 @@ class _MonthViewState extends State<MonthView> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
-                  int sMonth = calendarItem
-                      .indexWhere((element) => element.month == startMonth());
-                  int eMonth = calendarItem
-                      .indexWhere((element) => element.month == endMonth());
-                  widget.callback.call(sMonth + 1, eMonth + 1, startMonth(),
-                      endMonth(), selectedYear);
+                  widget.callback.call(startMonth, endMonth);
                 },
                 child: Text(Constants.done,
                     style: TextStyle(color: widget.selectedColour)),
@@ -262,8 +283,8 @@ class _MonthViewState extends State<MonthView> {
 class ItemModel {
   ItemModel({
     this.disabledColor,
-    required this.month,
-    required this.year,
+    required this.monthYear,
+    // required this.year,
     this.ontap,
     this.selectedColor,
     this.unSelectedColor,
@@ -274,8 +295,9 @@ class ItemModel {
     this.isCurrentMonth = false,
   });
   final Function(String)? ontap;
-  final String month;
-  final String year;
+  final DateTime monthYear;
+  // final String month;
+  // final String year;
   final Color? selectedColor;
   final Color? unSelectedColor;
   final Color? disabledColor;

@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'month_view.dart';
 
 class MonthCalendar extends StatefulWidget {
-  const MonthCalendar({
-    required this.rangeData,
-    Key? key,
-    required this.selectedColour,
-  }) : super(key: key);
+  const MonthCalendar(
+      {required this.rangeData,
+      Key? key,
+      required this.selectedColour,
+      required this.maxSelectableMonth,
+      required})
+      : super(key: key);
 
-  /// This function will return data as startMonthNumber, endMonthNumber, startMonthName, EndMonthName, year format
-  final Function(int, int, String, String, int) rangeData;
+  /// This function will return data as startMonth , endMonth
+  final Function(DateTime, DateTime) rangeData;
   final Color selectedColour;
+  final int maxSelectableMonth;
   @override
   State<MonthCalendar> createState() => _MonthCalendarState();
 }
@@ -34,15 +37,15 @@ class _MonthCalendarState extends State<MonthCalendar> {
           children: <Widget>[
             MonthView(
               currentYear: currentYear,
-              callback: (startMonth, endMonth, sMonthName, eMonthName,
-                  currentYearMonth) {
-                selectedMonth?.add(sMonthName);
-                selectedMonth?.add(eMonthName);
+              maxMonthSelectable: widget.maxSelectableMonth,
+              callback: (
+                startMonth,
+                endMonth,
+              ) {
                 startMonth = startMonth;
                 endMonth = endMonth;
-                currentYear = currentYearMonth;
-                widget.rangeData.call(startMonth, endMonth, sMonthName,
-                    eMonthName, currentYear?.toInt() ?? 0);
+
+                widget.rangeData.call(startMonth, endMonth);
                 setState(() {});
               },
               selectedColour: widget.selectedColour,
