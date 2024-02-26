@@ -37,12 +37,14 @@ class DialogUtils {
     );
   }
 
-  static void showMonthRangePicker(
-      {required BuildContext context,
+  static void showMonthRangePicker({
+    required BuildContext context,
+    required int maxSelectableMonth,
 
-      ///This function will return data as startMonthNumber, endMonthNumber, startMonthName, EndMonthName, year format
-      required Function(int, int, String, String, int) pickedRange,
-      Color selectedColour = Colors.blue}) {
+    /// This function will return data as startMonth , endMonth
+    required Function(DateTime, DateTime) pickedRange,
+    Color selectedColour = Colors.blue,
+  }) {
     showDialog(
       barrierColor: Colors.white.withOpacity(0.1),
       context: context,
@@ -52,17 +54,14 @@ class DialogUtils {
               borderRadius: BorderRadius.all(Radius.circular(12.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
           content: MonthCalendar(
-            rangeData: (
-              startMonth,
-              endMonth,
-              sMonthName,
-              eMonthName,
-              year,
-            ) {
+            rangeData: (startMonth, endMonth) {
               pickedRange.call(
-                  startMonth, endMonth, sMonthName, eMonthName, year);
+                startMonth,
+                endMonth,
+              );
             },
             selectedColour: selectedColour,
+            maxSelectableMonth: maxSelectableMonth,
           ),
         );
       },
