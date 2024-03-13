@@ -110,6 +110,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final FormFieldValidator<List<V>>? validator;
   final FormFieldSetter<List<V>>? onSaved;
   final GlobalKey<FormFieldState>? key;
+  final bool enabled;
   FormFieldState<List<V>>? state;
 
   MultiSelectBottomSheetField({
@@ -149,6 +150,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.onSaved,
     this.validator,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.enabled = true,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -190,6 +192,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                 shape: shape,
                 checkColor: checkColor,
                 isSingleSelect: isSingleSelect,
+                enabled: enabled,
               );
               return _MultiSelectBottomSheetFieldView<V>._withState(
                   view as _MultiSelectBottomSheetFieldView<V>, state);
@@ -230,6 +233,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final bool separateSelectedItems;
   final Color? checkColor;
   final bool isSingleSelect;
+  final bool enabled;
   FormFieldState<List<V>>? state;
 
   _MultiSelectBottomSheetFieldView({
@@ -265,6 +269,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
     this.separateSelectedItems = false,
     this.checkColor,
     this.isSingleSelect = false,
+    this.enabled = true,
   });
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetField.
@@ -302,6 +307,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
         separateSelectedItems = field.separateSelectedItems,
         checkColor = field.checkColor,
         isSingleSelect = field.isSingleSelect,
+        enabled = field.enabled,
         state = state;
 
   @override
@@ -433,9 +439,11 @@ class __MultiSelectBottomSheetFieldViewState<V>
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         InkWell(
-          onTap: () {
-            _showBottomSheet(context);
-          },
+          onTap: widget.enabled
+              ? () {
+                  _showBottomSheet(context);
+                }
+              : null,
           child: Container(
             decoration: widget.state != null
                 ? widget.decoration ??
