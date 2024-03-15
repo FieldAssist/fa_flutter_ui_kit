@@ -369,12 +369,14 @@ class __MultiSelectBottomSheetFieldViewState<V>
           scrollBar: widget.chipDisplay!.scrollBar,
           height: widget.chipDisplay!.height,
           chipWidth: widget.chipDisplay!.chipWidth,
+          enabled: widget.enabled,
         );
       }
     } else {
       // user didn't specify a chipDisplay, build the default
       return MultiSelectChipDisplay<V>(
         items: chipDisplayItems,
+        enabled: widget.enabled,
         colorator: widget.colorator,
         chipColor: (widget.selectedColor != null &&
                 widget.selectedColor != Colors.transparent)
