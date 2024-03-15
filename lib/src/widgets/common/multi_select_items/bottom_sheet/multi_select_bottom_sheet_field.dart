@@ -356,13 +356,11 @@ class __MultiSelectBottomSheetFieldViewState<V>
             }
           },
           decoration: widget.chipDisplay!.decoration,
-          chipColor: !widget.enabled
-              ? Colors.grey
-              : widget.chipDisplay!.chipColor ??
-                  ((widget.selectedColor != null &&
-                          widget.selectedColor != Colors.transparent)
-                      ? widget.selectedColor!.withOpacity(0.35)
-                      : null),
+          chipColor: widget.chipDisplay!.chipColor ??
+              ((widget.selectedColor != null &&
+                      widget.selectedColor != Colors.transparent)
+                  ? widget.selectedColor!.withOpacity(0.35)
+                  : null),
           alignment: widget.chipDisplay!.alignment,
           textStyle: widget.chipDisplay!.textStyle,
           icon: widget.chipDisplay!.icon,

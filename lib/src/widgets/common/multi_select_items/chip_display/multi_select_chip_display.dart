@@ -47,6 +47,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   final double? chipWidth;
 
   bool? disabled;
+  final bool enabled;
 
   MultiSelectChipDisplay({
     this.items,
@@ -62,6 +63,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.enabled = true,
   }) {
     this.disabled = false;
   }
@@ -81,6 +83,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
+    this.enabled = true,
   });
 
   @override
@@ -146,26 +149,30 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
               item.label,
               maxLines: 4,
               style: TextStyle(
-                color: colorator != null && colorator!(item.value) != null
-                    ? textStyle != null
-                        ? textStyle!.color ?? colorator!(item.value)
-                        : colorator!(item.value)
-                    : textStyle != null && textStyle!.color != null
-                        ? textStyle!.color
-                        : chipColor != null
-                            ? chipColor!.withOpacity(1)
-                            : null,
+                color: !enabled
+                    ? Colors.grey
+                    : colorator != null && colorator!(item.value) != null
+                        ? textStyle != null
+                            ? textStyle!.color ?? colorator!(item.value)
+                            : colorator!(item.value)
+                        : textStyle != null && textStyle!.color != null
+                            ? textStyle!.color
+                            : chipColor != null
+                                ? chipColor!.withOpacity(1)
+                                : null,
                 fontSize: textStyle != null ? textStyle!.fontSize : null,
               ),
             ),
           ),
         ),
         selected: items!.contains(item),
-        selectedColor: colorator != null && colorator!(item.value) != null
-            ? colorator!(item.value)
-            : chipColor != null
-                ? chipColor
-                : Theme.of(context).primaryColor.withOpacity(0.33),
+        selectedColor: !enabled
+            ? Colors.grey
+            : colorator != null && colorator!(item.value) != null
+                ? colorator!(item.value)
+                : chipColor != null
+                    ? chipColor
+                    : Theme.of(context).primaryColor.withOpacity(0.33),
         onSelected: (_) {
           if (onTap != null) onTap!(item.value);
         },
