@@ -163,6 +163,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                 ),
               ),
               selected: items!.contains(item),
+              showCheckmark: false,
               selectedColor: colorator != null && colorator!(item.value) != null
                   ? colorator!(item.value)
                   : chipColor != null
