@@ -48,7 +48,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
 
   bool? disabled;
   final bool enabled;
-  final Widget? chipWidget;
+  final bool showRemoveIcon;
 
   MultiSelectChipDisplay({
     this.items,
@@ -65,8 +65,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.height,
     this.chipWidth,
     this.enabled = true,
-    this.chipWidget,
-    
+    this.showRemoveIcon = false,
   }) {
     this.disabled = false;
   }
@@ -87,7 +86,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.height,
     this.chipWidth,
     this.enabled = true,
-    this.chipWidget,
+    this.showRemoveIcon = false,
   });
 
   @override
@@ -134,51 +133,94 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   }
 
   Widget _buildItem(MultiSelectItem<V> item, BuildContext context) {
-    return chipWidget !=null ? chipWidget! : Container(
-      padding: const EdgeInsets.all(2.0),
-      child: ChoiceChip(
-        shape: shape as OutlinedBorder?,
-        avatar: icon != null
-            ? Icon(
-                icon!.icon,
-                color: colorator != null && colorator!(item.value) != null
-                    ? colorator!(item.value)!.withOpacity(1)
-                    : icon!.color ?? Theme.of(context).primaryColor,
-              )
-            : null,
-        label: Container(
-          width: chipWidth,
-          child: FittedBox(
-            child: Text(
-              item.label,
-              maxLines: 4,
-              style: TextStyle(
-                color: !enabled
-                    ? Colors.grey
-                    : colorator != null && colorator!(item.value) != null
-                        ? textStyle != null
-                            ? textStyle!.color ?? colorator!(item.value)
-                            : colorator!(item.value)
-                        : textStyle != null && textStyle!.color != null
-                            ? textStyle!.color
-                            : chipColor != null
-                                ? chipColor!.withOpacity(1)
-                                : null,
-                fontSize: textStyle != null ? textStyle!.fontSize : null,
+    return showRemoveIcon
+        ? Container(
+            padding: EdgeInsets.all(2),
+            child: RawChip(
+              shape: shape as OutlinedBorder?,
+              label: Container(
+                width: chipWidth,
+                child: FittedBox(
+                  child: Text(
+                    item.label,
+                    maxLines: 4,
+                    style: TextStyle(
+                      color: !enabled
+                          ? Colors.grey
+                          : colorator != null && colorator!(item.value) != null
+                              ? textStyle != null
+                                  ? textStyle!.color ?? colorator!(item.value)
+                                  : colorator!(item.value)
+                              : textStyle != null && textStyle!.color != null
+                                  ? textStyle!.color
+                                  : chipColor != null
+                                      ? chipColor!.withOpacity(1)
+                                      : null,
+                      fontSize: textStyle != null ? textStyle!.fontSize : null,
+                    ),
+                  ),
+                ),
               ),
+              selected: items!.contains(item),
+              selectedColor: colorator != null && colorator!(item.value) != null
+                  ? colorator!(item.value)
+                  : chipColor != null
+                      ? chipColor
+                      : Theme.of(context).primaryColor.withOpacity(0.33),
+              onSelected: (_) {
+                if (onTap != null) onTap!(item.value);
+              },
+              deleteIcon: Icon(Icons.close),
+              onDeleted: () {
+                if (onTap != null) onTap!(item.value);
+              },
             ),
-          ),
-        ),
-        selected: items!.contains(item),
-        selectedColor: colorator != null && colorator!(item.value) != null
-            ? colorator!(item.value)
-            : chipColor != null
-                ? chipColor
-                : Theme.of(context).primaryColor.withOpacity(0.33),
-        onSelected: (_) {
-          if (onTap != null) onTap!(item.value);
-        },
-      ),
-    );
+          )
+        : Container(
+            padding: const EdgeInsets.all(2.0),
+            child: ChoiceChip(
+              shape: shape as OutlinedBorder?,
+              avatar: icon != null
+                  ? Icon(
+                      icon!.icon,
+                      color: colorator != null && colorator!(item.value) != null
+                          ? colorator!(item.value)!.withOpacity(1)
+                          : icon!.color ?? Theme.of(context).primaryColor,
+                    )
+                  : null,
+              label: Container(
+                width: chipWidth,
+                child: FittedBox(
+                  child: Text(
+                    item.label,
+                    maxLines: 4,
+                    style: TextStyle(
+                      color: !enabled
+                          ? Colors.grey
+                          : colorator != null && colorator!(item.value) != null
+                              ? textStyle != null
+                                  ? textStyle!.color ?? colorator!(item.value)
+                                  : colorator!(item.value)
+                              : textStyle != null && textStyle!.color != null
+                                  ? textStyle!.color
+                                  : chipColor != null
+                                      ? chipColor!.withOpacity(1)
+                                      : null,
+                      fontSize: textStyle != null ? textStyle!.fontSize : null,
+                    ),
+                  ),
+                ),
+              ),
+              selected: items!.contains(item),
+              selectedColor: colorator != null && colorator!(item.value) != null
+                  ? colorator!(item.value)
+                  : chipColor != null
+                      ? chipColor
+                      : Theme.of(context).primaryColor.withOpacity(0.33),
+              onSelected: (_) {
+                if (onTap != null) onTap!(item.value);
+              },
+            ),
+          );
   }
 }
