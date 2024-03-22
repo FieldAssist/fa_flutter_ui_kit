@@ -48,6 +48,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
 
   bool? disabled;
   final bool enabled;
+  final Widget? chipWidget;
 
   MultiSelectChipDisplay({
     this.items,
@@ -64,6 +65,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.height,
     this.chipWidth,
     this.enabled = true,
+    this.chipWidget,
+    
   }) {
     this.disabled = false;
   }
@@ -84,6 +87,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.height,
     this.chipWidth,
     this.enabled = true,
+    this.chipWidget,
   });
 
   @override
@@ -130,7 +134,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   }
 
   Widget _buildItem(MultiSelectItem<V> item, BuildContext context) {
-    return Container(
+    return chipWidget !=null ? chipWidget! : Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
         shape: shape as OutlinedBorder?,
