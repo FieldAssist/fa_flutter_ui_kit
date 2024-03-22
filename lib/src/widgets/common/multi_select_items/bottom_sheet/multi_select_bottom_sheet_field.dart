@@ -370,6 +370,9 @@ class __MultiSelectBottomSheetFieldViewState<V>
           height: widget.chipDisplay!.height,
           chipWidth: widget.chipDisplay!.chipWidth,
           enabled: widget.enabled,
+          showRemoveIcon: widget.chipDisplay!.showRemoveIcon,
+          showCheckmark: widget.chipDisplay!.showCheckmark,
+          deleteIcon: widget.chipDisplay!.deleteIcon,
         );
       }
     } else {
