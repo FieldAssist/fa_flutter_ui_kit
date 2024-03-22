@@ -49,6 +49,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   bool? disabled;
   final bool enabled;
   final bool showRemoveIcon;
+  final bool showCheckmark;
+  final Icon? deleteIcon;
 
   MultiSelectChipDisplay({
     this.items,
@@ -66,6 +68,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.chipWidth,
     this.enabled = true,
     this.showRemoveIcon = false,
+    this.showCheckmark = false,
+    this.deleteIcon,
   }) {
     this.disabled = false;
   }
@@ -87,6 +91,8 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.chipWidth,
     this.enabled = true,
     this.showRemoveIcon = false,
+    this.showCheckmark = false,
+    this.deleteIcon,
   });
 
   @override
@@ -137,7 +143,14 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
         ? Container(
             padding: EdgeInsets.all(2),
             child: RawChip(
-              avatar: null,
+              avatar: icon != null
+                  ? Icon(
+                      icon!.icon,
+                      color: colorator != null && colorator!(item.value) != null
+                          ? colorator!(item.value)!.withOpacity(1)
+                          : icon!.color ?? Theme.of(context).primaryColor,
+                    )
+                  : null,
               shape: shape as OutlinedBorder?,
               label: Container(
                 width: chipWidth,
@@ -163,7 +176,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                 ),
               ),
               selected: items!.contains(item),
-              showCheckmark: false,
+              showCheckmark: showCheckmark,
               selectedColor: colorator != null && colorator!(item.value) != null
                   ? colorator!(item.value)
                   : chipColor != null
@@ -172,7 +185,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
               onSelected: (_) {
                 if (onTap != null) onTap!(item.value);
               },
-              deleteIcon: Icon(Icons.close),
+              deleteIcon: deleteIcon ?? Icon(Icons.close),
               onDeleted: () {
                 if (onTap != null) onTap!(item.value);
               },
@@ -214,7 +227,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
                 ),
               ),
               selected: items!.contains(item),
-              showCheckmark: false,
+              showCheckmark: showCheckmark,
               selectedColor: colorator != null && colorator!(item.value) != null
                   ? colorator!(item.value)
                   : chipColor != null
