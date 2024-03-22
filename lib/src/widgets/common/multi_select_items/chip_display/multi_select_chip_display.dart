@@ -137,6 +137,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
         ? Container(
             padding: EdgeInsets.all(2),
             child: RawChip(
+              avatar: null,
               shape: shape as OutlinedBorder?,
               label: Container(
                 width: chipWidth,
