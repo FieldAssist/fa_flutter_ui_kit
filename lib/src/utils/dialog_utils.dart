@@ -39,10 +39,10 @@ class DialogUtils {
 
   static void showMonthRangePicker({
     required BuildContext context,
-    required int maxSelectableMonth,
 
-    /// This function will return data as startMonth , endMonth
+    /// function will return data as startMonth , endMonth
     required Function(DateTime, DateTime) pickedRange,
+    int maxSelectableMonth = 6,
     Color selectedColour = Colors.blue,
   }) {
     showDialog(
