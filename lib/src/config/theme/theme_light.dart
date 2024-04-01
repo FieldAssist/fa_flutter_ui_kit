@@ -15,6 +15,7 @@ class MyTheme {
 
   ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
+        useMaterial3: false,
         primaryColor: _primaryColor,
         primaryColorDark: _primaryColorDark,
         hintColor: _hintColor,
@@ -42,6 +43,7 @@ class MyTheme {
 
   ThemeData get darkTheme => ThemeData(
         brightness: Brightness.dark,
+        useMaterial3: false,
         appBarTheme: AppBarTheme(
           elevation: 2,
           systemOverlayStyle:
