@@ -34,4 +34,5 @@ class AppColors {
       25: Color(0xFFEFF7FF),
     },
   );
+  static const Color kLightGrey = Color(0xFF666666);
 }
