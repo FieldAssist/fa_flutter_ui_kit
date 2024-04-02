@@ -24,4 +24,6 @@ class AppColors {
   static Color kOutlinedIconButtonBorderColor = Color(0xffDCDCDC);
 
   static Color colorGreenLight = Color(0xFF4BA42A);
+
+  static const Color kLightGrey = Color(0xFF666666);
 }
