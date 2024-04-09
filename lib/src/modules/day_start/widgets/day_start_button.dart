@@ -31,28 +31,30 @@ class DayStartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color:appThemePrimaryColor!=null ? appThemePrimaryColor : (dayStartButtonBorderStyle ==
-                      DayStartButtonBorderStyle.fullBorder ||
-                  dayStartButtonBorderStyle ==
-                      DayStartButtonBorderStyle.singleBorderWhiteBg)
-              ? Colors.white
-              : Color(0xffE5F8FF),
+        color: appThemePrimaryColor != null
+            ? appThemePrimaryColor
+            : (dayStartButtonBorderStyle ==
+                        DayStartButtonBorderStyle.fullBorder ||
+                    dayStartButtonBorderStyle ==
+                        DayStartButtonBorderStyle.singleBorderWhiteBg)
+                ? Colors.white
+                : Color(0xffE5F8FF),
         gradient: appThemeGradient,
       ),
       child: TextButton(
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side:
-                dayStartButtonBorderStyle == DayStartButtonBorderStyle.fullBorder
-                    ? BorderSide(
-                        width: 1,
-                        color: borderColor,
-                      )
-                    : BorderSide(
-                        width: 0,
-                        color: Colors.transparent,
-                      ),
+            side: dayStartButtonBorderStyle ==
+                    DayStartButtonBorderStyle.fullBorder
+                ? BorderSide(
+                    width: 1,
+                    color: borderColor,
+                  )
+                : BorderSide(
+                    width: 0,
+                    color: Colors.transparent,
+                  ),
           ),
           padding: EdgeInsets.zero,
           minimumSize: Size.fromHeight(48),

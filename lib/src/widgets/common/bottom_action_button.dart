@@ -62,7 +62,11 @@ class BottomActionButton extends StatelessWidget {
       ]
     }[iconPosition];
 
-    var buttonColor = onPressed != null ?appThemePrimaryColor!=null ?appThemePrimaryColor :color : Colors.grey;
+    var buttonColor = onPressed != null
+        ? appThemePrimaryColor != null
+            ? appThemePrimaryColor
+            : color
+        : Colors.grey;
     if (forceButtonColor) buttonColor = color;
 
     return Padding(
@@ -75,7 +79,6 @@ class BottomActionButton extends StatelessWidget {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: height,
-          
           decoration: BoxDecoration(
             color: buttonColor,
             gradient: appThemeGradient,
