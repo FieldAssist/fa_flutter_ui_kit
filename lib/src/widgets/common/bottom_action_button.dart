@@ -15,8 +15,8 @@ class BottomActionButton extends StatelessWidget {
   final GestureTapCallback? onPressed;
   final IconPosition iconPosition;
   final bool forceButtonColor;
-  final Color? appThemePrimaryColor;
-  final LinearGradient? appThemeGradient;
+  final Color? primaryColor;
+  final LinearGradient? gradient;
 
   const BottomActionButton({
     Key? key,
@@ -31,8 +31,8 @@ class BottomActionButton extends StatelessWidget {
     this.iconPosition = IconPosition.end,
     this.height = 60,
     this.forceButtonColor = false,
-    this.appThemeGradient,
-    this.appThemePrimaryColor,
+    this.primaryColor,
+    this.gradient,
     this.icon = const Icon(
       Icons.arrow_forward,
       color: Colors.white,
@@ -62,13 +62,6 @@ class BottomActionButton extends StatelessWidget {
       ]
     }[iconPosition];
 
-    var buttonColor = onPressed != null
-        ? appThemePrimaryColor != null
-            ? appThemePrimaryColor
-            : color
-        : Colors.grey;
-    if (forceButtonColor) buttonColor = color;
-
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -80,8 +73,8 @@ class BottomActionButton extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: height,
           decoration: BoxDecoration(
-            color: buttonColor,
-            gradient: appThemeGradient,
+            color: _getBackgrounColor(),
+            gradient: gradient,
           ),
           child: Center(
             child: isCustomChildren
@@ -94,5 +87,16 @@ class BottomActionButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color? _getBackgrounColor() {
+    if (forceButtonColor) {
+      return color;
+    }
+    return onPressed != null
+        ? primaryColor != null
+            ? primaryColor
+            : color
+        : Colors.grey;
   }
 }

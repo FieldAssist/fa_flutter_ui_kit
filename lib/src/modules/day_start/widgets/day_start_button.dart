@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 enum DayStartButtonBorderStyle { singleBorder, fullBorder, singleBorderWhiteBg }
 
@@ -11,8 +12,8 @@ class DayStartButton extends StatelessWidget {
     this.dayStartButtonBorderStyle = DayStartButtonBorderStyle.singleBorder,
     this.isDarkMode = false,
     this.borderColor = Colors.transparent,
-    this.appThemePrimaryColor,
-    this.appThemeGradient,
+    this.primaryColor,
+    this.gradient,
     Key? key,
   }) : super(key: key);
 
@@ -24,37 +25,21 @@ class DayStartButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isDisabled;
   final bool isDarkMode;
-  final Color? appThemePrimaryColor;
-  final LinearGradient? appThemeGradient;
+  final Color? primaryColor;
+  final LinearGradient? gradient;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: appThemePrimaryColor != null
-            ? appThemePrimaryColor
-            : (dayStartButtonBorderStyle ==
-                        DayStartButtonBorderStyle.fullBorder ||
-                    dayStartButtonBorderStyle ==
-                        DayStartButtonBorderStyle.singleBorderWhiteBg)
-                ? Colors.white
-                : Color(0xffE5F8FF),
-        gradient: appThemeGradient,
+        color: _getBackgrounColor(),
+        gradient: gradient,
       ),
       child: TextButton(
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side: dayStartButtonBorderStyle ==
-                    DayStartButtonBorderStyle.fullBorder
-                ? BorderSide(
-                    width: 1,
-                    color: borderColor,
-                  )
-                : BorderSide(
-                    width: 0,
-                    color: Colors.transparent,
-                  ),
+            side: _getBorderSide(),
           ),
           padding: EdgeInsets.zero,
           minimumSize: Size.fromHeight(48),
@@ -103,5 +88,27 @@ class DayStartButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  BorderSide _getBorderSide() {
+    return dayStartButtonBorderStyle == DayStartButtonBorderStyle.fullBorder
+        ? BorderSide(
+            width: 1,
+            color: borderColor,
+          )
+        : BorderSide(
+            width: 0,
+            color: Colors.transparent,
+          );
+  }
+
+  Color? _getBackgrounColor() {
+    return primaryColor != null
+        ? primaryColor
+        : (dayStartButtonBorderStyle == DayStartButtonBorderStyle.fullBorder ||
+                dayStartButtonBorderStyle ==
+                    DayStartButtonBorderStyle.singleBorderWhiteBg)
+            ? Colors.white
+            : Color(0xffE5F8FF);
   }
 }
