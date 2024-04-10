@@ -67,7 +67,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   bool _isAddButtonEnabled = true;
   late bool _showError;
   late final NoKeyboardEditableTextFocusNode _focusNode;
-  final _textController = TextEditingController();
   TextEditingController get textController => widget.textController;
 
   @override
@@ -75,7 +74,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     super.initState();
     _focusNode = widget.focusNode ?? NoKeyboardEditableTextFocusNode();
     if (widget.prefillValue != null) {
-      _textController.text = widget.prefillValue.toString();
+      textController.text = widget.prefillValue.toString();
     }
     if (_isMaxLimitReached()) {
       _isAddButtonEnabled = false;
