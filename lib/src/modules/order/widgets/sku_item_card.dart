@@ -11,6 +11,8 @@ class SkuItemCard extends StatefulWidget {
     required this.qtyDescription,
     required this.stdQtyDescription,
     required this.skuImage,
+    this.prefillValue,
+    this.stdPrefillValue,
     this.keyBoardController,
     this.topWidget,
     this.thirdButton,
@@ -25,6 +27,8 @@ class SkuItemCard extends StatefulWidget {
   final String qtyDescription;
   final String stdQtyDescription;
   final Widget skuImage;
+  final int? prefillValue;
+  final int? stdPrefillValue;
   final KeyboardController? keyBoardController;
   final Widget? topWidget;
   final Widget? thirdButton;
@@ -91,6 +95,7 @@ class _SkuItemCardState extends State<SkuItemCard> {
                     widget.onQtyChange(value, qtyController.text),
                 textController: stdQtyController,
                 qtyText: widget.stdQtyDescription,
+                prefillValue: widget.stdPrefillValue,
               ),
               SizedBox(
                 width: 4,
@@ -101,6 +106,7 @@ class _SkuItemCardState extends State<SkuItemCard> {
                     widget.onQtyChange(stdQtyController.text, value),
                 textController: qtyController,
                 qtyText: widget.qtyDescription,
+                prefillValue: widget.prefillValue,
               ),
               SizedBox(
                 width: 4,
@@ -118,5 +124,12 @@ class _SkuItemCardState extends State<SkuItemCard> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    stdQtyController.dispose();
+    qtyController.dispose();
+    super.dispose();
   }
 }
