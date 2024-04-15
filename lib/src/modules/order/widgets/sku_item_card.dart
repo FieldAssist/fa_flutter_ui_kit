@@ -1,4 +1,3 @@
-import 'package:fa_flutter_ui_kit/src/config/colors.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/number_keyboard/keyboard_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -17,13 +16,13 @@ class SkuItemCard extends StatefulWidget {
     this.topWidget,
     this.thirdButton,
     this.bottomWidget,
-    this.skuDescription = "",
+    this.skuDescription,
     super.key,
   });
 
   final void Function(String? stdQty, String? qty) onQtyChange;
   final String skuName;
-  final String skuDescription;
+  final Widget? skuDescription;
   final String qtyDescription;
   final String stdQtyDescription;
   final Widget skuImage;
@@ -72,13 +71,7 @@ class _SkuItemCardState extends State<SkuItemCard> {
                       maxLines: 3,
                     ),
                     SizedBox(height: 4),
-                    Text(
-                      widget.skuDescription,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontSize: 10,
-                            color: AppColors.kLightGrey,
-                          ),
-                    ),
+                    if (widget.skuDescription != null) widget.skuDescription!,
                   ],
                 ),
               ),
@@ -108,10 +101,12 @@ class _SkuItemCardState extends State<SkuItemCard> {
                 qtyText: widget.qtyDescription,
                 prefillValue: widget.prefillValue,
               ),
-              SizedBox(
-                width: 4,
-              ),
-              if (widget.thirdButton != null) widget.thirdButton!,
+              if (widget.thirdButton != null) ...[
+                SizedBox(
+                  width: 4,
+                ),
+                widget.thirdButton!
+              ],
             ],
           ),
           if (widget.bottomWidget != null)
