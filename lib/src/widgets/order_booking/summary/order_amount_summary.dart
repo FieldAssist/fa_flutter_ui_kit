@@ -1,3 +1,5 @@
+import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
 
 class QuantityBreakdown {
@@ -28,6 +30,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.marginPercentage,
     required this.marginAmount,
     required this.payableAmount,
+    required this.mainColor,
     super.key,
   });
 
@@ -38,9 +41,11 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final double marginPercentage;
   final double marginAmount;
   final double payableAmount;
+  final Color mainColor;
 
   final titleTextStyle = TextStyle(
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
+    color: Colors.black87,
   );
 
   @override
@@ -51,20 +56,22 @@ class OrderAmountSummaryWidget extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: Icon(
-              Icons.warehouse,
-              color: Theme.of(context).primaryColor,
+            leading: SvgPicture.asset(
+              SvgIcons.distributorIcon,
+              height: 25,
+              width: 25,
             ),
             title: Row(
               children: [
                 Text(
                   "Distributor: ",
-                  style: titleTextStyle,
+                  style: titleTextStyle.copyWith(color: mainColor),
                 ),
-                Text(
-                  distributorName,
-                  style: titleTextStyle.copyWith(
-                    color: Theme.of(context).primaryColor,
+                SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    distributorName,
+                    style: titleTextStyle,
                   ),
                 ),
               ],
@@ -72,6 +79,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
             subtitle: Text(distributorAddress),
           ),
           ExpansionTile(
+            visualDensity: VisualDensity.compact,
             title: Row(
               children: [
                 Text(
@@ -85,9 +93,10 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 )
               ],
             ),
-            leading: Icon(
-              Icons.inventory,
-              color: Theme.of(context).primaryColor,
+            leading: SvgPicture.asset(
+              SvgIcons.boxIcon,
+              height: 25,
+              width: 25,
             ),
             initiallyExpanded: true,
             childrenPadding:
@@ -108,15 +117,17 @@ class OrderAmountSummaryWidget extends StatelessWidget {
             ],
           ),
           ExpansionTile(
+            visualDensity: VisualDensity.compact,
             childrenPadding: EdgeInsets.only(
               left: 16 + 60,
               right: 16,
               top: 8,
               bottom: 8,
             ),
-            leading: Icon(
-              Icons.currency_rupee_rounded,
-              color: Theme.of(context).primaryColor,
+            leading: SvgPicture.asset(
+              SvgIcons.rupeeRoundedIcon,
+              height: 25,
+              width: 25,
             ),
             title: Row(
               children: [
