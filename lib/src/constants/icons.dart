@@ -26,4 +26,7 @@ class SvgIcons {
   static const close = "$_basePath/close.svg";
   static const check = "$_basePath/check.svg";
   static const myPerformance = "$_basePath/timeline_1.svg";
+  static const boxIcon = "$_basePath/box.svg";
+  static const distributorIcon = "$_basePath/distributor.svg";
+  static const rupeeRoundedIcon = "$_basePath/rupee_rounded.svg";
 }
