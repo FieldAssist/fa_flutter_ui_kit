@@ -65,12 +65,7 @@ class _SkuItemCardState extends State<SkuItemCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (widget.topWidget != null) widget.topWidget!,
-                    Text(
-                      widget.skuName,
-                      style: Theme.of(context).textTheme.labelMedium,
-                      maxLines: 3,
-                    ),
-                    SizedBox(height: 4),
+                    SizedBox(height: 2),
                     if (widget.skuDescription != null) widget.skuDescription!,
                   ],
                 ),
@@ -101,12 +96,8 @@ class _SkuItemCardState extends State<SkuItemCard> {
                 qtyText: widget.qtyDescription,
                 prefillValue: widget.prefillValue,
               ),
-              if (widget.thirdButton != null) ...[
-                SizedBox(
-                  width: 4,
-                ),
-                widget.thirdButton!
-              ],
+              Spacer(),
+              if (widget.thirdButton != null) ...[widget.thirdButton!],
             ],
           ),
           if (widget.bottomWidget != null)
