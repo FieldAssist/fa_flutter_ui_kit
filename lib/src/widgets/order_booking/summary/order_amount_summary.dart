@@ -1,5 +1,6 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
+import 'package:fa_flutter_ui_kit/src/config/colors.dart';
 import 'package:flutter/material.dart';
 
 class QuantityBreakdown {
@@ -30,6 +31,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.marginPercentage,
     required this.marginAmount,
     required this.payableAmount,
+    required this.totalQty,
     required this.mainColor,
     super.key,
   });
@@ -41,26 +43,36 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final double marginPercentage;
   final double marginAmount;
   final double payableAmount;
+  final int totalQty;
   final Color mainColor;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
     color: Colors.black87,
   );
+  final subTitleTextStyle = TextStyle(
+    fontWeight: FontWeight.w500,
+    color: AppColors.kLightGrey,
+    fontSize: 12,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 4,
       margin: EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Column(
         children: [
           ListTile(
+            visualDensity:
+                VisualDensity(horizontal: VisualDensity.minimumDensity),
             leading: SvgPicture.asset(
               SvgIcons.distributorIcon,
               height: 25,
               width: 25,
             ),
+            minLeadingWidth: 40,
             title: Row(
               children: [
                 Text(
@@ -76,10 +88,16 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 ),
               ],
             ),
-            subtitle: Text(distributorAddress),
+            subtitle: checkIfNotEmpty(distributorAddress)
+                ? Text(distributorAddress)
+                : null,
           ),
           ExpansionTile(
-            visualDensity: VisualDensity.compact,
+            visualDensity: VisualDensity(
+                horizontal: VisualDensity.minimumDensity,
+                vertical: VisualDensity.minimumDensity),
+            childrenPadding:
+                EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
             title: Row(
               children: [
                 Text(
@@ -88,7 +106,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  "${_calculateTotalQuantity()} SKUs",
+                  "$totalQty SKUs",
                   style: titleTextStyle,
                 )
               ],
@@ -99,31 +117,32 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               width: 25,
             ),
             initiallyExpanded: true,
-            childrenPadding:
-                EdgeInsets.only(left: 16 + 60, right: 16, top: 8, bottom: 8),
             children: [
               ...List.generate(
                 quantityBreakdownList.length,
-                (index) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(quantityBreakdownList[index].type),
-                    Text(
-                      "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
-                    ),
-                  ],
+                (index) => Padding(
+                  padding: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(quantityBreakdownList[index].type,
+                          style: subTitleTextStyle),
+                      Text(
+                          "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
+                          style:
+                              subTitleTextStyle.copyWith(color: Colors.black)),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
           ExpansionTile(
-            visualDensity: VisualDensity.compact,
-            childrenPadding: EdgeInsets.only(
-              left: 16 + 60,
-              right: 16,
-              top: 8,
-              bottom: 8,
-            ),
+            visualDensity: VisualDensity(
+                horizontal: VisualDensity.minimumDensity,
+                vertical: VisualDensity.minimumDensity),
+            childrenPadding:
+                EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
             leading: SvgPicture.asset(
               SvgIcons.rupeeRoundedIcon,
               height: 25,
@@ -144,27 +163,38 @@ class OrderAmountSummaryWidget extends StatelessWidget {
             ),
             initiallyExpanded: true,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Margin (%)",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  Text(
-                    "₹ $marginAmount ($marginPercentage%)",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Margin (%)",
+                      style: subTitleTextStyle.copyWith(
+                          color: AppColors.colorGreenLight),
+                    ),
+                    Text(
+                      "₹ $marginAmount ($marginPercentage%)",
+                      style: subTitleTextStyle.copyWith(
+                          color: AppColors.colorGreenLight),
+                    ),
+                  ],
+                ),
               ),
               ...List.generate(
                 amountBreakdownList.length,
-                (index) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(amountBreakdownList[index].type),
-                    Text("₹ ${amountBreakdownList[index].amount}"),
-                  ],
+                (index) => Padding(
+                  padding: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(amountBreakdownList[index].type,
+                          style: subTitleTextStyle),
+                      Text("₹ ${amountBreakdownList[index].amount}",
+                          style:
+                              subTitleTextStyle.copyWith(color: Colors.black)),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -172,13 +202,5 @@ class OrderAmountSummaryWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  int _calculateTotalQuantity() {
-    var count = 0;
-    for (final element in quantityBreakdownList) {
-      count += element.orderedProductCount;
-    }
-    return count;
   }
 }
