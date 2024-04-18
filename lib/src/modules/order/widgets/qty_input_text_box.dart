@@ -16,7 +16,7 @@ class QtyInputTextBox extends StatefulWidget {
     this.buttonColor,
     this.borderColor,
     this.onFocusChanged,
-    this.width = 90,
+    this.width = 80,
     this.height = 34,
     this.btnSize = 16,
     this.isEditable = true,
@@ -164,10 +164,10 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                     cursorColor: Colors.blue,
                     onEditingComplete: widget.onEditingComplete,
                     onChanged: (qty) => widget.onInputChange(qty),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontWeight: FontWeight.w500, fontSize: 12),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                        color: Colors.black),
                     showCursor: true,
                     readOnly: widget.keyboardController != null,
                     textAlign: TextAlign.center,
