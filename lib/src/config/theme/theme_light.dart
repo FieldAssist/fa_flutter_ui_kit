@@ -12,6 +12,9 @@ class MyTheme {
   static final Color _hintColor = Color(0xffaaaaaa);
   static final Color _unselectedWidgetColor = Color(0xffcccccc);
   static final Color _scaffoldBackgroundColor = Colors.grey[50]!;
+  final String font;
+
+  MyTheme({this.font = Fonts.defaultFont});
 
   ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
@@ -26,7 +29,7 @@ class MyTheme {
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         ),
-        fontFamily: Fonts.defaultFont,
+        fontFamily: font,
         fontFamilyFallback: ['Roboto', 'SanFrancisco', 'Halvetica'],
         scaffoldBackgroundColor: _scaffoldBackgroundColor,
         unselectedWidgetColor: _unselectedWidgetColor,
@@ -49,7 +52,7 @@ class MyTheme {
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
         ),
-        fontFamily: Fonts.defaultFont,
+        fontFamily: font,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: _primarySwatch)
             .copyWith(secondary: _primaryColor),
       );
