@@ -72,7 +72,17 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   @override
   void initState() {
     super.initState();
+    init();
     _focusNode = widget.focusNode ?? NoKeyboardEditableTextFocusNode();
+  }
+
+  @override
+  void didUpdateWidget(covariant QtyInputTextBox oldWidget) {
+    init();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void init() {
     if (widget.prefillValue != null) {
       textController.text = widget.prefillValue.toString();
     }
