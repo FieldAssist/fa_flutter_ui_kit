@@ -78,18 +78,20 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
 
   @override
   void didUpdateWidget(covariant QtyInputTextBox oldWidget) {
-    init();
     super.didUpdateWidget(oldWidget);
+    init();
   }
 
   void init() {
-    if (widget.prefillValue != null) {
-      textController.text = widget.prefillValue.toString();
-    }
-    if (_isMaxLimitReached()) {
-      _isAddButtonEnabled = false;
-    }
-    _showError = widget.showError;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.prefillValue != null) {
+        textController.text = widget.prefillValue.toString();
+      }
+      if (_isMaxLimitReached()) {
+        _isAddButtonEnabled = false;
+      }
+      _showError = widget.showError;
+    });
   }
 
   void _subscribeToKeyboardEvents() {
