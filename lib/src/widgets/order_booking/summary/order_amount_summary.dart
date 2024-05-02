@@ -35,11 +35,13 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.totalQty,
     required this.mainColor,
     this.customWidget,
+    this.currency = "₹",
     super.key,
   });
 
   final String distributorName;
   final String distributorAddress;
+  final String currency;
   final List<QuantityBreakdown> quantityBreakdownList;
   final List<AmountBreakdown> amountBreakdownList;
   final double marginPercentage;
@@ -172,7 +174,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   ),
                   Spacer(),
                   Text(
-                    "$payableAmount",
+                    "$currency $payableAmount",
                     style: titleTextStyle,
                   ),
                 ],
@@ -190,7 +192,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                             color: AppColors.colorGreenLight),
                       ),
                       Text(
-                        "₹ $marginAmount ($marginPercentage%)",
+                        "$currency $marginAmount ($marginPercentage%)",
                         style: subTitleTextStyle.copyWith(
                             color: AppColors.colorGreenLight),
                       ),
@@ -207,7 +209,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                       children: [
                         Text(amountBreakdownList[index].type,
                             style: subTitleTextStyle),
-                        Text("₹ ${amountBreakdownList[index].amount}",
+                        Text("$currency ${amountBreakdownList[index].amount}",
                             style: subTitleTextStyle.copyWith(
                                 color: Colors.black)),
                       ],

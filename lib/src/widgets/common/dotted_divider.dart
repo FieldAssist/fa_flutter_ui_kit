@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 
 class DottedDivider extends StatelessWidget {
   const DottedDivider({
-    super.key,
     this.lines = 150,
+    this.leftPadding = 50,
+    this.rightPadding = 20,
+    super.key,
   });
 
   final int lines;
+  final double leftPadding;
+  final double rightPadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 50, right: 20),
+      padding: EdgeInsets.only(left: leftPadding, right: rightPadding),
       child: Row(
         children: List.generate(
           (lines) ~/ 5,
