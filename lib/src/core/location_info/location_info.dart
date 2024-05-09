@@ -14,6 +14,8 @@ abstract class LocationInfo {
 
   Future<void> initLocation();
 
+  Future<LocationData> getLocationWithPlacemarkData();
+
   @protected
   Future<String> getAddress(Position location);
 
@@ -32,7 +34,9 @@ abstract class LocationInfo {
 class LocationInfoImpl implements LocationInfo {
   final GlobalKey<NavigatorState> navKey;
 
-  LocationInfoImpl({required this.navKey});
+  final bool enforceGeocoding;
+
+  LocationInfoImpl({required this.navKey, this.enforceGeocoding = true});
 
   final String defaultLocationReason =
       'Your current location helps your manager in reviewing work done by you';
@@ -164,7 +168,11 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   Future<LocationData> _parseLocation(Position location) async {
-    final placemark = await getPlacemarkDataFromCoordinates(location);
+    PlaceMarkData? placemark;
+    if (enforceGeocoding) {
+      placemark = await getPlacemarkDataFromCoordinates(
+          latitude: location.latitude, longitude: location.longitude);
+    }
     final locationData = LocationData(
       latitude: location.latitude,
       longitude: location.longitude,
@@ -173,7 +181,7 @@ class LocationInfoImpl implements LocationInfo {
       captureLocationTime: DateTimeUtils.getCurrentISOTimeString(
           dateTime: location.timestamp!.toLocal()),
       source: isAndroid ? 'Android' : (isIOS ? 'iOS' : 'Unknown'),
-      capturedAddress: placemark.getFullAddress(),
+      capturedAddress: placemark?.getFullAddress() ?? null,
       placeMarkData: placemark,
     );
     return locationData;
@@ -244,7 +252,8 @@ class LocationInfoImpl implements LocationInfo {
   Future<String> getAddress(Position location) async {
     String _address = "";
     try {
-      final placemark = await getPlacemarkDataFromCoordinates(location);
+      final placemark = await getPlacemarkDataFromCoordinates(
+          latitude: location.latitude, longitude: location.longitude);
 
       _address = placemark.getFullAddress();
     } catch (e, s) {
@@ -253,12 +262,14 @@ class LocationInfoImpl implements LocationInfo {
     return checkIfNotEmpty(_address) ? _address : 'NA';
   }
 
-  Future<PlaceMarkData> getPlacemarkDataFromCoordinates(
-      Position location) async {
+  Future<PlaceMarkData> getPlacemarkDataFromCoordinates({
+    required double latitude,
+    required double longitude,
+  }) async {
     try {
       final placemark = await placemarkFromCoordinates(
-        location.latitude,
-        location.longitude,
+        latitude,
+        longitude,
       );
       return PlaceMarkData.fromPlacemark(placemark[0]);
     } catch (e, s) {
@@ -303,6 +314,33 @@ class LocationInfoImpl implements LocationInfo {
     );
     logger.d("Distance between User and Outlet: ${distanceInMeter.round()} m");
     return distanceInMeter <= minDistance;
+  }
+
+  @override
+  Future<LocationData> getLocationWithPlacemarkData() async {
+    final placemarkData = await getPlacemarkDataforNoGeocoding(
+        latitude: currentLocation.latitude ?? 26.85,
+        longitude: currentLocation.longitude ?? 80.94);
+
+    return currentLocation.copyWith(
+        capturedAddress: placemarkData?.getFullAddress() ?? null,
+        placeMarkData: placemarkData);
+  }
+
+  Future<PlaceMarkData?> getPlacemarkDataforNoGeocoding({
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      final placemark = await placemarkFromCoordinates(
+        latitude,
+        longitude,
+      );
+      return PlaceMarkData.fromPlacemark(placemark[0]);
+    } catch (e, s) {
+      logger.e(e, s);
+      return null;
+    }
   }
 }
 
