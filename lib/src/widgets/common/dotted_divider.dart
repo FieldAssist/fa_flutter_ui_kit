@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DottedDivider extends StatelessWidget {
   const DottedDivider({
-    this.lines = 150,
+    this.lines = 420,
     this.leftPadding = 50,
     this.rightPadding = 20,
     super.key,
