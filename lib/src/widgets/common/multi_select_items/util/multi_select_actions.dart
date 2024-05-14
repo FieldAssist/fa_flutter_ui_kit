@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'multi_select_item.dart';
 
 /// Contains common actions that are used by different multi select classes.
-class MultiSelectActions<T> {
+mixin MultiSelectActions<T> {
   List<T> onItemCheckedChange(
       List<T> selectedValues, T itemValue, bool checked) {
     if (checked) {
