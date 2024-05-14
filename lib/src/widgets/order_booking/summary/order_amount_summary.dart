@@ -1,7 +1,6 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/config/colors.dart';
-import 'package:fa_flutter_ui_kit/src/widgets/common/dotted_divider.dart';
 import 'package:flutter/material.dart';
 
 class QuantityBreakdown {
@@ -36,6 +35,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.mainColor,
     this.customWidget,
     this.currency = "₹",
+    this.showMargin = true,
     super.key,
   });
 
@@ -50,6 +50,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final int totalQty;
   final Color mainColor;
   final Widget? customWidget;
+  final bool showMargin;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -181,24 +182,26 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               ),
               initiallyExpanded: true,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Margin (%)",
-                        style: subTitleTextStyle.copyWith(
-                            color: AppColors.colorGreenLight),
-                      ),
-                      Text(
-                        "$currency $marginAmount ($marginPercentage%)",
-                        style: subTitleTextStyle.copyWith(
-                            color: AppColors.colorGreenLight),
-                      ),
-                    ],
+                if (showMargin)
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Margin (%)",
+                          style: subTitleTextStyle.copyWith(
+                              color: AppColors.colorGreenLight),
+                        ),
+                        Text(
+                          "$currency $marginAmount ($marginPercentage%)",
+                          style: subTitleTextStyle.copyWith(
+                              color: AppColors.colorGreenLight),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 ...List.generate(
                   amountBreakdownList.length,
                   (index) => Padding(
