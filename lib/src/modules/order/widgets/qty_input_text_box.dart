@@ -15,6 +15,7 @@ class QtyInputTextBox extends StatefulWidget {
     this.showButtons = true,
     this.buttonColor,
     this.borderColor,
+    this.color,
     this.onFocusChanged,
     this.width = 80,
     this.height = 34,
@@ -39,6 +40,7 @@ class QtyInputTextBox extends StatefulWidget {
   final bool showButtons;
   final Color? buttonColor;
   final Color? borderColor;
+  final Color? color;
   final VoidCallback? onFocusChanged;
   final double width;
   final double height;
@@ -139,6 +141,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
           height: widget.height,
           width: widget.width,
           decoration: BoxDecoration(
+            color: widget.color,
             borderRadius: BorderRadius.circular(4),
             border: Border.all(
               width: 1,
@@ -232,6 +235,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   }
 
   void _onRemoveBtnPressed() {
+    if (!widget.isEditable) {
+      return;
+    }
     FocusScope.of(context).requestFocus(_focusNode);
     final newValue = double.tryParse(textController.text) ?? 0;
     final decreasedValue = newValue > 0 ? newValue - 1 : 0;
@@ -250,6 +256,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   }
 
   void _onAddBtnPressed() {
+    if (!widget.isEditable) {
+      return;
+    }
     FocusScope.of(context).requestFocus(_focusNode);
     final newValue = double.tryParse(textController.text) ?? 0;
     final increasedValue = newValue + 1;
