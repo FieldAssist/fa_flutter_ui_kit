@@ -10,6 +10,8 @@ class ExitDialog extends StatelessWidget {
     this.rightActionButtonText,
     this.leftActionButtonText,
     this.leftButtonFunction,
+    this.leftButtonColor,
+    this.rightButtonColor,
   });
 
   final VoidCallback rightButtonFunction;
@@ -18,6 +20,8 @@ class ExitDialog extends StatelessWidget {
   final String? rightActionButtonText;
   final String? leftActionButtonText;
   final VoidCallback? leftButtonFunction;
+  final Color? rightButtonColor;
+  final Color? leftButtonColor;
 
   final _btnTextStyle = TextStyle(
     color: Colors.white,
@@ -63,7 +67,7 @@ class ExitDialog extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    color: AppColors.kAllProductAppBar,
+                    color: leftButtonColor ?? AppColors.kAllProductAppBar,
                     height: 30,
                     child: Text(
                       leftActionButtonText ?? 'NO',
@@ -83,7 +87,7 @@ class ExitDialog extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    color: AppColors.kAllProductAppBar,
+                    color: rightButtonColor ?? AppColors.kAllProductAppBar,
                     height: 30,
                     child: Text(
                       rightActionButtonText ?? 'YES',
