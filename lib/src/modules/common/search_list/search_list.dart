@@ -54,6 +54,7 @@ class SearchList<T> extends StatefulWidget {
     this.searchThroughMic = false,
     this.searchIcon,
     this.showCrossbutton = false,
+    this.bottomGradient,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -84,6 +85,7 @@ class SearchList<T> extends StatefulWidget {
   final Widget? searchIcon;
   final bool showCrossbutton;
   final bool searchThroughMic;
+  final LinearGradient? bottomGradient;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -235,6 +237,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
                         showIcon: widget.displayBottomBarIcon,
                         onPressed: widget.onBottomBarTap,
                         color: widget.bottomBarColor,
+                        gradient: widget.bottomGradient,
                         titleColor: widget.bottomBarTitleColor,
                         icon: Icon(
                           Icons.arrow_forward,
