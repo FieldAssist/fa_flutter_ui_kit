@@ -7,6 +7,7 @@ enum Flavor {
   DEBUG2,
   DEBUG3,
   DEBUGA,
+  UAT,
 }
 
 extension FlavorX on Flavor {
@@ -25,6 +26,8 @@ extension FlavorX on Flavor {
         return "Debug 3";
       case Flavor.DEBUGA:
         return "Debug A";
+      case Flavor.UAT:
+        return "UAT";
     }
   }
 
@@ -32,6 +35,7 @@ extension FlavorX on Flavor {
   Color get color {
     switch (this) {
       case Flavor.PROD:
+      case Flavor.UAT:
         return Colors.blue;
       case Flavor.DEV:
       case Flavor.DEBUG1:
