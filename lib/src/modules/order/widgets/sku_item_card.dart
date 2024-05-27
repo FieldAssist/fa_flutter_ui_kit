@@ -1,4 +1,3 @@
-import 'package:fa_flutter_ui_kit/src/config/colors.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/number_keyboard/keyboard_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -78,13 +77,16 @@ class _SkuItemCardState extends State<SkuItemCard> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              QtyInputTextBox(
-                keyboardController: widget.keyBoardController,
-                onInputChange: (stdQty) =>
-                    onInputChange(stdQty, qtyController.text),
-                textController: stdQtyController,
-                qtyText: widget.stdQtyDescription,
-                prefillValue: widget.stdPrefillValue,
+              Visibility(
+                visible: widget.stdQtyEditable,
+                child: QtyInputTextBox(
+                  keyboardController: widget.keyBoardController,
+                  onInputChange: (stdQty) =>
+                      onInputChange(stdQty, qtyController.text),
+                  textController: stdQtyController,
+                  qtyText: widget.stdQtyDescription,
+                  prefillValue: widget.stdPrefillValue,
+                ),
               ),
               SizedBox(
                 width: 4,
@@ -96,10 +98,6 @@ class _SkuItemCardState extends State<SkuItemCard> {
                 textController: qtyController,
                 qtyText: widget.qtyDescription,
                 prefillValue: widget.prefillValue,
-                isEditable: widget.stdQtyEditable,
-                color: widget.stdQtyEditable
-                    ? null
-                    : AppColors.kOutlinedIconButtonBorderColor,
               ),
               Spacer(),
               if (widget.thirdButton != null) ...[widget.thirdButton!],
