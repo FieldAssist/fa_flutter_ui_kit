@@ -36,6 +36,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.customWidget,
     this.currency = "₹",
     this.showMargin = true,
+    this.discountWidget,
     super.key,
   });
 
@@ -44,6 +45,9 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String currency;
   final List<QuantityBreakdown> quantityBreakdownList;
   final List<AmountBreakdown> amountBreakdownList;
+
+  /// It appears After Qty Info and before Payable Amount Info
+  final Widget? discountWidget;
   final double marginPercentage;
   final double marginAmount;
   final double payableAmount;
@@ -155,6 +159,10 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   quantityBreakdownList.isEmpty ? SizedBox.shrink() : null,
             ),
             DottedDivider(),
+            if (discountWidget != null) ...[
+              discountWidget!,
+              DottedDivider(),
+            ],
             ExpansionTile(
               shape: RoundedRectangleBorder(side: BorderSide.none),
               visualDensity: VisualDensity(
