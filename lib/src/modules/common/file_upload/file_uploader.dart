@@ -22,7 +22,8 @@ class FileService {
 
   /// Return the Picked File from the System
   /// handled extensions are [pdf, jpeg, jpg, png]
-  static Future<PlatformFile> pickDocument(List<String>? extensions) async {
+  /// We can add more via [extension] parameter
+  static Future<PlatformFile?> pickDocument(List<String>? extensions) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: extensions ??
@@ -33,10 +34,12 @@ class FileService {
             'png',
           ],
     );
-    return result!.files.first;
+    if (result != null) return result.files.first;
+    return null;
   }
 
   /// Open the DOC
+  /// It will throw Error if the path is Wrong.
   static void openFile(String path) {
     OpenFile.open(path);
   }
