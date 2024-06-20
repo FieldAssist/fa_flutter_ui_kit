@@ -3,16 +3,16 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/src/platform/open_file.dart';
 
-class FetchFile {
-  FetchFile._();
+class FileService {
+  FileService._();
 
-  static Future<PlatformFile?> getImage(
+  static Future<PlatformFile?> pickImage(
       ImageSource source, StateSetter setState) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
       return PlatformFile(
-        name: "uploaded_file",
+        name: "uploaded_image",
         size: 5,
         path: pickedFile.path,
       );
@@ -20,7 +20,7 @@ class FetchFile {
     return null;
   }
 
-  static Future<PlatformFile?> getDocument(StateSetter setState) async {
+  static Future<PlatformFile?> pickDocument(StateSetter setState) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
@@ -32,7 +32,7 @@ class FetchFile {
     return null;
   }
 
-  static void viewFile(PlatformFile _image) {
-    OpenFile.open(_image.path);
+  static void openFile(PlatformFile file) {
+    OpenFile.open(file.path);
   }
 }
