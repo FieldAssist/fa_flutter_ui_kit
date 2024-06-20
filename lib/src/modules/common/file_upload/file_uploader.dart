@@ -1,6 +1,5 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:open_file/src/platform/open_file.dart';
 
 class FileService {
@@ -8,13 +7,13 @@ class FileService {
 
   /// Return the Clicked Image
   static Future<PlatformFile?> pickImage(
-      ImageSource source, StateSetter setState) async {
+      ImageSource source, String? name) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
       return PlatformFile(
-        name: "uploaded_image",
-        size: 5,
+        name: name ?? pickedFile.name,
+        size: await pickedFile.length(),
         path: pickedFile.path,
       );
     }
@@ -22,20 +21,23 @@ class FileService {
   }
 
   /// Return the Picked File from the System
-  static Future<PlatformFile?> pickDocument(StateSetter setState) async {
+
+  static Future<PlatformFile> pickDocument(List<String>? extensions) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
+      allowedExtensions: extensions ??
+          [
+            'pdf',
+            'jpg',
+            'jpeg',
+            'png',
+          ],
     );
-
-    if (result != null) {
-      return result.files.first;
-    }
-    return null;
+    return result!.files.first;
   }
 
   // Open the DOC
-  static void openFile(PlatformFile file) {
-    OpenFile.open(file.path);
+  static void openFile(String path) {
+    OpenFile.open(path);
   }
 }
