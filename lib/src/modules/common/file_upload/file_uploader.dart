@@ -39,7 +39,6 @@ class FileService {
   }
 
   /// Open the DOC
-  /// It will throw Error if the path is Wrong.
   static void openFile(String path) {
     OpenFile.open(path);
   }
