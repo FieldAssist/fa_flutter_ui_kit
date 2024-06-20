@@ -21,7 +21,7 @@ class FileService {
   }
 
   /// Return the Picked File from the System
-
+  /// handled extensions are [pdf, jpeg, jpg, png]
   static Future<PlatformFile> pickDocument(List<String>? extensions) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -36,7 +36,7 @@ class FileService {
     return result!.files.first;
   }
 
-  // Open the DOC
+  /// Open the DOC
   static void openFile(String path) {
     OpenFile.open(path);
   }
