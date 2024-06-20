@@ -6,6 +6,7 @@ import 'package:open_file/src/platform/open_file.dart';
 class FileService {
   FileService._();
 
+  /// Return the Clicked Image
   static Future<PlatformFile?> pickImage(
       ImageSource source, StateSetter setState) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -20,6 +21,7 @@ class FileService {
     return null;
   }
 
+  /// Return the Picked File from the System
   static Future<PlatformFile?> pickDocument(StateSetter setState) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -32,6 +34,7 @@ class FileService {
     return null;
   }
 
+  // Open the DOC
   static void openFile(PlatformFile file) {
     OpenFile.open(file.path);
   }
