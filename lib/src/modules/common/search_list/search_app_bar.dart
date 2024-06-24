@@ -36,7 +36,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.showBackButton = true,
   });
 
-  final _appbarHeight = 56.0;
+  final _appbarHeight = 66.0;
 
   @override
   _SearchAppBarState createState() => _SearchAppBarState();

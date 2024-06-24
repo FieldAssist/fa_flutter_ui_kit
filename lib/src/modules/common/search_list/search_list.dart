@@ -22,7 +22,7 @@ typedef GetSelectedItem<T> = void Function(T? item);
 
 typedef OnItemSearch<T> = bool Function(T item, String query);
 
-enum SearchListType { SearchBarInBody }
+enum SearchListType { SearchBarInBody, SearchWithAppBar, NoSearchWithAppBar }
 
 typedef BottomActionBuilder = Widget Function();
 
@@ -36,6 +36,7 @@ class SearchList<T> extends StatefulWidget {
     this.onSearch,
     this.bottomBarColor = const Color(0xff0097cd),
     this.bottomBarTitleColor = Colors.white,
+    this.backgroundColor,
     this.displayBottomBarIcon = true,
     this.bottomActionBuilder,
     this.showBottomActionBar = true,
@@ -46,6 +47,7 @@ class SearchList<T> extends StatefulWidget {
     this.textEditingController,
     this.appBarSubTitle,
     this.showDivider = true,
+    this.dividerMargin,
     this.defaultAppBarColor,
     this.defaultAppBarTextColor,
     this.leading,
@@ -53,6 +55,7 @@ class SearchList<T> extends StatefulWidget {
     this.type,
     this.searchThroughMic = false,
     this.searchIcon,
+    this.showBackButton = true,
     this.showCrossbutton = false,
     this.bottomGradient,
     Key? key,
@@ -75,16 +78,19 @@ class SearchList<T> extends StatefulWidget {
   final TextEditingController? textEditingController;
   final String? appBarSubTitle;
   final bool showDivider;
+  final EdgeInsets? dividerMargin;
   final Color? defaultAppBarColor;
   final Color? defaultAppBarTextColor;
   final Color bottomBarColor;
   final Color bottomBarTitleColor;
+  final Color? backgroundColor;
   final Widget? leading;
   final SearchListType? type;
   final bool? autoFocus;
   final Widget? searchIcon;
   final bool showCrossbutton;
   final bool searchThroughMic;
+  final bool showBackButton;
   final LinearGradient? bottomGradient;
 
   @override
@@ -97,6 +103,8 @@ class _SearchListState<T> extends State<SearchList<T>> {
   late Map<T, bool> selectedItemMap;
   int lastSelectedItemIndex = -1;
   TextEditingController? searchQueryController;
+  late var showActions = widget.type == SearchListType.SearchWithAppBar ||
+      widget.type == SearchListType.NoSearchWithAppBar;
 
   @override
   void initState() {
@@ -177,6 +185,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
                       widget.showDivider
                           ? Container(
                               height: 0.5,
+                              margin: widget.dividerMargin,
                               color: Colors.grey,
                             )
                           : Container(
@@ -215,7 +224,8 @@ class _SearchListState<T> extends State<SearchList<T>> {
 
     return widget.showDefaultAppBar
         ? Scaffold(
-            backgroundColor: Colors.grey[50],
+            resizeToAvoidBottomInset: false,
+            backgroundColor: widget.backgroundColor ?? Colors.grey[50],
             appBar: SearchAppBar(
               textColor: widget.defaultAppBarTextColor ?? Colors.black,
               appBarColor: widget.defaultAppBarColor,
@@ -226,8 +236,44 @@ class _SearchListState<T> extends State<SearchList<T>> {
               appBarSubTitle: widget.appBarSubTitle,
               leading: widget.leading,
               searchIcon: widget.searchIcon,
+              showBackButton: widget.showBackButton,
+              elevation: showActions ? 0 : null,
+              actions: showActions
+                  ? [
+                      IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(
+                            Icons.dangerous_outlined,
+                            color: Colors.white,
+                          ))
+                    ]
+                  : null,
             ),
-            body: _child,
+            body: NestedScrollView(
+                floatHeaderSlivers: true,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          if (widget.type == SearchListType.SearchWithAppBar)
+                            IntegratedSearchTextField(
+                              searchThroughMic: widget.searchThroughMic,
+                              autoFocus: widget.autoFocus ?? false,
+                              prefixIcon: Icon(Icons.search),
+                              bgColor: Color(0xffF5F5F5),
+                              queryTextController: searchQueryController!,
+                              searchFieldLabel:
+                                  widget.searchBarTitle ?? 'Search',
+                              showCrossbutton: widget.showCrossbutton,
+                              borderRadius: 14,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+                body: _child),
             bottomNavigationBar: !widget.showBottomActionBar
                 ? null
                 : widget.bottomActionBuilder != null

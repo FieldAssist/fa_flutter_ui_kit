@@ -16,6 +16,7 @@ class IntegratedSearchTextField extends StatefulWidget {
     this.searchThroughMic = false,
     required this.queryTextController,
     this.showCrossbutton = false,
+    this.borderRadius = 5,
     Key? key,
   }) : super(key: key);
 
@@ -31,6 +32,7 @@ class IntegratedSearchTextField extends StatefulWidget {
   final bool? autoFocus;
   final bool showCrossbutton;
   final bool searchThroughMic;
+  final double borderRadius;
 
   // final SearchListBloc _searchListBloc=SearchListBloc();
 
@@ -64,7 +66,7 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
             isDense: true,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(widget.borderRadius),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
