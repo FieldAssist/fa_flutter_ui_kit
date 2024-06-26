@@ -33,7 +33,9 @@ class CustomGaugePainter extends CustomPainter {
     );
 
     paint.color = gaugeColor;
-    final sweepAngle = (pi * currentValue) / targetValue;
+    final sweepAngle =
+        (pi * (targetValue < currentValue ? targetValue : currentValue)) /
+            targetValue;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: 100),
       pi,
