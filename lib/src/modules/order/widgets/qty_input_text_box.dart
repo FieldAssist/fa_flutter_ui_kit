@@ -19,7 +19,7 @@ class QtyInputTextBox extends StatefulWidget {
     this.onFocusChanged,
     this.width = 80,
     this.height = 34,
-    this.btnSize = 16,
+    this.btnSize = 20,
     this.isEditable = true,
     this.focusNode,
     this.onEditingComplete,
@@ -157,13 +157,18 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                 GestureDetector(
                   onTap: _onRemoveBtnPressed,
                   behavior: HitTestBehavior.translucent,
-                  child: Icon(
-                    Icons.remove,
-                    color: _isAddButtonEnabled
-                        ? widget.buttonColor ??
-                            Theme.of(context).colorScheme.onBackground
-                        : Theme.of(context).disabledColor,
-                    size: widget.btnSize,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.remove,
+                        color: _isAddButtonEnabled
+                            ? widget.buttonColor ??
+                                Theme.of(context).colorScheme.onBackground
+                            : Theme.of(context).disabledColor,
+                        size: widget.btnSize,
+                      ),
+                    ],
                   ),
                 ),
               Focus(
@@ -209,13 +214,18 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                 GestureDetector(
                   onTap: _isAddButtonEnabled ? _onAddBtnPressed : null,
                   behavior: HitTestBehavior.translucent,
-                  child: Icon(
-                    Icons.add,
-                    color: _isAddButtonEnabled
-                        ? widget.buttonColor ??
-                            Theme.of(context).colorScheme.onBackground
-                        : Theme.of(context).disabledColor,
-                    size: widget.btnSize,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: _isAddButtonEnabled
+                            ? widget.buttonColor ??
+                                Theme.of(context).colorScheme.onBackground
+                            : Theme.of(context).disabledColor,
+                        size: widget.btnSize,
+                      ),
+                    ],
                   ),
                 ),
             ],
