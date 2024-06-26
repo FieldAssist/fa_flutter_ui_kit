@@ -35,6 +35,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.mainColor,
     this.customWidget,
     this.currency = "₹",
+    this.unit = "SKUs",
     this.showMargin = true,
     this.discountWidget,
     super.key,
@@ -43,6 +44,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String distributorName;
   final String distributorAddress;
   final String currency;
+  final String unit;
   final List<QuantityBreakdown> quantityBreakdownList;
   final List<AmountBreakdown> amountBreakdownList;
 
@@ -124,7 +126,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   ),
                   Spacer(),
                   Text(
-                    "$totalQty SKUs",
+                    "$totalQty $unit",
                     style: titleTextStyle,
                   )
                 ],
