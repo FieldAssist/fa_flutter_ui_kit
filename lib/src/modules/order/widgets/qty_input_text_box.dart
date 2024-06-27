@@ -28,6 +28,8 @@ class QtyInputTextBox extends StatefulWidget {
     this.shouldValidate = false,
     this.showCrossOnNonEditableField = false,
     this.qtyText,
+    this.qtyTextTrailingIcon,
+    this.onQtyTextTap,
     Key? key,
   }) : super(key: key);
 
@@ -50,6 +52,8 @@ class QtyInputTextBox extends StatefulWidget {
   final NoKeyboardEditableTextFocusNode? focusNode;
   final VoidCallback? onEditingComplete;
   final String? qtyText;
+  final Widget? qtyTextTrailingIcon;
+  final VoidCallback? onQtyTextTap;
 
   /// When `true`, shows validation error message below the counter
   final bool showValidationErrorMessage;
@@ -233,13 +237,30 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
         ),
         SizedBox(height: 4),
         if (widget.qtyText != null)
-          Text(
-            widget.qtyText ?? "",
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontSize: 8,
-                  color: AppColors.kLightGrey,
+          widget.qtyTextTrailingIcon == null
+              ? Text(
+                  widget.qtyText ?? "",
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontSize: 8,
+                        color: AppColors.kLightGrey,
+                      ),
+                )
+              : GestureDetector(
+                  onTap: widget.onQtyTextTap,
+                  child: Row(
+                    children: [
+                      Text(
+                        widget.qtyText ?? "",
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontSize: 8,
+                              color: AppColors.kLightGrey,
+                            ),
+                      ),
+                      if (widget.qtyTextTrailingIcon != null)
+                        widget.qtyTextTrailingIcon!,
+                    ],
+                  ),
                 ),
-          ),
       ],
     );
   }
