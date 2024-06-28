@@ -17,8 +17,6 @@ class QtyInputTextBox extends StatefulWidget {
     this.borderColor,
     this.color,
     this.onFocusChanged,
-    this.width = 80,
-    this.height = 34,
     this.btnSize = 20,
     this.isEditable = true,
     this.focusNode,
@@ -44,8 +42,6 @@ class QtyInputTextBox extends StatefulWidget {
   final Color? borderColor;
   final Color? color;
   final VoidCallback? onFocusChanged;
-  final double width;
-  final double height;
   final double btnSize;
   final bool isEditable;
   final bool showCrossOnNonEditableField;
@@ -142,8 +138,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     return Column(
       children: [
         Container(
-          height: widget.height,
-          width: widget.width,
           decoration: BoxDecoration(
             color: widget.color,
             borderRadius: BorderRadius.circular(4),
@@ -153,7 +147,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
             ),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
