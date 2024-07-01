@@ -241,6 +241,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
               : GestureDetector(
                   onTap: widget.onQtyTextTap,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         widget.qtyText ?? "",
