@@ -67,7 +67,6 @@ class QtyInputTextBox extends StatefulWidget {
 class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   StreamSubscription<String?>? _keyboardValueSubs;
   bool _isAddButtonEnabled = true;
-  late bool _showError;
   late final NoKeyboardEditableTextFocusNode _focusNode;
   TextEditingController get textController => widget.textController;
 
@@ -89,10 +88,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
       if (widget.prefillValue != null) {
         textController.text = widget.prefillValue.toString();
       }
-      if (_isMaxLimitReached()) {
-        _isAddButtonEnabled = false;
-      }
-      _showError = widget.showError;
     });
   }
 
@@ -114,17 +109,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
             .copyWith(text: newText, selection: newSelection);
       }
       widget.onInputChange(textController.text);
-      if (_isMaxLimitReached() || _isMinLimitReached()) {
-        setState(() {
-          _showError = true;
-        });
-      } else {
-        if (_showError) {
-          setState(() {
-            _showError = false;
-          });
-        }
-      }
     });
   }
 
@@ -168,41 +152,42 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                     ],
                   ),
                 ),
-              Focus(
-                onFocusChange: _onFocusChange,
-                child: Container(
-                  width: 30,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    focusNode:
-                        widget.keyboardController != null ? _focusNode : null,
-                    enabled: widget.isEditable,
-                    controller: textController,
-                    cursorColor: Colors.blue,
-                    onEditingComplete: widget.onEditingComplete,
-                    onChanged: (qty) => widget.onInputChange(qty),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        color: Colors.black),
-                    showCursor: true,
-                    readOnly: widget.keyboardController != null,
-                    textAlign: TextAlign.center,
-                    autovalidateMode: _getAutovalidateMode(),
-                    validator: !widget.shouldValidate ? null : _validateText,
-                    decoration: InputDecoration(
-                      hintText: !widget.isEditable &&
-                              widget.showCrossOnNonEditableField
-                          ? "x"
-                          : null,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      isDense: true,
-                      disabledBorder: InputBorder.none,
-                      errorStyle: !widget.showValidationErrorMessage
-                          ? TextStyle(height: 0)
-                          : null,
+              Expanded(
+                child: Focus(
+                  onFocusChange: _onFocusChange,
+                  child: Container(
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      focusNode:
+                          widget.keyboardController != null ? _focusNode : null,
+                      enabled: widget.isEditable,
+                      controller: textController,
+                      cursorColor: Colors.blue,
+                      onEditingComplete: widget.onEditingComplete,
+                      onChanged: (qty) => widget.onInputChange(qty),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Colors.black),
+                      showCursor: true,
+                      readOnly: widget.keyboardController != null,
+                      textAlign: TextAlign.center,
+                      autovalidateMode: _getAutovalidateMode(),
+                      validator: !widget.shouldValidate ? null : _validateText,
+                      decoration: InputDecoration(
+                        hintText: !widget.isEditable &&
+                                widget.showCrossOnNonEditableField
+                            ? "x"
+                            : null,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        isDense: true,
+                        disabledBorder: InputBorder.none,
+                        errorStyle: !widget.showValidationErrorMessage
+                            ? TextStyle(height: 0)
+                            : null,
+                      ),
                     ),
                   ),
                 ),
@@ -273,11 +258,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     textController.value =
         textController.value.copyWith(text: newText, selection: newSelection);
     widget.onInputChange(textController.text);
-    if (!_isMaxLimitReached()) {
-      setState(() {
-        _isAddButtonEnabled = true;
-      });
-    }
   }
 
   void _onAddBtnPressed() {
@@ -296,11 +276,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
       selection: newSelection,
     );
     widget.onInputChange(textController.text);
-    if (_isMaxLimitReached()) {
-      setState(() {
-        _isAddButtonEnabled = false;
-      });
-    }
   }
 
   void _onFocusChange(isFocused) {
@@ -347,31 +322,6 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
       return AutovalidateMode.onUserInteraction;
     }
     return null;
-  }
-
-  // This is to check whether the max Value is reached or not
-  bool _isMaxLimitReached() {
-    // If there is no max value set
-    // then there is no need to check for the enabling of the button
-    // if (widget.maxValue == null) {
-    //   return false;
-    // }
-    final newValue = double.tryParse(textController.text) ?? 0;
-    return newValue > (widget.maxValue ?? 999999);
-  }
-
-  // This is to check whether the max Value is reached or not
-  bool _isMinLimitReached() {
-    // If there is no max value set
-    // then there is no need to check for the enabling of the button
-    if (widget.minValue == null) {
-      return false;
-    }
-    final newValue = double.tryParse(textController.text) ?? 0;
-    if (newValue == 0) {
-      return false;
-    }
-    return newValue < (widget.minValue ?? 0);
   }
 
   @override
