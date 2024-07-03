@@ -62,6 +62,24 @@ class CustomGaugePainter extends CustomPainter {
     );
     targetLabelPainter.layout();
     targetLabelPainter.paint(canvas, Offset(center.dx + 80, size.height + 10));
+
+    final currentValueText = currentValue.toStringAsFixed(1);
+    final currentValuePainter = TextPainter(
+      text: TextSpan(
+        text: currentValueText,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 16,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    currentValuePainter.layout();
+    currentValuePainter.paint(
+      canvas,
+      Offset(center.dx - currentValuePainter.width / 2,
+          center.dy - currentValuePainter.height / 2 - 35),
+    );
   }
 
   @override
