@@ -67,7 +67,7 @@ class CustomGaugePainter extends CustomPainter {
     final currentValuePainter = TextPainter(
       text: TextSpan(
         text: currentValueText,
-        style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.black, fontSize: 16,),
       ),
       textDirection: TextDirection.ltr,
     );
