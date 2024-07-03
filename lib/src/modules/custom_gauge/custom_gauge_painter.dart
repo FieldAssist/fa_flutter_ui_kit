@@ -33,7 +33,9 @@ class CustomGaugePainter extends CustomPainter {
     );
 
     paint.color = gaugeColor;
-    final sweepAngle = (pi * currentValue) / targetValue;
+    final sweepAngle =
+        (pi * (targetValue < currentValue ? targetValue : currentValue)) /
+            targetValue;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: 100),
       pi,
@@ -60,6 +62,22 @@ class CustomGaugePainter extends CustomPainter {
     );
     targetLabelPainter.layout();
     targetLabelPainter.paint(canvas, Offset(center.dx + 80, size.height + 10));
+// Draw the current value in the center of the gauge
+    final currentValueText = currentValue.toStringAsFixed(1);
+    final currentValuePainter = TextPainter(
+      text: TextSpan(
+        text: currentValueText,
+        style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    currentValuePainter.layout();
+    currentValuePainter.paint(
+      canvas,
+      Offset(center.dx - currentValuePainter.width / 2, center.dy - currentValuePainter.height / 2 - 50),
+    );
+  
+
   }
 
   @override
