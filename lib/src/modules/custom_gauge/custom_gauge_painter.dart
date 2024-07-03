@@ -74,7 +74,7 @@ class CustomGaugePainter extends CustomPainter {
     currentValuePainter.layout();
     currentValuePainter.paint(
       canvas,
-      Offset(center.dx - currentValuePainter.width / 2, center.dy - currentValuePainter.height / 2 - 60),
+      Offset(center.dx - currentValuePainter.width / 2, center.dy - currentValuePainter.height / 2 - 35),
     );
   
 
