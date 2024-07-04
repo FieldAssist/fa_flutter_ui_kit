@@ -1,12 +1,14 @@
-import 'package:image_picker/image_picker.dart'; // Import for ImagePicker
-import 'package:file_picker/file_picker.dart';   // Import for FilePicker
-import 'package:open_file/open_file.dart';       // Import for OpenFile
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:open_file/open_file.dart';
 
 class FileService {
   FileService._();
 
   /// Picks an image and returns a `PlatformFile`.
   /// The file size should be in MB.
+  /// No limit for file size if [requiredFileSize] is null
+
   static Future<PlatformFile?> pickImage(
       ImageSource source, String? name, double? requiredFileSize) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -33,6 +35,9 @@ class FileService {
 
   /// Picks a document from the system and returns a `PlatformFile`.
   /// Handled extensions are [pdf, jpeg, jpg, png]. More can be added via the `extensions` parameter.
+  /// The file size should be in MB.
+  /// No limit for file size if [requiredFileSize] is null
+
   static Future<PlatformFile?> pickDocument(
       List<String>? extensions, double? requiredFileSize) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
