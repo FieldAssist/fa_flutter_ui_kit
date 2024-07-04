@@ -8,6 +8,7 @@ class FileService {
   /// Picks an image and returns a `PlatformFile`.
   /// The file size should be in MB.
   /// No limit for file size if [requiredFileSize] is null
+  /// this will throw error if file size exceeds [requiredFileSize].
 
   static Future<PlatformFile?> pickImage(
       ImageSource source, String? name, double? requiredFileSize) async {
@@ -37,6 +38,7 @@ class FileService {
   /// Handled extensions are [pdf, jpeg, jpg, png]. More can be added via the `extensions` parameter.
   /// The file size should be in MB.
   /// No limit for file size if [requiredFileSize] is null
+  /// this will throw error if file size exceeds [requiredFileSize].
 
   static Future<PlatformFile?> pickDocument(
       List<String>? extensions, double? requiredFileSize) async {
