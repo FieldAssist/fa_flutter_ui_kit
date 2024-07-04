@@ -1,23 +1,23 @@
-import 'package:fa_flutter_core/fa_flutter_core.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:open_file/src/platform/open_file.dart';
+import 'package:image_picker/image_picker.dart'; // Import for ImagePicker
+import 'package:file_picker/file_picker.dart';   // Import for FilePicker
+import 'package:open_file/open_file.dart';       // Import for OpenFile
 
 class FileService {
   FileService._();
 
-  /// Return the Clicked Image
-  /// File Size should be in MB
-  static Future<Object?> pickImage(
+  /// Picks an image and returns a `PlatformFile`.
+  /// The file size should be in MB.
+  static Future<PlatformFile?> pickImage(
       ImageSource source, String? name, double? requiredFileSize) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
       if (requiredFileSize != null) {
-        final fileSize = requiredFileSize * 1024 * 1024;
-        final picked = await pickedFile.length();
-        if (picked > fileSize) {
-          return MyException("File size exceeds the $requiredFileSize MB limit");
-        
+        final fileSizeInBytes = requiredFileSize * 1024 * 1024;
+        final pickedFileSize = await pickedFile.length();
+
+        if (pickedFileSize > fileSizeInBytes) {
+          throw Exception("File size exceeds the $requiredFileSize MB limit");
         }
       }
 
@@ -27,39 +27,37 @@ class FileService {
         path: pickedFile.path,
       );
     }
+
     return null;
   }
 
-  /// Return the Picked File from the System
-  /// handled extensions are [pdf, jpeg, jpg, png]
-  /// We can add more via [extension] parameter
-  static Future<Object?> pickDocument(
+  /// Picks a document from the system and returns a `PlatformFile`.
+  /// Handled extensions are [pdf, jpeg, jpg, png]. More can be added via the `extensions` parameter.
+  static Future<PlatformFile?> pickDocument(
       List<String>? extensions, double? requiredFileSize) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: extensions ??
-          [
-            'pdf',
-            'jpg',
-            'jpeg',
-            'png',
-          ],
+      allowedExtensions: extensions ?? ['pdf', 'jpg', 'jpeg', 'png'],
     );
-    if (result != null) {
+
+    if (result != null && result.files.isNotEmpty) {
+      final pickedFile = result.files.first;
+
       if (requiredFileSize != null) {
-        final fileSize = requiredFileSize * 1024 * 1024;
-        final picked = await result.files.first.size;
-        if (picked > fileSize) {
-          return  MyException("File size exceeds the $requiredFileSize MB limit");
-          
+        final fileSizeInBytes = requiredFileSize * 1024 * 1024;
+
+        if (pickedFile.size > fileSizeInBytes) {
+          throw Exception("File size exceeds the $requiredFileSize MB limit");
         }
       }
-      return result.files.first;
+
+      return pickedFile;
     }
+
     return null;
   }
 
-  /// Open the DOC
+  /// Opens the document at the specified path.
   static void openFile(String path) {
     OpenFile.open(path);
   }
