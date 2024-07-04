@@ -11,8 +11,8 @@ class FileService {
   /// this will throw error if file size exceeds [requiredFileSize].
 
   static Future<PlatformFile?> pickImage(
-      ImageSource source, String? name, double? requiredFileSize) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
+      ImageSource source, String? name, double? requiredFileSize,int? imageQuality) async {
+    final pickedFile = await ImagePicker().pickImage(source: source,imageQuality: imageQuality);
 
     if (pickedFile != null) {
       if (requiredFileSize != null) {
