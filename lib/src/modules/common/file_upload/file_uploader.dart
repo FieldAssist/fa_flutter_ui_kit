@@ -7,7 +7,7 @@ class FileService {
 
   /// Return the Clicked Image
   /// File Size should be in MB
-  static Future<PlatformFile?> pickImage(
+  static Future<Object?> pickImage(
       ImageSource source, String? name, double? requiredFileSize) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
@@ -16,8 +16,8 @@ class FileService {
         final fileSize = requiredFileSize * 1024 * 1024;
         final picked = await pickedFile.length();
         if (picked > fileSize) {
-          MyException("File size exceeds the $requiredFileSize MB limit");
-          return null;
+          return MyException("File size exceeds the $requiredFileSize MB limit");
+        
         }
       }
 
@@ -33,7 +33,7 @@ class FileService {
   /// Return the Picked File from the System
   /// handled extensions are [pdf, jpeg, jpg, png]
   /// We can add more via [extension] parameter
-  static Future<PlatformFile?> pickDocument(
+  static Future<Object?> pickDocument(
       List<String>? extensions, double? requiredFileSize) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -50,8 +50,8 @@ class FileService {
         final fileSize = requiredFileSize * 1024 * 1024;
         final picked = await result.files.first.size;
         if (picked > fileSize) {
-          MyException("File size exceeds the $requiredFileSize MB limit");
-          return null;
+          return  MyException("File size exceeds the $requiredFileSize MB limit");
+          
         }
       }
       return result.files.first;
