@@ -16,10 +16,20 @@ class QuantityBreakdown {
 }
 
 class AmountBreakdown {
-  AmountBreakdown({required this.type, required this.amount});
+  AmountBreakdown({
+    required this.type,
+    required this.amount,
+    this.color,
+    this.amtPrefix = "",
+  });
 
   final String type;
   final double amount;
+  final Color? color;
+
+  /// It can be used to denote negative (-) amount
+  /// Eg: -₹ 100 so you can pass amtPrefix as "-"
+  final String amtPrefix;
 }
 
 class OrderAmountSummaryWidget extends StatelessWidget {
@@ -214,20 +224,25 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   ),
                 ...List.generate(
                   amountBreakdownList.length,
-                  (index) => Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 2, left: 2, right: 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(amountBreakdownList[index].type,
-                            style: subTitleTextStyle),
-                        Text("$currency ${amountBreakdownList[index].amount}",
+                  (index) {
+                    final amtBreakdownItem = amountBreakdownList[index];
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(amtBreakdownItem.type, style: subTitleTextStyle),
+                          Text(
+                            """${amtBreakdownItem.amtPrefix}$currency ${amtBreakdownItem.amount}""",
                             style: subTitleTextStyle.copyWith(
-                                color: Colors.black)),
-                      ],
-                    ),
-                  ),
+                              color: amtBreakdownItem.color ?? Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
