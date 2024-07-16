@@ -2,17 +2,29 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+class GaugeRange {
+  final double startValue;
+  final double endValue;
+  final Color color;
+
+  GaugeRange({
+    required this.startValue,
+    required this.endValue,
+    required this.color,
+  });
+}
+
 class CustomGaugePainter extends CustomPainter {
   CustomGaugePainter({
     required this.currentValue,
     required this.targetValue,
-    required this.gaugeColor,
+    required this.gaugeRanges,
     required this.backgroundColor,
   });
 
   final double currentValue;
   final double targetValue;
-  final Color gaugeColor;
+  final List<GaugeRange> gaugeRanges;
   final Color backgroundColor;
 
   @override
@@ -23,6 +35,7 @@ class CustomGaugePainter extends CustomPainter {
 
     final center = Offset(size.width / 2, size.height);
 
+    // Draw background arc
     paint.color = backgroundColor;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: 100),
@@ -32,21 +45,37 @@ class CustomGaugePainter extends CustomPainter {
       paint,
     );
 
-    paint.color = gaugeColor;
-    final sweepAngle =
-        (pi * (targetValue < currentValue ? targetValue : currentValue)) /
-            targetValue;
+    // Draw gauge ranges
+    for (var range in gaugeRanges) {
+      paint.color = range.color;
+      final startAngle = (pi * range.startValue) / targetValue;
+      final sweepAngle = (pi * (range.endValue - range.startValue)) / targetValue;
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: 100),
+        pi + startAngle,
+        sweepAngle,
+        false,
+        paint,
+      );
+    }
+
+    // Draw current value arc
+    paint.color = Colors.black;
+    final currentSweepAngle = (pi * (currentValue < targetValue ? currentValue : targetValue)) / targetValue;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: 100),
       pi,
-      sweepAngle,
+      currentSweepAngle,
       false,
       paint,
     );
 
+    // Draw labels
     final startLabelPainter = TextPainter(
       text: TextSpan(
-          text: '0', style: TextStyle(color: Colors.black, fontSize: 16)),
+        text: '0',
+        style: TextStyle(color: Colors.black, fontSize: 16),
+      ),
       textDirection: TextDirection.ltr,
     );
     startLabelPainter
