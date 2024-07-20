@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'colors_shade.dart';
+
 class AppColors {
   AppColors._();
 
@@ -24,4 +26,12 @@ class AppColors {
   static Color kOutlinedIconButtonBorderColor = Color(0xffDCDCDC);
 
   static Color colorGreenLight = Color(0xFF4BA42A);
+
+  /// Blue Color
+  static const AppMaterialColor kBlueColor = AppMaterialColor(
+    0xFF118AB2,
+    <int, Color>{
+      25:Color(0xFFEFF7FF),
+    },
+  );
 }
