@@ -29,20 +29,24 @@ class BaseScaffold extends Scaffold {
     super.endDrawerEnableOpenDragGesture = true,
     super.restorationId,
     required this.body,
+    this.gradient = null,
   }) : super(
           body: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Colors.white,
-                  AppColors.kBlueColor.shade25,
-                ],
-              ),
+              gradient: gradient == null
+                  ? LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.white,
+                        AppColors.kBlueColor.shade25,
+                      ],
+                    )
+                  : gradient,
             ),
             child: body,
           ),
         );
   final Widget body;
+  final Gradient? gradient;
 }
