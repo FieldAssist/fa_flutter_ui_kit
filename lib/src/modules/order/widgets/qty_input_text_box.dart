@@ -28,7 +28,9 @@ class QtyInputTextBox extends StatefulWidget {
     this.qtyText,
     this.qtyTextTrailingIcon,
     this.onQtyTextTap,
+    this.onQtyBoxTap,
     Key? key,
+    this.isReadOnly,
   }) : super(key: key);
 
   final TextEditingController textController;
@@ -50,6 +52,8 @@ class QtyInputTextBox extends StatefulWidget {
   final String? qtyText;
   final Widget? qtyTextTrailingIcon;
   final VoidCallback? onQtyTextTap;
+  final VoidCallback? onQtyBoxTap;
+  final bool? isReadOnly;
 
   /// When `true`, shows validation error message below the counter
   final bool showValidationErrorMessage;
@@ -163,6 +167,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                       enabled: widget.isEditable,
                       controller: textController,
                       cursorColor: Colors.blue,
+                      onTap: widget.onQtyBoxTap,
                       onEditingComplete: widget.onEditingComplete,
                       onChanged: (qty) => widget.onInputChange(qty),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -170,7 +175,8 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                           fontSize: 12,
                           color: Colors.black),
                       showCursor: true,
-                      readOnly: widget.keyboardController != null,
+                      readOnly: widget.isReadOnly ??
+                          widget.keyboardController != null,
                       textAlign: TextAlign.center,
                       autovalidateMode: _getAutovalidateMode(),
                       validator: !widget.shouldValidate ? null : _validateText,
