@@ -26,4 +26,5 @@ export 'no_internet_widget.dart';
 export 'primary_raised_button.dart';
 export 'tag_container.dart';
 export 'top_widget_container.dart';
+export 'base_scaffold.dart';
 export 'empty_data_widget.dart';
