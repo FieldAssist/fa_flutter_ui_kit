@@ -28,7 +28,7 @@ class BaseScaffold extends Scaffold {
     super.drawerEnableOpenDragGesture = true,
     super.endDrawerEnableOpenDragGesture = true,
     super.restorationId,
-    required this.body,
+    required this.appBody,
     this.gradient,
   }) : super(
           body: Container(
@@ -43,9 +43,9 @@ class BaseScaffold extends Scaffold {
                     ],
                   ),
             ),
-            child: body,
+            child: appBody,
           ),
         );
-  final Widget body;
+  final Widget appBody;
   final Gradient? gradient;
 }
