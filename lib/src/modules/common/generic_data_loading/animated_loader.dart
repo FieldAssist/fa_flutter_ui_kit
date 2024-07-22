@@ -2,10 +2,16 @@ import 'package:fa_flutter_ui_kit/src/modules/common/generic_data_loading/shimme
 import 'package:flutter/material.dart';
 
 class AnimatedLoader extends StatelessWidget {
-  const AnimatedLoader({required this.progress, this.height = 8});
+  const AnimatedLoader(
+      {required this.progress,
+      this.height = 8,
+      this.baseColor,
+      this.highlightColor});
 
   final int progress;
   final double height;
+  final Color? baseColor;
+  final Color? highlightColor;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +31,9 @@ class AnimatedLoader extends StatelessWidget {
         children: [
           Container(),
           CustomShimmer(
-            baseColor: Theme.of(context).colorScheme.secondary,
-            highlightColor: Theme.of(context).primaryColorDark,
+            baseColor: baseColor ?? Theme.of(context).colorScheme.secondary,
+            highlightColor:
+                highlightColor ?? Theme.of(context).primaryColorDark,
             child: AnimatedContainer(
               height: height,
               width: width * (progress / 100),
