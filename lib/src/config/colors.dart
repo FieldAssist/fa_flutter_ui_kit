@@ -31,7 +31,7 @@ class AppColors {
   static const AppMaterialColor kBlueColor = AppMaterialColor(
     0xFF118AB2,
     <int, Color>{
-      25: Color(0xFFEFF7FF),
+      25: Color(0XFFF1F5F9),
     },
   );
 }
