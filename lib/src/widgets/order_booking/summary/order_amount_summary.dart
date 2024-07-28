@@ -48,6 +48,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.unit = "SKUs",
     this.showMargin = true,
     this.discountWidget,
+    this.isDistributorVisible = false,
     super.key,
   });
 
@@ -67,6 +68,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final Color mainColor;
   final Widget? customWidget;
   final bool showMargin;
+  final bool isDistributorVisible;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -92,35 +94,37 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               customWidget!,
               DottedDivider(),
             ],
-            ListTile(
-              visualDensity:
-                  VisualDensity(horizontal: VisualDensity.minimumDensity),
-              leading: SvgPicture.asset(
-                SvgIcons.distributorIcon,
-                height: 25,
-                width: 25,
-              ),
-              minLeadingWidth: 40,
-              title: Row(
-                children: [
-                  Text(
-                    "Distributor: ",
-                    style: titleTextStyle.copyWith(color: mainColor),
-                  ),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: Text(
-                      distributorName,
-                      style: titleTextStyle,
+            if (isDistributorVisible) ...[
+              ListTile(
+                visualDensity:
+                    VisualDensity(horizontal: VisualDensity.minimumDensity),
+                leading: SvgPicture.asset(
+                  SvgIcons.distributorIcon,
+                  height: 25,
+                  width: 25,
+                ),
+                minLeadingWidth: 40,
+                title: Row(
+                  children: [
+                    Text(
+                      "Distributor: ",
+                      style: titleTextStyle.copyWith(color: mainColor),
                     ),
-                  ),
-                ],
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        distributorName,
+                        style: titleTextStyle,
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: checkIfNotEmpty(distributorAddress)
+                    ? Text(distributorAddress)
+                    : null,
               ),
-              subtitle: checkIfNotEmpty(distributorAddress)
-                  ? Text(distributorAddress)
-                  : null,
-            ),
-            DottedDivider(),
+              DottedDivider()
+            ],
             ExpansionTile(
               shape: RoundedRectangleBorder(side: BorderSide.none),
               visualDensity: VisualDensity(
