@@ -242,15 +242,15 @@ class _SearchListState<T> extends State<SearchList<T>> {
               elevation: showActions ? 0 : null,
               actions: showActions
                   ? [
-                      if(widget.actionWidget != null)
+                      if (widget.actionWidget != null)
                         widget.actionWidget!
                       else
-                      IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(
-                            Icons.dangerous_outlined,
-                            color: Colors.white,
-                          ))
+                        IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.dangerous_outlined,
+                              color: Colors.white,
+                            ))
                     ]
                   : null,
             ),
