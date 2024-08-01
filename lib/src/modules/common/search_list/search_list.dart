@@ -58,6 +58,7 @@ class SearchList<T> extends StatefulWidget {
     this.showBackButton = true,
     this.showCrossbutton = false,
     this.bottomGradient,
+    this.actionWidget,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -92,6 +93,7 @@ class SearchList<T> extends StatefulWidget {
   final bool searchThroughMic;
   final bool showBackButton;
   final LinearGradient? bottomGradient;
+  final Widget? actionWidget;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -240,12 +242,15 @@ class _SearchListState<T> extends State<SearchList<T>> {
               elevation: showActions ? 0 : null,
               actions: showActions
                   ? [
-                      IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(
-                            Icons.dangerous_outlined,
-                            color: Colors.white,
-                          ))
+                      if (widget.actionWidget != null)
+                        widget.actionWidget!
+                      else
+                        IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.dangerous_outlined,
+                              color: Colors.white,
+                            ))
                     ]
                   : null,
             ),
