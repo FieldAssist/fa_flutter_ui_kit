@@ -17,6 +17,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? searchIcon;
   final Color? searchBarColor;
   final bool showBackButton;
+  final Widget? actionWidget;
 
   const SearchAppBar({
     required this.enableSearch,
@@ -34,6 +35,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.searchIcon,
     this.searchBarColor,
     this.showBackButton = true,
+    this.actionWidget,
   });
 
   final _appbarHeight = 56.0;
@@ -71,23 +73,26 @@ class _SearchAppBarState extends State<SearchAppBar> {
             queryTextController: widget.textEditingController,
             bottom: widget.bottom,
             actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.clear,
-                  color: Colors.black54,
-                ),
-                visualDensity: const VisualDensity(
-                  horizontal: VisualDensity.minimumDensity,
-                  vertical: VisualDensity.minimumDensity,
-                ),
-                onPressed: () {
-                  if (widget.textEditingController.value.text.isEmpty) {
-                    setState(() => _isSearchActive = !_isSearchActive);
-                  } else {
-                    widget.textEditingController.clear();
-                  }
-                },
-              )
+              if (widget.actions != null)
+                ...widget.actions!
+              else
+                IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: Colors.black54,
+                  ),
+                  visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity,
+                  ),
+                  onPressed: () {
+                    if (widget.textEditingController.value.text.isEmpty) {
+                      setState(() => _isSearchActive = !_isSearchActive);
+                    } else {
+                      widget.textEditingController.clear();
+                    }
+                  },
+                )
             ],
           )
         : AppBar(
