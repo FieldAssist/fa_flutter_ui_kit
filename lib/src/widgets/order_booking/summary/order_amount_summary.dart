@@ -49,6 +49,8 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.showMargin = true,
     this.discountWidget,
     this.isDistributorVisible = false,
+    this.tileText1,
+    this.tileText2,
     super.key,
   });
 
@@ -69,6 +71,8 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final Widget? customWidget;
   final bool showMargin;
   final bool isDistributorVisible;
+  final String? tileText1;
+  final String? tileText2;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -135,7 +139,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               title: Row(
                 children: [
                   Text(
-                    "Total Quantity",
+                    tileText1 ?? "Total Quantity",
                     style: titleTextStyle,
                   ),
                   Spacer(),
@@ -194,7 +198,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               title: Row(
                 children: [
                   Text(
-                    "Payable Amount",
+                    tileText2 ?? "Payable Amount",
                     style: titleTextStyle,
                   ),
                   Spacer(),
