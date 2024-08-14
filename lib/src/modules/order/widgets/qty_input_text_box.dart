@@ -289,6 +289,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
       return;
     }
     if (isFocused) {
+      toggleKeyboardVisibility(true);
       FocusManager.instance.primaryFocus?.unfocus();
       FocusScope.of(context).requestFocus(_focusNode);
       _subscribeToKeyboardEvents();
@@ -296,6 +297,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
       _unsubscribeFromKeyboardEvents();
     }
   }
+
+  void toggleKeyboardVisibility(value) =>
+      widget.keyboardController?.toggleKeyboardVisibility(value);
 
   String? _validateText(String? value) {
     if (widget.maxValue == null && widget.minValue == null) {
