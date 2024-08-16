@@ -32,7 +32,7 @@ abstract class LocationInfo {
 }
 
 class LocationInfoImpl implements LocationInfo {
-  final GlobalKey<NavigatorState> navKey;
+  final GlobalKey<NavigatorState>? navKey;
 
   final bool enforceGeocoding;
 
@@ -58,11 +58,13 @@ class LocationInfoImpl implements LocationInfo {
       final permissionStatus = await Geolocator.checkPermission();
 
       if (!_isPermissionGranted(permissionStatus)) {
-        await DialogUtils.showAlertDialog(
-            title: 'Location Permission Required!',
-            content: defaultLocationReason,
-            actionText: 'OKAY GOT IT',
-            navKey: navKey);
+        if (navKey != null) {
+          await DialogUtils.showAlertDialog(
+              title: 'Location Permission Required!',
+              content: defaultLocationReason,
+              actionText: 'OKAY GOT IT',
+              navKey: navKey!);
+        }
       }
 
       final permission = await Geolocator.requestPermission();
@@ -231,18 +233,21 @@ class LocationInfoImpl implements LocationInfo {
         final geolocationStatus = await Geolocator.isLocationServiceEnabled();
         if (!_isPermissionGranted(permission) || !geolocationStatus) {
           t.cancel();
-
-          await navKey.currentState!.push(MaterialPageRoute(
-            builder: (_) => AppErrorPage(
-              LocationException(
-                '${Constants.locationNotAvailable}'
-                '\n$defaultLocationReason',
+          if (navKey != null) {
+            await navKey!.currentState!.push(
+              MaterialPageRoute(
+                builder: (_) => AppErrorPage(
+                  LocationException(
+                    '${Constants.locationNotAvailable}'
+                    '\n$defaultLocationReason',
+                  ),
+                  onRetryTap: () {
+                    initLocation();
+                  },
+                ),
               ),
-              onRetryTap: () {
-                initLocation();
-              },
-            ),
-          ));
+            );
+          }
         }
       });
     }
