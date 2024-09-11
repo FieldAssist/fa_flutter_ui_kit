@@ -69,7 +69,6 @@ class QtyInputTextBox extends StatefulWidget {
 }
 
 class _QtyInputTextBoxState extends State<QtyInputTextBox> {
-  StreamSubscription<String?>? _keyboardValueSubs;
   bool _isAddButtonEnabled = true;
   late final NoKeyboardEditableTextFocusNode _focusNode;
   TextEditingController get textController => widget.textController;
@@ -96,29 +95,32 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   }
 
   void _subscribeToKeyboardEvents() {
-    _keyboardValueSubs ??=
-        widget.keyboardController?.keyboardInput.listen((text) {
-      if (text == null) {
-        final newText =
-            textController.text.substring(0, textController.text.length - 1);
-        final newSelection =
-            TextSelection.fromPosition(TextPosition(offset: newText.length));
-        textController.value = textController.value
-            .copyWith(text: newText, selection: newSelection);
-      } else {
-        final newText = textController.text + text;
-        final newSelection =
-            TextSelection.fromPosition(TextPosition(offset: newText.length));
-        textController.value = textController.value
-            .copyWith(text: newText, selection: newSelection);
-      }
-      widget.onInputChange(textController.text);
-    });
+    widget.keyboardController?.keyboardInput
+        .addListener(() => onKeyBoardInput());
+  }
+
+  void onKeyBoardInput() {
+    String? text = widget.keyboardController?.keyboardInput.value;
+    if (text == null) {
+      final newText =
+          textController.text.substring(0, textController.text.length - 1);
+      final newSelection =
+          TextSelection.fromPosition(TextPosition(offset: newText.length));
+      textController.value =
+          textController.value.copyWith(text: newText, selection: newSelection);
+    } else {
+      final newText = textController.text + text;
+      final newSelection =
+          TextSelection.fromPosition(TextPosition(offset: newText.length));
+      textController.value =
+          textController.value.copyWith(text: newText, selection: newSelection);
+    }
+    widget.onInputChange(textController.text);
   }
 
   void _unsubscribeFromKeyboardEvents() {
-    _keyboardValueSubs?.cancel();
-    _keyboardValueSubs = null;
+    widget.keyboardController?.keyboardInput
+        .removeListener(() => onKeyBoardInput());
   }
 
   @override
@@ -289,12 +291,11 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
       return;
     }
     if (isFocused) {
+      _unsubscribeFromKeyboardEvents();
       toggleKeyboardVisibility(true);
       FocusManager.instance.primaryFocus?.unfocus();
       FocusScope.of(context).requestFocus(_focusNode);
       _subscribeToKeyboardEvents();
-    } else {
-      _unsubscribeFromKeyboardEvents();
     }
   }
 
