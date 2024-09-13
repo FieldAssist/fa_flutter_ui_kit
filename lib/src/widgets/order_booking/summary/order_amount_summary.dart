@@ -211,6 +211,9 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 ],
               ),
               initiallyExpanded: true,
+              trailing: (showMargin || amountBreakdownList.isNotEmpty)
+                  ? null
+                  : SizedBox.shrink(),
               children: [
                 if (showMargin)
                   Padding(
