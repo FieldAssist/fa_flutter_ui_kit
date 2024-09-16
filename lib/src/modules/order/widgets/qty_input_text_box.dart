@@ -69,15 +69,19 @@ class QtyInputTextBox extends StatefulWidget {
 }
 
 class _QtyInputTextBoxState extends State<QtyInputTextBox> {
-  StreamSubscription<String?>? _keyboardValueSubs;
+  StreamSubscription<String?>? get _keyboardValueSubs =>
+      widget.keyboardController?.keyboardValueSubs;
+
   bool _isAddButtonEnabled = true;
   late final NoKeyboardEditableTextFocusNode _focusNode;
+
   TextEditingController get textController => widget.textController;
 
   @override
   void initState() {
     super.initState();
     init();
+    // _keyboardValueSubs = widget.keyboardController?.keyboardValueSubs;
     _focusNode = widget.focusNode ?? NoKeyboardEditableTextFocusNode();
   }
 
@@ -96,7 +100,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   }
 
   void _subscribeToKeyboardEvents() {
-    _keyboardValueSubs ??=
+    widget.keyboardController?.keyboardValueSubs ??=
         widget.keyboardController?.keyboardInput.listen((text) {
       if (text == null) {
         final newText =
@@ -118,7 +122,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
 
   void _unsubscribeFromKeyboardEvents() {
     _keyboardValueSubs?.cancel();
-    _keyboardValueSubs = null;
+    widget.keyboardController?.keyboardValueSubs = null;
   }
 
   @override
@@ -157,13 +161,19 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                   ),
                 ),
               Expanded(
-                child: Focus(
-                  onFocusChange: _onFocusChange,
-                  child: Container(
+                child: Listener(
+                  onPointerUp: (event) {
+                    _onFocusChange(true);
+                  },
+                  onPointerDown: (event) {
+                    _onFocusChange(false);
+                  },
+                  child: Focus(
+                    focusNode: _focusNode,
                     child: TextFormField(
                       keyboardType: TextInputType.number,
-                      focusNode:
-                          widget.keyboardController != null ? _focusNode : null,
+
+                      // widget.keyboardController != null ? _focusNode : null,
                       enabled: widget.isEditable,
                       controller: textController,
                       cursorColor: Colors.blue,
