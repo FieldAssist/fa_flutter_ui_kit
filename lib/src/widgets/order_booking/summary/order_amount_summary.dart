@@ -6,13 +6,17 @@ import 'package:flutter/material.dart';
 class QuantityBreakdown {
   QuantityBreakdown({
     required this.type,
-    required this.orderedProductCount,
-    required this.totalProductCount,
+    this.orderedProductCount = 0,
+    this.totalProductCount = 0,
+    this.isContainSingleValue = false,
+    this.singleValue = "",
   });
 
   final String type;
   final int orderedProductCount;
   final int totalProductCount;
+  final bool isContainSingleValue;
+  final String singleValue;
 }
 
 class AmountBreakdown {
@@ -169,7 +173,9 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                         Text(quantityBreakdownList[index].type,
                             style: subTitleTextStyle),
                         Text(
-                            "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
+                            quantityBreakdownList[index].isContainSingleValue
+                                ? "${quantityBreakdownList[index].singleValue}"
+                            : "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
                             style: subTitleTextStyle.copyWith(
                                 color: Colors.black)),
                       ],
