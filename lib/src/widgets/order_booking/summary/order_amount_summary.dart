@@ -56,10 +56,12 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.qtyTitleText,
     this.payableAmtTitleText,
     this.distributorTitleText,
+    this.decimalInfoString,
     super.key,
   });
 
   final String distributorName;
+  final String? decimalInfoString;
   final String distributorAddress;
   final String currency;
   final String unit;
@@ -175,7 +177,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                         Text(
                             quantityBreakdownList[index].isContainSingleValue
                                 ? "${quantityBreakdownList[index].singleValue}"
-                            : "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
+                                : "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
                             style: subTitleTextStyle.copyWith(
                                 color: Colors.black)),
                       ],
@@ -265,6 +267,19 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 ),
               ],
             ),
+            if (decimalInfoString != null)
+              Padding(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 2),
+                child: Text(
+                  decimalInfoString!,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: AppColors.kLightGrey,
+                  ),
+                ),
+              ),
           ],
         ),
       ),
