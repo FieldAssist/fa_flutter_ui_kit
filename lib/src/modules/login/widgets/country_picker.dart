@@ -14,6 +14,7 @@ class CountryPicker extends StatefulWidget {
     this.onChanged,
     this.onCancel,
     this.isSelectEnable = true,
+    this.selectedCountryBuilder,
   });
 
   final String? selectedCountryId;
@@ -21,6 +22,7 @@ class CountryPicker extends StatefulWidget {
   final bool isSelectEnable;
   final void Function(Country item)? onChanged;
   final VoidCallback? onCancel;
+  final Widget Function(Country)? selectedCountryBuilder;
 
   @override
   _CountryPickerState createState() => _CountryPickerState();
@@ -50,34 +52,36 @@ class _CountryPickerState extends State<CountryPicker> {
           _selectedCountryId = widget.selectedCountryId ?? _selectedCountryId;
           return InkWell(
             onTap: widget.isSelectEnable ? _showDialog : null,
-            child: Padding(
-              padding: const EdgeInsets.all(7.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    _getCountry(_selectedCountryId).countryName!,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Row(
+            child: widget.selectedCountryBuilder
+                    ?.call(_getCountry(_selectedCountryId)) ??
+                Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '+${_getCountry(_selectedCountryId).dialCode}',
-                        style: TextStyle(fontSize: 18),
+                        _getCountry(_selectedCountryId).countryName!,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
-                      Icon(Icons.keyboard_arrow_down),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '+${_getCountry(_selectedCountryId).dialCode}',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Icon(Icons.keyboard_arrow_down),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
+                ),
           );
         } else {
           return StreamLoadingWidget();
