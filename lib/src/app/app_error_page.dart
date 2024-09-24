@@ -38,7 +38,7 @@ class AppErrorPage extends StatelessWidget {
       );
     } else {
       return UnknownErrorWidget(
-        onRetryTap!,
+        onRetryTap ?? () {},
         pop: false,
         message: e?.toString() ?? Constants.errorSomethingWentWrong,
       );
