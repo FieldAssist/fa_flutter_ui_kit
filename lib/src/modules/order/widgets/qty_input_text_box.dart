@@ -220,32 +220,32 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
           ),
         ),
         SizedBox(height: 4),
-        if (widget.qtyText != null)
-          widget.qtyTextTrailingIcon == null
-              ? Text(
-                  widget.qtyText ?? "",
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontSize: 8,
-                        color: AppColors.kLightGrey,
-                      ),
-                )
-              : GestureDetector(
-                  onTap: widget.onQtyTextTap,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.qtyText ?? "",
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              fontSize: 8,
-                              color: AppColors.kLightGrey,
-                            ),
-                      ),
-                      if (widget.qtyTextTrailingIcon != null)
-                        widget.qtyTextTrailingIcon!,
-                    ],
-                  ),
-                ),
+        // if (widget.qtyText != null)
+        //   widget.qtyTextTrailingIcon == null
+        //       ? Text(
+        //           widget.qtyText ?? "",
+        //           style: Theme.of(context).textTheme.titleSmall?.copyWith(
+        //                 fontSize: 8,
+        //                 color: AppColors.kLightGrey,
+        //               ),
+        //         )
+        //       : GestureDetector(
+        //           onTap: widget.onQtyTextTap,
+        //           child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.center,
+        //             children: [
+        //               Text(
+        //                 widget.qtyText ?? "",
+        //                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
+        //                       fontSize: 8,
+        //                       color: AppColors.kLightGrey,
+        //                     ),
+        //               ),
+        //               if (widget.qtyTextTrailingIcon != null)
+        //                 widget.qtyTextTrailingIcon!,
+        //             ],
+        //           ),
+        //         ),
       ],
     );
   }
