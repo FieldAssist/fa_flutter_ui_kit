@@ -143,7 +143,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   horizontal: VisualDensity.minimumDensity,
                   vertical: VisualDensity.minimumDensity),
               childrenPadding:
-                  EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
+                  EdgeInsets.only(left: 55, right: 16, top: 8, bottom: 8),
               title: Row(
                 children: [
                   Text(
@@ -162,6 +162,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 height: 25,
                 width: 25,
               ),
+              tilePadding: EdgeInsets.only(left: 10, right: 4),
               initiallyExpanded: quantityBreakdownList.isEmpty ? false : true,
               children: [
                 ...List.generate(
@@ -199,12 +200,13 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   horizontal: VisualDensity.minimumDensity,
                   vertical: VisualDensity.minimumDensity),
               childrenPadding:
-                  EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
+                  EdgeInsets.only(left: 55, right: 16, top: 8, bottom: 8),
               leading: SvgPicture.asset(
                 SvgIcons.rupeeRoundedIcon,
                 height: 25,
                 width: 25,
               ),
+              tilePadding: EdgeInsets.only(left: 10, right: 4),
               title: Row(
                 children: [
                   Text(
