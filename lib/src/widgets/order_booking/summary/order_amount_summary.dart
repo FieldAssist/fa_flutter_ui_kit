@@ -72,7 +72,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final Widget? discountWidget;
   final double marginPercentage;
   final double marginAmount;
-  final double payableAmount;
+  final String payableAmount;
   final int totalQty;
   final Color mainColor;
   final Widget? customWidget;
