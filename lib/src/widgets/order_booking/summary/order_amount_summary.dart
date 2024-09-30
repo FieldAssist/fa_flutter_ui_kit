@@ -255,7 +255,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                         children: [
                           Text(amtBreakdownItem.type, style: subTitleTextStyle),
                           Text(
-                            """${amtBreakdownItem.amtPrefix}$currency ${amtBreakdownItem.amount}""",
+                            "${amtBreakdownItem.amtPrefix}$currency ${CurrencyUtil.getFormattedInrDouble(amtBreakdownItem.amount)}",
                             style: subTitleTextStyle.copyWith(
                               color: amtBreakdownItem.color ?? Colors.black,
                             ),
