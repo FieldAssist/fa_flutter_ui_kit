@@ -205,18 +205,26 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 height: 25,
                 width: 25,
               ),
-              title: Row(
-                children: [
-                  Text(
-                    payableAmtTitleText ?? "Payable Amount",
-                    style: titleTextStyle,
-                  ),
-                  Spacer(),
-                  Text(
-                    "$currency $payableAmount",
-                    style: titleTextStyle,
-                  ),
-                ],
+              title: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        payableAmtTitleText ?? "Payable Amount",
+                        style: titleTextStyle,
+                      ),
+                      Spacer(),
+                      Container(
+                        width: 120,
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          "$currency $payableAmount",
+                          style: titleTextStyle,
+                        ),
+                      ),
+                    ],
+                  )
               ),
               initiallyExpanded: true,
               trailing: (showMargin || amountBreakdownList.isNotEmpty)
