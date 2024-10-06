@@ -67,10 +67,10 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/namanpopli>
-            <img src=https://avatars.githubusercontent.com/u/46225601?v=4 width="100;"  alt=Naman Popli/>
+        <a href=https://github.com/vatsal201>
+            <img src=https://avatars.githubusercontent.com/u/85787993?v=4 width="100;"  alt=Vatsal Gandhi/>
             <br />
-            <sub style="font-size:14px"><b>Naman Popli</b></sub>
+            <sub style="font-size:14px"><b>Vatsal Gandhi</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -78,6 +78,13 @@ compileSdkVersion 32
             <img src=https://avatars.githubusercontent.com/u/22328750?v=4 width="100;"  alt=Taranjeet Singh/>
             <br />
             <sub style="font-size:14px"><b>Taranjeet Singh</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/namanpopli>
+            <img src=https://avatars.githubusercontent.com/u/46225601?v=4 width="100;"  alt=Naman Popli/>
+            <br />
+            <sub style="font-size:14px"><b>Naman Popli</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -94,6 +101,8 @@ compileSdkVersion 32
             <sub style="font-size:14px"><b>Ayush P Gupta</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Khushboo1702>
             <img src=https://avatars.githubusercontent.com/u/113587610?v=4 width="100;"  alt=Khushboo Agrawal/>
@@ -101,8 +110,6 @@ compileSdkVersion 32
             <sub style="font-size:14px"><b>Khushboo Agrawal</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Sam1kumar>
             <img src=https://avatars.githubusercontent.com/u/86761543?v=4 width="100;"  alt=Sameer Kumar/>
@@ -111,10 +118,10 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/vatsal201>
-            <img src=https://avatars.githubusercontent.com/u/85787993?v=4 width="100;"  alt=Vatsal Gandhi/>
+        <a href=https://github.com/Abhisheksainii>
+            <img src=https://avatars.githubusercontent.com/u/78199221?v=4 width="100;"  alt=Abhishek Saini/>
             <br />
-            <sub style="font-size:14px"><b>Vatsal Gandhi</b></sub>
+            <sub style="font-size:14px"><b>Abhishek Saini</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -138,13 +145,6 @@ compileSdkVersion 32
             <sub style="font-size:14px"><b>Dev Bindal</b></sub>
         </a>
     </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Abhisheksainii>
-            <img src=https://avatars.githubusercontent.com/u/78199221?v=4 width="100;"  alt=Abhishek Saini/>
-            <br />
-            <sub style="font-size:14px"><b>Abhishek Saini</b></sub>
-        </a>
-    </td>
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -162,10 +162,24 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/rajiv-flick>
+            <img src=https://avatars.githubusercontent.com/u/100277654?v=4 width="100;"  alt=Rajiv/>
+            <br />
+            <sub style="font-size:14px"><b>Rajiv</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Tushar2212>
             <img src=https://avatars.githubusercontent.com/u/29337816?v=4 width="100;"  alt=Tushar Sharma/>
             <br />
             <sub style="font-size:14px"><b>Tushar Sharma</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/sourav-sharma-f2k>
+            <img src=https://avatars.githubusercontent.com/u/114740190?v=4 width="100;"  alt=Sourav/>
+            <br />
+            <sub style="font-size:14px"><b>Sourav</b></sub>
         </a>
     </td>
 </tr>
