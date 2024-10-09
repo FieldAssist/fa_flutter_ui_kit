@@ -20,6 +20,17 @@ class CurrencyUtil {
 
   static String getFormattedIntDouble2Places(num amount) =>
       _indCurrencyDouble2PlacesFormat.format(amount);
+  
+  static String formatNumber(num amt) {
+    final number = (amt * 100).round() / 100;
+    final formatter = NumberFormat.currency(
+      decimalDigits: 2,
+      locale: "en_IN",
+      symbol: "",
+    );
+
+    return formatter.format(number);
+  }
 
 //TEMP
   static String convertToIndianNumbering(int number) {
