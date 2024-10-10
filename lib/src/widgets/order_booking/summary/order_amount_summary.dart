@@ -57,6 +57,8 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.payableAmtTitleText,
     this.distributorTitleText,
     this.decimalInfoString,
+    this.breakDownListPadding =
+        const EdgeInsets.only(bottom: 2, left: 2, right: 2),
     super.key,
   });
 
@@ -81,6 +83,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String? qtyTitleText;
   final String? payableAmtTitleText;
   final String? distributorTitleText;
+  final EdgeInsets breakDownListPadding;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -167,8 +170,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 ...List.generate(
                   quantityBreakdownList.length,
                   (index) => Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                    padding: breakDownListPadding,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -225,8 +227,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               children: [
                 if (showMargin)
                   Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                    padding: breakDownListPadding,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -248,8 +249,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   (index) {
                     final amtBreakdownItem = amountBreakdownList[index];
                     return Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+                      padding: breakDownListPadding,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
