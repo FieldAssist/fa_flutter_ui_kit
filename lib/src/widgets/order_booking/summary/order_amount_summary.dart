@@ -47,6 +47,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.payableAmount,
     required this.totalQty,
     required this.mainColor,
+    required this.currencyUtil,
     this.customWidget,
     this.currency = "₹",
     this.unit = "SKUs",
@@ -67,6 +68,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String unit;
   final List<QuantityBreakdown> quantityBreakdownList;
   final List<AmountBreakdown> amountBreakdownList;
+  final CurrencyUtil currencyUtil;
 
   /// It appears After Qty Info and before Payable Amount Info
   final Widget? discountWidget;
@@ -255,7 +257,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                         children: [
                           Text(amtBreakdownItem.type, style: subTitleTextStyle),
                           Text(
-                            "${amtBreakdownItem.amtPrefix}$currency ${CurrencyUtil.getFormattedInrDouble(amtBreakdownItem.amount)}",
+                            "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.getFormattedInrDouble(amtBreakdownItem.amount)}",
                             style: subTitleTextStyle.copyWith(
                               color: amtBreakdownItem.color ?? Colors.black,
                             ),
