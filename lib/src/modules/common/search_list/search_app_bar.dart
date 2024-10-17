@@ -133,7 +133,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       style: TextStyle(
                         color: widget.textColor,
                         fontSize: 12,
-                        fontWeight: FontWeight.w100,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
