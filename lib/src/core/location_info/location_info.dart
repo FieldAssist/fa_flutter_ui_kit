@@ -62,7 +62,7 @@ class LocationInfoImpl implements LocationInfo {
           await DialogUtils.showAlertDialog(
               title: 'Location Permission Required!',
               content: defaultLocationReason,
-              actionText: 'OKAY GOT IT',
+              actionText: 'Continue',
               navKey: navKey!);
         }
       }
