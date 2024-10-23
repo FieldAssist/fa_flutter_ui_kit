@@ -74,4 +74,15 @@ class CurrencyUtil {
       return '${(number / 10000000).toStringAsFixed(2)}Cr';
     }
   }
+
+  String formatNumber(num amt) {
+    final number = (amt * 100).round() / 100;
+    final formatter = NumberFormat.currency(
+      decimalDigits: 2,
+      locale: isInternationalCompany ? "en_US" : "en_IN",
+      symbol: "",
+    );
+
+    return formatter.format(number);
+  }
 }
