@@ -12,7 +12,7 @@ class CurrencyUtil {
       NumberFormat.simpleCurrency(decimalDigits: 2, locale: "en_IN");
 
   final NumberFormat _internationalCurrencyIntFormat =
-      NumberFormat.simpleCurrency(decimalDigits: 1, locale: "en_US");
+      NumberFormat.simpleCurrency(decimalDigits: 2, locale: "en_US");
 
   final NumberFormat _indCurrencyDouble2PlacesFormat =
       NumberFormat("##,##,###.00", "en_IN");
@@ -30,10 +30,10 @@ class CurrencyUtil {
       : _indCurrencyDouble2PlacesFormat.format(amount);
 
   String convertToInternationalNumbering(double value,
-      {int decimalPlaces = 1, isCompact = true}) {
+      {int decimalPlaces = 2, isCompact = true}) {
     String _getHashForDecimalPlaces(int decimalPlaces) {
       var hash = "";
-      for (var x = 0; x < decimalPlaces - 1; x++) {
+      for (var x = 0; x < decimalPlaces - 2; x++) {
         hash = hash + "#";
       }
       return hash;
@@ -75,13 +75,43 @@ class CurrencyUtil {
     }
   }
 
-  String formatNumber(num amt) {
+  String formatNumber(num amt, {bool compact = false}) {
+    // Round the number to 2 decimal places
     final number = (amt * 100).round() / 100;
+
     final formatter = NumberFormat.currency(
       decimalDigits: 2,
       locale: isInternationalCompany ? "en_US" : "en_IN",
       symbol: "",
     );
+
+    if (compact) {
+      if (isInternationalCompany) {
+        // International format
+        if (number >= 1000000000) {
+          final calculated = number / 1000000000;
+          return '${formatter.format(calculated)} B';
+        } else if (number >= 1000000) {
+          final calculated = number / 1000000;
+          return '${formatter.format(calculated)} M';
+        } else if (number >= 1000) {
+          final calculated = number / 1000;
+          return '${formatter.format(calculated)} K';
+        }
+      } else {
+        // Indian format
+        if (number >= 10000000) {
+          final calculated = number / 10000000;
+          return '${formatter.format(calculated)} Cr';
+        } else if (number >= 100000) {
+          final calculated = number / 100000;
+          return '${formatter.format(calculated)} Lakh';
+        } else if (number >= 1000) {
+          final calculated = number / 1000;
+          return '${formatter.format(calculated)} K';
+        }
+      }
+    }
 
     return formatter.format(number);
   }

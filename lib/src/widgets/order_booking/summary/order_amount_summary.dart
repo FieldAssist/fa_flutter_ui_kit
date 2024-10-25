@@ -60,6 +60,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.decimalInfoString,
     this.breakDownListPadding =
         const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+    this.compactNumber = false,
     super.key,
   });
 
@@ -86,6 +87,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String? payableAmtTitleText;
   final String? distributorTitleText;
   final EdgeInsets breakDownListPadding;
+  final bool compactNumber;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -257,7 +259,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                         children: [
                           Text(amtBreakdownItem.type, style: subTitleTextStyle),
                           Text(
-                            "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.getFormattedInrDouble(amtBreakdownItem.amount)}",
+                            "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
                             style: subTitleTextStyle.copyWith(
                               color: amtBreakdownItem.color ?? Colors.black,
                             ),
