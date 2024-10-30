@@ -41,9 +41,9 @@ class TopWidgetContainer extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: textSize ??
-                      Theme.of(context).primaryTextTheme.subtitle2!.fontSize,
+                      Theme.of(context).primaryTextTheme.titleSmall!.fontSize,
                   color: textColor ??
-                      Theme.of(context).primaryTextTheme.subtitle2!.color),
+                      Theme.of(context).primaryTextTheme.titleSmall!.color),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),

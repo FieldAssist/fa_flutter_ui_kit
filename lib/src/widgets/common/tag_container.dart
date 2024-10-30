@@ -55,7 +55,7 @@ class TagContainer extends StatelessWidget {
             text,
             style: Theme.of(context)
                 .textTheme
-                .caption!
+                .bodySmall!
                 .copyWith(color: textColor, fontSize: 10),
           ),
         ],

@@ -24,7 +24,7 @@ class NoItemsFound extends StatelessWidget {
             Text(
               text != null && text!.isNotEmpty ? text! : "No items found",
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline4!.copyWith(
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 16,
                   ),
             ),

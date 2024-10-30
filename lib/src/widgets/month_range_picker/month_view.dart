@@ -246,7 +246,7 @@ class _MonthViewState extends State<MonthView> {
                       alignment: Alignment.center,
                       child: Text(
                         Constants.monthList[e.monthYear.month - 1],
-                        style: Theme.of(context).textTheme.button?.copyWith(
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               color:
                                   (e.isEnabled || e.isSelected) && e.canSelect
                                       ? Colors.black

@@ -29,7 +29,7 @@ class DateChip extends StatelessWidget {
           children: [
             Text(
               text,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
               textScaleFactor: 1.0,
             ),
             SizedBox(
@@ -39,7 +39,7 @@ class DateChip extends StatelessWidget {
               DateTimeUtils.formatDateTime(
                   dateTime: date,
                   outputFormat: DateTimeFormat.FORMAT_1_dd_MMM_yyyy),
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
               textScaleFactor: 1.0,
             )
           ],
@@ -68,7 +68,7 @@ class DateChip1 extends StatelessWidget {
           children: [
             Text(
               text,
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
         ),
@@ -208,7 +208,7 @@ class WeekName extends StatelessWidget {
         name!,
         style: Theme.of(context)
             .textTheme
-            .bodyText2!
+            .bodyMedium!
             .copyWith(color: Theme.of(context).colorScheme.secondary),
         textScaleFactor: 1.0,
       ),
@@ -255,7 +255,7 @@ class _DayState extends State<Day> {
         lightSelected: widget.day!.lightSelected,
         child: Text(
           widget.day!.number == 0 ? ' ' : widget.day!.number.toString(),
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
           textScaleFactor: 1.0,
         ),
       ),
