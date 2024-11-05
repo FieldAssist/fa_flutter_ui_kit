@@ -28,6 +28,7 @@ dependencies:
     git:
       url: https://github.com/FieldAssist/fa_flutter_api_client.git
       ref: main
+  decimal: ^3.0.2
 
 dev_dependencies:
   flutter_test:

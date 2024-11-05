@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
 
 class CurrencyUtil {
@@ -76,8 +77,13 @@ class CurrencyUtil {
   }
 
   String formatNumber(num amt, {bool compact = false}) {
-    // Round the number to 2 decimal places
-    final number = (amt * 100).round() / 100;
+    // final number = (amt * 100).round() / 100;
+    /// Decimal package added due floating-point precision error
+    final scaledNum =
+        (Decimal.parse(amt.toString()) * Decimal.parse('100')).toDouble();
+
+    /// Round the number to 2 decimal places
+    final number = scaledNum.round() / 100;
 
     final formatter = NumberFormat.currency(
       decimalDigits: 2,
