@@ -3,20 +3,28 @@ import 'package:intl/intl.dart';
 
 class CurrencyUtil {
   bool isInternationalCompany;
+  int decimalDigits;
 
-  CurrencyUtil({this.isInternationalCompany = false});
+  CurrencyUtil({
+    this.isInternationalCompany = false,
+    this.decimalDigits = 2,
+  });
 
-  final NumberFormat _indCurrencyDoubleFormat =
-      NumberFormat("##,##,###.##", "en_IN");
+  NumberFormat get _indCurrencyDoubleFormat =>
+      NumberFormat("##,##,###.${"#" * decimalDigits}", "en_IN");
 
-  final NumberFormat _indCurrencyIntFormat =
-      NumberFormat.simpleCurrency(decimalDigits: 2, locale: "en_IN");
+  NumberFormat get _indCurrencyIntFormat => NumberFormat.simpleCurrency(
+        decimalDigits: decimalDigits,
+        locale: "en_IN",
+      );
 
-  final NumberFormat _internationalCurrencyIntFormat =
-      NumberFormat.simpleCurrency(decimalDigits: 2, locale: "en_US");
-
-  final NumberFormat _indCurrencyDouble2PlacesFormat =
-      NumberFormat("##,##,###.00", "en_IN");
+  NumberFormat get _internationalCurrencyIntFormat =>
+      NumberFormat.simpleCurrency(
+        decimalDigits: decimalDigits,
+        locale: "en_US",
+      );
+  NumberFormat get _indCurrencyDouble2PlacesFormat =>
+      NumberFormat("##,##,###.${"0" * decimalDigits}", "en_IN");
 
   String getFormattedInrDouble(num amount) => isInternationalCompany
       ? convertToInternationalNumbering(amount.toDouble())
@@ -27,28 +35,26 @@ class CurrencyUtil {
       : _indCurrencyIntFormat.format(amount);
 
   String getFormattedIntDouble2Places(num amount) => isInternationalCompany
-      ? convertToInternationalNumbering(amount.toDouble(), decimalPlaces: 2)
+      ? convertToInternationalNumbering(
+          amount.toDouble(),
+          decimalPlaces: decimalDigits,
+        )
       : _indCurrencyDouble2PlacesFormat.format(amount);
 
   String convertToInternationalNumbering(double value,
-      {int decimalPlaces = 2, isCompact = true}) {
+      {int? decimalPlaces, bool isCompact = true}) {
+    decimalPlaces ??= this.decimalDigits;
+
     String _getHashForDecimalPlaces(int decimalPlaces) {
-      var hash = "";
-      for (var x = 0; x < decimalPlaces - 2; x++) {
-        hash = hash + "#";
-      }
-      return hash;
+      return "#${"#" * (decimalPlaces - 1)}";
     }
 
     if (!isCompact) {
-      if (decimalPlaces > 0) {
-        final formatter =
-            NumberFormat("###,###.0${_getHashForDecimalPlaces(decimalPlaces)}");
-        return formatter.format(value);
-      } else {
-        final formatter = NumberFormat("###,###");
-        return formatter.format(value);
-      }
+      final pattern = decimalPlaces > 0
+          ? "###,###.${_getHashForDecimalPlaces(decimalPlaces)}"
+          : "###,###";
+      final formatter = NumberFormat(pattern);
+      return formatter.format(value);
     }
 
     if (value > 1000000000) {
@@ -58,7 +64,8 @@ class CurrencyUtil {
       final calculated = value / 1000000;
       return '${calculated.toStringAsFixed(decimalPlaces)} M';
     } else {
-      final numberFormat = NumberFormat("#,##0.0", "en_US");
+      final numberFormat =
+          NumberFormat("#,##0.${"0" * decimalPlaces}", "en_US");
       return numberFormat.format(value);
     }
   }
@@ -86,7 +93,7 @@ class CurrencyUtil {
     final number = scaledNum.round() / 100;
 
     final formatter = NumberFormat.currency(
-      decimalDigits: 2,
+      decimalDigits: decimalDigits,
       locale: isInternationalCompany ? "en_US" : "en_IN",
       symbol: "",
     );
