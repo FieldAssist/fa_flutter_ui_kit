@@ -25,6 +25,8 @@ class AmountBreakdown {
     required this.amount,
     this.color,
     this.amtPrefix = "",
+    this.valueStyle,
+    this.typeStyle,
   });
 
   final String type;
@@ -34,6 +36,9 @@ class AmountBreakdown {
   /// It can be used to denote negative (-) amount
   /// Eg: -₹ 100 so you can pass amtPrefix as "-"
   final String amtPrefix;
+
+  final TextStyle? valueStyle;
+  final TextStyle? typeStyle;
 }
 
 class OrderAmountSummaryWidget extends StatelessWidget {
@@ -257,12 +262,17 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(amtBreakdownItem.type, style: subTitleTextStyle),
+                          Text(
+                            amtBreakdownItem.type,
+                            style:
+                                amtBreakdownItem.typeStyle ?? subTitleTextStyle,
+                          ),
                           Text(
                             "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
-                            style: subTitleTextStyle.copyWith(
-                              color: amtBreakdownItem.color ?? Colors.black,
-                            ),
+                            style: amtBreakdownItem.valueStyle ??
+                                subTitleTextStyle.copyWith(
+                                  color: amtBreakdownItem.color ?? Colors.black,
+                                ),
                           ),
                         ],
                       ),
