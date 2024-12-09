@@ -25,8 +25,6 @@ class AmountBreakdown {
     required this.amount,
     this.color,
     this.amtPrefix = "",
-    this.valueStyle,
-    this.typeStyle,
   });
 
   final String type;
@@ -36,9 +34,6 @@ class AmountBreakdown {
   /// It can be used to denote negative (-) amount
   /// Eg: -₹ 100 so you can pass amtPrefix as "-"
   final String amtPrefix;
-
-  final TextStyle? valueStyle;
-  final TextStyle? typeStyle;
 }
 
 class OrderAmountSummaryWidget extends StatelessWidget {
@@ -66,6 +61,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.breakDownListPadding =
         const EdgeInsets.only(bottom: 2, left: 2, right: 2),
     this.compactNumber = false,
+    this.payableAmountInSecondCurrency,
     super.key,
   });
 
@@ -93,6 +89,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String? distributorTitleText;
   final EdgeInsets breakDownListPadding;
   final bool compactNumber;
+  final String? payableAmountInSecondCurrency;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -217,16 +214,30 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 width: 25,
               ),
               title: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     payableAmtTitleText ?? "Payable Amount",
                     style: titleTextStyle,
                   ),
                   Spacer(),
-                  Text(
-                    "$currency $payableAmount",
-                    style: titleTextStyle,
-                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "$currency $payableAmount",
+                        style: titleTextStyle,
+                      ),
+                      if (payableAmountInSecondCurrency != null)
+                        Text(
+                          "(\u0024 $payableAmountInSecondCurrency)",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                    ],
+                  )
                 ],
               ),
               initiallyExpanded: true,
@@ -262,17 +273,12 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            amtBreakdownItem.type,
-                            style:
-                                amtBreakdownItem.typeStyle ?? subTitleTextStyle,
-                          ),
+                          Text(amtBreakdownItem.type, style: subTitleTextStyle),
                           Text(
                             "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
-                            style: amtBreakdownItem.valueStyle ??
-                                subTitleTextStyle.copyWith(
-                                  color: amtBreakdownItem.color ?? Colors.black,
-                                ),
+                            style: subTitleTextStyle.copyWith(
+                              color: amtBreakdownItem.color ?? Colors.black,
+                            ),
                           ),
                         ],
                       ),
