@@ -17,6 +17,7 @@ class BottomActionButton extends StatelessWidget {
   final bool forceButtonColor;
   final Color? primaryColor;
   final LinearGradient? gradient;
+  final BoxDecoration? decoration;
 
   const BottomActionButton({
     Key? key,
@@ -33,6 +34,7 @@ class BottomActionButton extends StatelessWidget {
     this.forceButtonColor = false,
     this.primaryColor,
     this.gradient,
+    this.decoration,
     this.icon = const Icon(
       Icons.arrow_forward,
       color: Colors.white,
@@ -72,10 +74,11 @@ class BottomActionButton extends StatelessWidget {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: height,
-          decoration: BoxDecoration(
-            color: _getBackgrounColor(),
-            gradient: gradient,
-          ),
+          decoration: decoration?.copyWith(color: _getBackgrounColor()) ??
+              BoxDecoration(
+                color: _getBackgrounColor(),
+                gradient: gradient,
+              ),
           child: Center(
             child: isCustomChildren
                 ? child
