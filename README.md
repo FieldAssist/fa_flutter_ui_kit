@@ -148,17 +148,17 @@ compileSdkVersion 32
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/kapdroid>
-            <img src=https://avatars.githubusercontent.com/u/144016021?v=4 width="100;"  alt=kapdroid/>
-            <br />
-            <sub style="font-size:14px"><b>kapdroid</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/sourav-sharma-f2k>
             <img src=https://avatars.githubusercontent.com/u/114740190?v=4 width="100;"  alt=Sourav/>
             <br />
             <sub style="font-size:14px"><b>Sourav</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/kapdroid>
+            <img src=https://avatars.githubusercontent.com/u/144016021?v=4 width="100;"  alt=kapdroid/>
+            <br />
+            <sub style="font-size:14px"><b>kapdroid</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
