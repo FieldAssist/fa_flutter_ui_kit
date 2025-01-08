@@ -45,5 +45,11 @@ class CommonProgressDialog {
     await hide();
   }
 
-  static Future<bool> hide() => _dialog!.hide()..then((_) => _dialog = null);
+  static Future<bool> hide() {
+    if (_dialog == null) {
+      return Future.value(true);
+    }
+
+    return _dialog!.hide()..then((_) => _dialog = null);
+  }
 }
