@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 enum ProgressDialogType { Normal, Download }
 
@@ -200,7 +198,11 @@ class _Body extends StatefulWidget {
 
 class _BodyState extends State<_Body> {
   update() {
-    setState(() {});
+    if (mounted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {});
+      });
+    }
   }
 
   @override
