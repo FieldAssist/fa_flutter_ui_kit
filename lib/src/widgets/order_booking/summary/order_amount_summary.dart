@@ -214,7 +214,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               childrenPadding:
                   EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
               leading: SvgPicture.asset(
-                SvgIcons.rupeeRoundedIcon,
+                SvgIcons.cashIcon,
                 height: 25,
                 width: 25,
               ),
