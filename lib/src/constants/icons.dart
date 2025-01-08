@@ -30,4 +30,5 @@ class SvgIcons {
   static const distributorIcon = "$_basePath/distributor.svg";
   static const rupeeRoundedIcon = "$_basePath/rupee_rounded.svg";
   static const schemeIcon = "$_basePath/scheme.svg";
+  static const cashIcon = "$_basePath/cash_gt.svg";
 }
