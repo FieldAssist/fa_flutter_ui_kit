@@ -73,6 +73,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.compactNumber = false,
     this.payableAmountInSecondCurrency,
     this.showTotalQtyInAllUnits = false,
+    this.isRestrictStockValueVisibility = false,
     super.key,
   });
 
@@ -108,6 +109,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String? payableAmountInSecondCurrency;
   final bool showTotalQtyInAllUnits;
 
+  final bool isRestrictStockValueVisibility;
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
     color: Colors.black87,
@@ -232,94 +234,95 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               discountWidget!,
               DottedDivider(),
             ],
-            ExpansionTile(
-              shape: RoundedRectangleBorder(side: BorderSide.none),
-              visualDensity: VisualDensity(
-                  horizontal: VisualDensity.minimumDensity,
-                  vertical: VisualDensity.minimumDensity),
-              childrenPadding:
-                  EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
-              leading: SvgPicture.asset(
-                SvgIcons.cashIcon,
-                height: 25,
-                width: 25,
-              ),
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    payableAmtTitleText ?? "Payable Amount",
-                    style: titleTextStyle,
-                  ),
-                  Spacer(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        "$currency $payableAmount",
-                        style: titleTextStyle,
-                      ),
-                      if (payableAmountInSecondCurrency != null)
-                        Text(
-                          "(\u0024 $payableAmountInSecondCurrency)",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-                    ],
-                  )
-                ],
-              ),
-              initiallyExpanded: true,
-              trailing: (showMargin || amountBreakdownList.isNotEmpty)
-                  ? null
-                  : SizedBox.shrink(),
-              children: [
-                if (showMargin)
-                  Padding(
-                    padding: breakDownListPadding,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            if (!isRestrictStockValueVisibility)
+              ExpansionTile(
+                shape: RoundedRectangleBorder(side: BorderSide.none),
+                visualDensity: VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
+                childrenPadding: EdgeInsets.only(
+                    left: 16 + 45, right: 16, top: 8, bottom: 8),
+                leading: SvgPicture.asset(
+                  SvgIcons.cashIcon,
+                  height: 25,
+                  width: 25,
+                ),
+                title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      payableAmtTitleText ?? "Payable Amount",
+                      style: titleTextStyle,
+                    ),
+                    Spacer(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          "Margin (%)",
-                          style: subTitleTextStyle.copyWith(
-                              color: AppColors.colorGreenLight),
+                          "$currency $payableAmount",
+                          style: titleTextStyle,
                         ),
-                        Text(
-                          "$currency $marginAmount ($marginPercentage%)",
-                          style: subTitleTextStyle.copyWith(
-                              color: AppColors.colorGreenLight),
-                        ),
+                        if (payableAmountInSecondCurrency != null)
+                          Text(
+                            "(\u0024 $payableAmountInSecondCurrency)",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
                       ],
-                    ),
-                  ),
-                ...List.generate(
-                  amountBreakdownList.length,
-                  (index) {
-                    final amtBreakdownItem = amountBreakdownList[index];
-                    return Padding(
+                    )
+                  ],
+                ),
+                initiallyExpanded: true,
+                trailing: (showMargin || amountBreakdownList.isNotEmpty)
+                    ? null
+                    : SizedBox.shrink(),
+                children: [
+                  if (showMargin)
+                    Padding(
                       padding: breakDownListPadding,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(amtBreakdownItem.type,
-                              style: amtBreakdownItem.typeStyle ??
-                                  subTitleTextStyle),
                           Text(
-                            "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
+                            "Margin (%)",
                             style: subTitleTextStyle.copyWith(
-                              color: amtBreakdownItem.color ?? Colors.black,
-                            ),
+                                color: AppColors.colorGreenLight),
+                          ),
+                          Text(
+                            "$currency $marginAmount ($marginPercentage%)",
+                            style: subTitleTextStyle.copyWith(
+                                color: AppColors.colorGreenLight),
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                    ),
+                  ...List.generate(
+                    amountBreakdownList.length,
+                    (index) {
+                      final amtBreakdownItem = amountBreakdownList[index];
+                      return Padding(
+                        padding: breakDownListPadding,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(amtBreakdownItem.type,
+                                style: amtBreakdownItem.typeStyle ??
+                                    subTitleTextStyle),
+                            Text(
+                              "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
+                              style: subTitleTextStyle.copyWith(
+                                color: amtBreakdownItem.color ?? Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             if (decimalInfoString != null)
               Padding(
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 2),
