@@ -67,6 +67,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
         const EdgeInsets.only(bottom: 2, left: 2, right: 2),
     this.compactNumber = false,
     this.payableAmountInSecondCurrency,
+    this.isRestrictStockValueVisibility=false,
     super.key,
   });
 
@@ -95,7 +96,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final EdgeInsets breakDownListPadding;
   final bool compactNumber;
   final String? payableAmountInSecondCurrency;
-
+  final bool isRestrictStockValueVisibility;
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
     color: Colors.black87,
@@ -206,6 +207,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               discountWidget!,
               DottedDivider(),
             ],
+            if(!isRestrictStockValueVisibility)
             ExpansionTile(
               shape: RoundedRectangleBorder(side: BorderSide.none),
               visualDensity: VisualDensity(
