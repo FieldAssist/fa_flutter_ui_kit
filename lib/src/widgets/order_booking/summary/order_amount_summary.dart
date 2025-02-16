@@ -53,9 +53,14 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.totalQty,
     required this.mainColor,
     required this.currencyUtil,
+    required this.qty,
+    required this.stdQty,
+    required this.additionalQty,
     this.customWidget,
     this.currency = "₹",
     this.unit = "SKUs",
+    this.stdUnitName = "Std. Unit",
+    this.additionalUnitName = "Add. Unit",
     this.showMargin = true,
     this.discountWidget,
     this.isDistributorVisible = false,
@@ -67,6 +72,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
         const EdgeInsets.only(bottom: 2, left: 2, right: 2),
     this.compactNumber = false,
     this.payableAmountInSecondCurrency,
+    this.showTotalQtyInAllUnits = false,
     super.key,
   });
 
@@ -75,6 +81,8 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String distributorAddress;
   final String currency;
   final String unit;
+  final String stdUnitName;
+  final String additionalUnitName;
   final List<QuantityBreakdown> quantityBreakdownList;
   final List<AmountBreakdown> amountBreakdownList;
   final CurrencyUtil currencyUtil;
@@ -85,6 +93,9 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final double marginAmount;
   final String payableAmount;
   final int totalQty;
+  final int qty;
+  final int stdQty;
+  final int additionalQty;
   final Color mainColor;
   final Widget? customWidget;
   final bool showMargin;
@@ -95,6 +106,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final EdgeInsets breakDownListPadding;
   final bool compactNumber;
   final String? payableAmountInSecondCurrency;
+  final bool showTotalQtyInAllUnits;
 
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -105,6 +117,20 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     color: AppColors.kLightGrey,
     fontSize: 12,
   );
+
+  Text getDisplayQty(int additionalQty, int stdQty, int qty, String addName,
+      String stdName, String unitName) {
+    String additionalUnitDisplay = (additionalQty > 0)
+        ? additionalQty.toString() + " " + additionalUnitName + " "
+        : "";
+    String stdUnitDisplay =
+        (stdQty > 0) ? stdQty.toString() + " " + stdUnitName + " " : "";
+    String unitDisplay =
+        (qty > 0) ? qty.toString() + " " + unitName : "0 $unitName";
+
+    return Text(additionalUnitDisplay + stdUnitDisplay + unitDisplay,
+        style: titleTextStyle);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,10 +191,10 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     style: titleTextStyle,
                   ),
                   Spacer(),
-                  Text(
-                    "$totalQty $unit",
-                    style: titleTextStyle,
-                  )
+                  showTotalQtyInAllUnits
+                      ? getDisplayQty(additionalQty, stdQty, qty,
+                          additionalUnitName, stdUnitName, unit)
+                      : Text("$totalQty $unit"),
                 ],
               ),
               leading: SvgPicture.asset(
