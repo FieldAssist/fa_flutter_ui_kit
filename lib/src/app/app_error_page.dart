@@ -30,7 +30,7 @@ class AppErrorPage extends StatelessWidget {
   Widget getWidget() {
     //TODO(TusharFA): Import LocationException once LocationImp moved to core.
     // if (e is LocationException) {
-    if (e is Exception) {
+    if (e is LocationException) {
       return LocationErrorWidget(
         error: e.toString(),
         onRefreshTap: onRetryTap ?? () {},

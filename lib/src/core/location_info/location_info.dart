@@ -171,28 +171,37 @@ class LocationInfoImpl implements LocationInfo {
 
   Future<LocationData> _parseLocation(Position location) async {
     PlaceMarkData? placemark;
-    if (enforceGeocoding) {
-      placemark = await getPlacemarkDataFromCoordinates(
-          latitude: location.latitude, longitude: location.longitude);
+    try {
+      if (enforceGeocoding) {
+        placemark = await getPlacemarkDataFromCoordinates(
+                latitude: location.latitude, longitude: location.longitude)
+            .timeout(Duration(seconds: 5), onTimeout: () {
+          return PlaceMarkData(name: "Test Street");
+        });
+      }
+    } finally {
+      final locationData = LocationData(
+        latitude: location.latitude,
+        longitude: location.longitude,
+        accuracy: location.accuracy.toInt(),
+        captureTime: location.timestamp.millisecondsSinceEpoch ~/ 1000,
+        captureLocationTime: DateTimeUtils.getCurrentISOTimeString(
+            dateTime: location.timestamp.toLocal()),
+        source: isAndroid ? 'Android' : (isIOS ? 'iOS' : 'Unknown'),
+        capturedAddress: placemark?.getFullAddress() ?? null,
+        placeMarkData: placemark,
+      );
+      return locationData;
     }
-    final locationData = LocationData(
-      latitude: location.latitude,
-      longitude: location.longitude,
-      accuracy: location.accuracy.toInt(),
-      captureTime: location.timestamp!.millisecondsSinceEpoch ~/ 1000,
-      captureLocationTime: DateTimeUtils.getCurrentISOTimeString(
-          dateTime: location.timestamp!.toLocal()),
-      source: isAndroid ? 'Android' : (isIOS ? 'iOS' : 'Unknown'),
-      capturedAddress: placemark?.getFullAddress() ?? null,
-      placeMarkData: placemark,
-    );
-    return locationData;
   }
 
   Future _fetchLocation() async {
     await _startFetchingLocation().timeout(const Duration(seconds: 10),
         onTimeout: () async {
-      final position = await Geolocator.getLastKnownPosition();
+      final position = await Geolocator.getLastKnownPosition()
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        return null;
+      });
       if (position == null) {
         throw LocationException(
           '${Constants.locationNotAvailable}\n$defaultLocationReason',
@@ -203,7 +212,7 @@ class LocationInfoImpl implements LocationInfo {
     });
   }
 
-  Future _onLocationFetch(Position location) async {
+  Future<void> _onLocationFetch(Position location) async {
     final locationData = await _parseLocation(location);
     _setLocation(locationData);
     _startLocationServiceCheckTimer();
@@ -214,7 +223,7 @@ class LocationInfoImpl implements LocationInfo {
     }
   }
 
-  Future _startFetchingLocation() async {
+  Future<void> _startFetchingLocation() async {
     Position location;
     location = await _getLocation();
     if (location == null) {
