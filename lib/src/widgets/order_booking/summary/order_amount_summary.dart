@@ -93,9 +93,9 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final double marginAmount;
   final String payableAmount;
   final int totalQty;
-  final int qty;
-  final int stdQty;
-  final int additionalQty;
+  final int? qty;
+  final int? stdQty;
+  final int? additionalQty;
   final Color mainColor;
   final Widget? customWidget;
   final bool showMargin;
