@@ -53,9 +53,9 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.totalQty,
     required this.mainColor,
     required this.currencyUtil,
-    required this.qty,
-    required this.stdQty,
-    required this.additionalQty,
+    this.qty = 0,
+    this.stdQty = 0,
+    this.additionalQty = 0,
     this.customWidget,
     this.currency = "₹",
     this.unit = "SKUs",
@@ -93,9 +93,9 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final double marginAmount;
   final String payableAmount;
   final int totalQty;
-  final int? qty;
-  final int? stdQty;
-  final int? additionalQty;
+  final int qty;
+  final int stdQty;
+  final int additionalQty;
   final Color mainColor;
   final Widget? customWidget;
   final bool showMargin;
