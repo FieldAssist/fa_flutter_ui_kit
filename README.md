@@ -190,6 +190,15 @@ compileSdkVersion 32
         </a>
     </td>
 </tr>
+<tr>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Vineet-FieldAssist>
+            <img src=https://avatars.githubusercontent.com/u/189129602?v=4 width="100;"  alt=Vineet/>
+            <br />
+            <sub style="font-size:14px"><b>Vineet</b></sub>
+        </a>
+    </td>
+</tr>
 </table>
 
 <table>
