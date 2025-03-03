@@ -74,6 +74,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.payableAmountInSecondCurrency,
     this.showTotalQtyInAllUnits = false,
     this.isRestrictStockValueVisibility = false,
+    this.miscWidget,
     super.key,
   });
 
@@ -108,6 +109,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final bool compactNumber;
   final String? payableAmountInSecondCurrency;
   final bool showTotalQtyInAllUnits;
+  final Widget? miscWidget;
 
   final bool isRestrictStockValueVisibility;
   final titleTextStyle = TextStyle(
@@ -323,6 +325,10 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   ),
                 ],
               ),
+            if (miscWidget != null) ...[
+              DottedDivider(),
+              miscWidget!,
+            ],
             if (decimalInfoString != null)
               Padding(
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 2),
