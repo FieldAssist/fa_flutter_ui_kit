@@ -6,26 +6,26 @@ part of 'location_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_LocationData _$$_LocationDataFromJson(Map<String, dynamic> json) {
+_$LocationDataImpl _$$LocationDataImplFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
     requiredKeys: const ['Longitude', 'Latitude'],
   );
-  return _$_LocationData(
+  return _$LocationDataImpl(
     longitude: (json['Longitude'] as num?)?.toDouble(),
     latitude: (json['Latitude'] as num?)?.toDouble(),
-    accuracy: json['accuracy'] as int? ?? 0,
+    accuracy: (json['accuracy'] as num?)?.toInt() ?? 0,
     source: json['source'] as String? ?? 'NA',
     placeMarkData: json['placeMarkData'] == null
         ? null
         : PlaceMarkData.fromJson(json['placeMarkData'] as Map<String, dynamic>),
-    captureTime: json['captureTime'] as int?,
+    captureTime: (json['captureTime'] as num?)?.toInt(),
     capturedAddress: json['capturedAddress'] as String?,
     captureLocationTime: json['captureLocationTime'] as String?,
   );
 }
 
-Map<String, dynamic> _$$_LocationDataToJson(_$_LocationData instance) =>
+Map<String, dynamic> _$$LocationDataImplToJson(_$LocationDataImpl instance) =>
     <String, dynamic>{
       'Longitude': instance.longitude,
       'Latitude': instance.latitude,

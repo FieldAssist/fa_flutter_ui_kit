@@ -1,23 +1,27 @@
 import 'dart:async';
 
-import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_core/fa_flutter_core.dart' hide Location;
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/core/location_info/models/place_mark_data/place_mark_data.dart';
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 
 abstract class LocationInfo {
-  LocationData get currentLocation;
+  LocationModel get currentLocation;
 
-  Stream<LocationData> get locationStream;
+  Stream<LocationModel> get locationStream;
 
   Future<void> initLocation();
 
-  Future<LocationData> getLocationWithPlacemarkData();
+  Future<LocationModel> getLocationWithPlacemarkData();
 
   @protected
-  Future<String> getAddress(Position location);
+  Future<String> getAddress({
+    required double lat,
+    required double lng,
+  });
 
   /// Check if [inputLocation] and [currentLocation]
   /// is within the [minDistance] in metres
@@ -41,16 +45,18 @@ class LocationInfoImpl implements LocationInfo {
   final String defaultLocationReason =
       'Your current location helps your manager in reviewing work done by you';
 
-  final _deviceLocation = ValueNotifier<LocationData?>(null);
+  final _deviceLocation = ValueNotifier<LocationModel?>(null);
 
   Timer? locationCheckTimer;
 
   StreamSubscription<Position>? locationStreamSubs;
 
   @override
-  LocationData get currentLocation => _deviceLocation.value!;
+  LocationModel get currentLocation => _deviceLocation.value!;
 
-  Stream<Position>? positionStream;
+  final _location2 = Location();
+
+  // Stream<Position>? positionStream;
 
   @override
   Future initLocation() async {
@@ -88,7 +94,7 @@ class LocationInfoImpl implements LocationInfo {
         );
       }
     } else {
-      final location = LocationData(
+      final location = LocationModel(
         latitude: 26.85,
         longitude: 80.94,
         capturedAddress: 'Lucknow 22606',
@@ -137,20 +143,15 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   void _startLocationFetchStream() {
-    positionStream ??= Geolocator.getPositionStream(
+    locationStreamSubs ??= Geolocator.getPositionStream(
       locationSettings: getLocationSetting(),
-    ).bufferTime(const Duration(seconds: 2)).transform<Position>(
-      StreamTransformer.fromHandlers(handleData: (d, sink) {
-        if (d.isNotEmpty) {
-          sink.add(d.last);
-        }
-      }),
-    ).shareValue();
-    locationStreamSubs ??= positionStream?.listen((position) async {
-      if (position != null) {
-        final locationData = await _parseLocation(position);
-        _setLocation(locationData);
-      }
+    )
+        .asBroadcastStream()
+        .shareValue()
+        .throttleTime(Duration(seconds: 10), trailing: true)
+        .listen((position) async {
+      final locationModel = await _parseLocation(position);
+      _setLocation(locationModel);
     });
   }
 
@@ -158,7 +159,7 @@ class LocationInfoImpl implements LocationInfo {
     locationStreamSubs?.cancel();
   }
 
-  void _setLocation(LocationData location) {
+  void _setLocation(LocationModel location) {
     if (location != null) {
       _deviceLocation.value = location;
       //prefsHelper.lastLocation = jsonEncode(_deviceLocation.value.toJson());
@@ -169,7 +170,7 @@ class LocationInfoImpl implements LocationInfo {
     }
   }
 
-  Future<LocationData> _parseLocation(Position location) async {
+  Future<LocationModel> _parseLocation(Position location) async {
     PlaceMarkData? placemark;
     try {
       if (enforceGeocoding) {
@@ -180,14 +181,14 @@ class LocationInfoImpl implements LocationInfo {
         });
       }
     } finally {
-      final locationData = LocationData(
+      final locationData = LocationModel(
         latitude: location.latitude,
         longitude: location.longitude,
         accuracy: location.accuracy.toInt(),
         captureTime: location.timestamp.millisecondsSinceEpoch ~/ 1000,
         captureLocationTime: DateTimeUtils.getCurrentISOTimeString(
             dateTime: location.timestamp.toLocal()),
-        source: isAndroid ? 'Android' : (isIOS ? 'iOS' : 'Unknown'),
+        source: isAndroid ? 'Android_geolocator' : (isIOS ? 'iOS' : 'Unknown'),
         capturedAddress: placemark?.getFullAddress() ?? null,
         placeMarkData: placemark,
       );
@@ -196,20 +197,33 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   Future _fetchLocation() async {
-    await _startFetchingLocation().timeout(const Duration(seconds: 10),
-        onTimeout: () async {
-      final position = await Geolocator.getLastKnownPosition()
-          .timeout(Duration(seconds: 5), onTimeout: () {
-        return null;
-      });
-      if (position == null) {
-        throw LocationException(
-          '${Constants.locationNotAvailable}\n$defaultLocationReason',
-        );
-      } else {
+    try {
+      await _startFetchingLocation().timeout(const Duration(seconds: 10),
+          onTimeout: () async {
+        final position = await Geolocator.getCurrentPosition()
+            .timeout(Duration(seconds: 10), onTimeout: () {
+          throw Exception("Location Exception");
+        });
+        // if (position == null) {
+        //   throw LocationException(
+        //     '${Constants.locationNotAvailable}\n$defaultLocationReason',
+        //   );
+        // } else {
         await _onLocationFetch(position);
+        // }
+      });
+    } catch (e, s) {
+      logger.e(e, s);
+      final _location = await Geolocator.getLastKnownPosition().timeout(
+        Duration(seconds: 5),
+      );
+      if (_location != null) {
+        final location = await _parseLocation(
+          _location,
+        );
+        _deviceLocation.value = location;
       }
-    });
+    }
   }
 
   Future<void> _onLocationFetch(Position location) async {
@@ -263,11 +277,16 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   @override
-  Future<String> getAddress(Position location) async {
+  Future<String> getAddress({
+    required double lat,
+    required double lng,
+  }) async {
     String _address = "";
     try {
       final placemark = await getPlacemarkDataFromCoordinates(
-          latitude: location.latitude, longitude: location.longitude);
+        latitude: lat,
+        longitude: lng,
+      );
 
       _address = placemark.getFullAddress();
     } catch (e, s) {
@@ -298,8 +317,51 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   @override
-  Stream<LocationData> get locationStream {
-    if (isMobile && positionStream != null) {
+  Stream<LocationModel> get locationStream {
+    if (isIOS) {
+      return Geolocator.getPositionStream(
+        locationSettings: getLocationSetting(),
+      )
+          .asBroadcastStream()
+          .shareValue()
+          .throttleTime(Duration(seconds: 10), trailing: true)
+          .transform(
+        StreamTransformer.fromHandlers(
+          handleData: (data, sink) async {
+            logger.i("Got data parsing location..");
+            final locationModel = await _parseLocation(data);
+            _setLocation(locationModel);
+            await Future.delayed(Duration(milliseconds: 500));
+            return sink.add(locationModel);
+          },
+        ),
+      );
+    } else {
+      //Location works for Android, but doesn't support iOS 16 yet.
+      return _location2.onLocationChanged
+          .asBroadcastStream()
+          .shareValue()
+          .throttleTime(Duration(seconds: 15))
+          .transform<LocationModel>(
+        StreamTransformer.fromHandlers(
+          handleData: (data, sink) async {
+            final locationModel = await _parseLocation2(data);
+            _setLocation(locationModel);
+            return sink.add(locationModel);
+          },
+        ),
+      ).timeout(
+        Duration(seconds: 15),
+        onTimeout: (sink1) {
+          // final _locationData = await _location2.getLocation();
+          // final _locationModel = await _parseLocation2(_locationData);
+          if (_deviceLocation.value != null) {
+            return sink1.add(_deviceLocation.value!);
+          }
+        },
+      );
+    }
+    /*if (isMobile && positionStream != null) {
       return positionStream!.transform(
         StreamTransformer.fromHandlers(
           handleData: (data, sink) async {
@@ -315,7 +377,31 @@ class LocationInfoImpl implements LocationInfo {
       );
     } else {
       return BehaviorSubject<LocationData>.seeded(currentLocation);
-    }
+    }*/
+  }
+
+  Future<LocationModel> _parseLocation2(LocationData location) async {
+    final _address = await getAddress(
+      lat: location.latitude!,
+      lng: location.longitude!,
+    );
+    final _capturedTime =
+        (location.time ?? DateTime.now().millisecondsSinceEpoch).toInt() ~/
+            1000;
+    final locationModel = LocationModel(
+      latitude: location.latitude!,
+      longitude: location.longitude!,
+      accuracy: location.accuracy?.toInt() ?? 0,
+      captureTime: _capturedTime,
+      captureLocationTime: DateTimeUtils.getCurrentISOTimeString(
+        dateTime: DateTime.fromMillisecondsSinceEpoch(_capturedTime),
+      ),
+      source: isAndroid ? 'Android_location' : (isIOS ? 'iOS' : 'Unknown'),
+      capturedAddress: _address,
+    );
+    // await _nwLogger.sendLogViaNetwork(data: "_parseLocation - $_address");
+
+    return locationModel;
   }
 
   @override
@@ -331,7 +417,7 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   @override
-  Future<LocationData> getLocationWithPlacemarkData() async {
+  Future<LocationModel> getLocationWithPlacemarkData() async {
     final placemarkData = await getPlacemarkDataforNoGeocoding(
         latitude: currentLocation.latitude ?? 26.85,
         longitude: currentLocation.longitude ?? 80.94);
