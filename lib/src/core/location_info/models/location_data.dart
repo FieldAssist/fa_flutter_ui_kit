@@ -5,8 +5,8 @@ part 'location_data.freezed.dart';
 part 'location_data.g.dart';
 
 @freezed
-abstract class LocationData with _$LocationData {
-  factory LocationData({
+abstract class LocationModel with _$LocationModel {
+  factory LocationModel({
     @JsonKey(name: 'Longitude', required: true) final double? longitude,
     @JsonKey(name: 'Latitude', required: true) final double? latitude,
     @JsonKey(defaultValue: 0) final int? accuracy,
@@ -17,6 +17,6 @@ abstract class LocationData with _$LocationData {
     final String? captureLocationTime,
   }) = _LocationData;
 
-  factory LocationData.fromJson(Map<String, dynamic> json) =>
-      _$LocationDataFromJson(json);
+  factory LocationModel.fromJson(Map<String, dynamic> json) =>
+      _$LocationModelFromJson(json);
 }
