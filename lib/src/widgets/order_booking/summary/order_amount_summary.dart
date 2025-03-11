@@ -43,6 +43,7 @@ class AmountBreakdown {
 
 class OrderAmountSummaryWidget extends StatelessWidget {
   OrderAmountSummaryWidget({
+    required this.qtyDisplayText,
     required this.distributorName,
     required this.distributorAddress,
     required this.quantityBreakdownList,
@@ -50,17 +51,10 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     required this.marginPercentage,
     required this.marginAmount,
     required this.payableAmount,
-    required this.totalQty,
     required this.mainColor,
     required this.currencyUtil,
-    this.qty = 0,
-    this.stdQty = 0,
-    this.additionalQty = 0,
     this.customWidget,
     this.currency = "₹",
-    this.unit = "SKUs",
-    this.stdUnitName = "Std. Unit",
-    this.additionalUnitName = "Add. Unit",
     this.showMargin = true,
     this.discountWidget,
     this.isDistributorVisible = false,
@@ -72,19 +66,16 @@ class OrderAmountSummaryWidget extends StatelessWidget {
         const EdgeInsets.only(bottom: 2, left: 2, right: 2),
     this.compactNumber = false,
     this.payableAmountInSecondCurrency,
-    this.showTotalQtyInAllUnits = false,
     this.isRestrictStockValueVisibility = false,
     this.miscWidget,
     super.key,
   });
 
+  final String qtyDisplayText;
   final String distributorName;
   final String? decimalInfoString;
   final String distributorAddress;
   final String currency;
-  final String unit;
-  final String stdUnitName;
-  final String additionalUnitName;
   final List<QuantityBreakdown> quantityBreakdownList;
   final List<AmountBreakdown> amountBreakdownList;
   final CurrencyUtil currencyUtil;
@@ -94,10 +85,6 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final double marginPercentage;
   final double marginAmount;
   final String payableAmount;
-  final int totalQty;
-  final int qty;
-  final int stdQty;
-  final int additionalQty;
   final Color mainColor;
   final Widget? customWidget;
   final bool showMargin;
@@ -108,7 +95,6 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final EdgeInsets breakDownListPadding;
   final bool compactNumber;
   final String? payableAmountInSecondCurrency;
-  final bool showTotalQtyInAllUnits;
   final Widget? miscWidget;
 
   final bool isRestrictStockValueVisibility;
@@ -121,20 +107,6 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     color: AppColors.kLightGrey,
     fontSize: 12,
   );
-
-  Text getDisplayQty(int additionalQty, int stdQty, int qty, String addName,
-      String stdName, String unitName) {
-    String additionalUnitDisplay = (additionalQty > 0)
-        ? additionalQty.toString() + " " + additionalUnitName + " "
-        : "";
-    String stdUnitDisplay =
-        (stdQty > 0) ? stdQty.toString() + " " + stdUnitName + " " : "";
-    String unitDisplay =
-        (qty > 0) ? qty.toString() + " " + unitName : "0 $unitName";
-
-    return Text(additionalUnitDisplay + stdUnitDisplay + unitDisplay,
-        style: titleTextStyle);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,10 +167,10 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     style: titleTextStyle,
                   ),
                   Spacer(),
-                  showTotalQtyInAllUnits
-                      ? getDisplayQty(additionalQty, stdQty, qty,
-                          additionalUnitName, stdUnitName, unit)
-                      : Text("$totalQty $unit"),
+                  Text(
+                    qtyDisplayText,
+                    style: subTitleTextStyle,
+                  ),
                 ],
               ),
               leading: SvgPicture.asset(
