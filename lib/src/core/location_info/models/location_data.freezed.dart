@@ -21,9 +21,9 @@ LocationModel _$LocationModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LocationModel {
   @JsonKey(name: 'Longitude', required: true)
-  double? get longitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
   @JsonKey(name: 'Latitude', required: true)
-  double? get latitude => throw _privateConstructorUsedError;
+  double get latitude => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: 0)
   int? get accuracy => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: "NA")
@@ -46,8 +46,8 @@ abstract class $LocationModelCopyWith<$Res> {
       _$LocationModelCopyWithImpl<$Res, LocationModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'Longitude', required: true) double? longitude,
-      @JsonKey(name: 'Latitude', required: true) double? latitude,
+      {@JsonKey(name: 'Longitude', required: true) double longitude,
+      @JsonKey(name: 'Latitude', required: true) double latitude,
       @JsonKey(defaultValue: 0) int? accuracy,
       @JsonKey(defaultValue: "NA") String? source,
       PlaceMarkData? placeMarkData,
@@ -71,8 +71,8 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? longitude = freezed,
-    Object? latitude = freezed,
+    Object? longitude = null,
+    Object? latitude = null,
     Object? accuracy = freezed,
     Object? source = freezed,
     Object? placeMarkData = freezed,
@@ -81,14 +81,14 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
     Object? captureLocationTime = freezed,
   }) {
     return _then(_value.copyWith(
-      longitude: freezed == longitude
+      longitude: null == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as double?,
-      latitude: freezed == latitude
+              as double,
+      latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       accuracy: freezed == accuracy
           ? _value.accuracy
           : accuracy // ignore: cast_nullable_to_non_nullable
@@ -138,8 +138,8 @@ abstract class _$$LocationDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'Longitude', required: true) double? longitude,
-      @JsonKey(name: 'Latitude', required: true) double? latitude,
+      {@JsonKey(name: 'Longitude', required: true) double longitude,
+      @JsonKey(name: 'Latitude', required: true) double latitude,
       @JsonKey(defaultValue: 0) int? accuracy,
       @JsonKey(defaultValue: "NA") String? source,
       PlaceMarkData? placeMarkData,
@@ -162,8 +162,8 @@ class __$$LocationDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? longitude = freezed,
-    Object? latitude = freezed,
+    Object? longitude = null,
+    Object? latitude = null,
     Object? accuracy = freezed,
     Object? source = freezed,
     Object? placeMarkData = freezed,
@@ -172,14 +172,14 @@ class __$$LocationDataImplCopyWithImpl<$Res>
     Object? captureLocationTime = freezed,
   }) {
     return _then(_$LocationDataImpl(
-      longitude: freezed == longitude
+      longitude: null == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as double?,
-      latitude: freezed == latitude
+              as double,
+      latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       accuracy: freezed == accuracy
           ? _value.accuracy
           : accuracy // ignore: cast_nullable_to_non_nullable
@@ -212,8 +212,8 @@ class __$$LocationDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LocationDataImpl implements _LocationData {
   _$LocationDataImpl(
-      {@JsonKey(name: 'Longitude', required: true) this.longitude,
-      @JsonKey(name: 'Latitude', required: true) this.latitude,
+      {@JsonKey(name: 'Longitude', required: true) required this.longitude,
+      @JsonKey(name: 'Latitude', required: true) required this.latitude,
       @JsonKey(defaultValue: 0) this.accuracy,
       @JsonKey(defaultValue: "NA") this.source,
       this.placeMarkData,
@@ -226,10 +226,10 @@ class _$LocationDataImpl implements _LocationData {
 
   @override
   @JsonKey(name: 'Longitude', required: true)
-  final double? longitude;
+  final double longitude;
   @override
   @JsonKey(name: 'Latitude', required: true)
-  final double? latitude;
+  final double latitude;
   @override
   @JsonKey(defaultValue: 0)
   final int? accuracy;
@@ -293,8 +293,9 @@ class _$LocationDataImpl implements _LocationData {
 
 abstract class _LocationData implements LocationModel {
   factory _LocationData(
-      {@JsonKey(name: 'Longitude', required: true) final double? longitude,
-      @JsonKey(name: 'Latitude', required: true) final double? latitude,
+      {@JsonKey(name: 'Longitude', required: true)
+      required final double longitude,
+      @JsonKey(name: 'Latitude', required: true) required final double latitude,
       @JsonKey(defaultValue: 0) final int? accuracy,
       @JsonKey(defaultValue: "NA") final String? source,
       final PlaceMarkData? placeMarkData,
@@ -307,10 +308,10 @@ abstract class _LocationData implements LocationModel {
 
   @override
   @JsonKey(name: 'Longitude', required: true)
-  double? get longitude;
+  double get longitude;
   @override
   @JsonKey(name: 'Latitude', required: true)
-  double? get latitude;
+  double get latitude;
   @override
   @JsonKey(defaultValue: 0)
   int? get accuracy;

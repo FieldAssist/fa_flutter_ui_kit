@@ -17,6 +17,8 @@ abstract class LocationInfo {
 
   Future<LocationModel> getLocationWithPlacemarkData();
 
+  Future<void> forceUpdateCurrentLocation();
+
   @protected
   Future<String> getAddress({
     required double lat,
@@ -57,6 +59,20 @@ class LocationInfoImpl implements LocationInfo {
   final _location2 = Location();
 
   // Stream<Position>? positionStream;
+  @override
+  Future<void> forceUpdateCurrentLocation() async {
+    if (isWeb) {
+      return;
+    }
+    final location = await _getLocation(forceGPSUpdate: true);
+    if (location == null) {
+      throw MyException(
+        '${Constants.locationNotAvailable} \n $defaultLocationReason',
+      );
+    }
+    final locationModel = await _parseLocation(location);
+    _setLocation(locationModel);
+  }
 
   @override
   Future initLocation() async {
@@ -105,12 +121,122 @@ class LocationInfoImpl implements LocationInfo {
     }
   }
 
-  static Future<Position> _getLocation() async {
-    final location = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    return location;
+  Future<Position?> _getLocation({bool forceGPSUpdate = false}) async {
+    try {
+      if (isIOS) {
+        final location = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best,
+          forceAndroidLocationManager: isAndroid && forceGPSUpdate,
+          timeLimit: Duration(seconds: 10),
+        );
+        return location;
+      } else {
+        final location = await _location2.getLocation();
+
+        if (location.latitude == null || location.longitude == null) {
+          return null;
+        }
+        return Position(
+          longitude: location.longitude!,
+          latitude: location.latitude!,
+          timestamp: DateTime.now(),
+          accuracy: location.accuracy ?? 9999,
+          altitude: location.altitude ?? 9999,
+          heading: location.heading ?? 9999,
+          speed: location.speed ?? 9999,
+          speedAccuracy: location.speedAccuracy ?? 9999,
+          altitudeAccuracy: location.accuracy ?? 9999,
+          headingAccuracy: location.headingAccuracy ?? 9999,
+        );
+      }
+    } catch (e, s) {
+      // ToastUtils.showException(e);
+      logger.e(e, s);
+
+      if (isWeb) {
+        return null;
+      }
+
+      final _currLocFromGeoCoder =
+          await Geolocator.getCurrentPosition().timeout(
+        Duration(seconds: 10),
+        onTimeout: () async {
+          final _location = await Geolocator.getLastKnownPosition().timeout(
+            Duration(seconds: 5),
+            onTimeout: () {
+              logger.w(
+                  "unable to get last known position using previous captured location");
+              // ToastUtils.showException("_get Location Exception Time out");
+              final _currentLocation = currentLocation;
+              return Position(
+                longitude: _currentLocation.longitude,
+                latitude: _currentLocation.latitude,
+                timestamp: DateTime.now(),
+                accuracy: _currentLocation.accuracy?.toDouble() ?? 9999,
+                altitude: 0,
+                heading: 0,
+                speed: 0,
+                speedAccuracy: 0,
+                altitudeAccuracy: 0,
+                headingAccuracy: 0,
+              );
+            },
+          );
+          if (_location == null) {
+            throw LocationException("Unable to capture location");
+          }
+
+          return Position(
+            longitude: _location.longitude,
+            latitude: _location.latitude,
+            timestamp: DateTime.now(),
+            accuracy: _location.accuracy,
+            altitude: _location.altitude,
+            heading: _location.heading,
+            speed: _location.speed,
+            speedAccuracy: _location.speedAccuracy,
+            altitudeAccuracy: _location.altitudeAccuracy,
+            headingAccuracy: _location.headingAccuracy,
+          );
+        },
+      );
+
+      return Position(
+        longitude: _currLocFromGeoCoder.longitude,
+        latitude: _currLocFromGeoCoder.latitude,
+        timestamp: DateTime.now(),
+        accuracy: _currLocFromGeoCoder.accuracy.toDouble(),
+        altitude: _currLocFromGeoCoder.altitude,
+        heading: _currLocFromGeoCoder.heading,
+        speed: _currLocFromGeoCoder.speed,
+        speedAccuracy: _currLocFromGeoCoder.speedAccuracy,
+        altitudeAccuracy: _currLocFromGeoCoder.altitudeAccuracy,
+        headingAccuracy: _currLocFromGeoCoder.headingAccuracy,
+      );
+    }
   }
+
+/*
+  static Future<Position> _getLocation({bool forceGPSUpdate = false}) async {
+    try {
+      if (isIOS) {
+        final location = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best,
+          forceAndroidLocationManager: isAndroid && forceGPSUpdate,
+          timeLimit: Duration(seconds: 10),
+        );
+      }
+    }
+    catch
+    final location = await Geolocator.getCurrentPosition(
+    desiredAccuracy: LocationAccuracy.
+    high
+    ,
+    );
+    return
+    location;
+  }
+*/
 
   bool _isPermissionGranted(LocationPermission permission) {
     return permission != LocationPermission.denied &&
@@ -214,9 +340,10 @@ class LocationInfoImpl implements LocationInfo {
       });
     } catch (e, s) {
       logger.e(e, s);
-      final _location = await Geolocator.getLastKnownPosition().timeout(
-        Duration(seconds: 5),
-      );
+      final _location = await Geolocator.getLastKnownPosition()
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        throw LocationException('Unable to capture location');
+      });
       if (_location != null) {
         final location = await _parseLocation(
           _location,
@@ -238,7 +365,7 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   Future<void> _startFetchingLocation() async {
-    Position location;
+    Position? location;
     location = await _getLocation();
     if (location == null) {
       throw LocationException(
@@ -419,8 +546,9 @@ class LocationInfoImpl implements LocationInfo {
   @override
   Future<LocationModel> getLocationWithPlacemarkData() async {
     final placemarkData = await getPlacemarkDataforNoGeocoding(
-        latitude: currentLocation.latitude ?? 26.85,
-        longitude: currentLocation.longitude ?? 80.94);
+      latitude: currentLocation.latitude ?? 26.85,
+      longitude: currentLocation.longitude ?? 80.94,
+    );
 
     return currentLocation.copyWith(
         capturedAddress: placemarkData?.getFullAddress() ?? null,

@@ -12,8 +12,8 @@ _$LocationDataImpl _$$LocationDataImplFromJson(Map<String, dynamic> json) {
     requiredKeys: const ['Longitude', 'Latitude'],
   );
   return _$LocationDataImpl(
-    longitude: (json['Longitude'] as num?)?.toDouble(),
-    latitude: (json['Latitude'] as num?)?.toDouble(),
+    longitude: (json['Longitude'] as num).toDouble(),
+    latitude: (json['Latitude'] as num).toDouble(),
     accuracy: (json['accuracy'] as num?)?.toInt() ?? 0,
     source: json['source'] as String? ?? 'NA',
     placeMarkData: json['placeMarkData'] == null
