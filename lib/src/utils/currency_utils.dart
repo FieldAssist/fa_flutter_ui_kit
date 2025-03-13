@@ -83,14 +83,19 @@ class CurrencyUtil {
     }
   }
 
-  String formatNumber(num amt, {bool compact = false}) {
+  String formatNumber(num value, {bool compact = false}) {
     // final number = (amt * 100).round() / 100;
     /// Decimal package added due floating-point precision error
-    final scaledNum =
-        (Decimal.parse(amt.toString()) * Decimal.parse('100')).toDouble();
+    final _amt = Decimal.parse(value.toString());
 
-    /// Round the number to 2 decimal places
-    final number = scaledNum.round() / 100;
+    /// Adding a very tiny epsilon to push borderline cases up.
+    final epsilon = Decimal.parse("0.00000000000001");
+    final adjustedAmt = _amt + epsilon;
+
+    final scaledNum = (adjustedAmt * Decimal.fromInt(100));
+    final roundedNum = scaledNum.round();
+
+    final number = (roundedNum / Decimal.fromInt(100)).toDouble();
 
     final formatter = NumberFormat.currency(
       decimalDigits: decimalDigits,
