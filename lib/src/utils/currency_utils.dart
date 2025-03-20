@@ -3,10 +3,12 @@ import 'package:intl/intl.dart';
 
 class CurrencyUtil {
   bool isInternationalCompany;
+  bool companyUsesFrenchForCurrencyConversion;
   int decimalDigits;
 
   CurrencyUtil({
     this.isInternationalCompany = false,
+    this.companyUsesFrenchForCurrencyConversion = false,
     this.decimalDigits = 2,
   });
 
@@ -23,23 +25,35 @@ class CurrencyUtil {
         decimalDigits: decimalDigits,
         locale: "en_US",
       );
+
+  NumberFormat get _frenchCurrencyIntFormat => NumberFormat.simpleCurrency(
+        decimalDigits: decimalDigits,
+        locale: 'fr',
+      );
+
   NumberFormat get _indCurrencyDouble2PlacesFormat =>
       NumberFormat("##,##,###.${"0" * decimalDigits}", "en_IN");
 
   String getFormattedInrDouble(num amount) => isInternationalCompany
       ? convertToInternationalNumbering(amount.toDouble())
-      : _indCurrencyDoubleFormat.format(amount);
+      : companyUsesFrenchForCurrencyConversion
+          ? convertToFrenchNumbering(amount.toDouble())
+          : _indCurrencyDoubleFormat.format(amount);
 
   String getFormattedInrInt(num amount) => isInternationalCompany
       ? _internationalCurrencyIntFormat.format(amount)
-      : _indCurrencyIntFormat.format(amount);
+      : companyUsesFrenchForCurrencyConversion
+          ? _frenchCurrencyIntFormat.format(amount)
+          : _indCurrencyIntFormat.format(amount);
 
   String getFormattedIntDouble2Places(num amount) => isInternationalCompany
       ? convertToInternationalNumbering(
           amount.toDouble(),
           decimalPlaces: decimalDigits,
         )
-      : _indCurrencyDouble2PlacesFormat.format(amount);
+      : companyUsesFrenchForCurrencyConversion
+          ? convertToFrenchNumbering(amount.toDouble())
+          : _indCurrencyDouble2PlacesFormat.format(amount);
 
   String convertToInternationalNumbering(double value,
       {int? decimalPlaces, bool isCompact = true}) {
@@ -67,6 +81,38 @@ class CurrencyUtil {
       final numberFormat =
           NumberFormat("#,##0.${"0" * decimalPlaces}", "en_US");
       return numberFormat.format(value);
+    }
+  }
+
+  String convertToFrenchNumbering(double value,
+      {int? decimalPlaces, bool isCompact = true}) {
+    decimalPlaces ??= this.decimalDigits;
+
+    String _getHashForDecimalPlaces(int decimalPlaces) {
+      return "#${"#" * (decimalPlaces - 1)}";
+    }
+
+    if (!isCompact) {
+      final pattern = decimalPlaces > 0
+          ? "###,###.${_getHashForDecimalPlaces(decimalPlaces)}"
+          : "###,###";
+      final formatter = NumberFormat(pattern, 'fr');
+      return formatter.format(value);
+    }
+    // show currency in compact form
+    final formatter = NumberFormat.currency(
+      decimalDigits: decimalDigits,
+      locale: 'fr',
+      symbol: "",
+    );
+    if (value > 1000000000) {
+      final calculated = value / 1000000000;
+      return '${formatter.format(calculated)}Md';
+    } else if (value > 1000000) {
+      final calculated = value / 1000000;
+      return '${formatter.format(calculated)}M';
+    } else {
+      return formatter.format(value);
     }
   }
 
@@ -99,11 +145,15 @@ class CurrencyUtil {
 
     final formatter = NumberFormat.currency(
       decimalDigits: decimalDigits,
-      locale: isInternationalCompany ? "en_US" : "en_IN",
+      locale: isInternationalCompany
+          ? "en_US"
+          : companyUsesFrenchForCurrencyConversion
+              ? 'fr'
+              : "en_IN",
       symbol: "",
     );
 
-    if (compact) {
+    if (compact || companyUsesFrenchForCurrencyConversion) {
       if (isInternationalCompany) {
         // International format
         if (number >= 1000000000) {
@@ -115,6 +165,14 @@ class CurrencyUtil {
         } else if (number >= 1000) {
           final calculated = number / 1000;
           return '${formatter.format(calculated)} K';
+        }
+      } else if (companyUsesFrenchForCurrencyConversion) {
+        if (number >= 1000000000) {
+          final calculated = value / 1000000000;
+          return '${formatter.format(calculated)}Md';
+        } else if (number >= 1000000) {
+          final calculated = value / 1000000;
+          return '${formatter.format(calculated)}M';
         }
       } else {
         // Indian format
