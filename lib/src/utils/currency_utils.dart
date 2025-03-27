@@ -142,7 +142,7 @@ class CurrencyUtil {
       symbol: "",
     );
 
-    if (compact || companyUsesFrenchForCurrencyConversion) {
+    if (compact) {
       if (isInternationalCompany) {
         // International format
         if (number >= 1000000000) {
@@ -156,7 +156,7 @@ class CurrencyUtil {
           return '${formatter.format(calculated)} K';
         }
       } else if (companyUsesFrenchForCurrencyConversion) {
-        getFrenchCalculatedVal(formatter: formatter, number: number);
+        return getFrenchCalculatedVal(formatter: formatter, number: number);
       } else {
         // Indian format
         if (number >= 10000000) {
