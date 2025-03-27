@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:intl/intl.dart';
 
 class CurrencyUtil {
@@ -55,13 +56,13 @@ class CurrencyUtil {
           ? convertToFrenchNumbering(amount.toDouble())
           : _indCurrencyDouble2PlacesFormat.format(amount);
 
+  String _getHashForDecimalPlaces(int decimalPlaces) {
+    return "#${"#" * (decimalPlaces - 1)}";
+  }
+
   String convertToInternationalNumbering(double value,
       {int? decimalPlaces, bool isCompact = true}) {
     decimalPlaces ??= this.decimalDigits;
-
-    String _getHashForDecimalPlaces(int decimalPlaces) {
-      return "#${"#" * (decimalPlaces - 1)}";
-    }
 
     if (!isCompact) {
       final pattern = decimalPlaces > 0
@@ -88,10 +89,6 @@ class CurrencyUtil {
       {int? decimalPlaces, bool isCompact = true}) {
     decimalPlaces ??= this.decimalDigits;
 
-    String _getHashForDecimalPlaces(int decimalPlaces) {
-      return "#${"#" * (decimalPlaces - 1)}";
-    }
-
     if (!isCompact) {
       final pattern = decimalPlaces > 0
           ? "###,###.${_getHashForDecimalPlaces(decimalPlaces)}"
@@ -105,15 +102,7 @@ class CurrencyUtil {
       locale: 'fr',
       symbol: "",
     );
-    if (value > 1000000000) {
-      final calculated = value / 1000000000;
-      return '${formatter.format(calculated)}Md';
-    } else if (value > 1000000) {
-      final calculated = value / 1000000;
-      return '${formatter.format(calculated)}M';
-    } else {
-      return formatter.format(value);
-    }
+    return getFrenchCalculatedVal(formatter: formatter, number: value);
   }
 
 //TEMP
@@ -167,13 +156,7 @@ class CurrencyUtil {
           return '${formatter.format(calculated)} K';
         }
       } else if (companyUsesFrenchForCurrencyConversion) {
-        if (number >= 1000000000) {
-          final calculated = value / 1000000000;
-          return '${formatter.format(calculated)}Md';
-        } else if (number >= 1000000) {
-          final calculated = value / 1000000;
-          return '${formatter.format(calculated)}M';
-        }
+        getFrenchCalculatedVal(formatter: formatter, number: number);
       } else {
         // Indian format
         if (number >= 10000000) {
@@ -189,6 +172,20 @@ class CurrencyUtil {
       }
     }
 
+    return formatter.format(number);
+  }
+
+  String getFrenchCalculatedVal({
+    required double number,
+    required NumberFormat formatter,
+  }) {
+    if (number >= 1000000000) {
+      final calculated = number / 1000000000;
+      return '${formatter.format(calculated)}Md';
+    } else if (number >= 1000000) {
+      final calculated = number / 1000000;
+      return '${formatter.format(calculated)}M';
+    }
     return formatter.format(number);
   }
 }
