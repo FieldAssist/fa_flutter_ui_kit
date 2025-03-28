@@ -16,6 +16,7 @@ dependencies:
   flutter_tts: ^4.0.2
   file_picker: ^8.0.0+1
   open_file: ^3.3.2
+  location: ^5.0.3
 
   # Core
   fa_flutter_core:
