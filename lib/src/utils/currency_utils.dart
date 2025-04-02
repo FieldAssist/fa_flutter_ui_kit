@@ -142,7 +142,7 @@ class CurrencyUtil {
       symbol: "",
     );
 
-    if (compact) {
+    if (compact || companyUsesFrenchForCurrencyConversion) {
       if (isInternationalCompany) {
         // International format
         if (number >= 1000000000) {
