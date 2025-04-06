@@ -105,6 +105,8 @@ class _SearchableDropDownWidgetState<T>
                   ),
               items: widget.items,
               titleText: widget.titleText,
+              title: widget.title,
+              inputDecoration: widget.inputDecoration,
               onSearch: widget.onSearch,
               onSelect: (value) {
                 selectedValue = value;
