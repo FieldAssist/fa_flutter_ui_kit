@@ -12,7 +12,7 @@ part of 'place_mark_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PlaceMarkData _$PlaceMarkDataFromJson(Map<String, dynamic> json) {
   return _PlaceMarkData.fromJson(json);
@@ -133,11 +133,11 @@ class _$PlaceMarkDataCopyWithImpl<$Res, $Val extends PlaceMarkData>
 }
 
 /// @nodoc
-abstract class _$$_PlaceMarkDataCopyWith<$Res>
+abstract class _$$PlaceMarkDataImplCopyWith<$Res>
     implements $PlaceMarkDataCopyWith<$Res> {
-  factory _$$_PlaceMarkDataCopyWith(
-          _$_PlaceMarkData value, $Res Function(_$_PlaceMarkData) then) =
-      __$$_PlaceMarkDataCopyWithImpl<$Res>;
+  factory _$$PlaceMarkDataImplCopyWith(
+          _$PlaceMarkDataImpl value, $Res Function(_$PlaceMarkDataImpl) then) =
+      __$$PlaceMarkDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -155,11 +155,11 @@ abstract class _$$_PlaceMarkDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PlaceMarkDataCopyWithImpl<$Res>
-    extends _$PlaceMarkDataCopyWithImpl<$Res, _$_PlaceMarkData>
-    implements _$$_PlaceMarkDataCopyWith<$Res> {
-  __$$_PlaceMarkDataCopyWithImpl(
-      _$_PlaceMarkData _value, $Res Function(_$_PlaceMarkData) _then)
+class __$$PlaceMarkDataImplCopyWithImpl<$Res>
+    extends _$PlaceMarkDataCopyWithImpl<$Res, _$PlaceMarkDataImpl>
+    implements _$$PlaceMarkDataImplCopyWith<$Res> {
+  __$$PlaceMarkDataImplCopyWithImpl(
+      _$PlaceMarkDataImpl _value, $Res Function(_$PlaceMarkDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -177,7 +177,7 @@ class __$$_PlaceMarkDataCopyWithImpl<$Res>
     Object? thoroughfare = freezed,
     Object? subThoroughfare = freezed,
   }) {
-    return _then(_$_PlaceMarkData(
+    return _then(_$PlaceMarkDataImpl(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -228,8 +228,8 @@ class __$$_PlaceMarkDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PlaceMarkData extends _PlaceMarkData {
-  _$_PlaceMarkData(
+class _$PlaceMarkDataImpl extends _PlaceMarkData {
+  _$PlaceMarkDataImpl(
       {this.name,
       this.street,
       this.isoCountryCode,
@@ -243,8 +243,8 @@ class _$_PlaceMarkData extends _PlaceMarkData {
       this.subThoroughfare})
       : super._();
 
-  factory _$_PlaceMarkData.fromJson(Map<String, dynamic> json) =>
-      _$$_PlaceMarkDataFromJson(json);
+  factory _$PlaceMarkDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlaceMarkDataImplFromJson(json);
 
   @override
   final String? name;
@@ -275,10 +275,10 @@ class _$_PlaceMarkData extends _PlaceMarkData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PlaceMarkData &&
+            other is _$PlaceMarkDataImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.street, street) || other.street == street) &&
             (identical(other.isoCountryCode, isoCountryCode) ||
@@ -319,12 +319,12 @@ class _$_PlaceMarkData extends _PlaceMarkData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PlaceMarkDataCopyWith<_$_PlaceMarkData> get copyWith =>
-      __$$_PlaceMarkDataCopyWithImpl<_$_PlaceMarkData>(this, _$identity);
+  _$$PlaceMarkDataImplCopyWith<_$PlaceMarkDataImpl> get copyWith =>
+      __$$PlaceMarkDataImplCopyWithImpl<_$PlaceMarkDataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PlaceMarkDataToJson(
+    return _$$PlaceMarkDataImplToJson(
       this,
     );
   }
@@ -342,11 +342,11 @@ abstract class _PlaceMarkData extends PlaceMarkData {
       final String? locality,
       final String? subLocality,
       final String? thoroughfare,
-      final String? subThoroughfare}) = _$_PlaceMarkData;
+      final String? subThoroughfare}) = _$PlaceMarkDataImpl;
   _PlaceMarkData._() : super._();
 
   factory _PlaceMarkData.fromJson(Map<String, dynamic> json) =
-      _$_PlaceMarkData.fromJson;
+      _$PlaceMarkDataImpl.fromJson;
 
   @override
   String? get name;
@@ -372,6 +372,6 @@ abstract class _PlaceMarkData extends PlaceMarkData {
   String? get subThoroughfare;
   @override
   @JsonKey(ignore: true)
-  _$$_PlaceMarkDataCopyWith<_$_PlaceMarkData> get copyWith =>
+  _$$PlaceMarkDataImplCopyWith<_$PlaceMarkDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
