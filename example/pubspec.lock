@@ -1198,12 +1198,11 @@ packages:
   safe_device:
     dependency: transitive
     description:
-      path: "."
-      ref: "fix/trust_location"
-      resolved-ref: ee59ee27e9fb942a6c0e99b63e41e826464f7767
-      url: "https://github.com/Ritsz123/safe_device.git"
-    source: git
-    version: "1.1.4"
+      name: safe_device
+      sha256: "953aeac3486180df9118a1a3f5fb842d84015e8aa6f2607edeb5fb881b67a669"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   sanitize_html:
     dependency: transitive
     description:

@@ -5,7 +5,7 @@ import 'package:safe_device/safe_device.dart';
 class DeviceTrustChecker {
   static const MethodChannel _channel = MethodChannel("GT_APP_CHANNEL");
   Future<bool> checkIfDeveloperModeEnabled() async {
-    final isMockedLocation = await SafeDevice.canMockLocation;
+    final isMockedLocation = await SafeDevice.isMockLocation;
     final isDevelopmentMode = await SafeDevice.isDevelopmentModeEnable;
     return isMockedLocation || isDevelopmentMode;
   }

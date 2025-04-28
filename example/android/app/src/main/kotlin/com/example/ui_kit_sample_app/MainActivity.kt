@@ -1,6 +1,8 @@
 package com.example.ui_kit_sample_app
-
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.MethodChannel
+import androidx.annotation.NonNull
 
 class MainActivity: FlutterActivity() {
     private val GT_APP_CHANNEL = "GT_APP_CHANNEL"

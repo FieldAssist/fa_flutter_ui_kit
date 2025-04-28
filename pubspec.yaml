@@ -17,10 +17,11 @@ dependencies:
   file_picker: ^8.0.0+1
   open_file: ^3.3.2
  # todo:  change the version to 1.1.1 once flutter version is updated.
-  safe_device: #^1.1.1
-      git:
-        url: https://github.com/Ritsz123/safe_device.git
-        ref: fix/trust_location
+#  safe_device: #^1.1.1
+#      git:
+#        url: https://github.com/Ritsz123/safe_device.git
+#        ref: fix/trust_location
+  safe_device: 1.2.0
 
   # Core
   fa_flutter_core:
