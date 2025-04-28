@@ -16,6 +16,11 @@ dependencies:
   flutter_tts: ^4.0.2
   file_picker: ^8.0.0+1
   open_file: ^3.3.2
+ # todo:  change the version to 1.1.1 once flutter version is updated.
+  safe_device: #^1.1.1
+      git:
+        url: https://github.com/Ritsz123/safe_device.git
+        ref: fix/trust_location
 
   # Core
   fa_flutter_core:
@@ -29,6 +34,7 @@ dependencies:
       url: https://github.com/FieldAssist/fa_flutter_api_client.git
       ref: main
   decimal: ^3.0.2
+  app_settings: ^6.1.1
 
 dev_dependencies:
   flutter_test:
