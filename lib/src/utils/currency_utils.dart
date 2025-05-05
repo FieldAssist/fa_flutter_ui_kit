@@ -188,4 +188,20 @@ class CurrencyUtil {
     }
     return formatter.format(number);
   }
+
+  double roundNumber(
+    num value,
+  ) {
+    final _amt = Decimal.parse(value.toString());
+
+    final epsilon = Decimal.parse("0.00000000000001");
+    final adjustedAmt = _amt + epsilon;
+
+    final scaledNum = (adjustedAmt * Decimal.fromInt(100));
+    final roundedNum = scaledNum.round();
+
+    final number = (roundedNum / Decimal.fromInt(100)).toDouble();
+
+    return number.toPrecision(decimalDigits);
+  }
 }
