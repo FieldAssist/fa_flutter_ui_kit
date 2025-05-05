@@ -121,16 +121,7 @@ class CurrencyUtil {
   String formatNumber(num value, {bool compact = false}) {
     // final number = (amt * 100).round() / 100;
     /// Decimal package added due floating-point precision error
-    final _amt = Decimal.parse(value.toString());
-
-    /// Adding a very tiny epsilon to push borderline cases up.
-    final epsilon = Decimal.parse("0.00000000000001");
-    final adjustedAmt = _amt + epsilon;
-
-    final scaledNum = (adjustedAmt * Decimal.fromInt(100));
-    final roundedNum = scaledNum.round();
-
-    final number = (roundedNum / Decimal.fromInt(100)).toDouble();
+    double number = getDecimalVal(value);
 
     final formatter = NumberFormat.currency(
       decimalDigits: decimalDigits,
@@ -192,6 +183,16 @@ class CurrencyUtil {
   double roundNumber(
     num value,
   ) {
+    double number = getDecimalVal(value);
+
+    final formatter = NumberFormat()
+      ..minimumFractionDigits = decimalDigits
+      ..maximumFractionDigits = decimalDigits;
+
+    return double.parse(formatter.format(number));
+  }
+
+  double getDecimalVal(num value) {
     final _amt = Decimal.parse(value.toString());
 
     final epsilon = Decimal.parse("0.00000000000001");
@@ -201,7 +202,6 @@ class CurrencyUtil {
     final roundedNum = scaledNum.round();
 
     final number = (roundedNum / Decimal.fromInt(100)).toDouble();
-
-    return number.toPrecision(decimalDigits);
+    return number;
   }
 }
