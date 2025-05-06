@@ -161,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  cool_flare:
+    dependency: transitive
+    description:
+      name: cool_flare
+      sha256: f71bdbdb5ada377b5e19a92b8150f06b253ada4c6ef21ad819a247095a13aed2
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   cross_file:
     dependency: transitive
     description:

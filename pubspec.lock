@@ -265,6 +265,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  cool_flare:
+    dependency: "direct main"
+    description:
+      name: cool_flare
+      sha256: f71bdbdb5ada377b5e19a92b8150f06b253ada4c6ef21ad819a247095a13aed2
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   cross_file:
     dependency: transitive
     description:
@@ -392,7 +400,7 @@ packages:
     description:
       path: "."
       ref: "feat/version_upgrade"
-      resolved-ref: "8cabbcc5e758e272d2c3af0673f09870f3a8a98b"
+      resolved-ref: c3d39744e9ae2302c3aa5ed7cc00b069f388e233
       url: "https://github.com/FieldAssist/fa_flutter_api_client.git"
     source: git
     version: "2.0.1"
@@ -401,7 +409,7 @@ packages:
     description:
       path: "."
       ref: "feat/version_upgrade"
-      resolved-ref: eba8472b2fcf9c64c0a7b37bb5e0795415155dcb
+      resolved-ref: dbeb7efb786b1d733aca52735db9f56ac2129f94
       url: "https://github.com/FieldAssist/fa_flutter_core.git"
     source: git
     version: "2.0.2"
@@ -565,14 +573,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  flare_flutter:
-    dependency: transitive
-    description:
-      name: flare_flutter
-      sha256: "99d63c60f00fac81249ce6410ee015d7b125c63d8278a30da81edf3317a1f6a0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -1729,14 +1729,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
-  timelines:
-    dependency: transitive
-    description:
-      name: timelines
-      sha256: "40214f5ab772ff45459cb8c15e5f60505a6828af0c0eb1eec6f29ed911a4c1c5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   timing:
     dependency: transitive
     description:

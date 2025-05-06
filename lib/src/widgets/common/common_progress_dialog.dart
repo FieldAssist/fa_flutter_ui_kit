@@ -1,3 +1,4 @@
+import 'package:cool_flare/flare_actor.dart';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/progress_dialog/progress_dialog.dart';
