@@ -10,12 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  mobile_number_picker: ^0.0.1+5
-  qr_code_scanner: ^1.0.1
+  qr_code_scanner_plus: ^2.0.10+1
   speech_to_text: ^7.0.0
   flutter_tts: ^4.2.2
   file_picker: ^10.1.2
-  open_file: ^3.5.10
 
   # Core
   fa_flutter_core:

@@ -1003,14 +1003,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  mobile_number_picker:
-    dependency: transitive
-    description:
-      name: mobile_number_picker
-      sha256: "7b621e9a6573fe61169f345b9bbd5968d4f2e168d109bf6b0265aa640fc6b208"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1+5"
   nested:
     dependency: transitive
     description:

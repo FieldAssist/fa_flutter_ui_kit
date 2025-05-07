@@ -1,6 +1,5 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:open_file/open_file.dart';
 
 class FileService {
   FileService._();
@@ -63,10 +62,5 @@ class FileService {
     }
 
     return null;
-  }
-
-  /// Opens the document at the specified path.
-  static void openFile(String path) {
-    OpenFile.open(path);
   }
 }
