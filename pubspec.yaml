@@ -22,8 +22,6 @@ dependencies:
 #        url: https://github.com/Ritsz123/safe_device.git
 #        ref: fix/trust_location
   safe_device: 1.2.0
-  plugins:
-    path: ./plugins
 
   # Core
   fa_flutter_core:
