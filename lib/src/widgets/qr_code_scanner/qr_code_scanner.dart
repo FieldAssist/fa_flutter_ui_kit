@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class QrCodeScanner extends StatefulWidget {
   const QrCodeScanner({Key? key, this.validationRegex, this.scannedValues})
