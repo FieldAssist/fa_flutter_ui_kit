@@ -1,4 +1,3 @@
-
 import 'fa_safe_device_platform_interface.dart';
 
 class FaSafeDevice {
@@ -16,5 +15,4 @@ class FaSafeDevice {
   Future<bool> isDeveloperModeEnabled(){
     return FaSafeDevicePlatform.instance.isDeveloperModeEnabled();
   }
-
 }
