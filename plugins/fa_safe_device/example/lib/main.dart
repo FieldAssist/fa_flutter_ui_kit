@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:fa_safe_device/fa_safe_device.dart';
+import '../../lib/fa_safe_device.dart';
 
 void main() {
   runApp(const MyApp());

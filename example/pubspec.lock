@@ -1187,6 +1187,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  safe_device:
+    dependency: transitive
+    description:
+      name: safe_device
+      sha256: f4930fe80ef28d047d3e600a318d1549732a8910d2b4342e7fd785aea2b1453e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   sanitize_html:
     dependency: transitive
     description:
