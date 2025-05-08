@@ -6,11 +6,11 @@ class Plugins {
     return PluginsPlatform.instance.getPlatformVersion();
   }
 
-  Future<bool?> isAutoTimeZoneEnabled() {
+  Future<bool> isAutoTimeZoneEnabled() {
     return PluginsPlatform.instance.isAutoTimeZoneEnabled();
   }
 
-  Future<bool?> isAutoTimeEnabled() {
+  Future<bool> isAutoTimeEnabled() {
     return PluginsPlatform.instance.isAutoTimeEnabled();
   }
 

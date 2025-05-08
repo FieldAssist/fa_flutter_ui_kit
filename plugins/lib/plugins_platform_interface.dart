@@ -27,11 +27,11 @@ abstract class PluginsPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<bool?> isAutoTimeZoneEnabled() {
+  Future<bool> isAutoTimeZoneEnabled() {
     throw UnimplementedError('isAutoTimeZoneEnabled() has not been implemented.');
   }
 
-  Future<bool?> isAutoTimeEnabled() {
+  Future<bool> isAutoTimeEnabled() {
     throw UnimplementedError('isAutoTimeEnabled() has not been implemented.');
   }
 

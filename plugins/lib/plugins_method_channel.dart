@@ -16,15 +16,15 @@ class MethodChannelPlugins extends PluginsPlatform {
   }
 
   @override
-  Future<bool?> isAutoTimeZoneEnabled() async {
+  Future<bool> isAutoTimeZoneEnabled() async {
     final isAutoTimeZoneEnabled = await methodChannel.invokeMethod<bool>('isAutoTimeZoneEnabled');
-    return isAutoTimeZoneEnabled;
+    return isAutoTimeZoneEnabled ?? false;
   }
 
   @override
-  Future<bool?> isAutoTimeEnabled() async {
+  Future<bool> isAutoTimeEnabled() async {
     final isAutoTimeEnabled = await methodChannel.invokeMethod<bool>('isAutoTimeEnabled');
-    return isAutoTimeEnabled;
+    return isAutoTimeEnabled ?? false;
   }
 
 }
