@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "13c1e6c6fd460522ea840abec3f677cc226f5fec7872c04ad7b425517ccf54f7"
+      sha256: "904ae5bb474d32c38fb9482e2d925d5454cda04ddd0e55d2e6826bc72f6ba8c0"
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.4"
+    version: "7.4.5"
   ansicolor:
     dependency: transitive
     description:
@@ -381,8 +381,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "feat/version_upgrade"
-      resolved-ref: "2b9a8ea11c684b8127a761f805cf79e6237c4eb4"
+      ref: main
+      resolved-ref: "9ee7f69fe28738e44c3258cc816d0e91df5b2d85"
       url: "https://github.com/FieldAssist/fa_dart_core.git"
     source: git
     version: "2.0.0+2"
@@ -399,8 +399,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "feat/version_upgrade"
-      resolved-ref: c3d39744e9ae2302c3aa5ed7cc00b069f388e233
+      ref: main
+      resolved-ref: "7f5e87e269bfa3abce1974f4ecd0d07d59540802"
       url: "https://github.com/FieldAssist/fa_flutter_api_client.git"
     source: git
     version: "2.0.1"
@@ -408,8 +408,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "feat/version_upgrade"
-      resolved-ref: dbeb7efb786b1d733aca52735db9f56ac2129f94
+      ref: main
+      resolved-ref: "72329ccb870529cf75298e50fee9504a5ad667eb"
       url: "https://github.com/FieldAssist/fa_flutter_core.git"
     source: git
     version: "2.0.2"
@@ -441,10 +441,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: "8986dec4581b4bcd4b6df5d75a2ea0bede3db802f500635d05fa8be298f9467f"
+      sha256: "978be1f602e0695daef8e345a3c597abf72b0c0ca6102fa2665eb549f5406a17"
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.2"
+    version: "10.1.5"
   file_selector_linux:
     dependency: transitive
     description:
@@ -1040,10 +1040,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
+      sha256: "53385261521cc4a0c4658fd0ad07a7d14591cf8fc33abbceae306ddb974888dc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.7"
+    version: "0.7.2"
   json_annotation:
     dependency: transitive
     description:
