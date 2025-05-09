@@ -207,8 +207,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
             if (discountWidget != null) ...[
               discountWidget!,
               DottedDivider(),
-            ],
-            if (!isRestrictStockValueVisibility)
+            ], DottedDivider(),
               ExpansionTile(
                 shape: RoundedRectangleBorder(side: BorderSide.none),
                 visualDensity: VisualDensity(
@@ -217,7 +216,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 childrenPadding: EdgeInsets.only(
                     left: 16 + 45, right: 16, top: 8, bottom: 8),
                 leading: SvgPicture.asset(
-                  SvgIcons.cashIcon,
+                  SvgIcons.emptyIcon,
                   height: 25,
                   width: 25,
                 ),
@@ -225,7 +224,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      payableAmtTitleText ?? "Payable Amount",
+                       "Collected Empty",
                       style: titleTextStyle,
                     ),
                     Spacer(),
@@ -297,6 +296,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   ),
                 ],
               ),
+          
             if (miscWidget != null) ...[
               DottedDivider(),
               miscWidget!,
