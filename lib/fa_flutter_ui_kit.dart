@@ -14,3 +14,4 @@ export 'src/utils/index.dart';
 export 'src/widgets/common/multi_select_items/multi_select_flutter.dart';
 export 'src/widgets/index.dart';
 export 'src/modules/common/number_keyboard/keyboard_controller.dart';
+export 'src/app/untrusted_device_widget.dart';
