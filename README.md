@@ -132,17 +132,17 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Aashishm178>
-            <img src=https://avatars.githubusercontent.com/u/43882770?v=4 width="100;"  alt=Aashish Rathore/>
-            <br />
-            <sub style="font-size:14px"><b>Aashish Rathore</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/devbindal>
             <img src=https://avatars.githubusercontent.com/u/81467330?v=4 width="100;"  alt=Dev Bindal/>
             <br />
             <sub style="font-size:14px"><b>Dev Bindal</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Aashishm178>
+            <img src=https://avatars.githubusercontent.com/u/43882770?v=4 width="100;"  alt=Aashish Rathore/>
+            <br />
+            <sub style="font-size:14px"><b>Aashish Rathore</b></sub>
         </a>
     </td>
 </tr>
@@ -152,6 +152,13 @@ compileSdkVersion 32
             <img src=https://avatars.githubusercontent.com/u/114740190?v=4 width="100;"  alt=Sourav/>
             <br />
             <sub style="font-size:14px"><b>Sourav</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Vineet-FieldAssist>
+            <img src=https://avatars.githubusercontent.com/u/189129602?v=4 width="100;"  alt=Vineet/>
+            <br />
+            <sub style="font-size:14px"><b>Vineet</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -182,20 +189,13 @@ compileSdkVersion 32
             <sub style="font-size:14px"><b>Rajiv</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Tushar2212>
             <img src=https://avatars.githubusercontent.com/u/29337816?v=4 width="100;"  alt=Tushar Sharma/>
             <br />
             <sub style="font-size:14px"><b>Tushar Sharma</b></sub>
-        </a>
-    </td>
-</tr>
-<tr>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Vineet-FieldAssist>
-            <img src=https://avatars.githubusercontent.com/u/189129602?v=4 width="100;"  alt=Vineet/>
-            <br />
-            <sub style="font-size:14px"><b>Vineet</b></sub>
         </a>
     </td>
 </tr>
