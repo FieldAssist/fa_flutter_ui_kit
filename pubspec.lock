@@ -375,7 +375,7 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
+      ref: main-old
       resolved-ref: b7f962ae17d7ba5ea40a120184b35c62353a6e6c
       url: "https://github.com/FieldAssist/fa_flutter_api_client.git"
     source: git
@@ -384,7 +384,7 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
+      ref: main-old
       resolved-ref: "837183dd67f7333c485ed1bacab758c7d97ea920"
       url: "https://github.com/FieldAssist/fa_flutter_core.git"
     source: git
