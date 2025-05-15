@@ -1,4 +1,5 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_gt/modules/event/models/call_data.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/config/colors.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.payableAmountInSecondCurrency,
     this.isRestrictStockValueVisibility = false,
     this.miscWidget,
+    this.emptySalesList,
     super.key,
   });
 
@@ -78,6 +80,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final String currency;
   final List<QuantityBreakdown> quantityBreakdownList;
   final List<AmountBreakdown> amountBreakdownList;
+  final List<EmptySales>? emptySalesList;
   final CurrencyUtil currencyUtil;
 
   /// It appears After Qty Info and before Payable Amount Info
@@ -297,6 +300,56 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   ),
                 ],
               ),
+            DottedDivider(),
+            if(emptySalesList != null && emptySalesList!.isNotEmpty)
+            ExpansionTile(
+              shape: RoundedRectangleBorder(side: BorderSide.none),
+              visualDensity: VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity),
+              childrenPadding:
+                  EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
+              leading: SvgPicture.asset(
+                "assets/icons/bottle.svg",
+                height: 28,
+                width: 40,
+              ),
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Collected Empty",
+                    style: titleTextStyle,
+                  ),
+                  Spacer(),
+                ],
+              ),
+              initiallyExpanded: true,
+              trailing: (showMargin || amountBreakdownList.isNotEmpty)
+                  ? null
+                  : SizedBox.shrink(),
+              children: [
+                ...List.generate(
+                  emptySalesList?.length ?? 0,
+                  (index) {
+                    final empty = emptySalesList?[index];
+                    return Padding(
+                      padding: breakDownListPadding,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(empty?.name ?? "--", style: subTitleTextStyle),
+                          Text(
+                            empty?.quantity?.toString() ?? "0",
+                            style: subTitleTextStyle,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
             if (miscWidget != null) ...[
               DottedDivider(),
               miscWidget!,
