@@ -27,7 +27,6 @@ class SvgAssetIcon extends StatelessWidget {
         width: width,
         child: SvgPicture.asset(
           path,
-          color: color ?? Theme.of(context).iconTheme.color,
           semanticsLabel: labelText,
         ),
       ),
