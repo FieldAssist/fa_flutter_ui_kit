@@ -182,15 +182,8 @@ class CurrencyUtil {
 
   double roundNumber(
     num value,
-  ) {
-    double number = getDecimalVal(value);
-
-    final formatter = NumberFormat()
-      ..minimumFractionDigits = decimalDigits
-      ..maximumFractionDigits = decimalDigits;
-
-    return double.parse(formatter.format(number));
-  }
+  ) =>
+      getDecimalVal(value);
 
   double getDecimalVal(num value) {
     final _amt = Decimal.parse(value.toString());
