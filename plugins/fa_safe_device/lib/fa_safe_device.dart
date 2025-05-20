@@ -12,7 +12,8 @@ class FaSafeDevice {
   Future<bool> isAutoTimeEnabled() {
     return FaSafeDevicePlatform.instance.isAutoTimeEnabled();
   }
-  Future<bool> isDeveloperModeEnabled(){
+
+  Future<bool> isDeveloperModeEnabled() {
     return FaSafeDevicePlatform.instance.isDeveloperModeEnabled();
   }
 }
