@@ -44,7 +44,7 @@ class UntrustedDeviceWidget extends StatelessWidget {
                   _buildSettingItem(
                     title: 'Developer Mode is enabled',
                     description:
-                    'Please disable Developer options in your device settings.\n1. Go to Settings\n2. Tap on System > Developer Options\n3. Turn off the toggle at the top',
+                        'Please disable Developer options in your device settings.\n1. Go to Settings\n2. Tap on System > Developer Options\n3. Turn off the toggle at the top',
                     onTap: () => AppSettings.openAppSettings(
                         type: AppSettingsType.developer, asAnotherTask: true),
                     icon: Icons.developer_mode,
@@ -53,7 +53,7 @@ class UntrustedDeviceWidget extends StatelessWidget {
                   _buildSettingItem(
                     title: 'Automatic Time Zone is disabled',
                     description:
-                    'Please enable automatic time zone in your device settings.\n1. Go to Settings\n2. Tap on System > Date & Time\n3. Enable "Automatic time zone"',
+                        'Please enable automatic time zone in your device settings.\n1. Go to Settings\n2. Tap on System > Date & Time\n3. Enable "Automatic time zone"',
                     onTap: () => AppSettings.openAppSettings(
                         type: AppSettingsType.date, asAnotherTask: true),
                     icon: Icons.access_time_filled,
@@ -62,7 +62,7 @@ class UntrustedDeviceWidget extends StatelessWidget {
                   _buildSettingItem(
                     title: 'Automatic Time is disabled',
                     description:
-                    'Please enable automatic time in your device settings.\n1. Go to Settings\n2. Tap on System > Date & Time\n3. Enable "Automatic date & time"',
+                        'Please enable automatic time in your device settings.\n1. Go to Settings\n2. Tap on System > Date & Time\n3. Enable "Automatic date & time"',
                     onTap: () => AppSettings.openAppSettings(
                         type: AppSettingsType.date, asAnotherTask: true),
                     icon: Icons.schedule,
