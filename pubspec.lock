@@ -45,10 +45,10 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: bf9f5caeea8d8fe6721a9c358dd8a5c1947b27f1cfaa18b39c301273594919e6
+      sha256: d0481093c50b1da8910eb0bb301626d4d8eb7284aa739614d2b394ee09e3ea04
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.0"
+    version: "2.7.0"
   async:
     dependency: transitive
     description:
@@ -133,10 +133,10 @@ packages:
     dependency: transitive
     description:
       name: built_value
-      sha256: c7913a9737ee4007efedaffc968c049fd0f3d0e49109e778edc10de9426005cb
+      sha256: "7193c909c8608d3e1a263093ff045f7140bcc1bf3f7de2c5ec7ad027891d2d22"
       url: "https://pub.dev"
     source: hosted
-    version: "8.9.2"
+    version: "8.10.0"
   cached_network_image:
     dependency: transitive
     description:
@@ -181,10 +181,10 @@ packages:
     dependency: transitive
     description:
       name: camera_avfoundation
-      sha256: "0d04cec8715b59fb6dc60eefb47e69024f51233c570e475b886dc9290568bca7"
+      sha256: "2e4c568f70e406ccb87376bc06b53d2f5bebaab71e2fbcc1a950e31449381bcf"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.17+4"
+    version: "0.9.17+5"
   camera_platform_interface:
     dependency: transitive
     description:
@@ -293,10 +293,10 @@ packages:
     dependency: "direct main"
     description:
       name: decimal
-      sha256: "4140a688f9e443e2f4de3a1162387bf25e1ac6d51e24c9da263f245210f41440"
+      sha256: "28239b8b929c1bd8618702e6dbc96e2618cf99770bbe9cb040d6cf56a11e4ec3"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "3.2.1"
   device_info_plus:
     dependency: transitive
     description:
@@ -309,10 +309,10 @@ packages:
     dependency: transitive
     description:
       name: device_info_plus_platform_interface
-      sha256: "282d3cf731045a2feb66abfe61bbc40870ae50a3ed10a4d3d217556c35c8c2ba"
+      sha256: "0b04e02b30791224b31969eb1b50d723498f402971bff3630bca2ba839bd1ed2"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.1"
+    version: "7.0.2"
   device_information:
     dependency: transitive
     description:
@@ -325,26 +325,26 @@ packages:
     dependency: transitive
     description:
       name: dio
-      sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
+      sha256: "253a18bbd4851fecba42f7343a1df3a9a4c1d31a2c1b37e221086b4fa8c8dbc9"
       url: "https://pub.dev"
     source: hosted
-    version: "5.7.0"
+    version: "5.8.0+1"
   dio_web_adapter:
     dependency: transitive
     description:
       name: dio_web_adapter
-      sha256: "33259a9276d6cea88774a0000cfae0d861003497755969c92faa223108620dc8"
+      sha256: "7586e476d70caecaf1686d21eee7247ea43ef5c345eab9e0cc3583ff13378d78"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.1"
   equatable:
     dependency: transitive
     description:
       name: equatable
-      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      sha256: "567c64b3cb4cf82397aac55f4f0cbd3ca20d77c6c03bedbc4ceaddc08904aef7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.7"
   expressions:
     dependency: transitive
     description:
@@ -358,7 +358,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "8fa6b3dc2ecd8b4787d1bd9033262d683536e489"
+      resolved-ref: "76e0fa50f24d2a5f62292a15e3d39f5be1237ed6"
       url: "https://github.com/FieldAssist/fa_dart_core.git"
     source: git
     version: "2.0.0+2"
@@ -367,7 +367,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: e813a4731922cb31d3fd011eb0d79b8a6b3e8e49
+      resolved-ref: b56f26605b629506d63e9cdef0183322f1082448
       url: "https://github.com/FieldAssist/fa_dart_logger.git"
     source: git
     version: "1.0.0"
@@ -376,7 +376,7 @@ packages:
     description:
       path: "."
       ref: main-old
-      resolved-ref: b7f962ae17d7ba5ea40a120184b35c62353a6e6c
+      resolved-ref: eaa899f5752e60b846c6f5cd254fea85943c5c55
       url: "https://github.com/FieldAssist/fa_flutter_api_client.git"
     source: git
     version: "2.0.1"
@@ -385,7 +385,7 @@ packages:
     description:
       path: "."
       ref: main-old
-      resolved-ref: "837183dd67f7333c485ed1bacab758c7d97ea920"
+      resolved-ref: c428ce4d824c02e56c01790773eae4eedbdcdb84
       url: "https://github.com/FieldAssist/fa_flutter_core.git"
     source: git
     version: "2.0.2"
@@ -425,10 +425,10 @@ packages:
     dependency: transitive
     description:
       name: file_selector_linux
-      sha256: "712ce7fab537ba532c8febdb1a8f167b32441e74acd68c3ccb2e36dcb52c4ab2"
+      sha256: "54cbbd957e1156d29548c7d9b9ec0c0ebb6de0a90452198683a7d23aed617a33"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3"
+    version: "0.9.3+2"
   file_selector_macos:
     dependency: transitive
     description:
@@ -489,10 +489,10 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
-      sha256: e30da58198a6d4b49d5bce4e852f985c32cb10db329ebef9473db2b9f09ce810
+      sha256: d7253d255ff10f85cfd2adaba9ac17bae878fa3ba577462451163bd9f1d1f0bf
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.0"
+    version: "5.4.0"
   firebase_core_web:
     dependency: transitive
     description:
@@ -570,6 +570,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+  flutter_image_compress:
+    dependency: transitive
+    description:
+      name: flutter_image_compress
+      sha256: "45a3071868092a61b11044c70422b04d39d4d9f2ef536f3c5b11fb65a1e7dd90"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  flutter_image_compress_common:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_common
+      sha256: c5c5d50c15e97dd7dc72ff96bd7077b9f791932f2076c5c5b6c43f2c88607bfb
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
+  flutter_image_compress_macos:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_macos
+      sha256: "20019719b71b743aba0ef874ed29c50747461e5e8438980dfa5c2031898f7337"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
+  flutter_image_compress_ohos:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_ohos
+      sha256: e76b92bbc830ee08f5b05962fc78a532011fcd2041f620b5400a593e96da3f51
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
+  flutter_image_compress_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_platform_interface
+      sha256: "579cb3947fd4309103afe6442a01ca01e1e6f93dc53bb4cbd090e8ce34a41889"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
+  flutter_image_compress_web:
+    dependency: transitive
+    description:
+      name: flutter_image_compress_web
+      sha256: f02fe352b17f82b72f481de45add240db062a2585850bea1667e82cc4cd6c311
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4+1"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -736,10 +784,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_apple
-      sha256: bc2aca02423ad429cb0556121f56e60360a2b7d694c8570301d06ea0c00732fd
+      sha256: c4ecead17985ede9634f21500072edfcb3dba0ef7b97f8d7bc556d2d722b3ba3
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.7"
+    version: "2.3.9"
   geolocator_platform_interface:
     dependency: transitive
     description:
@@ -776,10 +824,10 @@ packages:
     dependency: transitive
     description:
       name: glob
-      sha256: "0e7014b3b7d4dac1ca4d6114f82bf1782ee86745b9b42a92c9289c23d8a0ab63"
+      sha256: c3f1ee72c96f8f78935e18aa8cecced9ab132419e8625dc187e1c2408efc20de
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   google_maps:
     dependency: transitive
     description:
@@ -808,10 +856,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_ios
-      sha256: "753ebf6a2bc24c5eba8e714c901345d858abd9694b1f878c43614fd3f06b8060"
+      sha256: "6f798adb0aa1db5adf551f2e39e24bd06c8c0fbe4de912fb2d9b5b3f48147b02"
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.1"
+    version: "2.13.2"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -840,10 +888,10 @@ packages:
     dependency: transitive
     description:
       name: html
-      sha256: "1fc58edeaec4307368c60d59b7e15b9d658b57d7f3125098b6294153c75337ec"
+      sha256: "6d1264f2dffa1b1101c25a91dff0dc2daee4c18e87cd8538729773c073dbf602"
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.5"
+    version: "0.15.6"
   http:
     dependency: transitive
     description:
@@ -856,10 +904,10 @@ packages:
     dependency: transitive
     description:
       name: http_multi_server
-      sha256: "97486f20f9c2f7be8f514851703d0119c3596d14ea63227af6f7a481ef2b2f8b"
+      sha256: aa6199f908078bb1c5efb8d8638d4ae191aac11b311132c3ef48ce352fb52ef8
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.2.2"
   http_parser:
     dependency: transitive
     description:
@@ -960,10 +1008,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.0"
+    version: "0.20.2"
   io:
     dependency: transitive
     description:
@@ -1032,10 +1080,10 @@ packages:
     dependency: transitive
     description:
       name: logger
-      sha256: "697d067c60c20999686a0add96cf6aba723b3aa1f83ecf806a8097231529ec32"
+      sha256: be4b23575aac7ebf01f225a241eb7f6b5641eeaf43c6a8613510fc2f8cf187d1
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.5.0"
   logging:
     dependency: transitive
     description:
@@ -1144,10 +1192,10 @@ packages:
     dependency: transitive
     description:
       name: open_file_mac
-      sha256: dd1570bd12601b4d50fda3609c1662382f17ee403b47f0d74d737de603a39ec6
+      sha256: "1440b1e37ceb0642208cfeb2c659c6cda27b25187a90635c9d1acb7d0584d324"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   open_file_platform_interface:
     dependency: transitive
     description:
@@ -1232,10 +1280,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_foundation
-      sha256: f234384a3fdd67f989b4d54a5d73ca2a6c422fa55ae694381ae0f4375cd1ea16
+      sha256: "4843174df4d288f5e29185bd6e72a6fbdf5a4a4602717eed565497429f179942"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1"
   path_provider_linux:
     dependency: transitive
     description:
@@ -1304,10 +1352,10 @@ packages:
     dependency: transitive
     description:
       name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
+      sha256: "4abbd070a04e9ddc287673bf5a030c7ca8b685ff70218720abab8b092f53dd84"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.5"
   pub_semver:
     dependency: transitive
     description:
@@ -1320,10 +1368,10 @@ packages:
     dependency: transitive
     description:
       name: pubspec_parse
-      sha256: c799b721d79eb6ee6fa56f00c04b472dcd44a30d258fac2174a6ec57302678f8
+      sha256: "81876843eb50dc2e1e5b151792c9a985c5ed2536914115ed04e9c8528f6647b0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.0"
+    version: "1.4.0"
   qr_code_scanner:
     dependency: "direct main"
     description:
@@ -1360,10 +1408,10 @@ packages:
     dependency: transitive
     description:
       name: rxdart
-      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
       url: "https://pub.dev"
     source: hosted
-    version: "0.27.7"
+    version: "0.28.0"
   sanitize_html:
     dependency: transitive
     description:
@@ -1589,10 +1637,10 @@ packages:
     dependency: transitive
     description:
       name: stream_transform
-      sha256: "14a00e794c7c11aa145a170587321aedce29769c08d7f58b1d141da75e3b1c6f"
+      sha256: ad47125e588cfd37a9a7f86c7d6356dde8dfe89d071d293f80ca9e9273a33871
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   string_scanner:
     dependency: transitive
     description:
@@ -1629,10 +1677,10 @@ packages:
     dependency: transitive
     description:
       name: time
-      sha256: ad8e018a6c9db36cb917a031853a1aae49467a93e0d464683e029537d848c221
+      sha256: "370572cf5d1e58adcb3e354c47515da3f7469dac3a95b447117e728e7be6f461"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   timelines:
     dependency: transitive
     description:
@@ -1685,26 +1733,26 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: e43b677296fadce447e987a2f519dcf5f6d1e527dc35d01ffab4fff5b8a7063e
+      sha256: "16a513b6c12bb419304e72ea0ae2ab4fed569920d1c7cb850263fe3acc824626"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.1"
+    version: "6.3.2"
   url_launcher_linux:
     dependency: transitive
     description:
       name: url_launcher_linux
-      sha256: e2b9622b4007f97f504cd64c0128309dfb978ae66adbe944125ed9e1750f06af
+      sha256: "4e9ba368772369e3e08f231d2301b4ef72b9ff87c31192ef471b380ef29a4935"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.1"
   url_launcher_macos:
     dependency: transitive
     description:
       name: url_launcher_macos
-      sha256: "769549c999acdb42b8bcfa7c43d72bf79a382ca7441ab18a808e101149daf672"
+      sha256: "17ba2000b847f334f16626a574c702b196723af2a289e7a93ffcb79acff855c2"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.2.2"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -1781,10 +1829,10 @@ packages:
     dependency: transitive
     description:
       name: watcher
-      sha256: "3d2ad6751b3c16cf07c7fca317a1413b3f26530319181b37e3b9039b84fc01d8"
+      sha256: "69da27e49efa56a15f8afe8f4438c4ec02eff0a117df1b22ea4aad194fe1c104"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   web:
     dependency: transitive
     description:

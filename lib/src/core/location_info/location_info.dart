@@ -39,7 +39,7 @@ class LocationInfoImpl implements LocationInfo {
   LocationInfoImpl({required this.navKey, this.enforceGeocoding = true});
 
   final String defaultLocationReason =
-      'Your current location helps your manager in reviewing work done by you';
+      'Your current location helps your manager in reviewing work done by you!';
 
   final _deviceLocation = ValueNotifier<LocationData?>(null);
 
