@@ -2,6 +2,98 @@ import 'package:decimal/decimal.dart';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:intl/intl.dart';
 
+enum FormatterType {
+  currency,
+  currencyNoSymbol,
+  decimal,
+}
+
+// Billion - for all large scale values (1,000,000,000)
+// Million - for medium scale values (1,000,000)
+// Thousand - for small scale values (1,000)
+
+enum CurrencySuffix {
+  indianBillion,
+  indianMillion,
+  indianThousand,
+  internationalBillion,
+  internationalMillion,
+  internationalThousand,
+  frenchBillion,
+  frenchMillion,
+  frenchThousand,
+  spanishBillion,
+  spanishMillion,
+  spanishThousand,
+  arabicBillion,
+  arabicMillion,
+  arabicThousand,
+  portugueseBrazilBillion,
+  portugueseBrazilMillion,
+  portugueseBrazilThousand,
+  portuguesePortugalBillion,
+  portuguesePortugalMillion,
+  portuguesePortugalThousand,
+  italianBillion,
+  italianMillion,
+  italianThousand,
+}
+
+extension CurrencySuffixExtension on CurrencySuffix {
+  String get value {
+    switch (this) {
+      case CurrencySuffix.indianBillion:
+        return 'Cr';
+      case CurrencySuffix.indianMillion:
+        return 'Lakh';
+      case CurrencySuffix.indianThousand:
+        return 'K';
+      case CurrencySuffix.internationalBillion:
+        return 'B';
+      case CurrencySuffix.internationalMillion:
+        return 'M';
+      case CurrencySuffix.internationalThousand:
+        return 'K';
+      case CurrencySuffix.frenchBillion:
+        return ' Md';
+      case CurrencySuffix.frenchMillion:
+        return ' M';
+      case CurrencySuffix.frenchThousand:
+        return ' k';
+      case CurrencySuffix.spanishBillion:
+        return ' mil M';
+      case CurrencySuffix.spanishMillion:
+        return ' M';
+      case CurrencySuffix.spanishThousand:
+        return ' mil';
+      case CurrencySuffix.arabicBillion:
+        return ' مليار';
+      case CurrencySuffix.arabicMillion:
+        return ' مليون';
+      case CurrencySuffix.arabicThousand:
+        return ' ألف';
+      case CurrencySuffix.portugueseBrazilBillion:
+        return ' bi';
+      case CurrencySuffix.portugueseBrazilMillion:
+        return ' mi';
+      case CurrencySuffix.portugueseBrazilThousand:
+        return ' mil';
+      case CurrencySuffix.portuguesePortugalBillion:
+        return ' mil M';
+      case CurrencySuffix.portuguesePortugalMillion:
+        return ' M';
+      case CurrencySuffix.portuguesePortugalThousand:
+        return ' mil';
+      case CurrencySuffix.italianBillion:
+        return ' Mrd';
+      case CurrencySuffix.italianMillion:
+        return ' Mln';
+      case CurrencySuffix.italianThousand:
+        return ' K';
+    }
+  }
+}
+
 class CompactScale {
   const CompactScale({
     required this.threshold,
@@ -10,61 +102,124 @@ class CompactScale {
   });
   final double threshold;
   final double divisor;
-  final String suffix;
+  final CurrencySuffix suffix;
 }
 
 enum CurrencyLocale {
-  indian('en_IN', [
-    CompactScale(threshold: 10000000, divisor: 10000000, suffix: 'Cr'),
-    CompactScale(threshold: 100000, divisor: 100000, suffix: 'Lakh'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: 'K'),
+  indian('en_IN', false, [
+    CompactScale(
+        threshold: 10000000,
+        divisor: 10000000,
+        suffix: CurrencySuffix.indianBillion),
+    CompactScale(
+        threshold: 100000,
+        divisor: 100000,
+        suffix: CurrencySuffix.indianMillion),
+    CompactScale(
+        threshold: 1000, divisor: 1000, suffix: CurrencySuffix.indianThousand),
   ]),
 
-  international('en_US', [
-    CompactScale(threshold: 1000000000, divisor: 1000000000, suffix: 'B'),
-    CompactScale(threshold: 1000000, divisor: 1000000, suffix: 'M'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: 'K'),
+  international('en_US', false, [
+    CompactScale(
+        threshold: 1000000000,
+        divisor: 1000000000,
+        suffix: CurrencySuffix.internationalBillion),
+    CompactScale(
+        threshold: 1000000,
+        divisor: 1000000,
+        suffix: CurrencySuffix.internationalMillion),
+    CompactScale(
+        threshold: 1000,
+        divisor: 1000,
+        suffix: CurrencySuffix.internationalThousand),
   ]),
 
-  french('fr_FR', [
-    CompactScale(threshold: 1000000000, divisor: 1000000000, suffix: ' Md'),
-    CompactScale(threshold: 1000000, divisor: 1000000, suffix: ' M'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: ' k'),
+  french('fr_FR', false, [
+    CompactScale(
+        threshold: 1000000000,
+        divisor: 1000000000,
+        suffix: CurrencySuffix.frenchBillion),
+    CompactScale(
+        threshold: 1000000,
+        divisor: 1000000,
+        suffix: CurrencySuffix.frenchMillion),
+    CompactScale(
+        threshold: 1000, divisor: 1000, suffix: CurrencySuffix.frenchThousand),
   ]),
 
-  spanish('es_ES', [
-    CompactScale(threshold: 1000000000, divisor: 1000000000, suffix: ' mil M'),
-    CompactScale(threshold: 1000000, divisor: 1000000, suffix: ' M'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: ' mil'),
+  spanish('es_ES', false, [
+    CompactScale(
+        threshold: 1000000000,
+        divisor: 1000000000,
+        suffix: CurrencySuffix.spanishBillion),
+    CompactScale(
+        threshold: 1000000,
+        divisor: 1000000,
+        suffix: CurrencySuffix.spanishMillion),
+    CompactScale(
+        threshold: 1000, divisor: 1000, suffix: CurrencySuffix.spanishThousand),
   ]),
 
-  arabic('ar_SA', [
-    CompactScale(threshold: 1000000000, divisor: 1000000000, suffix: ' مليار'),
-    CompactScale(threshold: 1000000, divisor: 1000000, suffix: ' مليون'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: ' ألف'),
+  arabic('ar_SA', true, [
+    CompactScale(
+        threshold: 1000000000,
+        divisor: 1000000000,
+        suffix: CurrencySuffix.arabicBillion),
+    CompactScale(
+        threshold: 1000000,
+        divisor: 1000000,
+        suffix: CurrencySuffix.arabicMillion),
+    CompactScale(
+        threshold: 1000, divisor: 1000, suffix: CurrencySuffix.arabicThousand),
   ]),
 
-  portugueseBrazil('pt_BR', [
-    CompactScale(threshold: 1000000000, divisor: 1000000000, suffix: ' bi'),
-    CompactScale(threshold: 1000000, divisor: 1000000, suffix: ' mi'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: ' mil'),
+  portugueseBrazil('pt_BR', false, [
+    CompactScale(
+        threshold: 1000000000,
+        divisor: 1000000000,
+        suffix: CurrencySuffix.portugueseBrazilBillion),
+    CompactScale(
+        threshold: 1000000,
+        divisor: 1000000,
+        suffix: CurrencySuffix.portugueseBrazilMillion),
+    CompactScale(
+        threshold: 1000,
+        divisor: 1000,
+        suffix: CurrencySuffix.portugueseBrazilThousand),
   ]),
 
-  portuguesePortugal('pt_PT', [
-    CompactScale(threshold: 1000000000, divisor: 1000000000, suffix: ' mil M'),
-    CompactScale(threshold: 1000000, divisor: 1000000, suffix: ' M'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: ' mil'),
+  portuguesePortugal('pt_PT', false, [
+    CompactScale(
+        threshold: 1000000000,
+        divisor: 1000000000,
+        suffix: CurrencySuffix.portuguesePortugalBillion),
+    CompactScale(
+        threshold: 1000000,
+        divisor: 1000000,
+        suffix: CurrencySuffix.portuguesePortugalMillion),
+    CompactScale(
+        threshold: 1000,
+        divisor: 1000,
+        suffix: CurrencySuffix.portuguesePortugalThousand),
   ]),
 
-  italian('it_IT', [
-    CompactScale(threshold: 1000000000, divisor: 1000000000, suffix: ' Mrd'),
-    CompactScale(threshold: 1000000, divisor: 1000000, suffix: ' Mln'),
-    CompactScale(threshold: 1000, divisor: 1000, suffix: ' K'),
+  italian('it_IT', false, [
+    CompactScale(
+        threshold: 1000000000,
+        divisor: 1000000000,
+        suffix: CurrencySuffix.italianBillion),
+    CompactScale(
+        threshold: 1000000,
+        divisor: 1000000,
+        suffix: CurrencySuffix.italianMillion),
+    CompactScale(
+        threshold: 1000, divisor: 1000, suffix: CurrencySuffix.italianThousand),
   ]);
 
-  const CurrencyLocale(this.localeCode, this.compactScales);
+  const CurrencyLocale(this.localeCode, this.isRTL, this.compactScales);
 
   final String localeCode;
+  final bool isRTL;
   final List<CompactScale> compactScales;
 
   CompactScale? getCompactScale(double value) {
@@ -79,94 +234,45 @@ enum CurrencyLocale {
   }
 
   NumberFormat? _createFormatter(
-    String type,
+    FormatterType type,
     int decimalDigits, {
     String symbol = '',
   }) {
     try {
       switch (type) {
-        case 'currency':
+        case FormatterType.currency:
           return NumberFormat.simpleCurrency(
             decimalDigits: decimalDigits,
             locale: localeCode,
           );
-        case 'currency_no_symbol':
+        case FormatterType.currencyNoSymbol:
           return NumberFormat.currency(
             decimalDigits: decimalDigits,
             locale: localeCode,
             symbol: symbol,
           );
-        case 'decimal':
+        case FormatterType.decimal:
           return NumberFormat.decimalPattern(localeCode);
-        default:
-          return null;
       }
     } catch (e) {
       return null;
     }
   }
 
-  // Get currency formatter with symbol
   NumberFormat getCurrencyFormat(int decimalDigits) {
-    return _createFormatter('currency', decimalDigits) ??
+    return _createFormatter(FormatterType.currency, decimalDigits) ??
         NumberFormat.simpleCurrency(decimalDigits: decimalDigits);
   }
 
-  // Get currency formatter without symbol
   NumberFormat getCurrencyFormatNoSymbol(int decimalDigits) {
-    return _createFormatter('currency_no_symbol', decimalDigits, symbol: '') ??
+    return _createFormatter(FormatterType.currencyNoSymbol, decimalDigits,
+            symbol: '') ??
         NumberFormat('#,##0.${'0' * decimalDigits}');
   }
 
-  // Get decimal formatter for the locale
   NumberFormat getDecimalFormat() {
-    return _createFormatter('decimal', 0) ?? NumberFormat('#,##0');
+    return _createFormatter(FormatterType.decimal, 0) ?? NumberFormat('#,##0');
   }
-
-  // Check if this locale uses right-to-left text direction
-  bool get isRTL => this == CurrencyLocale.arabic;
-
-  // Get locale-specific formatting information
-  NumberFormatInfo get formatInfo {
-    try {
-      final decimalFormat = NumberFormat.decimalPattern(localeCode);
-      return NumberFormatInfo(
-        groupingSeparator: decimalFormat.symbols.GROUP_SEP,
-        decimalSeparator: decimalFormat.symbols.DECIMAL_SEP,
-        isRTL: isRTL,
-      );
-    } catch (e) {
-      return const NumberFormatInfo(
-        groupingSeparator: ',',
-        decimalSeparator: '.',
-        isRTL: false,
-      );
-    }
-  }
-
-  bool get isSupported {
-    try {
-      NumberFormat.decimalPattern(localeCode);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-}
-
-class NumberFormatInfo {
-  const NumberFormatInfo({
-    required this.groupingSeparator,
-    required this.decimalSeparator,
-    required this.isRTL,
-  });
-  final String groupingSeparator;
-  final String decimalSeparator;
-  final bool isRTL;
-
-  @override
-  String toString() =>
-      'NumberFormatInfo(group: $groupingSeparator, decimal: $decimalSeparator, rtl: $isRTL)';
 }
 
 class CompactFormatResult {
@@ -187,7 +293,6 @@ class CurrencyUtil {
   final CurrencyLocale locale;
   late final NumberFormat _currencyFormatter;
   late final NumberFormat _currencyNoSymbolFormatter;
-  late final NumberFormat _decimalFormatter;
 
   CurrencyUtil({
     this.isInternationalCompany = false,
@@ -202,20 +307,6 @@ class CurrencyUtil {
     _currencyFormatter = locale.getCurrencyFormat(decimalDigits);
     _currencyNoSymbolFormatter =
         locale.getCurrencyFormatNoSymbol(decimalDigits);
-    _decimalFormatter = locale.getDecimalFormat();
-  }
-
-  double _normalizeNumber(num value) {
-    try {
-      final decimal = Decimal.parse(value.toString());
-      final epsilon = Decimal.parse("1e-10");
-      final adjustedDecimal = decimal + epsilon;
-      final scaledDecimal = adjustedDecimal * Decimal.fromInt(100);
-      final roundedDecimal = scaledDecimal.round();
-      return (roundedDecimal / Decimal.fromInt(100)).toDouble();
-    } catch (e) {
-      return double.parse(value.toStringAsFixed(decimalDigits + 2));
-    }
   }
 
   CompactFormatResult _getCompactFormatResult(double value) {
@@ -230,13 +321,13 @@ class CurrencyUtil {
 
     return CompactFormatResult(
       value: value / scale.divisor,
-      suffix: scale.suffix,
+      suffix: scale.suffix.value,
       wasCompacted: true,
     );
   }
 
   String formatNumber(num inputValue, {bool compact = false}) {
-    final normalizedValue = _normalizeNumber(inputValue);
+    final normalizedValue = roundNumber(inputValue);
 
     try {
       if (!compact) {
@@ -259,7 +350,7 @@ class CurrencyUtil {
   }
 
   String formatCurrency(num value) {
-    final normalizedValue = _normalizeNumber(value);
+    final normalizedValue = roundNumber(value);
     try {
       return _currencyFormatter.format(normalizedValue);
     } catch (e) {
@@ -267,24 +358,9 @@ class CurrencyUtil {
     }
   }
 
-  String convertToLocale(
-    CurrencyLocale targetLocale,
-    num value, {
-    bool compact = false,
-  }) {
-    final converter =
-        CurrencyUtil(locale: targetLocale, decimalDigits: decimalDigits);
-    return converter.formatNumber(value, compact: compact);
-  }
-
   String getFormattedInrDouble(num amount) => formatNumber(amount);
   String getFormattedInrInt(num amount) => formatCurrency(amount);
   String getFormattedIntDouble2Places(num amount) => formatNumber(amount);
-
-  static bool isLocaleSupported(String localeCode) {
-    return CurrencyLocale.values
-        .any((locale) => locale.localeCode == localeCode && locale.isSupported);
-  }
 
   CurrencyUtil fromLocaleCode(
     String localeCode, {
@@ -296,19 +372,6 @@ class CurrencyUtil {
     );
     return CurrencyUtil(locale: locale, decimalDigits: decimalDigits);
   }
-
-  static List<String> getSupportedLocales() {
-    return CurrencyLocale.values
-        .where((locale) => locale.isSupported)
-        .map((locale) => locale.localeCode)
-        .toList();
-  }
-
-  NumberFormatInfo get formatInfo => locale.formatInfo;
-
-  bool get isValid => locale.isSupported && decimalDigits >= 0;
-
-  List<CompactScale> get availableScales => locale.compactScales;
 
   double roundNumber(
     num value,
