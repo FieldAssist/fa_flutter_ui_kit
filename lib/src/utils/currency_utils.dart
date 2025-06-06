@@ -1,183 +1,93 @@
 import 'package:decimal/decimal.dart';
-import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_ui_kit/src/utils/currency_enums.dart';
+import 'package:fa_flutter_ui_kit/src/utils/currency_models.dart';
 import 'package:intl/intl.dart';
 
 class CurrencyUtil {
   bool isInternationalCompany;
   bool companyUsesFrenchForCurrencyConversion;
   int decimalDigits;
+  final CurrencyLocale locale;
+  late final NumberFormat _currencyFormatter;
+  late final NumberFormat _currencyNoSymbolFormatter;
 
   CurrencyUtil({
     this.isInternationalCompany = false,
     this.companyUsesFrenchForCurrencyConversion = false,
     this.decimalDigits = 2,
-  });
-
-  NumberFormat get _indCurrencyDoubleFormat =>
-      NumberFormat("##,##,###.${"#" * decimalDigits}", "en_IN");
-
-  NumberFormat get _indCurrencyIntFormat => NumberFormat.simpleCurrency(
-        decimalDigits: decimalDigits,
-        locale: "en_IN",
-      );
-
-  NumberFormat get _internationalCurrencyIntFormat =>
-      NumberFormat.simpleCurrency(
-        decimalDigits: decimalDigits,
-        locale: "en_US",
-      );
-
-  NumberFormat get _frenchCurrencyIntFormat => NumberFormat.simpleCurrency(
-        decimalDigits: decimalDigits,
-        locale: 'fr',
-      );
-
-  NumberFormat get _indCurrencyDouble2PlacesFormat =>
-      NumberFormat("##,##,###.${"0" * decimalDigits}", "en_IN");
-
-  String getFormattedInrDouble(num amount) => isInternationalCompany
-      ? convertToInternationalNumbering(amount.toDouble())
-      : companyUsesFrenchForCurrencyConversion
-          ? convertToFrenchNumbering(amount.toDouble())
-          : _indCurrencyDoubleFormat.format(amount);
-
-  String getFormattedInrInt(num amount) => isInternationalCompany
-      ? _internationalCurrencyIntFormat.format(amount)
-      : companyUsesFrenchForCurrencyConversion
-          ? _frenchCurrencyIntFormat.format(amount)
-          : _indCurrencyIntFormat.format(amount);
-
-  String getFormattedIntDouble2Places(num amount) => isInternationalCompany
-      ? convertToInternationalNumbering(
-          amount.toDouble(),
-          decimalPlaces: decimalDigits,
-        )
-      : companyUsesFrenchForCurrencyConversion
-          ? convertToFrenchNumbering(amount.toDouble())
-          : _indCurrencyDouble2PlacesFormat.format(amount);
-
-  String _getHashForDecimalPlaces(int decimalPlaces) {
-    return "#${"#" * (decimalPlaces - 1)}";
-  }
-
-  String convertToInternationalNumbering(double value,
-      {int? decimalPlaces, bool isCompact = true}) {
-    decimalPlaces ??= this.decimalDigits;
-
-    if (!isCompact) {
-      final pattern = decimalPlaces > 0
-          ? "###,###.${_getHashForDecimalPlaces(decimalPlaces)}"
-          : "###,###";
-      final formatter = NumberFormat(pattern);
-      return formatter.format(value);
-    }
-
-    if (value > 1000000000) {
-      final calculated = value / 1000000000;
-      return '${calculated.toStringAsFixed(decimalPlaces)} B';
-    } else if (value > 1000000) {
-      final calculated = value / 1000000;
-      return '${calculated.toStringAsFixed(decimalPlaces)} M';
-    } else {
-      final numberFormat =
-          NumberFormat("#,##0.${"0" * decimalPlaces}", "en_US");
-      return numberFormat.format(value);
-    }
-  }
-
-  String convertToFrenchNumbering(double value,
-      {int? decimalPlaces, bool isCompact = true}) {
-    decimalPlaces ??= this.decimalDigits;
-
-    if (!isCompact) {
-      final pattern = decimalPlaces > 0
-          ? "###,###.${_getHashForDecimalPlaces(decimalPlaces)}"
-          : "###,###";
-      final formatter = NumberFormat(pattern, 'fr');
-      return formatter.format(value);
-    }
-    // show currency in compact form
-    final formatter = NumberFormat.currency(
-      decimalDigits: decimalDigits,
-      locale: 'fr',
-      symbol: "",
-    );
-    return getFrenchCalculatedVal(formatter: formatter, number: value);
-  }
-
-//TEMP
-  static String convertToIndianNumbering(int number) {
-    if (number < 1000) {
-      return number.toString();
-    } else if (number < 100000) {
-      return '${(number / 1000).toStringAsFixed(0)}K';
-    } else if (number < 10000000) {
-      return '${(number / 100000).toStringAsFixed(0)} Lakhs';
-    } else {
-      return '${(number / 10000000).toStringAsFixed(2)}Cr';
-    }
-  }
-
-  String formatNumber(num value, {bool compact = false}) {
-    // final number = (amt * 100).round() / 100;
-    /// Decimal package added due floating-point precision error
-    double number = getDecimalVal(value);
-
-    final formatter = NumberFormat.currency(
-      decimalDigits: decimalDigits,
-      locale: isInternationalCompany
-          ? "en_US"
-          : companyUsesFrenchForCurrencyConversion
-              ? 'fr'
-              : "en_IN",
-      symbol: "",
-    );
-
-    if (compact || companyUsesFrenchForCurrencyConversion) {
-      if (isInternationalCompany) {
-        // International format
-        if (number >= 1000000000) {
-          final calculated = number / 1000000000;
-          return '${formatter.format(calculated)} B';
-        } else if (number >= 1000000) {
-          final calculated = number / 1000000;
-          return '${formatter.format(calculated)} M';
-        } else if (number >= 1000) {
-          final calculated = number / 1000;
-          return '${formatter.format(calculated)} K';
-        }
-      } else if (companyUsesFrenchForCurrencyConversion) {
-        return getFrenchCalculatedVal(formatter: formatter, number: number);
-      } else {
-        // Indian format
-        if (number >= 10000000) {
-          final calculated = number / 10000000;
-          return '${formatter.format(calculated)} Cr';
-        } else if (number >= 100000) {
-          final calculated = number / 100000;
-          return '${formatter.format(calculated)} Lakh';
-        } else if (number >= 1000) {
-          final calculated = number / 1000;
-          return '${formatter.format(calculated)} K';
-        }
-      }
-    }
-
-    return formatter.format(number);
-  }
-
-  String getFrenchCalculatedVal({
-    required double number,
-    required NumberFormat formatter,
+    this.locale = CurrencyLocale.indian,
   }) {
-    if (number >= 1000000000) {
-      final calculated = number / 1000000000;
-      return '${formatter.format(calculated)}Md';
-    } else if (number >= 1000000) {
-      final calculated = number / 1000000;
-      return '${formatter.format(calculated)}M';
+    _initializeFormatters();
+  }
+
+  void _initializeFormatters() {
+    _currencyFormatter = locale.getCurrencyFormat(decimalDigits);
+    _currencyNoSymbolFormatter =
+        locale.getCurrencyFormatNoSymbol(decimalDigits);
+  }
+
+  CompactFormatResult _getCompactFormatResult(double value) {
+    final scale = locale.getCompactScale(value);
+    if (scale == null) {
+      return CompactFormatResult(
+        value: value,
+        suffix: '',
+        wasCompacted: false,
+      );
     }
-    return formatter.format(number);
+
+    return CompactFormatResult(
+      value: value / scale.divisor,
+      suffix: scale.suffix.value,
+      wasCompacted: true,
+    );
+  }
+
+  String formatNumber(num inputValue, {bool compact = false}) {
+    final normalizedValue = roundNumber(inputValue);
+
+    try {
+      if (!compact) {
+        return _currencyNoSymbolFormatter.format(normalizedValue);
+      }
+
+      final compactResult = _getCompactFormatResult(normalizedValue);
+      if (!compactResult.wasCompacted) {
+        return _currencyNoSymbolFormatter.format(normalizedValue);
+      }
+
+      final formattedValue =
+          _currencyNoSymbolFormatter.format(compactResult.value);
+      return '$formattedValue${compactResult.suffix}';
+    } catch (e) {
+      return compact
+          ? '${normalizedValue.toStringAsFixed(decimalDigits)} (${locale.localeCode})'
+          : normalizedValue.toStringAsFixed(decimalDigits);
+    }
+  }
+
+  String formatCurrency(num value) {
+    final normalizedValue = roundNumber(value);
+    try {
+      return _currencyFormatter.format(normalizedValue);
+    } catch (e) {
+      return normalizedValue.toStringAsFixed(decimalDigits);
+    }
+  }
+
+  String getFormattedInrDouble(num amount) => formatNumber(amount);
+  String getFormattedInrInt(num amount) => formatCurrency(amount);
+  String getFormattedIntDouble2Places(num amount) => formatNumber(amount);
+
+  CurrencyUtil fromLocaleCode(
+    String localeCode, {
+    int decimalDigits = 2,
+  }) {
+    final locale = CurrencyLocale.values.firstWhere(
+      (l) => l.localeCode == localeCode,
+      orElse: () => CurrencyLocale.indian,
+    );
+    return CurrencyUtil(locale: locale, decimalDigits: decimalDigits);
   }
 
   double roundNumber(
