@@ -1,4 +1,4 @@
-import 'package:fa_flutter_ui_kit/src/utils/currency/currency_models.dart';
+import 'package:fa_flutter_ui_kit/src/utils/currency/models.dart';
 import 'package:intl/intl.dart';
 
 enum FormatterType {
