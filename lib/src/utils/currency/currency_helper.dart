@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
-import 'package:fa_flutter_ui_kit/src/utils/currency_enums.dart';
-import 'package:fa_flutter_ui_kit/src/utils/currency_models.dart';
+import 'package:fa_flutter_ui_kit/src/utils/currency/currency_enums.dart';
+import 'package:fa_flutter_ui_kit/src/utils/currency/currency_models.dart';
 import 'package:intl/intl.dart';
 
 class CurrencyUtil {
