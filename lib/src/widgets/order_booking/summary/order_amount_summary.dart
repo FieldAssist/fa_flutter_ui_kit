@@ -133,6 +133,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 ),
                 minLeadingWidth: 40,
                 title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       distributorTitleText ?? "Distributor: ",
