@@ -59,17 +59,17 @@ class LocationInfoImpl implements LocationInfo {
   @override
   Future initLocation() async {
     if (isMobile) {
-      final permissionStatus = await isLocationPermissionGranted();
-
-      if (!permissionStatus) {
-        if (navKey != null) {
-          await DialogUtils.showAlertDialog(
-              title: 'Location Permission Required!',
-              content: defaultLocationReason,
-              actionText: 'Continue',
-              navKey: navKey!);
-        }
-      }
+      // final permissionStatus = await isLocationPermissionGranted();
+      //
+      // if (!permissionStatus) {
+      //   if (navKey != null) {
+      //     await DialogUtils.showAlertDialog(
+      //         title: 'Location Permission Required!',
+      //         content: defaultLocationReason,
+      //         actionText: 'Continue',
+      //         navKey: navKey!);
+      //   }
+      // }
 
       final permission = await Geolocator.requestPermission();
       final geolocationStatus = await Geolocator.isLocationServiceEnabled();
