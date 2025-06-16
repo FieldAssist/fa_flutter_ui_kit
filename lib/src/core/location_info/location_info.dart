@@ -29,6 +29,10 @@ abstract class LocationInfo {
     LatLng inputLocation, {
     double minDistance = 300,
   });
+
+  Future<bool> isLocationEnabled();
+
+  Future<bool> isLocationPermissionGranted();
 }
 
 class LocationInfoImpl implements LocationInfo {
@@ -55,9 +59,9 @@ class LocationInfoImpl implements LocationInfo {
   @override
   Future initLocation() async {
     if (isMobile) {
-      final permissionStatus = await Geolocator.checkPermission();
+      final permissionStatus = await isLocationPermissionGranted();
 
-      if (!_isPermissionGranted(permissionStatus)) {
+      if (!permissionStatus) {
         if (navKey != null) {
           await DialogUtils.showAlertDialog(
               title: 'Location Permission Required!',
@@ -238,9 +242,9 @@ class LocationInfoImpl implements LocationInfo {
     if (locationCheckTimer == null || !locationCheckTimer!.isActive) {
       locationCheckTimer =
           Timer.periodic(const Duration(seconds: 4), (t) async {
-        final permission = await Geolocator.checkPermission();
-        final geolocationStatus = await Geolocator.isLocationServiceEnabled();
-        if (!_isPermissionGranted(permission) || !geolocationStatus) {
+        final _checkPermission = await isLocationPermissionGranted();
+        final geolocationStatus = await isLocationEnabled();
+        if (!_checkPermission || !geolocationStatus) {
           t.cancel();
           if (navKey != null) {
             await navKey!.currentState!.push(
@@ -355,6 +359,16 @@ class LocationInfoImpl implements LocationInfo {
       logger.e(e, s);
       return null;
     }
+  }
+
+  @override
+  Future<bool> isLocationEnabled() async =>
+      Geolocator.isLocationServiceEnabled();
+
+  @override
+  Future<bool> isLocationPermissionGranted() async {
+    final permission = await Geolocator.checkPermission();
+    return _isPermissionGranted(permission);
   }
 }
 
