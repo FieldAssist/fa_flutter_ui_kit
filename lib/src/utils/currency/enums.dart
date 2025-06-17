@@ -42,17 +42,17 @@ extension CurrencySuffixExtension on CurrencySuffix {
   String get value {
     switch (this) {
       case CurrencySuffix.indianBillion:
-        return 'Cr';
+        return ' Cr';
       case CurrencySuffix.indianMillion:
-        return 'Lakh';
+        return ' Lakh';
       case CurrencySuffix.indianThousand:
-        return 'K';
+        return ' K';
       case CurrencySuffix.internationalBillion:
-        return 'B';
+        return ' B';
       case CurrencySuffix.internationalMillion:
-        return 'M';
+        return ' M';
       case CurrencySuffix.internationalThousand:
-        return 'K';
+        return ' K';
       case CurrencySuffix.frenchBillion:
         return ' Md';
       case CurrencySuffix.frenchMillion:
