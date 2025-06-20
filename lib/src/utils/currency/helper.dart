@@ -8,23 +8,15 @@ class CurrencyUtil {
   bool companyUsesFrenchForCurrencyConversion;
   int decimalDigits;
   final CurrencyLocale locale;
-  late final NumberFormat _currencyFormatter;
-  late final NumberFormat _currencyNoSymbolFormatter;
 
   CurrencyUtil({
     this.isInternationalCompany = false,
     this.companyUsesFrenchForCurrencyConversion = false,
     this.decimalDigits = 2,
     this.locale = CurrencyLocale.indian,
-  }) {
-    _initializeFormatters();
-  }
+  });
 
-  void _initializeFormatters() {
-    _currencyFormatter = locale.getCurrencyFormat(decimalDigits);
-    _currencyNoSymbolFormatter =
-        locale.getCurrencyFormatNoSymbol(decimalDigits);
-  }
+  bool get isArabic => locale == CurrencyLocale.arabic;
 
   CompactFormatResult _getCompactFormatResult(double value) {
     final scale = locale.getCompactScale(value);
@@ -43,43 +35,60 @@ class CurrencyUtil {
     );
   }
 
-  String formatNumber(num inputValue, {bool compact = false}) {
+  String formatNumber(num inputValue,
+      {bool compact = false, int? passedDecimalDigits}) {
     final normalizedValue = roundNumber(inputValue);
+    final usedDecimalDigits = passedDecimalDigits ?? decimalDigits;
+    final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
       if (!compact) {
-        return _currencyNoSymbolFormatter.format(normalizedValue);
+        final formatted = localFormatter.format(normalizedValue);
+        return isArabic ? _convertToArabicIndicDigits(formatted) : formatted;
       }
 
       final compactResult = _getCompactFormatResult(normalizedValue);
       if (!compactResult.wasCompacted) {
-        return _currencyNoSymbolFormatter.format(normalizedValue);
+        final formatted = localFormatter.format(normalizedValue);
+        return isArabic ? _convertToArabicIndicDigits(formatted) : formatted;
       }
 
-      final formattedValue =
-          _currencyNoSymbolFormatter.format(compactResult.value);
-      return '$formattedValue${compactResult.suffix}';
+      final formattedValue = localFormatter.format(compactResult.value);
+      final result = isArabic
+          ? _convertToArabicIndicDigits(formattedValue)
+          : formattedValue;
+      return '$result${compactResult.suffix}';
     } catch (e) {
+      final fallback = normalizedValue.toStringAsFixed(usedDecimalDigits);
       return compact
-          ? '${normalizedValue.toStringAsFixed(decimalDigits)} (${locale.localeCode})'
-          : normalizedValue.toStringAsFixed(decimalDigits);
+          ? '${isArabic ? _convertToArabicIndicDigits(fallback) : fallback} (${locale.localeCode})'
+          : (isArabic ? _convertToArabicIndicDigits(fallback) : fallback);
     }
   }
 
-  String formatCurrency(num value) {
+  String formatCurrency(
+    num value, {
+    int? passedDecimalDigits,
+  }) {
+    final usedDecimalDigits = passedDecimalDigits ?? decimalDigits;
     final normalizedValue = roundNumber(value);
+
+    final localFormatter = locale.getCurrencyFormat(usedDecimalDigits);
     try {
-      return _currencyFormatter.format(normalizedValue);
+      final formatted = localFormatter.format(normalizedValue);
+      return isArabic ? _convertToArabicIndicDigits(formatted) : formatted;
     } catch (e) {
-      return normalizedValue.toStringAsFixed(decimalDigits);
+      final fallback = normalizedValue.toStringAsFixed(usedDecimalDigits);
+      return isArabic ? _convertToArabicIndicDigits(fallback) : fallback;
     }
   }
 
   String getFormattedInrDouble(num amount) => formatNumber(amount);
   String getFormattedInrInt(num amount) => formatCurrency(amount);
-  String getFormattedIntDouble2Places(num amount) => formatNumber(amount);
+  String getFormattedIntDouble2Places(num amount) =>
+      formatNumber(amount, passedDecimalDigits: 2);
 
-  CurrencyUtil fromLocaleCode(
+  static CurrencyUtil fromLocaleCode(
     String localeCode, {
     int decimalDigits = 2,
   }) {
@@ -106,5 +115,27 @@ class CurrencyUtil {
 
     final number = (roundedNum / Decimal.fromInt(100)).toDouble();
     return number;
+  }
+
+  String _convertToArabicIndicDigits(String input) {
+    const westernToArabicDigits = {
+      '0': '٠',
+      '1': '١',
+      '2': '٢',
+      '3': '٣',
+      '4': '٤',
+      '5': '٥',
+      '6': '٦',
+      '7': '٧',
+      '8': '٨',
+      '9': '٩',
+      ',': '٬', // Arabic thousands separator (U+066C)
+      '.': '٫', // Arabic decimal separator (U+066B)
+    };
+
+    return input
+        .split('')
+        .map((char) => westernToArabicDigits[char] ?? char)
+        .join('');
   }
 }
