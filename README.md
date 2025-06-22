@@ -104,6 +104,13 @@ compileSdkVersion 32
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/PrakharMittal26>
+            <img src=https://avatars.githubusercontent.com/u/189090749?v=4 width="100;"  alt=Prakhar Mittal/>
+            <br />
+            <sub style="font-size:14px"><b>Prakhar Mittal</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Abhisheksainii>
             <img src=https://avatars.githubusercontent.com/u/78199221?v=4 width="100;"  alt=Abhishek Saini/>
             <br />
@@ -129,13 +136,6 @@ compileSdkVersion 32
             <img src=https://avatars.githubusercontent.com/u/86761543?v=4 width="100;"  alt=Sameer Kumar/>
             <br />
             <sub style="font-size:14px"><b>Sameer Kumar</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/PrakharMittal26>
-            <img src=https://avatars.githubusercontent.com/u/189090749?v=4 width="100;"  alt=Prakhar Mittal/>
-            <br />
-            <sub style="font-size:14px"><b>Prakhar Mittal</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
