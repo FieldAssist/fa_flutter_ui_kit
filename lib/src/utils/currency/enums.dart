@@ -44,7 +44,7 @@ extension CurrencySuffixExtension on CurrencySuffix {
       case CurrencySuffix.indianBillion:
         return ' Cr';
       case CurrencySuffix.indianMillion:
-        return ' Lakh';
+        return ' L';
       case CurrencySuffix.indianThousand:
         return ' K';
       case CurrencySuffix.internationalBillion:
