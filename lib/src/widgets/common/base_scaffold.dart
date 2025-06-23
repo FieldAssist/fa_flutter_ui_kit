@@ -33,15 +33,19 @@ class BaseScaffold extends Scaffold {
   }) : super(
           body: Container(
             decoration: BoxDecoration(
-              gradient: gradient ??
-                  LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.white,
-                      AppColors.kBlueColor.shade25,
-                    ],
-                  ),
+              color: backgroundColor,
+              gradient: gradient != null
+                  ? gradient
+                  : backgroundColor == null
+                      ? LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.white,
+                            AppColors.kBlueColor.shade25,
+                          ],
+                        )
+                      : null,
             ),
             child: appBody,
           ),
