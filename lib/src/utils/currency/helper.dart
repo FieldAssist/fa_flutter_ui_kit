@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:fa_flutter_ui_kit/src/utils/currency/enums.dart';
 import 'package:fa_flutter_ui_kit/src/utils/currency/models.dart';
-import 'package:intl/intl.dart';
 
 class CurrencyUtil {
   bool isInternationalCompany;
@@ -38,7 +37,8 @@ class CurrencyUtil {
   String formatNumber(num inputValue,
       {bool compact = false, int? passedDecimalDigits}) {
     final normalizedValue = roundNumber(inputValue);
-    final usedDecimalDigits = passedDecimalDigits ?? decimalDigits;
+    final usedDecimalDigits =
+        passedDecimalDigits ?? (inputValue % 1 == 0 ? 0 : decimalDigits);
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
@@ -70,7 +70,8 @@ class CurrencyUtil {
     num value, {
     int? passedDecimalDigits,
   }) {
-    final usedDecimalDigits = passedDecimalDigits ?? decimalDigits;
+    final usedDecimalDigits =
+        passedDecimalDigits ?? (value % 1 == 0 ? 0 : decimalDigits);
     final normalizedValue = roundNumber(value);
 
     final localFormatter = locale.getCurrencyFormat(usedDecimalDigits);
@@ -83,10 +84,11 @@ class CurrencyUtil {
     }
   }
 
-  String getFormattedInrDouble(num amount) => formatNumber(amount);
+  String getFormattedInrDouble(num amount) =>
+      formatNumber(amount, compact: true);
   String getFormattedInrInt(num amount) => formatCurrency(amount);
   String getFormattedIntDouble2Places(num amount) =>
-      formatNumber(amount, passedDecimalDigits: 2);
+      formatNumber(amount, compact: true, passedDecimalDigits: 2);
 
   static CurrencyUtil fromLocaleCode(
     String localeCode, {
