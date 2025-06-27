@@ -48,7 +48,15 @@ class LocationInfoImpl implements LocationInfo {
   StreamSubscription<Position>? locationStreamSubs;
 
   @override
-  LocationData get currentLocation => _deviceLocation.value!;
+  LocationData get currentLocation {
+    final loc = _deviceLocation.value;
+    if (loc == null) {
+      throw LocationException(
+        '${Constants.locationNotAvailable}\n$defaultLocationReason',
+      );
+    }
+    return loc;
+  }
 
   Stream<Position>? positionStream;
 
@@ -250,8 +258,8 @@ class LocationInfoImpl implements LocationInfo {
                     '${Constants.locationNotAvailable}'
                     '\n$defaultLocationReason',
                   ),
-                  onRetryTap: () {
-                    initLocation();
+                  onRetryTap: () async{
+                  await  initLocation();
                   },
                 ),
               ),
