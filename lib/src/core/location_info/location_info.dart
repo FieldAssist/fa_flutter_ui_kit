@@ -243,7 +243,8 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   void _startLocationServiceCheckTimer() {
-    if (locationCheckTimer == null || !locationCheckTimer!.isActive) {
+    final isTimerActive = locationCheckTimer?.isActive ?? false;
+    if (!isTimerActive) {
       locationCheckTimer =
           Timer.periodic(const Duration(seconds: 4), (t) async {
         final permission = await Geolocator.checkPermission();
@@ -251,7 +252,7 @@ class LocationInfoImpl implements LocationInfo {
         if (!_isPermissionGranted(permission) || !geolocationStatus) {
           t.cancel();
           if (navKey != null) {
-            await navKey!.currentState!.push(
+            await navKey!.currentState?.push(
               MaterialPageRoute(
                 builder: (_) => AppErrorPage(
                   LocationException(
