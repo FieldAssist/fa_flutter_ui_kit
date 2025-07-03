@@ -48,7 +48,15 @@ class LocationInfoImpl implements LocationInfo {
   StreamSubscription<Position>? locationStreamSubs;
 
   @override
-  LocationData get currentLocation => _deviceLocation.value!;
+  LocationData get currentLocation {
+    final loc = _deviceLocation.value;
+    if (loc == null) {
+      throw LocationException(
+        '${Constants.locationNotAvailable}\n$defaultLocationReason',
+      );
+    }
+    return loc;
+  }
 
   Stream<Position>? positionStream;
 
@@ -235,7 +243,8 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   void _startLocationServiceCheckTimer() {
-    if (locationCheckTimer == null || !locationCheckTimer!.isActive) {
+    final isTimerActive = locationCheckTimer?.isActive ?? false;
+    if (!isTimerActive) {
       locationCheckTimer =
           Timer.periodic(const Duration(seconds: 4), (t) async {
         final permission = await Geolocator.checkPermission();
@@ -243,15 +252,15 @@ class LocationInfoImpl implements LocationInfo {
         if (!_isPermissionGranted(permission) || !geolocationStatus) {
           t.cancel();
           if (navKey != null) {
-            await navKey!.currentState!.push(
+            await navKey!.currentState?.push(
               MaterialPageRoute(
                 builder: (_) => AppErrorPage(
                   LocationException(
                     '${Constants.locationNotAvailable}'
                     '\n$defaultLocationReason',
                   ),
-                  onRetryTap: () {
-                    initLocation();
+                  onRetryTap: () async{
+                  await  initLocation();
                   },
                 ),
               ),
