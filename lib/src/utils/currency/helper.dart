@@ -37,32 +37,28 @@ class CurrencyUtil {
   String formatNumber(num inputValue,
       {bool compact = false, int? passedDecimalDigits}) {
     final normalizedValue = roundNumber(inputValue);
-    final usedDecimalDigits =
-        passedDecimalDigits ?? (inputValue % 1 == 0 ? 0 : decimalDigits);
+    final compactResult = _getCompactFormatResult(normalizedValue);
+    final compactValue = compactResult.value;
+    final usedDecimalDigits = passedDecimalDigits ??
+        ((compactValue % 1 != 0 || inputValue % 1 != 0) ? decimalDigits : 0);
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
-      if (!compact) {
+      if (!compact || !compactResult.wasCompacted) {
         final formatted = localFormatter.format(normalizedValue);
         return isArabic ? _convertToArabicIndicDigits(formatted) : formatted;
       }
 
-      final compactResult = _getCompactFormatResult(normalizedValue);
-      if (!compactResult.wasCompacted) {
-        final formatted = localFormatter.format(normalizedValue);
-        return isArabic ? _convertToArabicIndicDigits(formatted) : formatted;
-      }
-
-      final formattedValue = localFormatter.format(compactResult.value);
+      final formattedValue = localFormatter.format(compactValue);
       final result = isArabic
           ? _convertToArabicIndicDigits(formattedValue)
           : formattedValue;
       return '$result${compactResult.suffix}';
     } catch (e) {
-      final fallback = normalizedValue.toStringAsFixed(usedDecimalDigits);
+      final value = normalizedValue.toStringAsFixed(usedDecimalDigits);
       return compact
-          ? '${isArabic ? _convertToArabicIndicDigits(fallback) : fallback} (${locale.localeCode})'
-          : (isArabic ? _convertToArabicIndicDigits(fallback) : fallback);
+          ? '${isArabic ? _convertToArabicIndicDigits(value) : value} (${locale.localeCode})'
+          : (isArabic ? _convertToArabicIndicDigits(value) : value);
     }
   }
 
