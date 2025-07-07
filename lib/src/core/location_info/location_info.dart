@@ -259,8 +259,8 @@ class LocationInfoImpl implements LocationInfo {
                     '${Constants.locationNotAvailable}'
                     '\n$defaultLocationReason',
                   ),
-                  onRetryTap: () async{
-                  await  initLocation();
+                  onRetryTap: () async {
+                    await initLocation();
                   },
                 ),
               ),
