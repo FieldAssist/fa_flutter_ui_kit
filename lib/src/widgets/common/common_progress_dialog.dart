@@ -60,13 +60,12 @@ class CommonProgressDialog {
 
     try {
       final result = await _dialog!.hide();
-      _dialog = null;
-      _currentContext = null;
       return result;
     } catch (e) {
+      return true;
+    } finally {
       _dialog = null;
       _currentContext = null;
-      return true;
     }
   }
 
