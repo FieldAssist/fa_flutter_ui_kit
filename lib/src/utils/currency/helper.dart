@@ -80,11 +80,11 @@ class CurrencyUtil {
     }
   }
 
-  String getFormattedInrDouble(num amount) =>
-      formatNumber(amount, compact: true);
+  String getFormattedInrDouble(num amount, {bool compact = true}) =>
+      formatNumber(amount, compact: compact);
   String getFormattedInrInt(num amount) => formatCurrency(amount);
-  String getFormattedIntDouble2Places(num amount) =>
-      formatNumber(amount, compact: true, passedDecimalDigits: 2);
+  String getFormattedIntDouble2Places(num amount, {bool compact = true}) =>
+      formatNumber(amount, compact: compact, passedDecimalDigits: 2);
 
   static CurrencyUtil fromLocaleCode(
     String localeCode, {
