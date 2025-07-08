@@ -8,13 +8,17 @@ Widget _defaultProgressWidget = Image.asset(Images.doubleRingLoader);
 
 class CommonProgressDialog {
   static ProgressDialog? _dialog;
+  static BuildContext? _currentContext;
 
   static Future<bool> show(
     BuildContext context, {
     String message = 'Please Wait !',
     bool isDismissible = false,
-  }) {
-    _dialog ??= ProgressDialog(context, isDismissible: isDismissible)
+  }) async {
+    await hide(); // Ensure any existing dialog is properly hidden
+
+    _currentContext = context;
+    _dialog = ProgressDialog(context, isDismissible: isDismissible)
       ..style(
         message: message,
         progressWidget: _defaultProgressWidget,
@@ -26,13 +30,17 @@ class CommonProgressDialog {
   static void update({
     required String message,
     required Widget progressWidget,
-  }) =>
-      _dialog?.update(
+  }) {
+    if (_isDialogValid()) {
+      _dialog!.update(
         message: message,
         progressWidget: progressWidget,
       );
+    }
+  }
 
   static Future<void> doneAndHide({String message = 'Success'}) async {
+    if (!_isDialogValid()) return;
     update(
       message: message,
       progressWidget: FlareActor(
@@ -42,15 +50,28 @@ class CommonProgressDialog {
         animation: 'success',
       ),
     );
+
     await Future.delayed(const Duration(milliseconds: 1500));
     await hide();
   }
 
-  static Future<bool> hide() {
-    if (_dialog == null) {
-      return Future.value(true);
-    }
+  static Future<bool> hide() async {
+    if (_dialog == null) return true;
 
-    return _dialog!.hide()..then((_) => _dialog = null);
+    try {
+      final result = await _dialog!.hide();
+      return result;
+    } catch (e) {
+      return true;
+    } finally {
+      _dialog = null;
+      _currentContext = null;
+    }
+  }
+
+  static bool _isDialogValid() {
+    return _dialog != null &&
+        _currentContext != null &&
+        _currentContext!.mounted;
   }
 }
