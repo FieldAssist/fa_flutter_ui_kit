@@ -114,6 +114,8 @@ class DialogUtils {
     required DateRangeSelected dateRangeSelected,
     bool showMtdL3m = false,
     int shiftEndDate = 0,
+    double? rowCellHeight,
+    double? rowCellWidth,
   }) {
     showDialog(
       barrierColor: Colors.white.withOpacity(0.1),
@@ -138,6 +140,8 @@ class DialogUtils {
           ),
           content: RangeCalendar(
             startDate: startDate,
+            cellWidth: rowCellWidth,
+            rowCellHeight: rowCellHeight,
             endDate: endDate,
             dayDiff: dayDiff,
             dateRangeSelected: dateRangeSelected,
