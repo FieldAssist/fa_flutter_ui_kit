@@ -68,7 +68,7 @@ class ExitDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     color: leftButtonColor ?? AppColors.kAllProductAppBar,
-                    height: 30,
+                    height: 40,
                     child: Text(
                       leftActionButtonText ?? 'NO',
                       style: _btnTextStyle,
@@ -88,7 +88,7 @@ class ExitDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     color: rightButtonColor ?? AppColors.kAllProductAppBar,
-                    height: 30,
+                    height: 40,
                     child: Text(
                       rightActionButtonText ?? 'YES',
                       style: _btnTextStyle,
