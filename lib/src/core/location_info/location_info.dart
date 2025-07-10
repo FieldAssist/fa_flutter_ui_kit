@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
@@ -67,15 +68,22 @@ class LocationInfoImpl implements LocationInfo {
   @override
   Future initLocation() async {
     if (isMobile) {
-      final permissionStatus = await isLocationPermissionGranted();
+      /// For iOS, location will be asked at day start time so not showing this
+      /// on Splash page.
+      /// This is done because iOS app gets rejected if we ask for location
+      /// on splash and if it is disabled, user is asked to turn on the location
+      /// to use the app
+      if(!Platform.isIOS){
+        final permissionStatus = await isLocationPermissionGranted();
 
-      if (!permissionStatus) {
-        if (navKey != null) {
-          await DialogUtils.showAlertDialog(
-              title: 'Location Permission Required!',
-              content: defaultLocationReason,
-              actionText: 'Continue',
-              navKey: navKey!);
+        if (!permissionStatus) {
+          if (navKey != null) {
+            await DialogUtils.showAlertDialog(
+                title: 'Location Permission Required!',
+                content: defaultLocationReason,
+                actionText: 'Continue',
+                navKey: navKey!);
+          }
         }
       }
 
