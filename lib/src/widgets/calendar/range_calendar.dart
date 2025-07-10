@@ -11,6 +11,8 @@ class RangeCalendar extends StatefulWidget {
   final DateRangeSelected dateRangeSelected;
   final bool showMtdL3m;
   final int shiftEndDate;
+  final double? rowCellHeight;
+  final double? cellWidth;
 
   const RangeCalendar({
     Key? key,
@@ -20,6 +22,8 @@ class RangeCalendar extends StatefulWidget {
     required this.dateRangeSelected,
     this.showMtdL3m = false,
     this.shiftEndDate = 0,
+    this.cellWidth,
+    this.rowCellHeight,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,7 @@ class _WidgetStateRC extends State<RangeCalendar> {
   @override
   void initState() {
     super.initState();
+    updateCalendarConstraints();
     _start = true;
     _date1 = widget.startDate;
     _date2 = widget.endDate;
@@ -54,6 +59,16 @@ class _WidgetStateRC extends State<RangeCalendar> {
       return _date2;
     }
     return _date1;
+  }
+
+  void updateCalendarConstraints() {
+    if (widget.cellWidth != null) {
+      dayCellWidth = widget.cellWidth ?? 28;
+    }
+
+    if (widget.rowCellHeight != null) {
+      weekRowHeight = widget.rowCellHeight ?? 32;
+    }
   }
 
   @override
