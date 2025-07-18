@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
-class CustomAppBar extends AppBar {
-  CustomAppBar({
+class BaseCustomAppBar extends AppBar {
+  BaseCustomAppBar({
     Widget? leading,
     required Widget title,
     List<Widget>? actions,
