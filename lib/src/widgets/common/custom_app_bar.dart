@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show SystemUiOverlayStyle;
+import 'package:flutter/services.dart';
+
+import '../../config/colors.dart';
 
 class BaseAppBar extends AppBar {
   BaseAppBar({
     Widget? leading,
     required Widget title,
     List<Widget>? actions,
-    SystemUiOverlayStyle? systemOverlayStyle,
     PreferredSizeWidget? bottom,
     bool automaticallyImplyLeading = true,
     IconThemeData? iconTheme,
     bool? centerTitle,
-    Color? backgroundColor,
     double? leadingWidth,
-    double? titleSpacing,
-    double? toolbarHeight,
-    double? elevation,
-    Color? shadowColor,
-    bool forceMaterialTransparency = false,
   }) : super(
-          systemOverlayStyle: systemOverlayStyle,
-          elevation: elevation,
-          toolbarHeight: toolbarHeight,
+          systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+            statusBarColor: AppColors.kBlueColor.shade25,
+          ),
+          elevation: 0,
+          toolbarHeight: 60,
+          automaticallyImplyLeading: automaticallyImplyLeading,
           iconTheme: iconTheme,
-          forceMaterialTransparency: forceMaterialTransparency,
-          titleSpacing: titleSpacing,
+          titleSpacing: 8,
           leadingWidth: leadingWidth,
           centerTitle: centerTitle,
-          automaticallyImplyLeading: automaticallyImplyLeading,
-          backgroundColor: backgroundColor,
-          shadowColor: shadowColor,
+          backgroundColor: AppColors.kBlueColor.shade25,
           leading: leading,
           title: title,
           actions: [
