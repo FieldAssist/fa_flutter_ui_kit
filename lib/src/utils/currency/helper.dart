@@ -7,12 +7,14 @@ class CurrencyUtil {
   bool companyUsesFrenchForCurrencyConversion;
   int decimalDigits;
   final CurrencyLocale locale;
+  final bool useCompactFormat;
 
   CurrencyUtil({
     this.isInternationalCompany = false,
     this.companyUsesFrenchForCurrencyConversion = false,
     this.decimalDigits = 2,
     this.locale = CurrencyLocale.indian,
+    this.useCompactFormat = false,
   });
 
   bool get isArabic => locale == CurrencyLocale.arabic;
@@ -35,7 +37,8 @@ class CurrencyUtil {
   }
 
   String formatNumber(num inputValue,
-      {bool compact = false, int? passedDecimalDigits}) {
+      {bool? compact, int? passedDecimalDigits}) {
+    final useCompact = compact ?? useCompactFormat;
     final normalizedValue = roundNumber(inputValue);
     final compactResult = _getCompactFormatResult(normalizedValue);
     final compactValue = compactResult.value;
@@ -44,7 +47,7 @@ class CurrencyUtil {
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
-      if (!compact || !compactResult.wasCompacted) {
+      if (!useCompact || !compactResult.wasCompacted) {
         final formatted = localFormatter.format(normalizedValue);
         return isArabic ? _convertToArabicIndicDigits(formatted) : formatted;
       }
@@ -56,7 +59,7 @@ class CurrencyUtil {
       return '$result${compactResult.suffix}';
     } catch (e) {
       final value = normalizedValue.toStringAsFixed(usedDecimalDigits);
-      return compact
+      return useCompact
           ? '${isArabic ? _convertToArabicIndicDigits(value) : value} (${locale.localeCode})'
           : (isArabic ? _convertToArabicIndicDigits(value) : value);
     }
@@ -80,10 +83,10 @@ class CurrencyUtil {
     }
   }
 
-  String getFormattedInrDouble(num amount, {bool compact = true}) =>
+  String getFormattedInrDouble(num amount, {bool? compact}) =>
       formatNumber(amount, compact: compact);
   String getFormattedInrInt(num amount) => formatCurrency(amount);
-  String getFormattedIntDouble2Places(num amount, {bool compact = true}) =>
+  String getFormattedIntDouble2Places(num amount, {bool? compact}) =>
       formatNumber(amount, compact: compact, passedDecimalDigits: 2);
 
   static CurrencyUtil fromLocaleCode(
