@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/src/config/colors.dart' show AppColors;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,11 +24,14 @@ class MyTheme {
         primaryColorDark: _primaryColorDark,
         hintColor: _hintColor,
         appBarTheme: AppBarTheme(
-          titleSpacing: 0,
+          elevation: 0,
+          titleSpacing: 8,
+          toolbarHeight: 60,
           color: Colors.white,
-          elevation: 2,
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+          backgroundColor: AppColors.kBlueColor.shade25,
+          systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+            statusBarColor: AppColors.kBlueColor.shade25,
+          ),
         ),
         fontFamily: font,
         fontFamilyFallback: ['Roboto', 'SanFrancisco', 'Halvetica'],
@@ -48,9 +52,14 @@ class MyTheme {
         brightness: Brightness.dark,
         useMaterial3: false,
         appBarTheme: AppBarTheme(
-          elevation: 2,
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+          elevation: 0,
+          titleSpacing: 8,
+          toolbarHeight: 60,
+          color: Colors.white,
+          backgroundColor: AppColors.kBlueColor.shade25,
+          systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+            statusBarColor: AppColors.kBlueColor.shade25,
+          ),
         ),
         fontFamily: font,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: _primarySwatch)
