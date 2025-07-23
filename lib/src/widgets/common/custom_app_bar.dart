@@ -14,9 +14,6 @@ class BaseAppBar extends AppBar {
     bool? centerTitle,
     double? leadingWidth,
   }) : super(
-          systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-            statusBarColor: AppColors.kBlueColor.shade25,
-          ),
           elevation: 0,
           toolbarHeight: 60,
           automaticallyImplyLeading: automaticallyImplyLeading,
