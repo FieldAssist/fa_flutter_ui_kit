@@ -7,14 +7,14 @@ class CurrencyUtil {
   bool companyUsesFrenchForCurrencyConversion;
   int decimalDigits;
   final CurrencyLocale locale;
-  final bool isCompact;
+  final bool useCompactFormat;
 
   CurrencyUtil({
     this.isInternationalCompany = false,
     this.companyUsesFrenchForCurrencyConversion = false,
     this.decimalDigits = 2,
     this.locale = CurrencyLocale.indian,
-    this.isCompact = false,
+    this.useCompactFormat = false,
   });
 
   bool get isArabic => locale == CurrencyLocale.arabic;
@@ -38,7 +38,7 @@ class CurrencyUtil {
 
   String formatNumber(num inputValue,
       {bool? compact, int? passedDecimalDigits}) {
-    final useCompact = compact ?? isCompact;
+    final useCompact = compact ?? useCompactFormat;
     final normalizedValue = roundNumber(inputValue);
     final compactResult = _getCompactFormatResult(normalizedValue);
     final compactValue = compactResult.value;
