@@ -33,6 +33,11 @@ class MyTheme {
             statusBarColor: AppColors.kBlueColor.shade25,
           ),
         ),
+        cardTheme: CardTheme(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        dividerColor: AppColors.kBorderColor,
         fontFamily: font,
         fontFamilyFallback: ['Roboto', 'SanFrancisco', 'Halvetica'],
         scaffoldBackgroundColor: _scaffoldBackgroundColor,
