@@ -27,7 +27,6 @@ class MyTheme {
           elevation: 0,
           titleSpacing: 8,
           toolbarHeight: 60,
-          color: Colors.white,
           backgroundColor: AppColors.kBlueColor.shade25,
           systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
             statusBarColor: AppColors.kBlueColor.shade25,
@@ -55,7 +54,6 @@ class MyTheme {
           elevation: 0,
           titleSpacing: 8,
           toolbarHeight: 60,
-          color: Colors.white,
           backgroundColor: AppColors.kBlueColor.shade25,
           systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
             statusBarColor: AppColors.kBlueColor.shade25,
