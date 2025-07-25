@@ -43,7 +43,7 @@ class CurrencyUtil {
     final compactResult = _getCompactFormatResult(normalizedValue);
     final compactValue = compactResult.value;
     final usedDecimalDigits = passedDecimalDigits ??
-        ((compactValue % 1 != 0 || inputValue % 1 != 0) ? decimalDigits : 0);
+        (( (useCompact && compactValue % 1 != 0) || inputValue % 1 != 0) ? decimalDigits : 0);
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
