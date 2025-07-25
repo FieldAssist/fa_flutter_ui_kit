@@ -73,7 +73,7 @@ class LocationInfoImpl implements LocationInfo {
       /// This is done because iOS app gets rejected if we ask for location
       /// on splash and if it is disabled, user is asked to turn on the location
       /// to use the app
-      if(!Platform.isIOS){
+      if (!Platform.isIOS) {
         final permissionStatus = await isLocationPermissionGranted();
 
         if (!permissionStatus) {
