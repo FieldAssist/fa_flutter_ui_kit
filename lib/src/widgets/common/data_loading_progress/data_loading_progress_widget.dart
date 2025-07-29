@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../../../constants/svgs.dart';
 import '../../../utils/log_utils.dart';
 
 enum apiStatus {
@@ -119,8 +120,8 @@ class DataLoadingProgressWidget extends StatelessWidget {
                                   status == apiStatus.pending)
                                 SvgPicture.asset(
                                   status == apiStatus.success
-                                      ? "assets/svg/check.svg"
-                                      : "assets/svg/check_mark_rounded.svg",
+                                      ? Svgs.checkSvg
+                                      : Svgs.checkMarkRounded,
                                   height: 20,
                                   width: 20,
                                   package: 'fa_flutter_ui_kit',
