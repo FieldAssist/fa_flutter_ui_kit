@@ -6,7 +6,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../../constants/svgs.dart';
 import '../../../utils/log_utils.dart';
 
-enum apiStatus {
+enum ApiStatus {
   pending,
   success,
   failed,
@@ -17,7 +17,7 @@ enum apiStatus {
 /// * [kText] : all translated text should be write in list with correct index to display
 class DataLoadingProgressWidget extends StatelessWidget {
   final Stream<DataLoadingProgress> dataProgressStream;
-  final Stream<Map<String, apiStatus>> entityStatusStream;
+  final Stream<Map<String, ApiStatus>> entityStatusStream;
   final ItemScrollController scrollController;
   final List? kTexts;
   final bool? hideScrollList;
@@ -77,7 +77,7 @@ class DataLoadingProgressWidget extends StatelessWidget {
 
         /// Entity Status List
         if (hideScrollList == false)
-          StreamBuilder<Map<String, apiStatus>>(
+          StreamBuilder<Map<String, ApiStatus>>(
             stream: entityStatusStream,
             builder: (_, snapshot) {
               final mapData = snapshot.data ?? {};
@@ -116,10 +116,10 @@ class DataLoadingProgressWidget extends StatelessWidget {
                               top: 10, bottom: 10, left: 50),
                           child: Row(
                             children: [
-                              if (status == apiStatus.success ||
-                                  status == apiStatus.pending)
+                              if (status == ApiStatus.success ||
+                                  status == ApiStatus.pending)
                                 SvgPicture.asset(
-                                  status == apiStatus.success
+                                  status == ApiStatus.success
                                       ? Svgs.checkSvg
                                       : Svgs.checkMarkRounded,
                                   height: 20,
