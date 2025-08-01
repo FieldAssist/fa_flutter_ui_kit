@@ -27,6 +27,10 @@ class AppColors {
 
   static Color colorGreenLight = Color(0xFF4BA42A);
 
+  static const Color kAppBgGradientColor1 = Color(0xFFF4FAFF);
+  
+  static const Color kAppBgGradientColor2 = Color(0xFFFAFDFF);
+
   /// Blue Color
   static const AppMaterialColor kBlueColor = AppMaterialColor(
     0xFF118AB2,

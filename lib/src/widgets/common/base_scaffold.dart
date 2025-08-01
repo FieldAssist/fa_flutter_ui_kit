@@ -38,11 +38,11 @@ class BaseScaffold extends Scaffold {
                   ? gradient
                   : backgroundColor == null
                       ? LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                           colors: [
-                            Colors.white,
-                            AppColors.kBlueColor.shade25,
+                            AppColors.kAppBgGradientColor1,
+                            AppColors.kAppBgGradientColor2,
                           ],
                         )
                       : null,
