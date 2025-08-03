@@ -109,6 +109,7 @@ class CurrencyUtil {
       getDecimalVal(value);
 
   double getDecimalVal(num value) {
+    if (value.abs() < 1e-12) return 0.0;
     final _amt = Decimal.parse(value.toString());
 
     final epsilon = Decimal.parse("0.00000000000001");
