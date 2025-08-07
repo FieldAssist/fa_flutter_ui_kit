@@ -21,6 +21,8 @@ class AppColors {
 
   static Color kCustomDarkBlue = Color(0xFF005486);
 
+  static Color kDarkBlue = Color(0xFF072A72);
+
   static Color kOutlinedIconButtonBackgroundColor = Color(0xffFAFAFA);
 
   static Color kOutlinedIconButtonBorderColor = Color(0xffDCDCDC);
@@ -35,4 +37,6 @@ class AppColors {
     },
   );
   static const Color kLightGrey = Color(0xFF666666);
+
+  static const Color kLightBlue = Color(0xFFEDF6FF);
 }

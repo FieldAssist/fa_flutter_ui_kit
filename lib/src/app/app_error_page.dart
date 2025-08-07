@@ -14,9 +14,9 @@ class AppErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Column(
+      home: SafeArea(
+        child: BaseScaffold(
+          appBody: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               getWidget(),
@@ -37,10 +37,12 @@ class AppErrorPage extends StatelessWidget {
         pop: false,
       );
     } else {
-      return UnknownErrorWidget(
-        onRetryTap ?? () {},
-        pop: false,
-        message: e?.toString() ?? Constants.errorSomethingWentWrong,
+      return Center(
+        child: UnknownErrorWidget(
+          onRetryTap ?? () {},
+          pop: false,
+          message: e?.toString() ?? Constants.errorSomethingWentWrong,
+        ),
       );
     }
   }

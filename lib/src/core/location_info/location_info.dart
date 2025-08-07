@@ -73,7 +73,7 @@ class LocationInfoImpl implements LocationInfo {
       /// This is done because iOS app gets rejected if we ask for location
       /// on splash and if it is disabled, user is asked to turn on the location
       /// to use the app
-      if(!Platform.isIOS){
+      if (!Platform.isIOS) {
         final permissionStatus = await isLocationPermissionGranted();
 
         if (!permissionStatus) {
@@ -88,20 +88,24 @@ class LocationInfoImpl implements LocationInfo {
       }
 
       final permission = await Geolocator.requestPermission();
+
       final geolocationStatus = await Geolocator.isLocationServiceEnabled();
+      if (!geolocationStatus) {
+        throw LocationException('Oops! Location is turned off');
+      }
+      if (!_isPermissionGranted(permission)) {
+        throw LocationException('Please Allow Location Permission');
+      }
+
+      final accuracy = await Geolocator.getLocationAccuracy();
+      if (accuracy == LocationAccuracyStatus.reduced) {
+        throw LocationException(
+          'Please Enable Precise Location',
+        );
+      }
 
       if (_isPermissionGranted(permission) && geolocationStatus) {
         await _fetchLocation();
-      } else if (!geolocationStatus) {
-        throw LocationException(
-          'Location setting on your device is off.'
-          ' Please enable to proceed!\n$defaultLocationReason',
-        );
-      } else if (!_isPermissionGranted(permission)) {
-        throw LocationException(
-          'Please enable Location Permission to the App!'
-          '\n$defaultLocationReason',
-        );
       } else {
         throw LocationException(
           '${Constants.locationNotAvailable}\n$defaultLocationReason',
