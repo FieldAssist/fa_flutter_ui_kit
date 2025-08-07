@@ -5,18 +5,20 @@ class AppErrorPage extends StatelessWidget {
   const AppErrorPage(
     this.e, {
     this.onRetryTap,
+    this.hasSettingButton = false,
   });
 
   final dynamic e;
   final VoidCallback? onRetryTap;
+  final bool hasSettingButton;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Column(
+      home: SafeArea(
+        child: BaseScaffold(
+          appBody: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               getWidget(),
@@ -32,15 +34,18 @@ class AppErrorPage extends StatelessWidget {
     // if (e is LocationException) {
     if (e is LocationException) {
       return LocationErrorWidget(
+        hasSettingButton: hasSettingButton,
         error: e.toString(),
         onRefreshTap: onRetryTap ?? () {},
         pop: false,
       );
     } else {
-      return UnknownErrorWidget(
-        onRetryTap ?? () {},
-        pop: false,
-        message: e?.toString() ?? Constants.errorSomethingWentWrong,
+      return Center(
+        child: UnknownErrorWidget(
+          onRetryTap ?? () {},
+          pop: false,
+          message: e?.toString() ?? Constants.errorSomethingWentWrong,
+        ),
       );
     }
   }

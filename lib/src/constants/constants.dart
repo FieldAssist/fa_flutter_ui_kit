@@ -3,13 +3,7 @@ class Constants {
 
   static const String errorSomethingWentWrong = "Oops! Something went wrong.";
 
-  static const String locationNotAvailable =
-      "Location not available!\n\nPlease try following things:\n\n-"
-      " Check location is on"
-      " and is set to High Accuracy\n- Check if location permission"
-      " to the app is enabled\n- Close the App and open Google Maps. "
-      "If location gets available to Maps then reopen this App."
-      " It will detect location.";
+  static const String locationNotAvailable = "Location not available!";
 
   static const String errorInternetError =
       "Internet not available\nPlease check your wifi or mobile data";

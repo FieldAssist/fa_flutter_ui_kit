@@ -57,7 +57,7 @@ class LocationInfoImpl implements LocationInfo {
     final loc = _deviceLocation.value;
     if (loc == null) {
       throw LocationException(
-        '${Constants.locationNotAvailable}\n$defaultLocationReason',
+        '${Constants.locationNotAvailable}',
       );
     }
     return loc;
@@ -73,7 +73,7 @@ class LocationInfoImpl implements LocationInfo {
       /// This is done because iOS app gets rejected if we ask for location
       /// on splash and if it is disabled, user is asked to turn on the location
       /// to use the app
-      if(!Platform.isIOS){
+      if (!Platform.isIOS) {
         final permissionStatus = await isLocationPermissionGranted();
 
         if (!permissionStatus) {
@@ -88,23 +88,27 @@ class LocationInfoImpl implements LocationInfo {
       }
 
       final permission = await Geolocator.requestPermission();
+
       final geolocationStatus = await Geolocator.isLocationServiceEnabled();
+      if (!geolocationStatus) {
+        throw LocationException('Oops! Location is turned off');
+      }
+      if (!_isPermissionGranted(permission)) {
+        throw LocationException('Please Allow Location Permission');
+      }
+
+      final accuracy = await Geolocator.getLocationAccuracy();
+      if (accuracy == LocationAccuracyStatus.reduced) {
+        throw LocationException(
+          'Please Enable Precise Location',
+        );
+      }
 
       if (_isPermissionGranted(permission) && geolocationStatus) {
         await _fetchLocation();
-      } else if (!geolocationStatus) {
-        throw LocationException(
-          'Location setting on your device is off.'
-          ' Please enable to proceed!\n$defaultLocationReason',
-        );
-      } else if (!_isPermissionGranted(permission)) {
-        throw LocationException(
-          'Please enable Location Permission to the App!'
-          '\n$defaultLocationReason',
-        );
       } else {
         throw LocationException(
-          '${Constants.locationNotAvailable}\n$defaultLocationReason',
+          '${Constants.locationNotAvailable}',
         );
       }
     } else {
@@ -184,7 +188,7 @@ class LocationInfoImpl implements LocationInfo {
       //prefsHelper.lastLocation = jsonEncode(_deviceLocation.value.toJson());
     } else {
       throw LocationException(
-        '${Constants.locationNotAvailable}\n$defaultLocationReason',
+        '${Constants.locationNotAvailable}',
       );
     }
   }
@@ -224,7 +228,7 @@ class LocationInfoImpl implements LocationInfo {
       });
       if (position == null) {
         throw LocationException(
-          '${Constants.locationNotAvailable}\n$defaultLocationReason',
+          '${Constants.locationNotAvailable}',
         );
       } else {
         await _onLocationFetch(position);
@@ -248,7 +252,7 @@ class LocationInfoImpl implements LocationInfo {
     location = await _getLocation();
     if (location == null) {
       throw LocationException(
-        '${Constants.locationNotAvailable}\n$defaultLocationReason',
+        '${Constants.locationNotAvailable}',
       );
     }
     await _onLocationFetch(location);
@@ -258,7 +262,7 @@ class LocationInfoImpl implements LocationInfo {
     final isTimerActive = locationCheckTimer?.isActive ?? false;
     if (!isTimerActive) {
       locationCheckTimer =
-          Timer.periodic(const Duration(seconds: 4), (t) async {
+          Timer.periodic(const Duration(seconds: 1), (t) async {
         final _checkPermission = await isLocationPermissionGranted();
         final geolocationStatus = await isLocationEnabled();
         if (!_checkPermission || !geolocationStatus) {
@@ -269,10 +273,16 @@ class LocationInfoImpl implements LocationInfo {
                 builder: (_) => AppErrorPage(
                   LocationException(
                     '${Constants.locationNotAvailable}'
-                    '\n$defaultLocationReason',
+                        '',
                   ),
                   onRetryTap: () async {
-                    await initLocation();
+                    final _checkPermission = await isLocationPermissionGranted();
+                    final geolocationStatus = await isLocationEnabled();
+                    if(_checkPermission && geolocationStatus) {
+                      navKey!.currentState?.pop();
+                      _startLocationServiceCheckTimer();
+                      await initLocation();
+                    }
                   },
                 ),
               ),
@@ -313,7 +323,7 @@ class LocationInfoImpl implements LocationInfo {
       /// TODO(@singhtaranjeet): Do not throw only LocationException on every exception
       /// Use different exception for different cases
       throw LocationException(
-        '${Constants.locationNotAvailable}\n$defaultLocationReason',
+        '${Constants.locationNotAvailable}',
       );
     }
   }
