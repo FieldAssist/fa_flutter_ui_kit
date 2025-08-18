@@ -29,7 +29,8 @@ abstract class FaSafeDevicePlatform extends PlatformInterface {
 
   Future<bool> isAutoTimeZoneEnabled() {
     throw UnimplementedError(
-        'isAutoTimeZoneEnabled() has not been implemented.');
+      'isAutoTimeZoneEnabled() has not been implemented.',
+    );
   }
 
   Future<bool> isAutoTimeEnabled() {
@@ -38,6 +39,7 @@ abstract class FaSafeDevicePlatform extends PlatformInterface {
 
   Future<bool> isDeveloperModeEnabled() {
     throw UnimplementedError(
-        'isDeveloperModeEnabled() has not been implemented.');
+      'isDeveloperModeEnabled() has not been implemented.',
+    );
   }
 }

@@ -31,6 +31,7 @@ class QtyInputTextBox extends StatefulWidget {
     this.onQtyBoxTap,
     Key? key,
     this.isReadOnly,
+    this.editStepValue = 1,
   }) : super(key: key);
 
   final TextEditingController textController;
@@ -64,6 +65,8 @@ class QtyInputTextBox extends StatefulWidget {
 
   final int? minValue;
 
+  final num editStepValue;
+
   @override
   _QtyInputTextBoxState createState() => _QtyInputTextBoxState();
 }
@@ -72,6 +75,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
   StreamSubscription<String?>? _keyboardValueSubs;
   bool _isAddButtonEnabled = true;
   late final NoKeyboardEditableTextFocusNode _focusNode;
+
   TextEditingController get textController => widget.textController;
 
   @override
@@ -256,8 +260,10 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     }
     FocusScope.of(context).requestFocus(_focusNode);
     final newValue = double.tryParse(textController.text) ?? 0;
-    final decreasedValue = newValue > 0 ? newValue - 1 : 0;
-    final newText = decreasedValue.toInt().toString();
+    final decreasedValue = newValue > 0 ? newValue - widget.editStepValue : 0;
+    final newText =
+        (decreasedValue.isDouble ? decreasedValue : decreasedValue.toInt())
+            .toString();
     final newSelection = TextSelection.fromPosition(
       TextPosition(offset: newText.length),
     );
@@ -272,8 +278,10 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     }
     FocusScope.of(context).requestFocus(_focusNode);
     final newValue = double.tryParse(textController.text) ?? 0;
-    final increasedValue = newValue + 1;
-    final newText = increasedValue.toInt().toString();
+    final increasedValue = newValue + widget.editStepValue;
+    final newText =
+        (increasedValue.isDouble ? increasedValue : increasedValue.toInt())
+            .toString();
     final newSelection = TextSelection.fromPosition(
       TextPosition(offset: newText.length),
     );
@@ -339,4 +347,8 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     _unsubscribeFromKeyboardEvents();
     super.dispose();
   }
+}
+
+extension NumX on num {
+  bool get isDouble => this % 1 > 0;
 }

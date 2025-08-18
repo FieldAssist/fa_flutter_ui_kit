@@ -273,12 +273,13 @@ class LocationInfoImpl implements LocationInfo {
                 builder: (_) => AppErrorPage(
                   LocationException(
                     '${Constants.locationNotAvailable}'
-                        '',
+                    '',
                   ),
                   onRetryTap: () async {
-                    final _checkPermission = await isLocationPermissionGranted();
+                    final _checkPermission =
+                        await isLocationPermissionGranted();
                     final geolocationStatus = await isLocationEnabled();
-                    if(_checkPermission && geolocationStatus) {
+                    if (_checkPermission && geolocationStatus) {
                       navKey!.currentState?.pop();
                       _startLocationServiceCheckTimer();
                       await initLocation();

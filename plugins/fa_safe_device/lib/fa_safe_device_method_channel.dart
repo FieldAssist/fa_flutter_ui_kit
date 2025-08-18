@@ -11,28 +11,32 @@ class MethodChannelFaSafeDevice extends FaSafeDevicePlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version = await methodChannel.invokeMethod<String>(
+      'getPlatformVersion',
+    );
     return version;
   }
 
   @override
   Future<bool> isAutoTimeZoneEnabled() async {
-    final isAutoTimeZoneEnabled =
-        await methodChannel.invokeMethod<bool>('isAutoTimeZoneEnabled');
+    final isAutoTimeZoneEnabled = await methodChannel.invokeMethod<bool>(
+      'isAutoTimeZoneEnabled',
+    );
     return isAutoTimeZoneEnabled ?? false;
   }
 
   @override
   Future<bool> isAutoTimeEnabled() async {
-    final isAutoTimeEnabled =
-        await methodChannel.invokeMethod<bool>('isAutoTimeEnabled');
+    final isAutoTimeEnabled = await methodChannel.invokeMethod<bool>(
+      'isAutoTimeEnabled',
+    );
     return isAutoTimeEnabled ?? false;
   }
 
   @override
   Future<bool> isDeveloperModeEnabled() async {
-    final isDeveloperModeEnabled = await SafeDevice.isDevelopmentModeEnable ||
+    final isDeveloperModeEnabled =
+        await SafeDevice.isDevelopmentModeEnable ||
         await SafeDevice.isMockLocation;
     return isDeveloperModeEnabled;
   }
