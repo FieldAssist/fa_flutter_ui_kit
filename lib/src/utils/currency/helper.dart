@@ -5,14 +5,14 @@ import 'package:fa_flutter_ui_kit/src/utils/currency/models.dart';
 class CurrencyUtil {
   bool isInternationalCompany;
   bool companyUsesFrenchForCurrencyConversion;
-  int decimalDigits;
+  int? decimalDigits;
   final CurrencyLocale locale;
   final bool useCompactFormat;
 
   CurrencyUtil({
     this.isInternationalCompany = false,
     this.companyUsesFrenchForCurrencyConversion = false,
-    this.decimalDigits = 2,
+    this.decimalDigits,
     this.locale = CurrencyLocale.indian,
     this.useCompactFormat = false,
   });
@@ -42,8 +42,11 @@ class CurrencyUtil {
     final normalizedValue = roundNumber(inputValue);
     final compactResult = _getCompactFormatResult(normalizedValue);
     final compactValue = compactResult.value;
-    final usedDecimalDigits = passedDecimalDigits ??
-        ((compactValue % 1 != 0 || inputValue % 1 != 0) ? decimalDigits : 0);
+    final int usedDecimalDigits = (passedDecimalDigits ??
+        decimalDigits ??
+        (((useCompact && compactValue % 1 != 0) || inputValue % 1 != 0)
+            ? 2
+            : 0));
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
@@ -69,8 +72,8 @@ class CurrencyUtil {
     num value, {
     int? passedDecimalDigits,
   }) {
-    final usedDecimalDigits =
-        passedDecimalDigits ?? (value % 1 == 0 ? 0 : decimalDigits);
+    final int usedDecimalDigits =
+        (passedDecimalDigits ?? decimalDigits ?? (value % 1 == 0 ? 0 : 2));
     final normalizedValue = roundNumber(value);
 
     final localFormatter = locale.getCurrencyFormat(usedDecimalDigits);
@@ -106,6 +109,7 @@ class CurrencyUtil {
       getDecimalVal(value);
 
   double getDecimalVal(num value) {
+    if (value.abs() < 1e-12) return 0.0;
     final _amt = Decimal.parse(value.toString());
 
     final epsilon = Decimal.parse("0.00000000000001");
