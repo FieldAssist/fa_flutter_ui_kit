@@ -37,7 +37,7 @@ class QtyInputTextBox extends StatefulWidget {
   final TextEditingController textController;
   final void Function(String?) onInputChange;
   final KeyboardController? keyboardController;
-  final int? prefillValue;
+  final num? prefillValue;
   final int? maxValue;
   final bool showError;
   final bool showButtons;
