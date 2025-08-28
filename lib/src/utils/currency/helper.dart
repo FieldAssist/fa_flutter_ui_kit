@@ -103,6 +103,9 @@ class CurrencyUtil {
       getDecimalVal(value);
 
   double getDecimalVal(num value) {
+    // If value is effectively zero, skip epsilon
+    if (value.abs() < 0.0000001) return 0.0;
+
     final _amt = Decimal.parse(value.toString());
 
     final epsilon = Decimal.parse("0.00000000000001");
