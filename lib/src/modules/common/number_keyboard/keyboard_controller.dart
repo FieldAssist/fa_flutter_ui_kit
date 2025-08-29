@@ -8,7 +8,12 @@ class KeyboardController {
 
   final _showKeyboardSubject = BehaviorSubject<bool>.seeded(false);
   Stream<bool> get showKeyboard => _showKeyboardSubject.stream;
-  void toggleKeyboardVisibility(value) => _showKeyboardSubject.add(value);
+  void toggleKeyboardVisibility(value) {
+    if (value == (_showKeyboardSubject.valueOrNull ?? false)) {
+      return;
+    }
+    _showKeyboardSubject.add(value);
+  }
 
   void dispose() {
     _keyboardInputSubject.close();
