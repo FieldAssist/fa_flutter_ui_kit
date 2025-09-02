@@ -93,7 +93,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
 
   void init() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      textController.text = widget.prefillValue?.toString() ?? '';
+      if (widget.prefillValue != null) {
+        textController.text = widget.prefillValue.toString();
+      }
     });
   }
 
