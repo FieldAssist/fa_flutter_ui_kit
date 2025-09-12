@@ -254,13 +254,6 @@ class ModelYear {
     final effectiveStartDate =
         rangeStartDate ?? effectiveEndDate.subtract(const Duration(days: 90));
 
-    final totalDays =
-        effectiveEndDate.difference(effectiveStartDate).inDays + 1;
-
-    logger.d("StartDate: $effectiveStartDate");
-    logger.d("EndDate:   $effectiveEndDate");
-    logger.d("Total Days: $totalDays");
-
     final startMonth = effectiveStartDate.month;
     final endMonth = effectiveEndDate.month;
     var startDay = effectiveStartDate.day;
