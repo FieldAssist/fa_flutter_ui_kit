@@ -244,74 +244,106 @@ class ModelYear {
   }
 
   factory ModelYear.forRange(
-    DateTime endDate,
     DateTime? rangeStartDate,
     DateTime? rangeEndDate,
-    int dayDiff,
   ) {
     final months = <ModelMonth>[];
-    /*int numberOfDays = dateUtility.daysInMonth(day.month, day.year);
-    numberOfDays = remaining > numberOfDays;*/
-    final startDate = endDate.subtract(Duration(days: dayDiff - 1));
-    logger.d(startDate.toString());
-    logger.d(endDate.toString());
-    final start = startDate.month;
-    final end = endDate.month;
-    var startDay = startDate.day;
-    if (start < end) {
-      for (var i = start; i <= end; i++) {
-        final _dateTime = DateTime(startDate.year, i, startDay);
-        var numberOfDays = dateUtility.daysInMonth(i, startDate.year);
-        final tempDays1 = numberOfDays - startDay + 1;
-        final tempDays2 = dayDiff > numberOfDays ? tempDays1 : dayDiff;
-        numberOfDays = startDay > 1 ? numberOfDays : tempDays2;
-        dayDiff = dayDiff - tempDays1 as int;
-        startDay = 1;
+
+    // If dates are null, fallback to last 90 days
+    final effectiveEndDate = rangeEndDate ?? DateTime.now();
+    final effectiveStartDate =
+        rangeStartDate ?? effectiveEndDate.subtract(const Duration(days: 90));
+
+    final totalDays =
+        effectiveEndDate.difference(effectiveStartDate).inDays + 1;
+
+    logger.d("StartDate: $effectiveStartDate");
+    logger.d("EndDate:   $effectiveEndDate");
+    logger.d("Total Days: $totalDays");
+
+    final startMonth = effectiveStartDate.month;
+    final endMonth = effectiveEndDate.month;
+    var startDay = effectiveStartDate.day;
+
+    if (effectiveStartDate.year == effectiveEndDate.year) {
+      // Same year
+      for (var i = startMonth; i <= endMonth; i++) {
+        final _dateTime = DateTime(effectiveStartDate.year, i, startDay);
+        var numberOfDays = dateUtility.daysInMonth(i, effectiveStartDate.year);
+
+        final remainingDays = effectiveEndDate.difference(_dateTime).inDays + 1;
+        numberOfDays =
+            remainingDays < numberOfDays ? remainingDays : numberOfDays;
+
         months.add(
           ModelMonth.forDay(
             _dateTime,
             numberOfDays,
-            rangeStartDate,
-            rangeEndDate,
+            effectiveStartDate,
+            effectiveEndDate,
           ),
         );
+
+        startDay = 1; // reset for next month
       }
     } else {
-      for (var i = start; i <= 12; i++) {
-        final _dateTime = DateTime(startDate.year, i, 1);
-        int numberOfDays = dateUtility.daysInMonth(i, startDate.year);
-        numberOfDays = dayDiff > numberOfDays ? numberOfDays : dayDiff;
-        final tempDays1 = numberOfDays - startDay + 1;
-        final tempDays2 = dayDiff > numberOfDays ? tempDays1 : dayDiff;
-        numberOfDays = startDay > 1 ? numberOfDays : tempDays2;
-        dayDiff = dayDiff - tempDays1;
+      // First year (from startMonth → Dec)
+      for (var i = startMonth; i <= 12; i++) {
+        final _dateTime = DateTime(effectiveStartDate.year, i, startDay);
+        var numberOfDays = dateUtility.daysInMonth(i, effectiveStartDate.year);
+
         months.add(
           ModelMonth.forDay(
             _dateTime,
             numberOfDays,
-            rangeStartDate,
-            rangeEndDate,
+            effectiveStartDate,
+            effectiveEndDate,
           ),
         );
+
+        startDay = 1;
       }
-      for (var i = 1; i <= end; i++) {
-        final _dateTime = DateTime(endDate.year, i, 1);
-        int numberOfDays = dateUtility.daysInMonth(i, endDate.year);
-        numberOfDays = dayDiff > numberOfDays ? numberOfDays : dayDiff;
-        final tempDays1 = numberOfDays - startDay + 1;
-        final tempDays2 = dayDiff > numberOfDays ? tempDays1 : dayDiff;
-        numberOfDays = startDay > 1 ? numberOfDays : tempDays2;
-        dayDiff = dayDiff - tempDays1;
+
+      // Middle full years (if any)
+      for (var y = effectiveStartDate.year + 1;
+          y < effectiveEndDate.year;
+          y++) {
+        for (var i = 1; i <= 12; i++) {
+          final _dateTime = DateTime(y, i, 1);
+          final numberOfDays = dateUtility.daysInMonth(i, y);
+
+          months.add(
+            ModelMonth.forDay(
+              _dateTime,
+              numberOfDays,
+              effectiveStartDate,
+              effectiveEndDate,
+            ),
+          );
+        }
+      }
+
+      // Last year (Jan → endMonth)
+      for (var i = 1; i <= endMonth; i++) {
+        final _dateTime = DateTime(effectiveEndDate.year, i, 1);
+        var numberOfDays = dateUtility.daysInMonth(i, effectiveEndDate.year);
+
+        // Trim last month to endDate
+        if (i == endMonth) {
+          numberOfDays = effectiveEndDate.day;
+        }
+
         months.add(
           ModelMonth.forDay(
             _dateTime,
             numberOfDays,
-            rangeStartDate,
-            rangeEndDate,
+            effectiveStartDate,
+            effectiveEndDate,
           ),
         );
       }
     }
+
     return ModelYear(months);
   }
 }

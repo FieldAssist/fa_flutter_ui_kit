@@ -249,7 +249,6 @@ class _ShowRangeCalendarDatePickerState
               context: context,
               startDate: DateTime.now(),
               endDate: DateTime.now(),
-              dayDiff: 365,
               shiftEndDate: 90,
               dateRangeSelected: (startDate, endDate) {
                 print('$startDate  $endDate');
