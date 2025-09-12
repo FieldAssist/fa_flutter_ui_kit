@@ -7,7 +7,6 @@ import 'widgets.dart';
 class RangeCalendar extends StatefulWidget {
   final DateTime startDate;
   final DateTime endDate;
-  final int dayDiff;
   final DateRangeSelected dateRangeSelected;
   final bool showMtdL3m;
   final int shiftEndDate;
@@ -18,7 +17,6 @@ class RangeCalendar extends StatefulWidget {
     Key? key,
     required this.startDate,
     required this.endDate,
-    required this.dayDiff,
     required this.dateRangeSelected,
     this.showMtdL3m = false,
     this.shiftEndDate = 0,
@@ -34,8 +32,6 @@ class _WidgetStateRC extends State<RangeCalendar> {
   late bool _start;
   DateTime? _date1;
   DateTime? _date2;
-  int? _dayDiff;
-  DateTime _currentDate = DateTime.now();
 
   @override
   void initState() {
@@ -44,7 +40,6 @@ class _WidgetStateRC extends State<RangeCalendar> {
     _start = true;
     _date1 = widget.startDate;
     _date2 = widget.endDate;
-    _dayDiff = widget.dayDiff;
   }
 
   DateTime? _startDate() {
@@ -116,34 +111,36 @@ class _WidgetStateRC extends State<RangeCalendar> {
           Expanded(
             flex: 1,
             child: Year.forRange(
-                _currentDate, _startDate(), _endDate(), _dayDiff ?? 365,
-                (date) {
-              setState(() {
-                if (_start) {
-                  if (_date1 != null) {
-                    _date1 = _date2 = null;
-                  }
-                  _date1 = _date2 = date;
-                } else {
-                  _date2 = date;
-                  if (widget.shiftEndDate != 0) {
-                    if (dateUtility.daysBetween(
-                            _date1 ?? DateTime.now(), date) >
-                        widget.shiftEndDate) {
-                      _date2 = _date1;
-                      _start = !_start;
-                      displaySnackbar(
-                        context: context,
-                        message:
-                            "Please select within ${widget.shiftEndDate} days from start date.",
-                        color: Colors.red,
-                      );
+              _startDate(),
+              _endDate(),
+              (date) {
+                setState(() {
+                  if (_start) {
+                    if (_date1 != null) {
+                      _date1 = _date2 = null;
+                    }
+                    _date1 = _date2 = date;
+                  } else {
+                    _date2 = date;
+                    if (widget.shiftEndDate != 0) {
+                      if (dateUtility.daysBetween(
+                              _date1 ?? DateTime.now(), date) >
+                          widget.shiftEndDate) {
+                        _date2 = _date1;
+                        _start = !_start;
+                        displaySnackbar(
+                          context: context,
+                          message:
+                              "Please select within ${widget.shiftEndDate} days from start date.",
+                          color: Colors.red,
+                        );
+                      }
                     }
                   }
-                }
-                _start = !_start;
-              });
-            }),
+                  _start = !_start;
+                });
+              },
+            ),
           ),
           Container(
             child: Align(
