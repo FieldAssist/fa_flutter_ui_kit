@@ -29,6 +29,10 @@ class AppColors {
 
   static Color colorGreenLight = Color(0xFF4BA42A);
 
+  static const Color kGreen = Color(0xFF0A9455);
+
+  static const Color kHomeYellow = Color(0xffF8C350);
+
   /// Blue Color
   static const AppMaterialColor kBlueColor = AppMaterialColor(
     0xFF118AB2,
@@ -37,6 +41,23 @@ class AppColors {
     },
   );
   static const Color kLightGrey = Color(0xFF666666);
+
+  static const Color kWhite = Colors.white;
+
+  static const Color kDarkBlue = Color(0xFF072A72);
+
+  static const Color kRedAlpha = Color(0xFFE13021);
+
+  static const Color kRed = Color(0xFFE13021);
+
+  static const Color kGreyBackground = Color(0xFFEEEEEE);
+}
+
+extension ColorExtensions on Color {
+  // Fixed withAlpha usage instead of withValues (which doesn't exist in Flutter)
+  Color withOpacityFactor(double opacity) {
+    return withAlpha((opacity * 255).round());
+  }
 
   static const Color kLightBlue = Color(0xFFEDF6FF);
 }
