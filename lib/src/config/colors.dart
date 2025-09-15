@@ -44,13 +44,12 @@ class AppColors {
 
   static const Color kWhite = Colors.white;
 
-  static const Color kDarkBlue = Color(0xFF072A72);
-
   static const Color kRedAlpha = Color(0xFFE13021);
 
   static const Color kRed = Color(0xFFE13021);
 
   static const Color kGreyBackground = Color(0xFFEEEEEE);
+  static const Color kLightBlue = Color(0xFFEDF6FF);
 }
 
 extension ColorExtensions on Color {
@@ -58,6 +57,4 @@ extension ColorExtensions on Color {
   Color withOpacityFactor(double opacity) {
     return withAlpha((opacity * 255).round());
   }
-
-  static const Color kLightBlue = Color(0xFFEDF6FF);
 }
