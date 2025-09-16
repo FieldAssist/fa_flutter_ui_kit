@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-abstract class AppThemeConfigProvider {
+abstract class AppThemeConfigProviderIR {
   LinearGradient? get appThemeGradient;
 
   Color get appThemePrimaryColor;
-  Color? get appThemeSecondaryColor;
 
+  Color? get appThemeSecondaryColor;
 }

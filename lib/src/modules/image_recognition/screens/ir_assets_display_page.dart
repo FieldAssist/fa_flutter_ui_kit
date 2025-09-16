@@ -10,7 +10,6 @@ import '../../../utils/log_utils.dart';
 import '../../common/app_texts.dart';
 import '../bloc/ir_bloc.dart';
 import '../configs/app_theme_config.dart';
-import '../configs/session_repo_ir.dart';
 import '../enum/image_upload_state_enum.dart';
 import 'ir_results_page.dart';
 import 'widgets/ir_asset_card.dart';
@@ -22,10 +21,7 @@ class IrAssetsDisplayPage extends StatefulWidget {
     required this.onProceed,
     required this.onProceedResultsPage,
     required this.navigatorKey,
-    required this.isJsrUser,
-    required this.sessionRepository,
     required this.irBloc,
-    required this.appThemeConfigProvider,
     this.reviewFlow = false,
     super.key,
   });
@@ -34,10 +30,7 @@ class IrAssetsDisplayPage extends StatefulWidget {
   final void Function() onProceedResultsPage;
   final GlobalKey<NavigatorState> navigatorKey;
   final bool reviewFlow;
-  final bool isJsrUser;
   final IrBloc irBloc;
-  final SessionRepositoryIR sessionRepository;
-  final AppThemeConfigProvider appThemeConfigProvider;
 
   @override
   State<IrAssetsDisplayPage> createState() => _IrAssetsDisplayPageState();
@@ -96,14 +89,15 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
         backgroundColor: AppColors.kWhite,
         appBar: AppBar(
           title: Text(
-              '${widget.isJsrUser ? AppTexts().kSKUAvailability : AppTexts().kImageRecognition}'),
+              '${widget.irBloc.irConfigs.isUserJsr ? AppTexts().kSKUAvailability : AppTexts().kImageRecognition}'),
           actions: [
             if (isDebug)
               IconButton(
                 onPressed: () async {
                   final cancel = BotToast.showLoading();
                   await widget.irBloc.irRepository.clearIrResponses(
-                    outletId: widget.sessionRepository.selectedOutletId,
+                    outletId: widget
+                        .irBloc.irConfigs.sessionRepositoryIR.selectedOutletId,
                   );
                   cancel();
                   BotToast.showText(text: 'Cleared IR db');
@@ -180,8 +174,7 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                           padding:
                               EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                           child: Text(
-                            "Hi \$UserName, select any asset to add image",
-                            //TODO: Update this
+                            "Hi ${widget.irBloc.irConfigs.userRepositoryIr.userName}, select any asset to add image",
                             style: TextStyle(
                               fontSize: 14,
                             ),
@@ -227,7 +220,7 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                             ),
                             SizedBox(height: 16),
                             Text(
-                                '${widget.isJsrUser ? AppTexts().kSKUAvailability : AppTexts().kImageRecognition} ${AppTexts().kIrLoading}'),
+                                '${widget.irBloc.irConfigs.isUserJsr ? AppTexts().kSKUAvailability : AppTexts().kImageRecognition} ${AppTexts().kIrLoading}'),
                           ],
                         ),
                       ),
@@ -253,8 +246,10 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  gradient: widget.appThemeConfigProvider.appThemeGradient,
-                  color: widget.appThemeConfigProvider.appThemePrimaryColor,
+                  gradient: widget
+                      .irBloc.irConfigs.appThemeConfigProvider.appThemeGradient,
+                  color: widget.irBloc.irConfigs.appThemeConfigProvider
+                      .appThemePrimaryColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: GestureDetector(
@@ -274,7 +269,7 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                         context: context,
                         builder: (dialogContext) => dialogWidget(
                           subtitle:
-                              "${AppTexts().kIrOrderStockWarning.replaceFirst("%s", widget.isJsrUser ? AppTexts().kStock : AppTexts().kOrder)}",
+                              "${AppTexts().kIrOrderStockWarning.replaceFirst("%s", widget.irBloc.irConfigs.isUserJsr ? AppTexts().kStock : AppTexts().kOrder)}",
                           rightButtonFunction: () {
                             Navigator.pop(dialogContext, true);
                           },
@@ -432,7 +427,8 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
               child: Text(
                 AppTexts().kYes,
                 style: TextStyle(
-                  color: widget.appThemeConfigProvider.appThemePrimaryColor,
+                  color: widget.irBloc.irConfigs.appThemeConfigProvider
+                      .appThemePrimaryColor,
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),
@@ -445,7 +441,8 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
               child: Text(
                 AppTexts().kNo,
                 style: TextStyle(
-                  color: widget.appThemeConfigProvider.appThemeSecondaryColor,
+                  color: widget.irBloc.irConfigs.appThemeConfigProvider
+                      .appThemeSecondaryColor,
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),
@@ -468,7 +465,8 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
       subtitle: subtitle,
       rightButtonFunction: rightButtonFunction,
       rightActionText: rightButtonText,
-      rightButtonBgColor: widget.appThemeConfigProvider.appThemePrimaryColor,
+      rightButtonBgColor:
+          widget.irBloc.irConfigs.appThemeConfigProvider.appThemePrimaryColor,
       rightTextColor: Colors.white,
       leftButtonFunction: leftButtonFunction,
       leftActionText: 'CANCEL',
@@ -587,7 +585,8 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
       equipment: equipment,
       allowBeforeAfterCapture: asset.beforeAfterStateEnabled ?? false,
       onDelete: (irAssetCard) =>
-          _handleAssetDelete(asset, equipment, irAssetCard), irBloc: widget.irBloc,
+          _handleAssetDelete(asset, equipment, irAssetCard),
+      irBloc: widget.irBloc,
     );
   }
 
@@ -614,8 +613,8 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
   }
 
   Future<void> init() async {
-    final allResponses = await widget.irBloc.irRepository
-        .getAllResponses(widget.sessionRepository.selectedOutletId);
+    final allResponses = await widget.irBloc.irRepository.getAllResponses(
+        widget.irBloc.irConfigs.sessionRepositoryIR.selectedOutletId);
     widget.irBloc.checkIfCanSkipIrModule(allResponses);
     final assets = widget.irBloc.assetsList.value;
 

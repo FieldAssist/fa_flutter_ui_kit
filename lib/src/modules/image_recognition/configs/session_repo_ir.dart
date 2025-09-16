@@ -3,5 +3,5 @@ abstract class SessionRepositoryIR {
 
   int get selectedOutletId;
 
-  String get sessionId;
+  String? get sessionId;
 }

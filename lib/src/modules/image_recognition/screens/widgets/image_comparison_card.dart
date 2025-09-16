@@ -559,7 +559,7 @@ class PlanogramDialog extends StatelessWidget {
 
   final String imageUrl;
   final VoidCallback? onTap;
-  final AppThemeConfigProvider appThemeConfigProvider;
+  final AppThemeConfigProviderIR appThemeConfigProvider;
 
   @override
   Widget build(BuildContext context) {

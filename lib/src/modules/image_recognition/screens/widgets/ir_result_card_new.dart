@@ -877,7 +877,7 @@ class CategoryButton extends StatelessWidget {
   final bool isSelected;
   final String label;
   final VoidCallback onTap;
-  final AppThemeConfigProvider appThemeConfigProvider;
+  final AppThemeConfigProviderIR appThemeConfigProvider;
 
   @override
   Widget build(BuildContext context) {

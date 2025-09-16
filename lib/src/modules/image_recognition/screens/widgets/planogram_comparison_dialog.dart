@@ -7,7 +7,7 @@ class PlanogramComparisonDialog extends StatefulWidget {
   final String idealImageUrl;
   final String capturedImageUrl;
   final List<String> insights;
-  final AppThemeConfigProvider appThemeConfigProvider;
+  final AppThemeConfigProviderIR appThemeConfigProvider;
 
   const PlanogramComparisonDialog({
     Key? key,

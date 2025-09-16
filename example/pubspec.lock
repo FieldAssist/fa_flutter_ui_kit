@@ -285,8 +285,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: main
-      resolved-ref: "9ee7f69fe28738e44c3258cc816d0e91df5b2d85"
+      ref: "feat/version_upgrade"
+      resolved-ref: "2b9a8ea11c684b8127a761f805cf79e6237c4eb4"
       url: "https://github.com/FieldAssist/fa_dart_core.git"
     source: git
     version: "2.0.0+2"
@@ -302,20 +302,16 @@ packages:
   fa_flutter_api_client:
     dependency: transitive
     description:
-      path: "."
-      ref: main
-      resolved-ref: "7f5e87e269bfa3abce1974f4ecd0d07d59540802"
-      url: "https://github.com/FieldAssist/fa_flutter_api_client.git"
-    source: git
+      path: "../../fa_flutter_api_client"
+      relative: true
+    source: path
     version: "2.0.1"
   fa_flutter_core:
     dependency: transitive
     description:
-      path: "."
-      ref: main
-      resolved-ref: "72329ccb870529cf75298e50fee9504a5ad667eb"
-      url: "https://github.com/FieldAssist/fa_flutter_core.git"
-    source: git
+      path: "../../fa_flutter_core"
+      relative: true
+    source: path
     version: "2.0.2"
   fa_flutter_ui_kit:
     dependency: "direct main"

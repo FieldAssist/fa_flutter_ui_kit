@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dartx/dartx.dart';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
+import 'package:fa_flutter_ui_kit/src/core/file_repository/file_repository_impl.dart';
 import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/ir_company_config_provider.dart';
 import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/ir_configs.dart';
 import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/ir_sku.dart';
@@ -33,7 +35,6 @@ class IrBloc {
     required this.networkInfo,
     required this.apiHelper,
     required this.irDb,
-    required this.fileRepository,
     required this.irConfigs,
     required this.locator,
   }) {
@@ -43,14 +44,15 @@ class IrBloc {
     _imageRecognitionService = ImageRecognitionService(
       apiHelper: apiHelper,
       irRepository: irRepository,
-      fileRepository: fileRepository,
+      fileRepository: FileRepositoryImpl(apiHelper: apiHelper),
     );
+
+    init();
   }
 
   final NetworkInfo networkInfo;
   final ApiHelper apiHelper;
   final IrDao irDb;
-  final FileRepository fileRepository;
   final IrConfigs irConfigs;
   final GetIt locator;
 
@@ -101,6 +103,10 @@ class IrBloc {
   ValueNotifier<bool> canSkipIrModule = ValueNotifier<bool>(false);
 
   final irAssetsList = <IrAssetsModel>[];
+
+  Future<void> init() async {
+    irEnabledMasterDataList = await _irMasterDataRepository.getIrMasterList();
+  }
 
   Future<void> prepareAssetsList() async {
     _assetsList.add(null);
@@ -424,14 +430,12 @@ class IrBloc {
 
   Future<void> startProcessImageFlow(IrMasterModel visit) async {
     final isConnected = await networkInfo.isConnected;
-    //Todo: (Ritsz123): find some other way to get guid.
-    final _attendanceId = "TEST";
-        // locator<EventBloc>().getCurrentEvent().callData?.guid ?? "";
+    final _attendanceId = locator<IrEventBloc>().attendanceId;
 
     final _updatedVisit = visit.copyWith(
       isForPlanogram: getIdealPlanogramImageUrl(visit.assetId) != null,
       irRequestModel: visit.irRequestModel?.copyWith(
-        attendanceId: _attendanceId,
+        attendanceId: _attendanceId ?? "",
         beforeSeenEnabled: (irMasterModel?.beforeStateEnabled ?? false) ? 1 : 0,
 
         /// Just to ensure

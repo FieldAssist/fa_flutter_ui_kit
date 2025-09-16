@@ -3,8 +3,6 @@ import '../../models/ir_assets_model.dart';
 import '../../models/ir_master_model.dart';
 import '../../models/ir_master_model/ir_api_master_model.dart';
 import '../../models/ir_outlet_asset_details_model.dart';
-import '../../models/ir_response_model.dart';
-import '../../models/task_status.dart';
 
 abstract class IrDao {
   Future<void> saveAResponse(IrMasterModel visit);

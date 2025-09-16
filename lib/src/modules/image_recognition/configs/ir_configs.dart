@@ -1,14 +1,16 @@
 import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/app_theme_config.dart';
 import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/session_repo_ir.dart';
 import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/sku_repo_ir.dart';
+import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/user_repository_ir.dart';
 
 import 'ir_company_config_provider.dart';
 
 class IrConfigs {
   final SkuRepositoryIR skuRepositoryIR;
   final SessionRepositoryIR sessionRepositoryIR;
-  final AppThemeConfigProvider appThemeConfigProvider;
+  final AppThemeConfigProviderIR appThemeConfigProvider;
   final IrCompanyConfigProvider companyConfigProvider;
+  final UserRepositoryIr userRepositoryIr;
   final bool isUserJsr;
 
   IrConfigs({
@@ -16,6 +18,7 @@ class IrConfigs {
     required this.sessionRepositoryIR,
     required this.appThemeConfigProvider,
     required this.companyConfigProvider,
+    required this.userRepositoryIr,
     required this.isUserJsr,
   });
 }

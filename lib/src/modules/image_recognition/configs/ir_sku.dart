@@ -1,9 +1,5 @@
-class IrSku {
-  final String name;
-  final int id;
+abstract class IrSku {
+  int get id;
 
-  IrSku({
-    required this.name,
-    required this.id,
-  });
+  String get name;
 }

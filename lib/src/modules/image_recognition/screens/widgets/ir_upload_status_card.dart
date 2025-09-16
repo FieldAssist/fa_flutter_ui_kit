@@ -42,7 +42,8 @@ class IrUploadStatusCard extends StatelessWidget {
             return getChildCard(AppColors.kGreen);
           } else if (!snapshot.data! &&
               irUploadStatusCardBloc.prevVisit!.syncStatus == TaskStatus.fail) {
-            return getChildCard(AppColors.kRed, showRetry: true);
+            return getChildCard(AppColors.kRed,
+                showRetry: true, context: context);
           } else {
             return getChildCard(AppColors.kHomeYellow);
           }
@@ -52,8 +53,23 @@ class IrUploadStatusCard extends StatelessWidget {
     );
   }
 
-  Widget getChildCard(Color color, {bool showRetry = false}) => GestureDetector(
+  Widget getChildCard(
+    Color color, {
+    bool showRetry = false,
+    BuildContext? context,
+  }) =>
+      GestureDetector(
         onTap: onTapImage,
+        onLongPress: () {
+          if (context == null) {
+            return;
+          }
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                "${irUploadStatusCardBloc.prevVisit!.uploadImageFailedReason}"),
+          ));
+        },
         child: Stack(
           fit: StackFit.passthrough,
           children: [

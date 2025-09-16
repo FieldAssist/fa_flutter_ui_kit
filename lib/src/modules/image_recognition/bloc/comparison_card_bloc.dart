@@ -110,7 +110,7 @@ class ComparisonCardBloc {
           : assetModel!.name,
       internetAvailable: false,
       irRequestModel: IrRequestModel(
-        sessionId: sessionRepository.sessionId,
+        sessionId: sessionRepository.sessionId ?? "",
         assetId: equipmentModel != null
             ? equipmentModel!.assetDefinitionsId
             : assetModel!.id,

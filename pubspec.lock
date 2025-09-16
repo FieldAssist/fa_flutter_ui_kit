@@ -389,8 +389,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: main
-      resolved-ref: d8d136723679eed27afb2beecec754279fcb34cc
+      ref: "feat/version_upgrade"
+      resolved-ref: "2b9a8ea11c684b8127a761f805cf79e6237c4eb4"
       url: "https://github.com/FieldAssist/fa_dart_core.git"
     source: git
     version: "2.0.0+2"
@@ -406,20 +406,16 @@ packages:
   fa_flutter_api_client:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "29e0af8f855146cc77e1b848fbaf2315356e3444"
-      url: "https://github.com/FieldAssist/fa_flutter_api_client.git"
-    source: git
+      path: "../fa_flutter_api_client"
+      relative: true
+    source: path
     version: "2.0.1"
   fa_flutter_core:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: c3e11c9a8526c3f3dfad4f85cc2f6f60c407b319
-      url: "https://github.com/FieldAssist/fa_flutter_core.git"
-    source: git
+      path: "../fa_flutter_core"
+      relative: true
+    source: path
     version: "2.0.2"
   fake_async:
     dependency: transitive

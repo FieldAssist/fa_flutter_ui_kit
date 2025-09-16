@@ -16,3 +16,4 @@ export 'src/widgets/index.dart';
 export 'src/modules/common/number_keyboard/keyboard_controller.dart';
 export 'src/app/untrusted_device_widget.dart';
 export 'src/modules/image_recognition/index.dart';
+export 'src/core/index.dart';

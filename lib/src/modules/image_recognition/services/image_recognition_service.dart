@@ -64,12 +64,12 @@ class ImageRecognitionService {
               isOcr: false,
             );
 
-            if (imageQualityModel.isInvalid) {
+            if (imageQualityModel.isInvalid ||
+                checkIfListIsNotEmpty(imageQualityModel.errors)) {
               await irRepository.updateIrResponse(
                 visit,
                 TaskStatus.fail,
-                uploadImageFailedReason:
-                    imageQualityModel.errors?.first, //TODO: check this
+                uploadImageFailedReason: imageQualityModel.errors?.first,
               );
             } else {
               // image detection api
@@ -200,7 +200,7 @@ class ImageUtils {
   }) async {
     try {
       final res = await apiHelper.get(
-        endpoint: "/ImageQuality/check?imageUrl=$imageUrl?isOcr=$isOcr",
+        endpoint: "ImageQuality/check?imageUrl=$imageUrl?isOcr=$isOcr",
       );
 
       if (res.data != null) {
