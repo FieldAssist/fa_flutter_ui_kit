@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fa_flutter_api_client/fa_flutter_api_client.dart';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 
 import '../../../core/file_repository/file_repository.dart';
 import '../../../core/file_repository/image_container_type.dart';
 import '../../../core/file_repository/upload_meta_data_model/upload_meta_data_model.dart';
 import '../../../data/remote/api_endpoints.dart';
-import '../../../data/remote/api_helper.dart';
 import '../../../utils/log_utils.dart';
 import '../data/ir_repository/ir_repository.dart';
 import '../models/detection_response_data.dart';
@@ -25,7 +25,7 @@ class ImageRecognitionService {
     required this.fileRepository,
   });
 
-  final ApiHelper apiHelper;
+  final ApiService apiHelper;
   final IrRepository irRepository;
   final FileRepository fileRepository;
 
@@ -108,7 +108,7 @@ class ImageRecognitionService {
     }
   }
 
-  Future<String?> _uploadImage(ApiHelper apiHelper, IrMasterModel visit) async {
+  Future<String?> _uploadImage(ApiService apiHelper, IrMasterModel visit) async {
     for (var count = 0; count < 4; count++) {
       try {
         final response = await apiHelper.postFile(
@@ -151,7 +151,7 @@ class ImageRecognitionService {
   }
 
   Future<void> _getRecognitionResults(
-    ApiHelper apiHelper,
+    ApiService apiHelper,
     IrMasterModel visit,
     String detectionId,
   ) async {
@@ -194,7 +194,7 @@ class ImageRecognitionService {
 
 class ImageUtils {
   static Future<IrImageQualityModel> checkImageQuality({
-    required ApiHelper apiHelper,
+    required ApiService apiHelper,
     required String imageUrl,
     required bool isOcr,
   }) async {

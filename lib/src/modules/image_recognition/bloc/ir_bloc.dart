@@ -42,7 +42,8 @@ class IrBloc {
         IrMasterDataRepositoryImpl(apiHelper: apiHelper, irDb: irDb);
     irRepository = IrRepositoryImpl(apiHelper: apiHelper, irDao: irDb);
     _imageRecognitionService = ImageRecognitionService(
-      apiHelper: apiHelper,
+      apiHelper: apiHelper.copyWith()
+        ..setBaseUrl("https://fai-api.fieldassist.io/api/"),
       irRepository: irRepository,
       fileRepository: FileRepositoryImpl(apiHelper: apiHelper),
     );

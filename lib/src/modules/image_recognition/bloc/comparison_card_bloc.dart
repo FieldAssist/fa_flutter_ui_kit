@@ -212,6 +212,8 @@ class ComparisonCardBloc {
 
     final currentAssetResponse = allResponses.firstWhereOrNull(
       (element) =>
+          element.instanceNumber ==
+              (assetModel != null ? assetModel!.instanceNumber : 1) &&
           element.assetId == assetId &&
           element.outletId == sessionRepository.selectedOutletId &&
           element.beatId == sessionRepository.selectedBeatId &&
