@@ -33,3 +33,4 @@ export 'svg_asset_icon.dart';
 export 'svg_asset_img.dart';
 export 'tag_container.dart';
 export 'top_widget_container.dart';
+export 'step_progress.dart';
