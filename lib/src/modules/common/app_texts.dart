@@ -119,7 +119,7 @@ class AppTexts {
 
   String get kNoDataFound => _tr("kNoDataFound") ?? "No Data Found";
 
-  String get kIRISWorking => _tr("kIRISWorking") ?? "IR IS WORKING";
+  String get kIRISWorking => _tr("kIRISWorking") ?? "IRIS IS WORKING";
 
   String get kSkip => _tr("kSkip") ?? "Skip";
 
@@ -199,4 +199,8 @@ class AppTexts {
   String get kOther => _tr("kOther") ?? "Other";
 
   String get kSku => _tr("kSku") ?? "SKU";
+
+  String get kIrNotPerformedOnEquipmentsMsg =>
+      _tr("kIrNotPerformedOnEquipmentsMsg") ??
+          "Please take images for all Company Equipments";
 }

@@ -259,10 +259,20 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                       message: AppTexts().kPleaseWait,
                     );
 
+                    final imagesTakenForAllEquipments =
+                        await widget.irBloc.isImagesTakenForAllEquipments();
+
                     final shouldRouteDirectlyToOrderBooking =
                         await widget.irBloc.routeToOrderBooking();
 
                     await CommonProgressDialog.hide();
+
+                    if (!imagesTakenForAllEquipments) {
+                      BotToast.showText(
+                        text: AppTexts().kIrNotPerformedOnEquipmentsMsg,
+                      );
+                      return;
+                    }
 
                     if (shouldRouteDirectlyToOrderBooking) {
                       final val = await showDialog(

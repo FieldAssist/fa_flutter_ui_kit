@@ -573,6 +573,38 @@ class IrBloc {
             element.beatId == irConfigs.sessionRepositoryIR.selectedBeatId,
       );
 
+  Future<bool> isImagesTakenForAllEquipments() async {
+    final assets = _assetsList.valueOrNull;
+
+    final equipments = <IrOutletAssetDetailsModel>[];
+    if (assets == null) {
+      return true;
+    }
+    for (final asset in assets) {
+      if (asset.mappedEquipments != null) {
+        equipments.addAll(asset.mappedEquipments!);
+      }
+    }
+
+    final allResponses = await irRepository
+        .getAllResponses(irConfigs.sessionRepositoryIR.selectedOutletId);
+
+    for (final equipment in equipments) {
+      final assetResponse = allResponses.firstWhereOrNull(
+        (element) =>
+            element.equipmentId == equipment.equipmentId &&
+            element.outletId ==
+                irConfigs.sessionRepositoryIR.selectedOutletId &&
+            element.beatId == irConfigs.sessionRepositoryIR.selectedBeatId,
+      );
+
+      if (assetResponse == null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @override
   void dispose() {
     selectedAssetResponse.close();

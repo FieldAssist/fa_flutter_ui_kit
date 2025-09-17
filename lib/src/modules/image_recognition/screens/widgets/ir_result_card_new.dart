@@ -286,7 +286,10 @@ class _IrResultCardNewState extends State<IrResultCardNew> {
                                     //     .appThemeConfigProvider
                                     //     .appThemeGradient,
                                     onPressed: () async => widget.onProceed(),
-                                    child: Text(AppTexts().kProceed),
+                                    child: Text(
+                                      AppTexts().kProceed,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                               ],
                             ),
