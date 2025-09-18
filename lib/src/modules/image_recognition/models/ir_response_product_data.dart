@@ -6,10 +6,10 @@ part 'ir_response_product_data.g.dart';
 @Freezed(makeCollectionsUnmodifiable: false)
 abstract class IrResponseProductData with _$IrResponseProductData {
   factory IrResponseProductData({
-    @JsonKey(name: "Product") @Default("") String product,
-    @JsonKey(name: "Label") @Default("") String label,
-    @JsonKey(name: "Count") @Default(0) int count,
-    @JsonKey(name: "Id") @Default("") String id,
+    @JsonKey(name: "product") @Default("") String product,
+    @JsonKey(name: "label") @Default("") String label,
+    @JsonKey(name: "count") @Default(0) int count,
+    @JsonKey(name: "id") @Default("") String id,
   }) = _IrResponseProductData;
   factory IrResponseProductData.fromJson(Map<String, dynamic> json) =>
       _$IrResponseProductDataFromJson(json);

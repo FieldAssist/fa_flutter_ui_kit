@@ -6,17 +6,23 @@ part of 'country.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Country _$$_CountryFromJson(Map<String, dynamic> json) => _$_Country(
-      countryId: json['countryId'] as String?,
-      countryCode: json['countryCode'] as String?,
-      dialCode: json['dialCode'] as String?,
-      flagCode: json['flagCode'] as String?,
-      nationality: json['nationality'] as String?,
-      countryName: json['countryName'] as String?,
+_Country _$CountryFromJson(Map<String, dynamic> json) => $checkedCreate(
+      '_Country',
+      json,
+      ($checkedConvert) {
+        final val = _Country(
+          countryId: $checkedConvert('countryId', (v) => v as String?),
+          countryCode: $checkedConvert('countryCode', (v) => v as String?),
+          dialCode: $checkedConvert('dialCode', (v) => v as String?),
+          flagCode: $checkedConvert('flagCode', (v) => v as String?),
+          nationality: $checkedConvert('nationality', (v) => v as String?),
+          countryName: $checkedConvert('countryName', (v) => v as String?),
+        );
+        return val;
+      },
     );
 
-Map<String, dynamic> _$$_CountryToJson(_$_Country instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CountryToJson(_Country instance) => <String, dynamic>{
       'countryId': instance.countryId,
       'countryCode': instance.countryCode,
       'dialCode': instance.dialCode,

@@ -6,22 +6,33 @@ part of 'place_mark_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PlaceMarkData _$$_PlaceMarkDataFromJson(Map<String, dynamic> json) =>
-    _$_PlaceMarkData(
-      name: json['name'] as String?,
-      street: json['street'] as String?,
-      isoCountryCode: json['isoCountryCode'] as String?,
-      country: json['country'] as String?,
-      postalCode: json['postalCode'] as String?,
-      administrativeArea: json['administrativeArea'] as String?,
-      subAdministrativeArea: json['subAdministrativeArea'] as String?,
-      locality: json['locality'] as String?,
-      subLocality: json['subLocality'] as String?,
-      thoroughfare: json['thoroughfare'] as String?,
-      subThoroughfare: json['subThoroughfare'] as String?,
+_PlaceMarkData _$PlaceMarkDataFromJson(Map<String, dynamic> json) =>
+    $checkedCreate(
+      '_PlaceMarkData',
+      json,
+      ($checkedConvert) {
+        final val = _PlaceMarkData(
+          name: $checkedConvert('name', (v) => v as String?),
+          street: $checkedConvert('street', (v) => v as String?),
+          isoCountryCode:
+              $checkedConvert('isoCountryCode', (v) => v as String?),
+          country: $checkedConvert('country', (v) => v as String?),
+          postalCode: $checkedConvert('postalCode', (v) => v as String?),
+          administrativeArea:
+              $checkedConvert('administrativeArea', (v) => v as String?),
+          subAdministrativeArea:
+              $checkedConvert('subAdministrativeArea', (v) => v as String?),
+          locality: $checkedConvert('locality', (v) => v as String?),
+          subLocality: $checkedConvert('subLocality', (v) => v as String?),
+          thoroughfare: $checkedConvert('thoroughfare', (v) => v as String?),
+          subThoroughfare:
+              $checkedConvert('subThoroughfare', (v) => v as String?),
+        );
+        return val;
+      },
     );
 
-Map<String, dynamic> _$$_PlaceMarkDataToJson(_$_PlaceMarkData instance) =>
+Map<String, dynamic> _$PlaceMarkDataToJson(_PlaceMarkData instance) =>
     <String, dynamic>{
       'name': instance.name,
       'street': instance.street,

@@ -3,3 +3,5 @@ export 'search_list/search_app_bar.dart';
 export 'search_list/search_list.dart';
 export 'search_list/integrated_search_bar.dart';
 export 'generic_data_loading/index.dart';
+export 'camera/image_review_page.dart';
+export 'camera/image_utils.dart';

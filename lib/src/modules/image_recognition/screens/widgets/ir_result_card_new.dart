@@ -679,15 +679,14 @@ class _IrResultCardNewState extends State<IrResultCardNew> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
-                              color:
-                                  planogram.complianceStatus?.toLowerCase() ==
-                                          AppTexts().kFail.toLowerCase()
-                                      ? Colors.red
-                                      : Colors.green,
+                              color: planogram.complianceStatus ==
+                                      ComplianceStatus.fail
+                                  ? Colors.red
+                                  : Colors.green,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Text(
-                              '${planogram.complianceStatus}',
+                              '${planogram.complianceStatus?.name}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,

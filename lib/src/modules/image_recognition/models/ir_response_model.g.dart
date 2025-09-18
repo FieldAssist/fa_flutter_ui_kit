@@ -12,19 +12,19 @@ _IrResponseModel _$IrResponseModelFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = _IrResponseModel(
-          imageURL: $checkedConvert('ImageURL', (v) => v as String? ?? ""),
+          imageURL: $checkedConvert('imageURL', (v) => v as String? ?? ""),
           brandSkuCount: $checkedConvert(
-              'BrandSkuCount', (v) => (v as num?)?.toInt() ?? 0),
+              'brandSkuCount', (v) => (v as num?)?.toInt() ?? 0),
           totalObjectCount: $checkedConvert(
-              'TotalObjectCount', (v) => (v as num?)?.toInt() ?? 0),
+              'totalObjectCount', (v) => (v as num?)?.toInt() ?? 0),
           shelfShare:
-              $checkedConvert('ShelfShare', (v) => (v as num?)?.toInt() ?? 0),
+              $checkedConvert('shelfShare', (v) => (v as num?)?.toInt() ?? 0),
           shelfSharePercent: $checkedConvert(
-              'ShelfSharePercent', (v) => (v as num?)?.toDouble() ?? 0),
+              'shelfSharePercent', (v) => (v as num?)?.toDouble() ?? 0),
           assetScore: $checkedConvert(
-              'AssetScore', (v) => (v as num?)?.toDouble() ?? 0),
+              'assetScore', (v) => (v as num?)?.toDouble() ?? 0),
           data: $checkedConvert(
-              'Data',
+              'data',
               (v) =>
                   (v as List<dynamic>?)
                       ?.map((e) => IrResponseProductData.fromJson(
@@ -32,7 +32,7 @@ _IrResponseModel _$IrResponseModelFromJson(Map<String, dynamic> json) =>
                       .toList() ??
                   const []),
           products: $checkedConvert(
-              'Products',
+              'products',
               (v) =>
                   (v as List<dynamic>?)
                       ?.map((e) => IrResponseProductData.fromJson(
@@ -40,7 +40,7 @@ _IrResponseModel _$IrResponseModelFromJson(Map<String, dynamic> json) =>
                       .toList() ??
                   const []),
           kpiWeightage: $checkedConvert(
-              'KPIWeightage',
+              'kpiWeightage',
               (v) =>
                   (v as List<dynamic>?)
                       ?.map((e) =>
@@ -48,43 +48,29 @@ _IrResponseModel _$IrResponseModelFromJson(Map<String, dynamic> json) =>
                       .toList() ??
                   const []),
           planogram: $checkedConvert(
-              'Planogram',
+              'planogram',
               (v) => v == null
                   ? null
                   : IrPlanogram.fromJson(v as Map<String, dynamic>)),
-          assetName: $checkedConvert('AssetName', (v) => v as String?),
-          equipmentName: $checkedConvert('EquipmentName', (v) => v as String?),
+          assetName: $checkedConvert('assetName', (v) => v as String?),
+          equipmentName: $checkedConvert('equipmentName', (v) => v as String?),
         );
         return val;
-      },
-      fieldKeyMap: const {
-        'imageURL': 'ImageURL',
-        'brandSkuCount': 'BrandSkuCount',
-        'totalObjectCount': 'TotalObjectCount',
-        'shelfShare': 'ShelfShare',
-        'shelfSharePercent': 'ShelfSharePercent',
-        'assetScore': 'AssetScore',
-        'data': 'Data',
-        'products': 'Products',
-        'kpiWeightage': 'KPIWeightage',
-        'planogram': 'Planogram',
-        'assetName': 'AssetName',
-        'equipmentName': 'EquipmentName'
       },
     );
 
 Map<String, dynamic> _$IrResponseModelToJson(_IrResponseModel instance) =>
     <String, dynamic>{
-      'ImageURL': instance.imageURL,
-      'BrandSkuCount': instance.brandSkuCount,
-      'TotalObjectCount': instance.totalObjectCount,
-      'ShelfShare': instance.shelfShare,
-      'ShelfSharePercent': instance.shelfSharePercent,
-      'AssetScore': instance.assetScore,
-      'Data': instance.data.map((e) => e.toJson()).toList(),
-      'Products': instance.products.map((e) => e.toJson()).toList(),
-      'KPIWeightage': instance.kpiWeightage.map((e) => e.toJson()).toList(),
-      'Planogram': instance.planogram?.toJson(),
-      'AssetName': instance.assetName,
-      'EquipmentName': instance.equipmentName,
+      'imageURL': instance.imageURL,
+      'brandSkuCount': instance.brandSkuCount,
+      'totalObjectCount': instance.totalObjectCount,
+      'shelfShare': instance.shelfShare,
+      'shelfSharePercent': instance.shelfSharePercent,
+      'assetScore': instance.assetScore,
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      'products': instance.products.map((e) => e.toJson()).toList(),
+      'kpiWeightage': instance.kpiWeightage.map((e) => e.toJson()).toList(),
+      'planogram': instance.planogram?.toJson(),
+      'assetName': instance.assetName,
+      'equipmentName': instance.equipmentName,
     };

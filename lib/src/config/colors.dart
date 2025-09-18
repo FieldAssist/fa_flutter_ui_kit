@@ -50,6 +50,8 @@ class AppColors {
 
   static const Color kGreyBackground = Color(0xFFEEEEEE);
   static const Color kLightBlue = Color(0xFFEDF6FF);
+  static const Color kSmokyBlack = Color(0xFF0D0D0D);
+  static const Color kKeepGreen = Color(0xFF57CC99);
 }
 
 extension ColorExtensions on Color {

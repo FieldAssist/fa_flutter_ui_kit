@@ -123,7 +123,6 @@ class ComparisonCardBloc {
             ? 100
             : index,
         remarks: "",
-        // TODO (IR): change this
         logicId: irBloc.irMasterModel?.id ?? 0,
         premiumSkus: skuRepository.premiumSkus.toList(),
       ),

@@ -20,3 +20,4 @@ export 'screens/widgets/ir_sku_details_widget.dart';
 export 'data/dao/ir_dao.dart';
 export 'data/dao/ir_dao_impl.dart';
 export 'usecase/init_ir_master_data_usecase.dart';
+export 'models/ir_planogram.dart';

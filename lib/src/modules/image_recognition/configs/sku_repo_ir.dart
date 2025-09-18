@@ -8,5 +8,4 @@ abstract class SkuRepositoryIR {
   Set<int> get premiumSkus;
 
   Map<int, IrSku> get idVsSkus;
-
 }

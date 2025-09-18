@@ -13,26 +13,20 @@ _IrResponseProductData _$IrResponseProductDataFromJson(
       json,
       ($checkedConvert) {
         final val = _IrResponseProductData(
-          product: $checkedConvert('Product', (v) => v as String? ?? ""),
-          label: $checkedConvert('Label', (v) => v as String? ?? ""),
-          count: $checkedConvert('Count', (v) => (v as num?)?.toInt() ?? 0),
-          id: $checkedConvert('Id', (v) => v as String? ?? ""),
+          product: $checkedConvert('product', (v) => v as String? ?? ""),
+          label: $checkedConvert('label', (v) => v as String? ?? ""),
+          count: $checkedConvert('count', (v) => (v as num?)?.toInt() ?? 0),
+          id: $checkedConvert('id', (v) => v as String? ?? ""),
         );
         return val;
-      },
-      fieldKeyMap: const {
-        'product': 'Product',
-        'label': 'Label',
-        'count': 'Count',
-        'id': 'Id'
       },
     );
 
 Map<String, dynamic> _$IrResponseProductDataToJson(
         _IrResponseProductData instance) =>
     <String, dynamic>{
-      'Product': instance.product,
-      'Label': instance.label,
-      'Count': instance.count,
-      'Id': instance.id,
+      'product': instance.product,
+      'label': instance.label,
+      'count': instance.count,
+      'id': instance.id,
     };

@@ -11,22 +11,22 @@ part 'ir_response_model.g.dart';
 @Freezed(makeCollectionsUnmodifiable: false)
 abstract class IrResponseModel with _$IrResponseModel {
   factory IrResponseModel({
-    @JsonKey(name: "ImageURL") @Default("") String imageURL,
-    @JsonKey(name: "BrandSkuCount") @Default(0) int brandSkuCount,
-    @JsonKey(name: "TotalObjectCount") @Default(0) int totalObjectCount,
-    @JsonKey(name: "ShelfShare") @Default(0) int shelfShare,
-    @JsonKey(name: "ShelfSharePercent") @Default(0) double shelfSharePercent,
-    @JsonKey(name: "AssetScore") @Default(0) double assetScore,
-    @JsonKey(name: "Data") @Default([]) List<IrResponseProductData> data,
-    @JsonKey(name: "Products")
+    @JsonKey(name: "imageURL") @Default("") String imageURL,
+    @JsonKey(name: "brandSkuCount") @Default(0) int brandSkuCount,
+    @JsonKey(name: "totalObjectCount") @Default(0) int totalObjectCount,
+    @JsonKey(name: "shelfShare") @Default(0) int shelfShare,
+    @JsonKey(name: "shelfSharePercent") @Default(0) double shelfSharePercent,
+    @JsonKey(name: "assetScore") @Default(0) double assetScore,
+    @JsonKey(name: "data") @Default([]) List<IrResponseProductData> data,
+    @JsonKey(name: "products")
     @Default([])
     List<IrResponseProductData> products,
-    @JsonKey(name: "KPIWeightage")
+    @JsonKey(name: "kpiWeightage")
     @Default([])
     List<IrKpiWeightage> kpiWeightage,
-    @JsonKey(name: "Planogram") IrPlanogram? planogram,
-    @JsonKey(name: "AssetName") String? assetName,
-    @JsonKey(name: "EquipmentName") String? equipmentName,
+    @JsonKey(name: "planogram") IrPlanogram? planogram,
+    @JsonKey(name: "assetName") String? assetName,
+    @JsonKey(name: "equipmentName") String? equipmentName,
   }) = _IrResponseModel;
 
   factory IrResponseModel.fromJson(Map<String, dynamic> json) =>

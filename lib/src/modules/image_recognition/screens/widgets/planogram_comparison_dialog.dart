@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/app_theme_config.dart';
 import 'package:flutter/material.dart';
 
-
 class PlanogramComparisonDialog extends StatefulWidget {
   final String idealImageUrl;
   final String capturedImageUrl;
@@ -113,7 +112,8 @@ class _PlanogramComparisonDialogState extends State<PlanogramComparisonDialog> {
                             : widget.appThemeConfigProvider.appThemeGradient,
                         color: _showIdeal
                             ? Colors.white
-                            : widget.appThemeConfigProvider.appThemePrimaryColor,
+                            : widget
+                                .appThemeConfigProvider.appThemePrimaryColor,
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(8),
                           bottomRight: Radius.circular(8),

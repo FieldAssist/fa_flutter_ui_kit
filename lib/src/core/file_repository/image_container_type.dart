@@ -1,4 +1,3 @@
-
 enum ImageContainer {
   outletImages(0),
   surveyImages(1),

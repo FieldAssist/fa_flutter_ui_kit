@@ -6,7 +6,8 @@ import '../models/ir_assets_model.dart';
 import 'new_ir_results_screen.dart';
 
 class IrResultsPage extends StatefulWidget {
-  const IrResultsPage({required this.onProceed, required this.irBloc, super.key});
+  const IrResultsPage(
+      {required this.onProceed, required this.irBloc, super.key});
 
   final void Function() onProceed;
   final IrBloc irBloc;
@@ -16,7 +17,6 @@ class IrResultsPage extends StatefulWidget {
 }
 
 class _IrResultsPageState extends State<IrResultsPage> {
-
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,8 @@ class _IrResultsPageState extends State<IrResultsPage> {
       builder: (context, snapshot) {
         if (snapshot.data != null && snapshot.hasData) {
           final listOfAssets = snapshot.data!;
-          final listOfEquipments = widget.irBloc.equipmentListOfInputCategories.value;
+          final listOfEquipments =
+              widget.irBloc.equipmentListOfInputCategories.value;
           return NewIrResultsScreen(
             onProceed: widget.onProceed,
             listOfAssets: listOfAssets,

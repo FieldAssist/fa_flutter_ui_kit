@@ -14,16 +14,19 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$IrPlanogram {
-  @JsonKey(name: "PlanogramRackOutputImage")
+  @JsonKey(name: "planogramRackOutputImage")
   String? get planogramRackOutputImage;
-  @JsonKey(name: "PlanogramSkuOutputImage")
+  @JsonKey(name: "planogramSkuOutputImage")
   String? get planogramSkuOutputImage;
-  @JsonKey(name: "PlanogramIssues")
+  @JsonKey(name: "planogramIssues")
   List<String>? get planogramIssues;
-  @JsonKey(name: "Compliance_Percentange")
+  @JsonKey(name: "compliancePercentange")
   double? get compliancePercentage;
-  @JsonKey(name: "Compliance_Status")
-  String? get complianceStatus;
+  @JsonKey(
+      name: "complianceStatus",
+      toJson: complianceStatusToInt,
+      fromJson: complianceStatusFromInt)
+  ComplianceStatus? get complianceStatus;
 
   /// Create a copy of IrPlanogram
   /// with the given fields replaced by the non-null parameter values.
@@ -77,12 +80,16 @@ abstract mixin class $IrPlanogramCopyWith<$Res> {
       _$IrPlanogramCopyWithImpl;
   @useResult
   $Res call(
-      {@JsonKey(name: "PlanogramRackOutputImage")
+      {@JsonKey(name: "planogramRackOutputImage")
       String? planogramRackOutputImage,
-      @JsonKey(name: "PlanogramSkuOutputImage") String? planogramSkuOutputImage,
-      @JsonKey(name: "PlanogramIssues") List<String>? planogramIssues,
-      @JsonKey(name: "Compliance_Percentange") double? compliancePercentage,
-      @JsonKey(name: "Compliance_Status") String? complianceStatus});
+      @JsonKey(name: "planogramSkuOutputImage") String? planogramSkuOutputImage,
+      @JsonKey(name: "planogramIssues") List<String>? planogramIssues,
+      @JsonKey(name: "compliancePercentange") double? compliancePercentage,
+      @JsonKey(
+          name: "complianceStatus",
+          toJson: complianceStatusToInt,
+          fromJson: complianceStatusFromInt)
+      ComplianceStatus? complianceStatus});
 }
 
 /// @nodoc
@@ -123,7 +130,7 @@ class _$IrPlanogramCopyWithImpl<$Res> implements $IrPlanogramCopyWith<$Res> {
       complianceStatus: freezed == complianceStatus
           ? _self.complianceStatus
           : complianceStatus // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ComplianceStatus?,
     ));
   }
 }
@@ -222,14 +229,18 @@ extension IrPlanogramPatterns on IrPlanogram {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            @JsonKey(name: "PlanogramRackOutputImage")
+            @JsonKey(name: "planogramRackOutputImage")
             String? planogramRackOutputImage,
-            @JsonKey(name: "PlanogramSkuOutputImage")
+            @JsonKey(name: "planogramSkuOutputImage")
             String? planogramSkuOutputImage,
-            @JsonKey(name: "PlanogramIssues") List<String>? planogramIssues,
-            @JsonKey(name: "Compliance_Percentange")
+            @JsonKey(name: "planogramIssues") List<String>? planogramIssues,
+            @JsonKey(name: "compliancePercentange")
             double? compliancePercentage,
-            @JsonKey(name: "Compliance_Status") String? complianceStatus)?
+            @JsonKey(
+                name: "complianceStatus",
+                toJson: complianceStatusToInt,
+                fromJson: complianceStatusFromInt)
+            ComplianceStatus? complianceStatus)?
         $default, {
     required TResult orElse(),
   }) {
@@ -263,14 +274,18 @@ extension IrPlanogramPatterns on IrPlanogram {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            @JsonKey(name: "PlanogramRackOutputImage")
+            @JsonKey(name: "planogramRackOutputImage")
             String? planogramRackOutputImage,
-            @JsonKey(name: "PlanogramSkuOutputImage")
+            @JsonKey(name: "planogramSkuOutputImage")
             String? planogramSkuOutputImage,
-            @JsonKey(name: "PlanogramIssues") List<String>? planogramIssues,
-            @JsonKey(name: "Compliance_Percentange")
+            @JsonKey(name: "planogramIssues") List<String>? planogramIssues,
+            @JsonKey(name: "compliancePercentange")
             double? compliancePercentage,
-            @JsonKey(name: "Compliance_Status") String? complianceStatus)
+            @JsonKey(
+                name: "complianceStatus",
+                toJson: complianceStatusToInt,
+                fromJson: complianceStatusFromInt)
+            ComplianceStatus? complianceStatus)
         $default,
   ) {
     final _that = this;
@@ -302,14 +317,18 @@ extension IrPlanogramPatterns on IrPlanogram {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            @JsonKey(name: "PlanogramRackOutputImage")
+            @JsonKey(name: "planogramRackOutputImage")
             String? planogramRackOutputImage,
-            @JsonKey(name: "PlanogramSkuOutputImage")
+            @JsonKey(name: "planogramSkuOutputImage")
             String? planogramSkuOutputImage,
-            @JsonKey(name: "PlanogramIssues") List<String>? planogramIssues,
-            @JsonKey(name: "Compliance_Percentange")
+            @JsonKey(name: "planogramIssues") List<String>? planogramIssues,
+            @JsonKey(name: "compliancePercentange")
             double? compliancePercentage,
-            @JsonKey(name: "Compliance_Status") String? complianceStatus)?
+            @JsonKey(
+                name: "complianceStatus",
+                toJson: complianceStatusToInt,
+                fromJson: complianceStatusFromInt)
+            ComplianceStatus? complianceStatus)?
         $default,
   ) {
     final _that = this;
@@ -331,24 +350,28 @@ extension IrPlanogramPatterns on IrPlanogram {
 @JsonSerializable()
 class _IrPlanogram implements IrPlanogram {
   _IrPlanogram(
-      {@JsonKey(name: "PlanogramRackOutputImage") this.planogramRackOutputImage,
-      @JsonKey(name: "PlanogramSkuOutputImage") this.planogramSkuOutputImage,
-      @JsonKey(name: "PlanogramIssues") final List<String>? planogramIssues,
-      @JsonKey(name: "Compliance_Percentange") this.compliancePercentage,
-      @JsonKey(name: "Compliance_Status") this.complianceStatus})
+      {@JsonKey(name: "planogramRackOutputImage") this.planogramRackOutputImage,
+      @JsonKey(name: "planogramSkuOutputImage") this.planogramSkuOutputImage,
+      @JsonKey(name: "planogramIssues") final List<String>? planogramIssues,
+      @JsonKey(name: "compliancePercentange") this.compliancePercentage,
+      @JsonKey(
+          name: "complianceStatus",
+          toJson: complianceStatusToInt,
+          fromJson: complianceStatusFromInt)
+      this.complianceStatus})
       : _planogramIssues = planogramIssues;
   factory _IrPlanogram.fromJson(Map<String, dynamic> json) =>
       _$IrPlanogramFromJson(json);
 
   @override
-  @JsonKey(name: "PlanogramRackOutputImage")
+  @JsonKey(name: "planogramRackOutputImage")
   final String? planogramRackOutputImage;
   @override
-  @JsonKey(name: "PlanogramSkuOutputImage")
+  @JsonKey(name: "planogramSkuOutputImage")
   final String? planogramSkuOutputImage;
   final List<String>? _planogramIssues;
   @override
-  @JsonKey(name: "PlanogramIssues")
+  @JsonKey(name: "planogramIssues")
   List<String>? get planogramIssues {
     final value = _planogramIssues;
     if (value == null) return null;
@@ -358,11 +381,14 @@ class _IrPlanogram implements IrPlanogram {
   }
 
   @override
-  @JsonKey(name: "Compliance_Percentange")
+  @JsonKey(name: "compliancePercentange")
   final double? compliancePercentage;
   @override
-  @JsonKey(name: "Compliance_Status")
-  final String? complianceStatus;
+  @JsonKey(
+      name: "complianceStatus",
+      toJson: complianceStatusToInt,
+      fromJson: complianceStatusFromInt)
+  final ComplianceStatus? complianceStatus;
 
   /// Create a copy of IrPlanogram
   /// with the given fields replaced by the non-null parameter values.
@@ -423,12 +449,16 @@ abstract mixin class _$IrPlanogramCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "PlanogramRackOutputImage")
+      {@JsonKey(name: "planogramRackOutputImage")
       String? planogramRackOutputImage,
-      @JsonKey(name: "PlanogramSkuOutputImage") String? planogramSkuOutputImage,
-      @JsonKey(name: "PlanogramIssues") List<String>? planogramIssues,
-      @JsonKey(name: "Compliance_Percentange") double? compliancePercentage,
-      @JsonKey(name: "Compliance_Status") String? complianceStatus});
+      @JsonKey(name: "planogramSkuOutputImage") String? planogramSkuOutputImage,
+      @JsonKey(name: "planogramIssues") List<String>? planogramIssues,
+      @JsonKey(name: "compliancePercentange") double? compliancePercentage,
+      @JsonKey(
+          name: "complianceStatus",
+          toJson: complianceStatusToInt,
+          fromJson: complianceStatusFromInt)
+      ComplianceStatus? complianceStatus});
 }
 
 /// @nodoc
@@ -469,7 +499,7 @@ class __$IrPlanogramCopyWithImpl<$Res> implements _$IrPlanogramCopyWith<$Res> {
       complianceStatus: freezed == complianceStatus
           ? _self.complianceStatus
           : complianceStatus // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ComplianceStatus?,
     ));
   }
 }

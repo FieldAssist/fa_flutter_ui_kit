@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$IrResponseProductData {
-  @JsonKey(name: "Product")
+  @JsonKey(name: "product")
   String get product;
-  @JsonKey(name: "Label")
+  @JsonKey(name: "label")
   String get label;
-  @JsonKey(name: "Count")
+  @JsonKey(name: "count")
   int get count;
-  @JsonKey(name: "Id")
+  @JsonKey(name: "id")
   String get id;
 
   /// Create a copy of IrResponseProductData
@@ -62,10 +62,10 @@ abstract mixin class $IrResponseProductDataCopyWith<$Res> {
       _$IrResponseProductDataCopyWithImpl;
   @useResult
   $Res call(
-      {@JsonKey(name: "Product") String product,
-      @JsonKey(name: "Label") String label,
-      @JsonKey(name: "Count") int count,
-      @JsonKey(name: "Id") String id});
+      {@JsonKey(name: "product") String product,
+      @JsonKey(name: "label") String label,
+      @JsonKey(name: "count") int count,
+      @JsonKey(name: "id") String id});
 }
 
 /// @nodoc
@@ -201,10 +201,10 @@ extension IrResponseProductDataPatterns on IrResponseProductData {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            @JsonKey(name: "Product") String product,
-            @JsonKey(name: "Label") String label,
-            @JsonKey(name: "Count") int count,
-            @JsonKey(name: "Id") String id)?
+            @JsonKey(name: "product") String product,
+            @JsonKey(name: "label") String label,
+            @JsonKey(name: "count") int count,
+            @JsonKey(name: "id") String id)?
         $default, {
     required TResult orElse(),
   }) {
@@ -233,10 +233,10 @@ extension IrResponseProductDataPatterns on IrResponseProductData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            @JsonKey(name: "Product") String product,
-            @JsonKey(name: "Label") String label,
-            @JsonKey(name: "Count") int count,
-            @JsonKey(name: "Id") String id)
+            @JsonKey(name: "product") String product,
+            @JsonKey(name: "label") String label,
+            @JsonKey(name: "count") int count,
+            @JsonKey(name: "id") String id)
         $default,
   ) {
     final _that = this;
@@ -263,10 +263,10 @@ extension IrResponseProductDataPatterns on IrResponseProductData {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            @JsonKey(name: "Product") String product,
-            @JsonKey(name: "Label") String label,
-            @JsonKey(name: "Count") int count,
-            @JsonKey(name: "Id") String id)?
+            @JsonKey(name: "product") String product,
+            @JsonKey(name: "label") String label,
+            @JsonKey(name: "count") int count,
+            @JsonKey(name: "id") String id)?
         $default,
   ) {
     final _that = this;
@@ -283,24 +283,24 @@ extension IrResponseProductDataPatterns on IrResponseProductData {
 @JsonSerializable()
 class _IrResponseProductData implements IrResponseProductData {
   _IrResponseProductData(
-      {@JsonKey(name: "Product") this.product = "",
-      @JsonKey(name: "Label") this.label = "",
-      @JsonKey(name: "Count") this.count = 0,
-      @JsonKey(name: "Id") this.id = ""});
+      {@JsonKey(name: "product") this.product = "",
+      @JsonKey(name: "label") this.label = "",
+      @JsonKey(name: "count") this.count = 0,
+      @JsonKey(name: "id") this.id = ""});
   factory _IrResponseProductData.fromJson(Map<String, dynamic> json) =>
       _$IrResponseProductDataFromJson(json);
 
   @override
-  @JsonKey(name: "Product")
+  @JsonKey(name: "product")
   final String product;
   @override
-  @JsonKey(name: "Label")
+  @JsonKey(name: "label")
   final String label;
   @override
-  @JsonKey(name: "Count")
+  @JsonKey(name: "count")
   final int count;
   @override
-  @JsonKey(name: "Id")
+  @JsonKey(name: "id")
   final String id;
 
   /// Create a copy of IrResponseProductData
@@ -349,10 +349,10 @@ abstract mixin class _$IrResponseProductDataCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "Product") String product,
-      @JsonKey(name: "Label") String label,
-      @JsonKey(name: "Count") int count,
-      @JsonKey(name: "Id") String id});
+      {@JsonKey(name: "product") String product,
+      @JsonKey(name: "label") String label,
+      @JsonKey(name: "count") int count,
+      @JsonKey(name: "id") String id});
 }
 
 /// @nodoc

@@ -12,32 +12,26 @@ _IrPlanogram _$IrPlanogramFromJson(Map<String, dynamic> json) => $checkedCreate(
       ($checkedConvert) {
         final val = _IrPlanogram(
           planogramRackOutputImage:
-              $checkedConvert('PlanogramRackOutputImage', (v) => v as String?),
+              $checkedConvert('planogramRackOutputImage', (v) => v as String?),
           planogramSkuOutputImage:
-              $checkedConvert('PlanogramSkuOutputImage', (v) => v as String?),
-          planogramIssues: $checkedConvert('PlanogramIssues',
+              $checkedConvert('planogramSkuOutputImage', (v) => v as String?),
+          planogramIssues: $checkedConvert('planogramIssues',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           compliancePercentage: $checkedConvert(
-              'Compliance_Percentange', (v) => (v as num?)?.toDouble()),
-          complianceStatus:
-              $checkedConvert('Compliance_Status', (v) => v as String?),
+              'compliancePercentange', (v) => (v as num?)?.toDouble()),
+          complianceStatus: $checkedConvert('complianceStatus',
+              (v) => complianceStatusFromInt((v as num?)?.toInt())),
         );
         return val;
       },
-      fieldKeyMap: const {
-        'planogramRackOutputImage': 'PlanogramRackOutputImage',
-        'planogramSkuOutputImage': 'PlanogramSkuOutputImage',
-        'planogramIssues': 'PlanogramIssues',
-        'compliancePercentage': 'Compliance_Percentange',
-        'complianceStatus': 'Compliance_Status'
-      },
+      fieldKeyMap: const {'compliancePercentage': 'compliancePercentange'},
     );
 
 Map<String, dynamic> _$IrPlanogramToJson(_IrPlanogram instance) =>
     <String, dynamic>{
-      'PlanogramRackOutputImage': instance.planogramRackOutputImage,
-      'PlanogramSkuOutputImage': instance.planogramSkuOutputImage,
-      'PlanogramIssues': instance.planogramIssues,
-      'Compliance_Percentange': instance.compliancePercentage,
-      'Compliance_Status': instance.complianceStatus,
+      'planogramRackOutputImage': instance.planogramRackOutputImage,
+      'planogramSkuOutputImage': instance.planogramSkuOutputImage,
+      'planogramIssues': instance.planogramIssues,
+      'compliancePercentange': instance.compliancePercentage,
+      'complianceStatus': complianceStatusToInt(instance.complianceStatus),
     };

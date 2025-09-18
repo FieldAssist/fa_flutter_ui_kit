@@ -90,7 +90,11 @@ class ImageRecognitionService {
                 );
                 return;
               } else {
-                await irRepository.updateIrResponse(visit, TaskStatus.fail);
+                await irRepository.updateIrResponse(
+                  visit,
+                  TaskStatus.fail,
+                  uploadImageFailedReason: "${detectionRes.data}",
+                );
               }
             }
           } else {
@@ -99,16 +103,19 @@ class ImageRecognitionService {
           }
         },
         failure: (err) async {
-          await irRepository.updateIrResponse(visit, TaskStatus.fail);
+          await irRepository.updateIrResponse(visit, TaskStatus.fail,
+              uploadImageFailedReason: err);
         },
       );
     } catch (e, s) {
-      await irRepository.updateIrResponse(visit, TaskStatus.fail);
+      await irRepository.updateIrResponse(visit, TaskStatus.fail,
+          uploadImageFailedReason: "$e");
       logger.e(e, s);
     }
   }
 
-  Future<String?> _uploadImage(ApiService apiHelper, IrMasterModel visit) async {
+  Future<String?> _uploadImage(
+      ApiService apiHelper, IrMasterModel visit) async {
     for (var count = 0; count < 4; count++) {
       try {
         final response = await apiHelper.postFile(

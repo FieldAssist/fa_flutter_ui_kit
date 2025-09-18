@@ -3,6 +3,7 @@ import 'package:fa_flutter_core/fa_flutter_core.dart';
 import '../../enum/kpi_enum.dart';
 
 part 'ir_api_master_model.freezed.dart';
+
 part 'ir_api_master_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)

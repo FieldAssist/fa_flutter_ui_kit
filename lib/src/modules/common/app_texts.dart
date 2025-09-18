@@ -202,5 +202,5 @@ class AppTexts {
 
   String get kIrNotPerformedOnEquipmentsMsg =>
       _tr("kIrNotPerformedOnEquipmentsMsg") ??
-          "Please take images for all Company Equipments";
+      "Please take images for all Company Equipments";
 }

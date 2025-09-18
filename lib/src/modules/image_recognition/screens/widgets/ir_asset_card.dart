@@ -13,7 +13,8 @@ class IrAssetCard extends StatefulWidget {
     required this.allowBeforeAfterCapture,
     required this.equipment,
     required this.onDelete,
-    super.key, required this.irBloc,
+    super.key,
+    required this.irBloc,
   });
 
   final IrAssetsModel? irAssetModel;

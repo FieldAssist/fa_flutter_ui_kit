@@ -370,8 +370,8 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                       }
                     }
 
-                    // locator<EventBloc>().addAppSpecificTask(
-                    //   widget.isJsrUser
+                    // widget.irBloc.locator<IrEventBloc>().addAppSpecificTask(
+                    //   widget.irBloc.irConfigs.isUserJsr
                     //       ? AppSpecificTasks.skuAvailability
                     //       : AppSpecificTasks.ir,
                     // );

@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,136 +9,87 @@ part of 'place_mark_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-PlaceMarkData _$PlaceMarkDataFromJson(Map<String, dynamic> json) {
-  return _PlaceMarkData.fromJson(json);
-}
 
 /// @nodoc
 mixin _$PlaceMarkData {
-  String? get name => throw _privateConstructorUsedError;
-  String? get street => throw _privateConstructorUsedError;
-  String? get isoCountryCode => throw _privateConstructorUsedError;
-  String? get country => throw _privateConstructorUsedError;
-  String? get postalCode => throw _privateConstructorUsedError;
-  String? get administrativeArea => throw _privateConstructorUsedError;
-  String? get subAdministrativeArea => throw _privateConstructorUsedError;
-  String? get locality => throw _privateConstructorUsedError;
-  String? get subLocality => throw _privateConstructorUsedError;
-  String? get thoroughfare => throw _privateConstructorUsedError;
-  String? get subThoroughfare => throw _privateConstructorUsedError;
+  String? get name;
+  String? get street;
+  String? get isoCountryCode;
+  String? get country;
+  String? get postalCode;
+  String? get administrativeArea;
+  String? get subAdministrativeArea;
+  String? get locality;
+  String? get subLocality;
+  String? get thoroughfare;
+  String? get subThoroughfare;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $PlaceMarkDataCopyWith<PlaceMarkData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $PlaceMarkDataCopyWith<$Res> {
-  factory $PlaceMarkDataCopyWith(
-          PlaceMarkData value, $Res Function(PlaceMarkData) then) =
-      _$PlaceMarkDataCopyWithImpl<$Res, PlaceMarkData>;
-  @useResult
-  $Res call(
-      {String? name,
-      String? street,
-      String? isoCountryCode,
-      String? country,
-      String? postalCode,
-      String? administrativeArea,
-      String? subAdministrativeArea,
-      String? locality,
-      String? subLocality,
-      String? thoroughfare,
-      String? subThoroughfare});
-}
-
-/// @nodoc
-class _$PlaceMarkDataCopyWithImpl<$Res, $Val extends PlaceMarkData>
-    implements $PlaceMarkDataCopyWith<$Res> {
-  _$PlaceMarkDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of PlaceMarkData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $PlaceMarkDataCopyWith<PlaceMarkData> get copyWith =>
+      _$PlaceMarkDataCopyWithImpl<PlaceMarkData>(
+          this as PlaceMarkData, _$identity);
+
+  /// Serializes this PlaceMarkData to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? name = freezed,
-    Object? street = freezed,
-    Object? isoCountryCode = freezed,
-    Object? country = freezed,
-    Object? postalCode = freezed,
-    Object? administrativeArea = freezed,
-    Object? subAdministrativeArea = freezed,
-    Object? locality = freezed,
-    Object? subLocality = freezed,
-    Object? thoroughfare = freezed,
-    Object? subThoroughfare = freezed,
-  }) {
-    return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      street: freezed == street
-          ? _value.street
-          : street // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isoCountryCode: freezed == isoCountryCode
-          ? _value.isoCountryCode
-          : isoCountryCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-      postalCode: freezed == postalCode
-          ? _value.postalCode
-          : postalCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      administrativeArea: freezed == administrativeArea
-          ? _value.administrativeArea
-          : administrativeArea // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subAdministrativeArea: freezed == subAdministrativeArea
-          ? _value.subAdministrativeArea
-          : subAdministrativeArea // ignore: cast_nullable_to_non_nullable
-              as String?,
-      locality: freezed == locality
-          ? _value.locality
-          : locality // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subLocality: freezed == subLocality
-          ? _value.subLocality
-          : subLocality // ignore: cast_nullable_to_non_nullable
-              as String?,
-      thoroughfare: freezed == thoroughfare
-          ? _value.thoroughfare
-          : thoroughfare // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subThoroughfare: freezed == subThoroughfare
-          ? _value.subThoroughfare
-          : subThoroughfare // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PlaceMarkData &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.street, street) || other.street == street) &&
+            (identical(other.isoCountryCode, isoCountryCode) ||
+                other.isoCountryCode == isoCountryCode) &&
+            (identical(other.country, country) || other.country == country) &&
+            (identical(other.postalCode, postalCode) ||
+                other.postalCode == postalCode) &&
+            (identical(other.administrativeArea, administrativeArea) ||
+                other.administrativeArea == administrativeArea) &&
+            (identical(other.subAdministrativeArea, subAdministrativeArea) ||
+                other.subAdministrativeArea == subAdministrativeArea) &&
+            (identical(other.locality, locality) ||
+                other.locality == locality) &&
+            (identical(other.subLocality, subLocality) ||
+                other.subLocality == subLocality) &&
+            (identical(other.thoroughfare, thoroughfare) ||
+                other.thoroughfare == thoroughfare) &&
+            (identical(other.subThoroughfare, subThoroughfare) ||
+                other.subThoroughfare == subThoroughfare));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      street,
+      isoCountryCode,
+      country,
+      postalCode,
+      administrativeArea,
+      subAdministrativeArea,
+      locality,
+      subLocality,
+      thoroughfare,
+      subThoroughfare);
+
+  @override
+  String toString() {
+    return 'PlaceMarkData(name: $name, street: $street, isoCountryCode: $isoCountryCode, country: $country, postalCode: $postalCode, administrativeArea: $administrativeArea, subAdministrativeArea: $subAdministrativeArea, locality: $locality, subLocality: $subLocality, thoroughfare: $thoroughfare, subThoroughfare: $subThoroughfare)';
   }
 }
 
 /// @nodoc
-abstract class _$$_PlaceMarkDataCopyWith<$Res>
-    implements $PlaceMarkDataCopyWith<$Res> {
-  factory _$$_PlaceMarkDataCopyWith(
-          _$_PlaceMarkData value, $Res Function(_$_PlaceMarkData) then) =
-      __$$_PlaceMarkDataCopyWithImpl<$Res>;
-  @override
+abstract mixin class $PlaceMarkDataCopyWith<$Res> {
+  factory $PlaceMarkDataCopyWith(
+          PlaceMarkData value, $Res Function(PlaceMarkData) _then) =
+      _$PlaceMarkDataCopyWithImpl;
   @useResult
   $Res call(
       {String? name,
@@ -155,13 +106,15 @@ abstract class _$$_PlaceMarkDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PlaceMarkDataCopyWithImpl<$Res>
-    extends _$PlaceMarkDataCopyWithImpl<$Res, _$_PlaceMarkData>
-    implements _$$_PlaceMarkDataCopyWith<$Res> {
-  __$$_PlaceMarkDataCopyWithImpl(
-      _$_PlaceMarkData _value, $Res Function(_$_PlaceMarkData) _then)
-      : super(_value, _then);
+class _$PlaceMarkDataCopyWithImpl<$Res>
+    implements $PlaceMarkDataCopyWith<$Res> {
+  _$PlaceMarkDataCopyWithImpl(this._self, this._then);
 
+  final PlaceMarkData _self;
+  final $Res Function(PlaceMarkData) _then;
+
+  /// Create a copy of PlaceMarkData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,59 +130,285 @@ class __$$_PlaceMarkDataCopyWithImpl<$Res>
     Object? thoroughfare = freezed,
     Object? subThoroughfare = freezed,
   }) {
-    return _then(_$_PlaceMarkData(
+    return _then(_self.copyWith(
       name: freezed == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
       street: freezed == street
-          ? _value.street
+          ? _self.street
           : street // ignore: cast_nullable_to_non_nullable
               as String?,
       isoCountryCode: freezed == isoCountryCode
-          ? _value.isoCountryCode
+          ? _self.isoCountryCode
           : isoCountryCode // ignore: cast_nullable_to_non_nullable
               as String?,
       country: freezed == country
-          ? _value.country
+          ? _self.country
           : country // ignore: cast_nullable_to_non_nullable
               as String?,
       postalCode: freezed == postalCode
-          ? _value.postalCode
+          ? _self.postalCode
           : postalCode // ignore: cast_nullable_to_non_nullable
               as String?,
       administrativeArea: freezed == administrativeArea
-          ? _value.administrativeArea
+          ? _self.administrativeArea
           : administrativeArea // ignore: cast_nullable_to_non_nullable
               as String?,
       subAdministrativeArea: freezed == subAdministrativeArea
-          ? _value.subAdministrativeArea
+          ? _self.subAdministrativeArea
           : subAdministrativeArea // ignore: cast_nullable_to_non_nullable
               as String?,
       locality: freezed == locality
-          ? _value.locality
+          ? _self.locality
           : locality // ignore: cast_nullable_to_non_nullable
               as String?,
       subLocality: freezed == subLocality
-          ? _value.subLocality
+          ? _self.subLocality
           : subLocality // ignore: cast_nullable_to_non_nullable
               as String?,
       thoroughfare: freezed == thoroughfare
-          ? _value.thoroughfare
+          ? _self.thoroughfare
           : thoroughfare // ignore: cast_nullable_to_non_nullable
               as String?,
       subThoroughfare: freezed == subThoroughfare
-          ? _value.subThoroughfare
+          ? _self.subThoroughfare
           : subThoroughfare // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [PlaceMarkData].
+extension PlaceMarkDataPatterns on PlaceMarkData {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_PlaceMarkData value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PlaceMarkData() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_PlaceMarkData value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PlaceMarkData():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_PlaceMarkData value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PlaceMarkData() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String? name,
+            String? street,
+            String? isoCountryCode,
+            String? country,
+            String? postalCode,
+            String? administrativeArea,
+            String? subAdministrativeArea,
+            String? locality,
+            String? subLocality,
+            String? thoroughfare,
+            String? subThoroughfare)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PlaceMarkData() when $default != null:
+        return $default(
+            _that.name,
+            _that.street,
+            _that.isoCountryCode,
+            _that.country,
+            _that.postalCode,
+            _that.administrativeArea,
+            _that.subAdministrativeArea,
+            _that.locality,
+            _that.subLocality,
+            _that.thoroughfare,
+            _that.subThoroughfare);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String? name,
+            String? street,
+            String? isoCountryCode,
+            String? country,
+            String? postalCode,
+            String? administrativeArea,
+            String? subAdministrativeArea,
+            String? locality,
+            String? subLocality,
+            String? thoroughfare,
+            String? subThoroughfare)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PlaceMarkData():
+        return $default(
+            _that.name,
+            _that.street,
+            _that.isoCountryCode,
+            _that.country,
+            _that.postalCode,
+            _that.administrativeArea,
+            _that.subAdministrativeArea,
+            _that.locality,
+            _that.subLocality,
+            _that.thoroughfare,
+            _that.subThoroughfare);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String? name,
+            String? street,
+            String? isoCountryCode,
+            String? country,
+            String? postalCode,
+            String? administrativeArea,
+            String? subAdministrativeArea,
+            String? locality,
+            String? subLocality,
+            String? thoroughfare,
+            String? subThoroughfare)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PlaceMarkData() when $default != null:
+        return $default(
+            _that.name,
+            _that.street,
+            _that.isoCountryCode,
+            _that.country,
+            _that.postalCode,
+            _that.administrativeArea,
+            _that.subAdministrativeArea,
+            _that.locality,
+            _that.subLocality,
+            _that.thoroughfare,
+            _that.subThoroughfare);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$_PlaceMarkData extends _PlaceMarkData {
-  _$_PlaceMarkData(
+class _PlaceMarkData extends PlaceMarkData {
+  _PlaceMarkData(
       {this.name,
       this.street,
       this.isoCountryCode,
@@ -242,9 +421,8 @@ class _$_PlaceMarkData extends _PlaceMarkData {
       this.thoroughfare,
       this.subThoroughfare})
       : super._();
-
-  factory _$_PlaceMarkData.fromJson(Map<String, dynamic> json) =>
-      _$$_PlaceMarkDataFromJson(json);
+  factory _PlaceMarkData.fromJson(Map<String, dynamic> json) =>
+      _$PlaceMarkDataFromJson(json);
 
   @override
   final String? name;
@@ -269,16 +447,26 @@ class _$_PlaceMarkData extends _PlaceMarkData {
   @override
   final String? subThoroughfare;
 
+  /// Create a copy of PlaceMarkData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'PlaceMarkData(name: $name, street: $street, isoCountryCode: $isoCountryCode, country: $country, postalCode: $postalCode, administrativeArea: $administrativeArea, subAdministrativeArea: $subAdministrativeArea, locality: $locality, subLocality: $subLocality, thoroughfare: $thoroughfare, subThoroughfare: $subThoroughfare)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PlaceMarkDataCopyWith<_PlaceMarkData> get copyWith =>
+      __$PlaceMarkDataCopyWithImpl<_PlaceMarkData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$PlaceMarkDataToJson(
+      this,
+    );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PlaceMarkData &&
+            other is _PlaceMarkData &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.street, street) || other.street == street) &&
             (identical(other.isoCountryCode, isoCountryCode) ||
@@ -300,7 +488,7 @@ class _$_PlaceMarkData extends _PlaceMarkData {
                 other.subThoroughfare == subThoroughfare));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -316,62 +504,106 @@ class _$_PlaceMarkData extends _PlaceMarkData {
       thoroughfare,
       subThoroughfare);
 
-  @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
-  _$$_PlaceMarkDataCopyWith<_$_PlaceMarkData> get copyWith =>
-      __$$_PlaceMarkDataCopyWithImpl<_$_PlaceMarkData>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_PlaceMarkDataToJson(
-      this,
-    );
+  String toString() {
+    return 'PlaceMarkData(name: $name, street: $street, isoCountryCode: $isoCountryCode, country: $country, postalCode: $postalCode, administrativeArea: $administrativeArea, subAdministrativeArea: $subAdministrativeArea, locality: $locality, subLocality: $subLocality, thoroughfare: $thoroughfare, subThoroughfare: $subThoroughfare)';
   }
 }
 
-abstract class _PlaceMarkData extends PlaceMarkData {
-  factory _PlaceMarkData(
-      {final String? name,
-      final String? street,
-      final String? isoCountryCode,
-      final String? country,
-      final String? postalCode,
-      final String? administrativeArea,
-      final String? subAdministrativeArea,
-      final String? locality,
-      final String? subLocality,
-      final String? thoroughfare,
-      final String? subThoroughfare}) = _$_PlaceMarkData;
-  _PlaceMarkData._() : super._();
-
-  factory _PlaceMarkData.fromJson(Map<String, dynamic> json) =
-      _$_PlaceMarkData.fromJson;
-
+/// @nodoc
+abstract mixin class _$PlaceMarkDataCopyWith<$Res>
+    implements $PlaceMarkDataCopyWith<$Res> {
+  factory _$PlaceMarkDataCopyWith(
+          _PlaceMarkData value, $Res Function(_PlaceMarkData) _then) =
+      __$PlaceMarkDataCopyWithImpl;
   @override
-  String? get name;
-  @override
-  String? get street;
-  @override
-  String? get isoCountryCode;
-  @override
-  String? get country;
-  @override
-  String? get postalCode;
-  @override
-  String? get administrativeArea;
-  @override
-  String? get subAdministrativeArea;
-  @override
-  String? get locality;
-  @override
-  String? get subLocality;
-  @override
-  String? get thoroughfare;
-  @override
-  String? get subThoroughfare;
-  @override
-  @JsonKey(ignore: true)
-  _$$_PlaceMarkDataCopyWith<_$_PlaceMarkData> get copyWith =>
-      throw _privateConstructorUsedError;
+  @useResult
+  $Res call(
+      {String? name,
+      String? street,
+      String? isoCountryCode,
+      String? country,
+      String? postalCode,
+      String? administrativeArea,
+      String? subAdministrativeArea,
+      String? locality,
+      String? subLocality,
+      String? thoroughfare,
+      String? subThoroughfare});
 }
+
+/// @nodoc
+class __$PlaceMarkDataCopyWithImpl<$Res>
+    implements _$PlaceMarkDataCopyWith<$Res> {
+  __$PlaceMarkDataCopyWithImpl(this._self, this._then);
+
+  final _PlaceMarkData _self;
+  final $Res Function(_PlaceMarkData) _then;
+
+  /// Create a copy of PlaceMarkData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = freezed,
+    Object? street = freezed,
+    Object? isoCountryCode = freezed,
+    Object? country = freezed,
+    Object? postalCode = freezed,
+    Object? administrativeArea = freezed,
+    Object? subAdministrativeArea = freezed,
+    Object? locality = freezed,
+    Object? subLocality = freezed,
+    Object? thoroughfare = freezed,
+    Object? subThoroughfare = freezed,
+  }) {
+    return _then(_PlaceMarkData(
+      name: freezed == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      street: freezed == street
+          ? _self.street
+          : street // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isoCountryCode: freezed == isoCountryCode
+          ? _self.isoCountryCode
+          : isoCountryCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      country: freezed == country
+          ? _self.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String?,
+      postalCode: freezed == postalCode
+          ? _self.postalCode
+          : postalCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      administrativeArea: freezed == administrativeArea
+          ? _self.administrativeArea
+          : administrativeArea // ignore: cast_nullable_to_non_nullable
+              as String?,
+      subAdministrativeArea: freezed == subAdministrativeArea
+          ? _self.subAdministrativeArea
+          : subAdministrativeArea // ignore: cast_nullable_to_non_nullable
+              as String?,
+      locality: freezed == locality
+          ? _self.locality
+          : locality // ignore: cast_nullable_to_non_nullable
+              as String?,
+      subLocality: freezed == subLocality
+          ? _self.subLocality
+          : subLocality // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thoroughfare: freezed == thoroughfare
+          ? _self.thoroughfare
+          : thoroughfare // ignore: cast_nullable_to_non_nullable
+              as String?,
+      subThoroughfare: freezed == subThoroughfare
+          ? _self.subThoroughfare
+          : subThoroughfare // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+// dart format on

@@ -5,7 +5,7 @@ part 'place_mark_data.g.dart';
 
 /// This class is copy of Placemark model fields from geocoding package.
 @freezed
-class PlaceMarkData with _$PlaceMarkData {
+abstract class PlaceMarkData with _$PlaceMarkData {
   const PlaceMarkData._();
 
   factory PlaceMarkData({

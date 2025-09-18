@@ -3,16 +3,13 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
-import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/app_theme_config.dart';
-import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/session_repo_ir.dart';
-import 'package:fa_flutter_ui_kit/src/modules/image_recognition/configs/sku_repo_ir.dart';
+import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../config/colors.dart';
 import '../../../../utils/cam_image_picker_util.dart';
 import '../../../common/app_texts.dart';
 import '../../bloc/comparison_card_bloc.dart';
-import '../../bloc/ir_bloc.dart';
 import '../../bloc/ir_upload_status_card_bloc.dart';
 import '../../enum/image_upload_state_enum.dart';
 import '../../models/ir_outlet_asset_details_model.dart';
@@ -387,16 +384,16 @@ class _ImageSectionState extends State<ImageSection> {
     if (file == null) {
       return;
     }
-
-    // file = await appRouter.push(
-    //   ImageReviewPageRoute(
-    //     file: file,
-    //     onSaveTap: () {
-    //       Navigator.pop(context, file);
-    //     },
-    //     enforceCacheImageDelete: true,
-    //   ),
-    // ) as File?;
+    file = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ImageReviewPage(
+          onSaveTap: () {
+            Navigator.pop(context, file);
+          },
+          file: file,
+        ),
+      ),
+    );
 
     if (file != null) {
       widget.comparisonCardBloc.submitImage(
@@ -430,7 +427,7 @@ class _ImageSectionState extends State<ImageSection> {
             irMasterModel: irData[0],
             imagePath: widget.comparisonCardBloc.beforeImagePath!,
             onTapImage: () async {
-              final _file = null;
+              // final _file = null;
               // final _file = await appRouter.push(
               //   ImageReviewPageRoute(
               //     file: null,
@@ -439,6 +436,17 @@ class _ImageSectionState extends State<ImageSection> {
               //     enforceCacheImageDelete: true,
               //   ),
               // ) as File?;
+
+              final _file = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ImageReviewPage(
+                    onSaveTap: () {},
+                    file: null,
+                    imagePath: widget.comparisonCardBloc.beforeImagePath,
+                  ),
+                ),
+              );
+
               if (_file != null) {
                 widget.comparisonCardBloc.submitImage(
                   file: _file,
@@ -478,7 +486,7 @@ class _ImageSectionState extends State<ImageSection> {
             irMasterModel: irData[1],
             imagePath: widget.comparisonCardBloc.afterImagePath!,
             onTapImage: () async {
-              final _file = null;
+              // final _file = null;
               // final _file = await appRouter.push(
               //   ImageReviewPageRoute(
               //     file: null,
@@ -487,6 +495,17 @@ class _ImageSectionState extends State<ImageSection> {
               //     enforceCacheImageDelete: true,
               //   ),
               // ) as File?;
+
+              final _file = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ImageReviewPage(
+                    onSaveTap: () {},
+                    file: null,
+                    imagePath: widget.comparisonCardBloc.afterImagePath,
+                  ),
+                ),
+              );
+
               if (_file != null) {
                 widget.comparisonCardBloc.submitImage(
                   file: _file,

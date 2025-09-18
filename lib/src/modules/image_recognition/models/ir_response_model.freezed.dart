@@ -14,29 +14,29 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$IrResponseModel {
-  @JsonKey(name: "ImageURL")
+  @JsonKey(name: "imageURL")
   String get imageURL;
-  @JsonKey(name: "BrandSkuCount")
+  @JsonKey(name: "brandSkuCount")
   int get brandSkuCount;
-  @JsonKey(name: "TotalObjectCount")
+  @JsonKey(name: "totalObjectCount")
   int get totalObjectCount;
-  @JsonKey(name: "ShelfShare")
+  @JsonKey(name: "shelfShare")
   int get shelfShare;
-  @JsonKey(name: "ShelfSharePercent")
+  @JsonKey(name: "shelfSharePercent")
   double get shelfSharePercent;
-  @JsonKey(name: "AssetScore")
+  @JsonKey(name: "assetScore")
   double get assetScore;
-  @JsonKey(name: "Data")
+  @JsonKey(name: "data")
   List<IrResponseProductData> get data;
-  @JsonKey(name: "Products")
+  @JsonKey(name: "products")
   List<IrResponseProductData> get products;
-  @JsonKey(name: "KPIWeightage")
+  @JsonKey(name: "kpiWeightage")
   List<IrKpiWeightage> get kpiWeightage;
-  @JsonKey(name: "Planogram")
+  @JsonKey(name: "planogram")
   IrPlanogram? get planogram;
-  @JsonKey(name: "AssetName")
+  @JsonKey(name: "assetName")
   String? get assetName;
-  @JsonKey(name: "EquipmentName")
+  @JsonKey(name: "equipmentName")
   String? get equipmentName;
 
   /// Create a copy of IrResponseModel
@@ -109,18 +109,18 @@ abstract mixin class $IrResponseModelCopyWith<$Res> {
       _$IrResponseModelCopyWithImpl;
   @useResult
   $Res call(
-      {@JsonKey(name: "ImageURL") String imageURL,
-      @JsonKey(name: "BrandSkuCount") int brandSkuCount,
-      @JsonKey(name: "TotalObjectCount") int totalObjectCount,
-      @JsonKey(name: "ShelfShare") int shelfShare,
-      @JsonKey(name: "ShelfSharePercent") double shelfSharePercent,
-      @JsonKey(name: "AssetScore") double assetScore,
-      @JsonKey(name: "Data") List<IrResponseProductData> data,
-      @JsonKey(name: "Products") List<IrResponseProductData> products,
-      @JsonKey(name: "KPIWeightage") List<IrKpiWeightage> kpiWeightage,
-      @JsonKey(name: "Planogram") IrPlanogram? planogram,
-      @JsonKey(name: "AssetName") String? assetName,
-      @JsonKey(name: "EquipmentName") String? equipmentName});
+      {@JsonKey(name: "imageURL") String imageURL,
+      @JsonKey(name: "brandSkuCount") int brandSkuCount,
+      @JsonKey(name: "totalObjectCount") int totalObjectCount,
+      @JsonKey(name: "shelfShare") int shelfShare,
+      @JsonKey(name: "shelfSharePercent") double shelfSharePercent,
+      @JsonKey(name: "assetScore") double assetScore,
+      @JsonKey(name: "data") List<IrResponseProductData> data,
+      @JsonKey(name: "products") List<IrResponseProductData> products,
+      @JsonKey(name: "kpiWeightage") List<IrKpiWeightage> kpiWeightage,
+      @JsonKey(name: "planogram") IrPlanogram? planogram,
+      @JsonKey(name: "assetName") String? assetName,
+      @JsonKey(name: "equipmentName") String? equipmentName});
 
   $IrPlanogramCopyWith<$Res>? get planogram;
 }
@@ -312,18 +312,18 @@ extension IrResponseModelPatterns on IrResponseModel {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            @JsonKey(name: "ImageURL") String imageURL,
-            @JsonKey(name: "BrandSkuCount") int brandSkuCount,
-            @JsonKey(name: "TotalObjectCount") int totalObjectCount,
-            @JsonKey(name: "ShelfShare") int shelfShare,
-            @JsonKey(name: "ShelfSharePercent") double shelfSharePercent,
-            @JsonKey(name: "AssetScore") double assetScore,
-            @JsonKey(name: "Data") List<IrResponseProductData> data,
-            @JsonKey(name: "Products") List<IrResponseProductData> products,
-            @JsonKey(name: "KPIWeightage") List<IrKpiWeightage> kpiWeightage,
-            @JsonKey(name: "Planogram") IrPlanogram? planogram,
-            @JsonKey(name: "AssetName") String? assetName,
-            @JsonKey(name: "EquipmentName") String? equipmentName)?
+            @JsonKey(name: "imageURL") String imageURL,
+            @JsonKey(name: "brandSkuCount") int brandSkuCount,
+            @JsonKey(name: "totalObjectCount") int totalObjectCount,
+            @JsonKey(name: "shelfShare") int shelfShare,
+            @JsonKey(name: "shelfSharePercent") double shelfSharePercent,
+            @JsonKey(name: "assetScore") double assetScore,
+            @JsonKey(name: "data") List<IrResponseProductData> data,
+            @JsonKey(name: "products") List<IrResponseProductData> products,
+            @JsonKey(name: "kpiWeightage") List<IrKpiWeightage> kpiWeightage,
+            @JsonKey(name: "planogram") IrPlanogram? planogram,
+            @JsonKey(name: "assetName") String? assetName,
+            @JsonKey(name: "equipmentName") String? equipmentName)?
         $default, {
     required TResult orElse(),
   }) {
@@ -364,18 +364,18 @@ extension IrResponseModelPatterns on IrResponseModel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            @JsonKey(name: "ImageURL") String imageURL,
-            @JsonKey(name: "BrandSkuCount") int brandSkuCount,
-            @JsonKey(name: "TotalObjectCount") int totalObjectCount,
-            @JsonKey(name: "ShelfShare") int shelfShare,
-            @JsonKey(name: "ShelfSharePercent") double shelfSharePercent,
-            @JsonKey(name: "AssetScore") double assetScore,
-            @JsonKey(name: "Data") List<IrResponseProductData> data,
-            @JsonKey(name: "Products") List<IrResponseProductData> products,
-            @JsonKey(name: "KPIWeightage") List<IrKpiWeightage> kpiWeightage,
-            @JsonKey(name: "Planogram") IrPlanogram? planogram,
-            @JsonKey(name: "AssetName") String? assetName,
-            @JsonKey(name: "EquipmentName") String? equipmentName)
+            @JsonKey(name: "imageURL") String imageURL,
+            @JsonKey(name: "brandSkuCount") int brandSkuCount,
+            @JsonKey(name: "totalObjectCount") int totalObjectCount,
+            @JsonKey(name: "shelfShare") int shelfShare,
+            @JsonKey(name: "shelfSharePercent") double shelfSharePercent,
+            @JsonKey(name: "assetScore") double assetScore,
+            @JsonKey(name: "data") List<IrResponseProductData> data,
+            @JsonKey(name: "products") List<IrResponseProductData> products,
+            @JsonKey(name: "kpiWeightage") List<IrKpiWeightage> kpiWeightage,
+            @JsonKey(name: "planogram") IrPlanogram? planogram,
+            @JsonKey(name: "assetName") String? assetName,
+            @JsonKey(name: "equipmentName") String? equipmentName)
         $default,
   ) {
     final _that = this;
@@ -414,18 +414,18 @@ extension IrResponseModelPatterns on IrResponseModel {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            @JsonKey(name: "ImageURL") String imageURL,
-            @JsonKey(name: "BrandSkuCount") int brandSkuCount,
-            @JsonKey(name: "TotalObjectCount") int totalObjectCount,
-            @JsonKey(name: "ShelfShare") int shelfShare,
-            @JsonKey(name: "ShelfSharePercent") double shelfSharePercent,
-            @JsonKey(name: "AssetScore") double assetScore,
-            @JsonKey(name: "Data") List<IrResponseProductData> data,
-            @JsonKey(name: "Products") List<IrResponseProductData> products,
-            @JsonKey(name: "KPIWeightage") List<IrKpiWeightage> kpiWeightage,
-            @JsonKey(name: "Planogram") IrPlanogram? planogram,
-            @JsonKey(name: "AssetName") String? assetName,
-            @JsonKey(name: "EquipmentName") String? equipmentName)?
+            @JsonKey(name: "imageURL") String imageURL,
+            @JsonKey(name: "brandSkuCount") int brandSkuCount,
+            @JsonKey(name: "totalObjectCount") int totalObjectCount,
+            @JsonKey(name: "shelfShare") int shelfShare,
+            @JsonKey(name: "shelfSharePercent") double shelfSharePercent,
+            @JsonKey(name: "assetScore") double assetScore,
+            @JsonKey(name: "data") List<IrResponseProductData> data,
+            @JsonKey(name: "products") List<IrResponseProductData> products,
+            @JsonKey(name: "kpiWeightage") List<IrKpiWeightage> kpiWeightage,
+            @JsonKey(name: "planogram") IrPlanogram? planogram,
+            @JsonKey(name: "assetName") String? assetName,
+            @JsonKey(name: "equipmentName") String? equipmentName)?
         $default,
   ) {
     final _that = this;
@@ -454,56 +454,56 @@ extension IrResponseModelPatterns on IrResponseModel {
 @JsonSerializable()
 class _IrResponseModel implements IrResponseModel {
   _IrResponseModel(
-      {@JsonKey(name: "ImageURL") this.imageURL = "",
-      @JsonKey(name: "BrandSkuCount") this.brandSkuCount = 0,
-      @JsonKey(name: "TotalObjectCount") this.totalObjectCount = 0,
-      @JsonKey(name: "ShelfShare") this.shelfShare = 0,
-      @JsonKey(name: "ShelfSharePercent") this.shelfSharePercent = 0,
-      @JsonKey(name: "AssetScore") this.assetScore = 0,
-      @JsonKey(name: "Data") this.data = const [],
-      @JsonKey(name: "Products") this.products = const [],
-      @JsonKey(name: "KPIWeightage") this.kpiWeightage = const [],
-      @JsonKey(name: "Planogram") this.planogram,
-      @JsonKey(name: "AssetName") this.assetName,
-      @JsonKey(name: "EquipmentName") this.equipmentName});
+      {@JsonKey(name: "imageURL") this.imageURL = "",
+      @JsonKey(name: "brandSkuCount") this.brandSkuCount = 0,
+      @JsonKey(name: "totalObjectCount") this.totalObjectCount = 0,
+      @JsonKey(name: "shelfShare") this.shelfShare = 0,
+      @JsonKey(name: "shelfSharePercent") this.shelfSharePercent = 0,
+      @JsonKey(name: "assetScore") this.assetScore = 0,
+      @JsonKey(name: "data") this.data = const [],
+      @JsonKey(name: "products") this.products = const [],
+      @JsonKey(name: "kpiWeightage") this.kpiWeightage = const [],
+      @JsonKey(name: "planogram") this.planogram,
+      @JsonKey(name: "assetName") this.assetName,
+      @JsonKey(name: "equipmentName") this.equipmentName});
   factory _IrResponseModel.fromJson(Map<String, dynamic> json) =>
       _$IrResponseModelFromJson(json);
 
   @override
-  @JsonKey(name: "ImageURL")
+  @JsonKey(name: "imageURL")
   final String imageURL;
   @override
-  @JsonKey(name: "BrandSkuCount")
+  @JsonKey(name: "brandSkuCount")
   final int brandSkuCount;
   @override
-  @JsonKey(name: "TotalObjectCount")
+  @JsonKey(name: "totalObjectCount")
   final int totalObjectCount;
   @override
-  @JsonKey(name: "ShelfShare")
+  @JsonKey(name: "shelfShare")
   final int shelfShare;
   @override
-  @JsonKey(name: "ShelfSharePercent")
+  @JsonKey(name: "shelfSharePercent")
   final double shelfSharePercent;
   @override
-  @JsonKey(name: "AssetScore")
+  @JsonKey(name: "assetScore")
   final double assetScore;
   @override
-  @JsonKey(name: "Data")
+  @JsonKey(name: "data")
   final List<IrResponseProductData> data;
   @override
-  @JsonKey(name: "Products")
+  @JsonKey(name: "products")
   final List<IrResponseProductData> products;
   @override
-  @JsonKey(name: "KPIWeightage")
+  @JsonKey(name: "kpiWeightage")
   final List<IrKpiWeightage> kpiWeightage;
   @override
-  @JsonKey(name: "Planogram")
+  @JsonKey(name: "planogram")
   final IrPlanogram? planogram;
   @override
-  @JsonKey(name: "AssetName")
+  @JsonKey(name: "assetName")
   final String? assetName;
   @override
-  @JsonKey(name: "EquipmentName")
+  @JsonKey(name: "equipmentName")
   final String? equipmentName;
 
   /// Create a copy of IrResponseModel
@@ -582,18 +582,18 @@ abstract mixin class _$IrResponseModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "ImageURL") String imageURL,
-      @JsonKey(name: "BrandSkuCount") int brandSkuCount,
-      @JsonKey(name: "TotalObjectCount") int totalObjectCount,
-      @JsonKey(name: "ShelfShare") int shelfShare,
-      @JsonKey(name: "ShelfSharePercent") double shelfSharePercent,
-      @JsonKey(name: "AssetScore") double assetScore,
-      @JsonKey(name: "Data") List<IrResponseProductData> data,
-      @JsonKey(name: "Products") List<IrResponseProductData> products,
-      @JsonKey(name: "KPIWeightage") List<IrKpiWeightage> kpiWeightage,
-      @JsonKey(name: "Planogram") IrPlanogram? planogram,
-      @JsonKey(name: "AssetName") String? assetName,
-      @JsonKey(name: "EquipmentName") String? equipmentName});
+      {@JsonKey(name: "imageURL") String imageURL,
+      @JsonKey(name: "brandSkuCount") int brandSkuCount,
+      @JsonKey(name: "totalObjectCount") int totalObjectCount,
+      @JsonKey(name: "shelfShare") int shelfShare,
+      @JsonKey(name: "shelfSharePercent") double shelfSharePercent,
+      @JsonKey(name: "assetScore") double assetScore,
+      @JsonKey(name: "data") List<IrResponseProductData> data,
+      @JsonKey(name: "products") List<IrResponseProductData> products,
+      @JsonKey(name: "kpiWeightage") List<IrKpiWeightage> kpiWeightage,
+      @JsonKey(name: "planogram") IrPlanogram? planogram,
+      @JsonKey(name: "assetName") String? assetName,
+      @JsonKey(name: "equipmentName") String? equipmentName});
 
   @override
   $IrPlanogramCopyWith<$Res>? get planogram;
