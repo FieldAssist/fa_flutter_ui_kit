@@ -35,8 +35,7 @@ class MethodChannelFaSafeDevice extends FaSafeDevicePlatform {
 
   @override
   Future<bool> isDeveloperModeEnabled() async {
-    final isDeveloperModeEnabled =
-        await SafeDevice.isDevelopmentModeEnable ||
+    final isDeveloperModeEnabled = await SafeDevice.isDevelopmentModeEnable ||
         await SafeDevice.isMockLocation;
     return isDeveloperModeEnabled;
   }
