@@ -106,17 +106,15 @@ class Year extends StatefulWidget {
   }
 
   factory Year.forRange(
-    DateTime currentDate,
     DateTime? startDate,
     DateTime? endDate,
-    int dayDiff,
     DateSelected dateSelected,
   ) {
     return Year(
       onDateSelected: dateSelected,
       selectedDate: startDate,
       startDate: startDate,
-      year: ModelYear.forRange(currentDate, startDate, endDate, dayDiff),
+      year: ModelYear.forRange(startDate, endDate),
     );
   }
 
