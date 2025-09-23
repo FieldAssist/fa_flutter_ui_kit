@@ -128,7 +128,34 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                       vertical: 10,
                     ),
                     child: TextButton(
-                      onPressed: widget.onProceed,
+                      onPressed: () async {
+                        if (widget.irBloc.irConfigs.isUserJsr) {
+                          await CommonProgressDialog.show(
+                            context,
+                            message: AppTexts().kPleaseWait,
+                          );
+
+                          final imagesTakenForAllEquipments = await widget
+                              .irBloc
+                              .isImagesTakenForAllEquipments();
+
+                          await CommonProgressDialog.hide();
+
+                          if (!imagesTakenForAllEquipments) {
+                            await showDialog(
+                              context: context,
+                              builder: (context) => dialogWidget(
+                                subtitle:
+                                    AppTexts().kIrNotPerformedOnEquipmentsMsg,
+                                rightButtonText: "OK",
+                              ),
+                            );
+                            return;
+                          }
+                        }
+
+                        widget.onProceed();
+                      },
                       child: Text('${AppTexts().kSkip}'),
                     ),
                   );
@@ -268,8 +295,12 @@ class _IrAssetsDisplayPageState extends State<IrAssetsDisplayPage>
                     await CommonProgressDialog.hide();
 
                     if (!imagesTakenForAllEquipments) {
-                      BotToast.showText(
-                        text: AppTexts().kIrNotPerformedOnEquipmentsMsg,
+                      await showDialog(
+                        context: context,
+                        builder: (context) => dialogWidget(
+                          subtitle: AppTexts().kIrNotPerformedOnEquipmentsMsg,
+                          rightButtonText: "OK",
+                        ),
                       );
                       return;
                     }
