@@ -28,9 +28,6 @@ class MyTheme {
           titleSpacing: 8,
           toolbarHeight: 60,
           backgroundColor: AppColors.kBlueColor.shade25,
-          systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-            statusBarColor: AppColors.kBlueColor.shade25,
-          ),
         ),
         fontFamily: font,
         fontFamilyFallback: ['Roboto', 'SanFrancisco', 'Halvetica'],
