@@ -42,11 +42,10 @@ class CurrencyUtil {
     final normalizedValue = roundNumber(inputValue);
     final compactResult = _getCompactFormatResult(normalizedValue);
     final compactValue = compactResult.value;
-    final int usedDecimalDigits = (passedDecimalDigits ??
-        decimalDigits ??
-        (((useCompact && compactValue % 1 != 0) || inputValue % 1 != 0)
-            ? 2
-            : 0));
+    final int usedDecimalDigits =
+        ((useCompact && compactValue % 1 != 0) || inputValue % 1 != 0)
+            ? (passedDecimalDigits ?? decimalDigits ?? 2)
+            : 0;
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
@@ -88,7 +87,9 @@ class CurrencyUtil {
 
   String getFormattedInrDouble(num amount, {bool? compact}) =>
       formatNumber(amount, compact: compact);
+
   String getFormattedInrInt(num amount) => formatCurrency(amount);
+
   String getFormattedIntDouble2Places(num amount, {bool? compact}) =>
       formatNumber(amount, compact: compact, passedDecimalDigits: 2);
 
