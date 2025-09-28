@@ -95,19 +95,19 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/apgapg>
-            <img src=https://avatars.githubusercontent.com/u/13887407?v=4 width="100;"  alt=Ayush P Gupta/>
+        <a href=https://github.com/PrakharMittal26>
+            <img src=https://avatars.githubusercontent.com/u/189090749?v=4 width="100;"  alt=Prakhar Mittal/>
             <br />
-            <sub style="font-size:14px"><b>Ayush P Gupta</b></sub>
+            <sub style="font-size:14px"><b>Prakhar Mittal</b></sub>
         </a>
     </td>
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/PrakharMittal26>
-            <img src=https://avatars.githubusercontent.com/u/189090749?v=4 width="100;"  alt=Prakhar Mittal/>
+        <a href=https://github.com/apgapg>
+            <img src=https://avatars.githubusercontent.com/u/13887407?v=4 width="100;"  alt=Ayush P Gupta/>
             <br />
-            <sub style="font-size:14px"><b>Prakhar Mittal</b></sub>
+            <sub style="font-size:14px"><b>Ayush P Gupta</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
