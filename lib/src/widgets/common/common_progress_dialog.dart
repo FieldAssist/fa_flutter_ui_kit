@@ -14,6 +14,7 @@ class CommonProgressDialog {
     BuildContext context, {
     String message = 'Please Wait !',
     bool isDismissible = false,
+    Widget? customLoader,
   }) async {
     await hide(); // Ensure any existing dialog is properly hidden
 
@@ -21,7 +22,7 @@ class CommonProgressDialog {
     _dialog = ProgressDialog(context, isDismissible: isDismissible)
       ..style(
         message: message,
-        progressWidget: _defaultProgressWidget,
+        progressWidget: customLoader ?? _defaultProgressWidget,
         padding: const EdgeInsets.symmetric(vertical: 8),
       );
     return _dialog!.show();
