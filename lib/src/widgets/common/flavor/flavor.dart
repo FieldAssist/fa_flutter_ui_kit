@@ -8,6 +8,7 @@ enum Flavor {
   DEBUG3,
   DEBUGA,
   UAT,
+  COLPAL,
 }
 
 extension FlavorX on Flavor {
@@ -28,6 +29,8 @@ extension FlavorX on Flavor {
         return "Debug A";
       case Flavor.UAT:
         return "UAT";
+      case Flavor.COLPAL:
+        return "COLPAL";
     }
   }
 
@@ -42,6 +45,7 @@ extension FlavorX on Flavor {
       case Flavor.DEBUG2:
       case Flavor.DEBUG3:
       case Flavor.DEBUGA:
+      case Flavor.COLPAL:
         return Colors.red;
     }
   }
