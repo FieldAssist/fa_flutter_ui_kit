@@ -21,11 +21,16 @@ class NoItemsFound extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            Image.asset("assets/images/empty_carton.png"),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               text != null && text!.isNotEmpty ? text! : "No items found",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
             ),
           ],
