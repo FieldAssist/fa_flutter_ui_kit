@@ -21,7 +21,10 @@ class NoItemsFound extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Image.asset("assets/images/empty_carton.png"),
+            Image.asset(
+              "assets/images/empty_carton.png",
+              package: 'fa_flutter_ui_kit',
+            ),
             SizedBox(
               height: 10,
             ),
