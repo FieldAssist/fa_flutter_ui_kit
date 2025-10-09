@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 enum Flavor {
   PROD,
   DEV,
-  DEBUG1,
-  DEBUG2,
-  DEBUG3,
-  DEBUGA,
-  UAT,
+  COLPAL,
 }
 
 extension FlavorX on Flavor {
@@ -18,16 +14,8 @@ extension FlavorX on Flavor {
         return 'Prod';
       case Flavor.DEV:
         return 'Dev';
-      case Flavor.DEBUG1:
-        return "Debug 1";
-      case Flavor.DEBUG2:
-        return "Debug 2";
-      case Flavor.DEBUG3:
-        return "Debug 3";
-      case Flavor.DEBUGA:
-        return "Debug A";
-      case Flavor.UAT:
-        return "UAT";
+      case Flavor.COLPAL:
+        return "COLPAL";
     }
   }
 
@@ -35,13 +23,9 @@ extension FlavorX on Flavor {
   Color get color {
     switch (this) {
       case Flavor.PROD:
-      case Flavor.UAT:
         return Colors.blue;
+      case Flavor.COLPAL:
       case Flavor.DEV:
-      case Flavor.DEBUG1:
-      case Flavor.DEBUG2:
-      case Flavor.DEBUG3:
-      case Flavor.DEBUGA:
         return Colors.red;
     }
   }
