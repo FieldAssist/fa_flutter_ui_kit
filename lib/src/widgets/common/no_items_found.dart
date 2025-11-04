@@ -52,10 +52,11 @@ class NoItemsFound extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                    child: Text(
-                  subTitle ?? "",
-                  textAlign: TextAlign.center,
-                ),),
+                  child: Text(
+                    subTitle ?? "",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
             ],
           ],
