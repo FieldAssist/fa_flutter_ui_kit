@@ -19,13 +19,13 @@ dependencies:
   fa_flutter_core:
     git:
       url: https://github.com/FieldAssist/fa_flutter_core.git
-      ref: flutter_3.35.7
+      ref: main
 
   # Api service
   fa_flutter_api_client:
     git:
       url: https://github.com/FieldAssist/fa_flutter_api_client.git
-      ref: flutter_3.35.7
+      ref: main
   decimal: ^3.2.4
   cool_flare: ^3.1.0
   app_settings: ^6.1.1
