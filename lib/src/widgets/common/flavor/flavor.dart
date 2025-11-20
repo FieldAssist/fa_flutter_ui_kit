@@ -10,6 +10,8 @@ enum Flavor {
   UAT,
   COLPAL,
   GULF,
+  SLMG,
+  DeliveryApp,
 }
 
 extension FlavorX on Flavor {
@@ -34,6 +36,10 @@ extension FlavorX on Flavor {
         return "COLPAL";
       case Flavor.GULF:
         return "GULF";
+      case Flavor.SLMG:
+        return "SLMG";
+      case Flavor.DeliveryApp:
+        return "Delivery App";
     }
   }
 
@@ -43,6 +49,7 @@ extension FlavorX on Flavor {
       case Flavor.PROD:
       case Flavor.UAT:
       case Flavor.GULF:
+      case Flavor.DeliveryApp:
         return Colors.blue;
       case Flavor.DEV:
       case Flavor.DEBUG1:
@@ -50,6 +57,7 @@ extension FlavorX on Flavor {
       case Flavor.DEBUG3:
       case Flavor.DEBUGA:
       case Flavor.COLPAL:
+      case Flavor.SLMG:
         return Colors.red;
     }
   }
