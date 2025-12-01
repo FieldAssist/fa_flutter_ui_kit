@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  qr_code_scanner_plus: ^2.0.14
+#  qr_code_scanner_plus: ^2.0.14
   speech_to_text: ^7.3.0
   flutter_tts: ^4.2.3
   file_picker: ^10.3.6
