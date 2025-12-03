@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:decimal/decimal.dart';
 import 'package:fa_flutter_ui_kit/src/utils/currency/enums.dart';
 import 'package:fa_flutter_ui_kit/src/utils/currency/models.dart';
@@ -41,13 +42,15 @@ class CurrencyUtil {
       int? passedDecimalDigits,
       bool showExplicitDecimals = false}) {
     final useCompact = compact ?? useCompactFormat;
-    final normalizedValue = roundNumber(inputValue);
+    final requiredDecimalDigits = passedDecimalDigits ?? decimalDigits ?? 2;
+    final normalizedValue =
+        roundNumber(inputValue, fractionDigits: requiredDecimalDigits);
     final compactResult = _getCompactFormatResult(normalizedValue);
     final compactValue = compactResult.value;
     final int usedDecimalDigits = (showExplicitDecimals ||
             (useCompact && compactValue % 1 != 0) ||
             inputValue % 1 != 0)
-        ? (passedDecimalDigits ?? decimalDigits ?? 2)
+        ? requiredDecimalDigits
         : 0;
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
@@ -76,7 +79,8 @@ class CurrencyUtil {
   }) {
     final int usedDecimalDigits =
         (passedDecimalDigits ?? decimalDigits ?? (value % 1 == 0 ? 0 : 2));
-    final normalizedValue = roundNumber(value);
+    final normalizedValue =
+        roundNumber(value, fractionDigits: usedDecimalDigits);
 
     final localFormatter = locale.getCurrencyFormat(usedDecimalDigits);
     try {
@@ -107,22 +111,21 @@ class CurrencyUtil {
     return CurrencyUtil(locale: locale, decimalDigits: decimalDigits);
   }
 
-  double roundNumber(
-    num value,
-  ) =>
-      getDecimalVal(value);
+  double roundNumber(num value, {int fractionDigits = 2}) =>
+      getDecimalVal(value, fractionDigits: fractionDigits);
 
-  double getDecimalVal(num value) {
+  double getDecimalVal(num value, {int fractionDigits = 2}) {
     if (value.abs() < 1e-12) return 0.0;
     final _amt = Decimal.parse(value.toString());
 
     final epsilon = Decimal.parse("0.00000000000001");
     final adjustedAmt = _amt + epsilon;
 
-    final scaledNum = (adjustedAmt * Decimal.fromInt(100));
+    final scaleFactor = Decimal.fromInt(pow(10, fractionDigits).toInt());
+    final scaledNum = adjustedAmt * scaleFactor;
     final roundedNum = scaledNum.round();
 
-    final number = (roundedNum / Decimal.fromInt(100)).toDouble();
+    final number = (roundedNum / scaleFactor).toDouble();
     return number;
   }
 
