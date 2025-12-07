@@ -16,4 +16,12 @@ class FaSafeDevice {
   Future<bool> isDeveloperModeEnabled() {
     return FaSafeDevicePlatform.instance.isDeveloperModeEnabled();
   }
+
+  Future<bool> isJailBroken() {
+    return FaSafeDevicePlatform.instance.isJailBroken();
+  }
+
+  Future<bool> isRealDevice() {
+    return FaSafeDevicePlatform.instance.isRealDevice();
+  }
 }
