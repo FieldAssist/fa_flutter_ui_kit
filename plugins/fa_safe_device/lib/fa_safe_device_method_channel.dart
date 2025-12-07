@@ -39,4 +39,16 @@ class MethodChannelFaSafeDevice extends FaSafeDevicePlatform {
         await SafeDevice.isMockLocation;
     return isDeveloperModeEnabled;
   }
+
+  @override
+  Future<bool> isJailBroken() async {
+    final isJailBroken = await SafeDevice.isJailBroken;
+    return isJailBroken;
+  }
+
+  @override
+  Future<bool> isRealDevice() async {
+    final isRealDevice = await SafeDevice.isRealDevice;
+    return isRealDevice;
+  }
 }

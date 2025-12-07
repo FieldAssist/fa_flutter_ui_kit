@@ -42,4 +42,13 @@ abstract class FaSafeDevicePlatform extends PlatformInterface {
       'isDeveloperModeEnabled() has not been implemented.',
     );
   }
+
+// Checks whether device is JailBroken (iOS) or Rooted (Android)
+Future<bool> isJailBroken() async {
+    throw UnimplementedError('isJailBroken() has not been implemented.');
+  }
+
+  Future<bool> isRealDevice() async {
+    throw UnimplementedError('isRealDevice() has not been implemented.');
+  }
 }

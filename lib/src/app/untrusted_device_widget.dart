@@ -6,12 +6,16 @@ class UntrustedDeviceWidget extends StatelessWidget {
   final bool isDeveloperMode;
   final bool isAutoTimeZoneEnabled;
   final bool isAutoTimeEnabled;
+  final bool isJailBroken;
+  final bool isRealDevice;
 
   const UntrustedDeviceWidget({
     Key? key,
     required this.isDeveloperMode,
     required this.isAutoTimeZoneEnabled,
     required this.isAutoTimeEnabled,
+    required this.isJailBroken,
+    required this.isRealDevice,
   }) : super(key: key);
 
   @override
@@ -66,6 +70,24 @@ class UntrustedDeviceWidget extends StatelessWidget {
                     onTap: () => AppSettings.openAppSettings(
                         type: AppSettingsType.date, asAnotherTask: true),
                     icon: Icons.schedule,
+                  ),
+                if (isJailBroken)
+                  _buildSettingItem(
+                    title: 'Device is Jailbroken/Rooted',
+                    description:
+                        'Please unroot your device to ensure security.\n1. Use a root management app to unroot\n2. Factory reset your device if necessary',
+                    onTap: () => AppSettings.openAppSettings(
+                        type: AppSettingsType.security, asAnotherTask: true),
+                    icon: Icons.security,
+                  ),
+                if (!isRealDevice)
+                  _buildSettingItem(
+                    title: 'Emulator/Simulator Detected',
+                    description:
+                        'Please use a real device to ensure security.\n1. Switch to a physical device for better security',
+                    onTap: () => AppSettings.openAppSettings(
+                        type: AppSettingsType.security, asAnotherTask: true),
+                    icon: Icons.phone_iphone,
                   ),
               ],
             ),
