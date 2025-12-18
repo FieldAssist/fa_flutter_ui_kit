@@ -229,8 +229,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
               ? Text(
                   widget.qtyText ?? "",
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontSize: 8,
-                        color: AppColors.kLightGrey,
+                      fontSize: 10,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
                       ),
                 )
               : GestureDetector(
@@ -241,8 +242,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                       Text(
                         widget.qtyText ?? "",
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              fontSize: 8,
-                              color: AppColors.kLightGrey,
+                            fontSize: 10,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold
                             ),
                       ),
                       if (widget.qtyTextTrailingIcon != null)
