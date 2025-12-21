@@ -212,6 +212,13 @@ compileSdkVersion 32
             <sub style="font-size:14px"><b>Tushar Sharma</b></sub>
         </a>
     </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/prince-saini-dev>
+            <img src=https://avatars.githubusercontent.com/u/237022259?v=4 width="100;"  alt=prince-saini-dev/>
+            <br />
+            <sub style="font-size:14px"><b>prince-saini-dev</b></sub>
+        </a>
+    </td>
 </tr>
 </table>
 
