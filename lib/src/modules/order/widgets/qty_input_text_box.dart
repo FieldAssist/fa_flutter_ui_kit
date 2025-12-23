@@ -229,7 +229,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
               ? Text(
                   widget.qtyText ?? "",
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontSize: 10,
+                      fontSize: 8,
                       fontWeight: FontWeight.bold
                       ),
                 )
@@ -241,7 +241,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                       Text(
                         widget.qtyText ?? "",
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontSize: 10,
+                            fontSize: 8,
                             fontWeight: FontWeight.bold
                             ),
                       ),
