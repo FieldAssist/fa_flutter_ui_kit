@@ -364,38 +364,33 @@ class Month extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: (month!.weeks.length * weekRowHeight) + overheadSpace,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: MonthName(
-              name: month!.name,
-            ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: MonthName(
+            name: month!.name,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: WeekNameRow(),
-          ),
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: month!.weeks.length,
-                itemBuilder: (context, index) {
-                  return Week(
-                    onDateSelected: onDateSelected,
-                    week: month!.weeks[index],
-                  );
-                },
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: WeekNameRow(),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              month!.weeks.length,
+              (index) => Week(
+                onDateSelected: onDateSelected,
+                week: month!.weeks[index],
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }
