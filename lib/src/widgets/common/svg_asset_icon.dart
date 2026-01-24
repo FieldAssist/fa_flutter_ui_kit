@@ -9,6 +9,7 @@ class SvgAssetIcon extends StatelessWidget {
     this.color,
     this.labelText = "",
     this.padding,
+    this.package,
   });
 
   final String path;
@@ -17,6 +18,7 @@ class SvgAssetIcon extends StatelessWidget {
   final Color? color;
   final String labelText;
   final double? padding;
+  final String? package;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class SvgAssetIcon extends StatelessWidget {
           path,
           color: color ?? Theme.of(context).iconTheme.color,
           semanticsLabel: labelText,
+          package: package,
         ),
       ),
     );

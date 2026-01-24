@@ -8,6 +8,7 @@ class SvgAssetImage extends StatelessWidget {
     this.width = 200,
     this.labelText = "",
     this.iconColor,
+    this.package,
   });
 
   final String path;
@@ -15,6 +16,7 @@ class SvgAssetImage extends StatelessWidget {
   final double width;
   final String labelText;
   final Color? iconColor;
+  final String? package;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class SvgAssetImage extends StatelessWidget {
           path,
           semanticsLabel: labelText,
           color: iconColor,
+          package: package,
         ),
       ),
     );
