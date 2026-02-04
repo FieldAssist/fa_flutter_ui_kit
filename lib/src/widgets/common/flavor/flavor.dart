@@ -14,6 +14,7 @@ enum Flavor {
   SLMG,
   DeliveryApp,
   HCCB,
+  FAONE,
 }
 
 extension FlavorX on Flavor {
@@ -46,6 +47,8 @@ extension FlavorX on Flavor {
         return "HCCB";
       case Flavor.DeliveryApp:
         return "Delivery App";
+      case Flavor.FAONE:
+        return "FieldAssist One";
     }
   }
 
@@ -57,6 +60,7 @@ extension FlavorX on Flavor {
       case Flavor.HOTFIX:
       case Flavor.GULF:
       case Flavor.DeliveryApp:
+      case Flavor.FAONE:
         return Colors.blue;
       case Flavor.DEV:
       case Flavor.DEBUG1:
