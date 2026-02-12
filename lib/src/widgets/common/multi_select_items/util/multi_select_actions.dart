@@ -64,14 +64,12 @@ mixin MultiSelectActions<T> {
   }
 
   List<MultiSelectItem<T>> separateSelected(List<MultiSelectItem<T>> list) {
-    List<MultiSelectItem<T>> _selectedItems = [];
-    List<MultiSelectItem<T>> _nonSelectedItems = [];
-
-    _nonSelectedItems.addAll(list.where((element) => !element.selected));
-    _nonSelectedItems.sort((a, b) => a.label.compareTo(b.label));
-    _selectedItems.addAll(list.where((element) => element.selected));
-    _selectedItems.sort((a, b) => a.label.compareTo(b.label));
-
-    return [..._selectedItems, ..._nonSelectedItems];
+    final sortedList = List<MultiSelectItem<T>>.from(list);
+    sortedList.sort((a, b) {
+      if (a.selected && !b.selected) return -1;
+      if (!a.selected && b.selected) return 1;
+      return a.label.compareTo(b.label);
+    });
+    return sortedList;
   }
 }
