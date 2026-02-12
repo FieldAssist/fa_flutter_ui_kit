@@ -66,4 +66,43 @@ void main() {
     expect(result[0].label, 'Apple');
     expect(result[1].label, 'Banana');
   });
+
+  test('updateSearchQuery returns all items if search query is invalid', () {
+    final actions = TestActions();
+    final items = [
+      MultiSelectItem(1, 'Apple'),
+      MultiSelectItem(2, 'Banana'),
+    ];
+
+    expect(actions.updateSearchQuery(null, items), items);
+    expect(actions.updateSearchQuery('', items), items);
+    expect(actions.updateSearchQuery('  ', items), items);
+    expect(actions.updateSearchQuery('Ap', items), items); // Length < 3
+  });
+
+  test('updateSearchQuery filters items correctly (case insensitive)', () {
+    final actions = TestActions();
+    final item1 = MultiSelectItem(1, 'Apple');
+    final item2 = MultiSelectItem(2, 'Banana');
+    final item3 = MultiSelectItem(3, 'Pineapple');
+    final items = [item1, item2, item3];
+
+    final result = actions.updateSearchQuery('apple', items);
+
+    expect(result.length, 2);
+    expect(result, contains(item1));
+    expect(result, contains(item3));
+    expect(result, isNot(contains(item2)));
+  });
+
+  test('updateSearchQuery returns empty list if no match found', () {
+    final actions = TestActions();
+    final items = [
+      MultiSelectItem(1, 'Apple'),
+      MultiSelectItem(2, 'Banana'),
+    ];
+
+    final result = actions.updateSearchQuery('Cherry', items);
+    expect(result, isEmpty);
+  });
 }
