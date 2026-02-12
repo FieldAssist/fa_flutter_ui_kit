@@ -4,6 +4,8 @@ import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
+import 'qr_utils.dart';
+
 class QrCodeScanner extends StatefulWidget {
   const QrCodeScanner({Key? key, this.validationRegex, this.scannedValues})
       : super(key: key);
@@ -69,7 +71,7 @@ class _QrScannerState extends State<QrCodeScanner> {
                 controller.scannedDataStream.listen((scanData) {
                   if (scanData.code != null) {
                     if (upiRegx.hasMatch(scanData.code!)) {
-                      parsedData = _extractUPIID(scanData.code!);
+                      parsedData = extractUPIID(scanData.code!);
                     } else {
                       parsedData = scanData.code!;
                     }
@@ -170,12 +172,6 @@ class _QrScannerState extends State<QrCodeScanner> {
 
       Navigator.pop(context, dataToReturn);
     }
-  }
-
-  String _extractUPIID(String scannedData) {
-    final startIndex = scannedData.indexOf('?pa=') + 4;
-    final endIndex = scannedData.indexOf('&');
-    return scannedData.substring(startIndex, endIndex);
   }
 
   @override
