@@ -11,7 +11,7 @@ class ServerErrorWidget extends StatelessWidget {
   const ServerErrorWidget(this.message, this.onTap);
 
   final String? message;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class ServerErrorWidget extends StatelessWidget {
               if (onTap != null)
                 Flexible(
                   child: OutlinedIconButton(
-                    endAction: onTap,
+                    endAction: onTap!,
                     endIcon: Icon(
                       Icons.replay,
                       color: Colors.green,

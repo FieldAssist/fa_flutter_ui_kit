@@ -18,7 +18,7 @@ class UnknownErrorWidget extends StatelessWidget {
     this.messageStyle,
   });
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool pop;
   final String? message;
   final String errorImage;
@@ -88,7 +88,7 @@ class UnknownErrorWidget extends StatelessWidget {
               if (onTap != null)
                 Flexible(
                   child: OutlinedIconButton(
-                    endAction: onTap,
+                    endAction: onTap!,
                     endIcon: Icon(
                       Icons.replay,
                       color: Colors.green,

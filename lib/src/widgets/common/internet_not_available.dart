@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class InternetNotAvailable extends StatelessWidget {
   const InternetNotAvailable(this.onTap);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
