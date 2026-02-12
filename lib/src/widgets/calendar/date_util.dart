@@ -4,6 +4,8 @@ class DateUtil {
   var dayOfWeek = 0;
 
   yearLength(int year) {
+    if (year <= 0) return 0;
+
     // Calculates the total number of days from year 1 up to (but not including) the given year.
     // (year - 1) * 365: Days if all years were non-leap years.
     // + (year - 1) ~/ 4: Add a leap day for every 4 years.

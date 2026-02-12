@@ -5,6 +5,12 @@ void main() {
   group('DateUtil', () {
     final util = DateUtil();
 
+    test('yearLength returns 0 for year 0 and negative years', () {
+      expect(util.yearLength(0), 0);
+      expect(util.yearLength(-1), 0);
+      expect(util.yearLength(-2023), 0);
+    });
+
     test('yearLength returns 0 for year 1', () {
       expect(util.yearLength(1), 0);
     });
