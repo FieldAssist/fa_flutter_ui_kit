@@ -47,8 +47,9 @@ mixin MultiSelectActions<T> {
       String? val, List<MultiSelectItem<T>> allItems) {
     if (val != null && val.trim().isNotEmpty && val.length >= 3) {
       List<MultiSelectItem<T>> filteredItems = [];
+      final lowerVal = val.toLowerCase();
       for (var item in allItems) {
-        if (item.label.toLowerCase().contains(val.toLowerCase())) {
+        if (item.label.toLowerCase().contains(lowerVal)) {
           filteredItems.add(item);
         }
       }
