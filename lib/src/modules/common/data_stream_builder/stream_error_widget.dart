@@ -17,7 +17,7 @@ class StreamErrorWidget extends StatelessWidget {
   });
 
   final dynamic streamError;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String? userName;
   final String? userErpId;
   final String? currentTime;

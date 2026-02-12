@@ -31,7 +31,7 @@ class DataStreamBuilder<T> extends StatelessWidget {
         } else if (snapshot.hasError) {
           return onError != null
               ? onError!(snapshot.error)
-              : StreamErrorWidget(snapshot.error, onErrorRefresh!);
+              : StreamErrorWidget(snapshot.error, onErrorRefresh);
         } else {
           return onLoading != null ? onLoading!() : StreamLoadingWidget();
         }
