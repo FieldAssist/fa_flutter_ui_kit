@@ -4,20 +4,15 @@ class DateUtil {
   var dayOfWeek = 0;
 
   yearLength(int year) {
-    var yearLength = 0;
+    if (year <= 0) return 0;
 
-    for (var counter = 1; counter < year; counter++) {
-      if (counter >= 4) {
-        if (leapYear(counter) == true) {
-          yearLength += 366;
-        } else {
-          yearLength += 365;
-        }
-      } else {
-        yearLength += 365;
-      }
-    }
-    return yearLength;
+    // Calculates the total number of days from year 1 up to (but not including) the given year.
+    // (year - 1) * 365: Days if all years were non-leap years.
+    // + (year - 1) ~/ 4: Add a leap day for every 4 years.
+    // - (year - 1) ~/ 100: Subtract a leap day for every 100 years (century rule).
+    // + (year - 1) ~/ 400: Add a leap day back for every 400 years (400-year rule).
+    int y = year - 1;
+    return y * 365 + (y ~/ 4 - y ~/ 100 + y ~/ 400);
   }
 
   //Ref:
