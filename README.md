@@ -81,17 +81,17 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/PrakharMittal26>
-            <img src=https://avatars.githubusercontent.com/u/189090749?v=4 width="100;"  alt=Prakhar Mittal/>
-            <br />
-            <sub style="font-size:14px"><b>Prakhar Mittal</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Ritsz123>
             <img src=https://avatars.githubusercontent.com/u/48131636?v=4 width="100;"  alt=Ritesh Khadse/>
             <br />
             <sub style="font-size:14px"><b>Ritesh Khadse</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/PrakharMittal26>
+            <img src=https://avatars.githubusercontent.com/u/189090749?v=4 width="100;"  alt=Prakhar Mittal/>
+            <br />
+            <sub style="font-size:14px"><b>Prakhar Mittal</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
