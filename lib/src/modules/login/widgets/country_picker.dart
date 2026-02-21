@@ -52,8 +52,9 @@ class _CountryPickerState extends State<CountryPicker> {
           _selectedCountryId = widget.selectedCountryId ?? _selectedCountryId;
           return InkWell(
             onTap: widget.isSelectEnable ? _showDialog : null,
-            child: widget.selectedCountryBuilder
-                    ?.call(_getCountry(_selectedCountryId)) ??
+            child: widget.selectedCountryBuilder?.call(
+                  _getCountry(_selectedCountryId),
+                ) ??
                 Padding(
                   padding: const EdgeInsets.all(7.0),
                   child: Column(
@@ -67,9 +68,7 @@ class _CountryPickerState extends State<CountryPicker> {
                           color: Theme.of(context).primaryColor,
                         ),
                       ),
-                      SizedBox(
-                        height: 4,
-                      ),
+                      SizedBox(height: 4),
                       Row(
                         children: [
                           Text(
@@ -94,30 +93,15 @@ class _CountryPickerState extends State<CountryPicker> {
     final result = await showDialog<Country>(
       context: context,
       builder: (_) {
-        return AlertDialog(
-          title: const Text(
-            "Select Country",
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          content: _MyDialog(
-            list: _countryList,
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 24,
           ),
-          actions: [
-            OutlinedButton(
-              style: ButtonStyle(
-                  padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 24,
-              ))),
-              onPressed: () {
-                if (widget.onCancel == null) {
-                  Navigator.of(context).pop();
-                } else {
-                  widget.onCancel!.call();
-                }
-              },
-              child: Text("CANCEL"),
-            ),
-          ],
+          child: _MyDialog(list: _countryList, onCancel: widget.onCancel),
         );
       },
     );
@@ -145,9 +129,11 @@ class _CountryPickerState extends State<CountryPicker> {
         _selectedCountryId = widget.selectedCountryId;
       } else if (widget.selectedCountryName != null) {
         _selectedCountryId = _countryList!
-            .firstWhere((element) =>
-                element.countryName?.toLowerCase() ==
-                widget.selectedCountryName?.toLowerCase())
+            .firstWhere(
+              (element) =>
+                  element.countryName?.toLowerCase() ==
+                  widget.selectedCountryName?.toLowerCase(),
+            )
             .countryId;
       } else {
         _selectedCountryId = _countryList!
@@ -177,10 +163,7 @@ class CountryTile extends StatelessWidget {
         width: 32,
         fit: BoxFit.cover,
       ),
-      title: Text(
-        country.countryName!,
-        style: TextStyle(fontSize: 16),
-      ),
+      title: Text(country.countryName!, style: TextStyle(fontSize: 16)),
       trailing: Text('+${country.dialCode}'),
     );
   }
@@ -188,8 +171,9 @@ class CountryTile extends StatelessWidget {
 
 class _MyDialog extends StatefulWidget {
   final List<Country>? list;
+  final VoidCallback? onCancel;
 
-  _MyDialog({this.list});
+  _MyDialog({this.list, this.onCancel});
 
   @override
   _MyDialogState createState() => _MyDialogState();
@@ -211,11 +195,21 @@ class _MyDialogState extends State<_MyDialog> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.shortestSide / 2,
+      height: MediaQuery.of(context).size.height * 0.80,
       width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: <Widget>[
-          SearchTextField(controller),
+          SearchTextField(
+            controller,
+            hintText: "Select Country",
+            hintStyle: const TextStyle(
+              color: Colors.black87,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 12),
           Expanded(
             child: StreamBuilder<List<Country>>(
               stream: subject.transform(streamTransformer).asBroadcastStream(),
@@ -229,22 +223,44 @@ class _MyDialogState extends State<_MyDialog> {
                 return ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   children: <Widget>[
-                    ...snapshot.data!.map(
-                      (item) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pop<Country>(context, item);
-                          },
-                          child: CountryTile(
-                            item,
-                            showName: true,
-                          ),
-                        );
-                      },
-                    )
+                    ...snapshot.data!.map((item) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pop<Country>(context, item);
+                        },
+                        child: CountryTile(item, showName: true),
+                      );
+                    }),
                   ],
                 );
               },
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(
+                  width: 1,
+                  color: Colors.black,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () {
+                if (widget.onCancel == null) {
+                  Navigator.of(context).pop();
+                } else {
+                  widget.onCancel!.call();
+                }
+              },
+              child: const Text(
+                "CANCEL",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
@@ -255,14 +271,14 @@ class _MyDialogState extends State<_MyDialog> {
   StreamTransformer<List<Country>?, List<Country>> get streamTransformer =>
       StreamTransformer<List<Country>?, List<Country>>.fromHandlers(
         handleData: (list, sink) {
-          if (controller.text != null && controller.text.isNotEmpty) {
+          if (controller.text.isNotEmpty) {
             final list1 = list?.where((item) {
-              return item.countryName!
-                      .toLowerCase()
-                      .contains(controller.text.toLowerCase()) ||
-                  item.dialCode!
-                      .toLowerCase()
-                      .contains(controller.text.toLowerCase());
+              return item.countryName!.toLowerCase().contains(
+                        controller.text.toLowerCase(),
+                      ) ||
+                  item.dialCode!.toLowerCase().contains(
+                        controller.text.toLowerCase(),
+                      );
             }).toList();
             return sink.add(list1 ?? []);
           } else {
