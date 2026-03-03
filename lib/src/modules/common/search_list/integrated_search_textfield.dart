@@ -14,6 +14,7 @@ class IntegratedSearchTextField extends StatefulWidget {
     this.elevation,
     this.autoFocus,
     this.searchThroughMic = false,
+    this.onMicTap,
     required this.queryTextController,
     this.showCrossbutton = false,
     this.borderRadius = 5,
@@ -32,6 +33,7 @@ class IntegratedSearchTextField extends StatefulWidget {
   final bool? autoFocus;
   final bool showCrossbutton;
   final bool searchThroughMic;
+  final VoidCallback? onMicTap;
   final double borderRadius;
 
   // final SearchListBloc _searchListBloc=SearchListBloc();
@@ -97,28 +99,29 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
                   SizedBox(
                     width: 20,
                     child: IconButton(
-                      onPressed: () async {
-                        await _speakPrompt();
-                        await Future.delayed(
-                          const Duration(seconds: 1),
-                        );
-                        var available = await speech.initialize();
-                        if (available) {
-                          await speech.listen(
-                            onResult: (result) {
-                              setState(() {
-                                print(widget.queryTextController.text);
-                                recognizedText = result.recognizedWords;
-                                widget.queryTextController.text =
-                                    recognizedText;
-                              });
-                              if (result.finalResult) {
-                                speech.stop();
-                              }
-                            },
-                          );
-                        }
-                      },
+                      onPressed: widget.onMicTap ??
+                          () async {
+                            await _speakPrompt();
+                            await Future.delayed(
+                              const Duration(seconds: 1),
+                            );
+                            var available = await speech.initialize();
+                            if (available) {
+                              await speech.listen(
+                                onResult: (result) {
+                                  setState(() {
+                                    print(widget.queryTextController.text);
+                                    recognizedText = result.recognizedWords;
+                                    widget.queryTextController.text =
+                                        recognizedText;
+                                  });
+                                  if (result.finalResult) {
+                                    speech.stop();
+                                  }
+                                },
+                              );
+                            }
+                          },
                       icon: Icon(Icons.mic),
                     ),
                   ),

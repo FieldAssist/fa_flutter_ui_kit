@@ -54,6 +54,7 @@ class SearchList<T> extends StatefulWidget {
     this.autoFocus,
     this.type,
     this.searchThroughMic = false,
+    this.onMicTap,
     this.searchIcon,
     this.showBackButton = true,
     this.showCrossbutton = false,
@@ -91,6 +92,7 @@ class SearchList<T> extends StatefulWidget {
   final Widget? searchIcon;
   final bool showCrossbutton;
   final bool searchThroughMic;
+  final VoidCallback? onMicTap;
   final bool showBackButton;
   final LinearGradient? bottomGradient;
   final Widget? actionWidget;
@@ -112,9 +114,8 @@ class _SearchListState<T> extends State<SearchList<T>> {
   void initState() {
     super.initState();
 
-    searchQueryController = !widget.showDefaultAppBar
-        ? widget.textEditingController!
-        : TextEditingController();
+    searchQueryController =
+        widget.textEditingController ?? TextEditingController();
 
     searchQueryController!.addListener(_onSearchQueryChanged);
 
@@ -213,6 +214,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
           IntegratedSearchTextField(
             elevation: 2,
             searchThroughMic: widget.searchThroughMic,
+            onMicTap: widget.onMicTap,
             autoFocus: widget.autoFocus ?? true,
             prefixIcon: Icon(Icons.search),
             bgColor: Color(0xffe5f8ff),
@@ -264,6 +266,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
                           if (widget.type == SearchListType.SearchWithAppBar)
                             IntegratedSearchTextField(
                               searchThroughMic: widget.searchThroughMic,
+                              onMicTap: widget.onMicTap,
                               autoFocus: widget.autoFocus ?? false,
                               prefixIcon: Icon(Icons.search),
                               bgColor: Color(0xffF5F5F5),
