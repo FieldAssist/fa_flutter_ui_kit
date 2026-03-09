@@ -15,8 +15,7 @@ enum Flavor {
   DeliveryApp,
   HCCB,
   FAONE,
-  COLPALPH,
-  COLPALKE,
+COLPALGLOBAL,
 }
 
 extension FlavorX on Flavor {
@@ -51,10 +50,8 @@ extension FlavorX on Flavor {
         return "Delivery App";
       case Flavor.FAONE:
         return "FieldAssist One";
-      case Flavor.COLPALPH:
-        return "Colpal Philippines";
-      case Flavor.COLPALKE:
-        return "Colpal Kenya";
+       case Flavor.COLPALGLOBAL:
+        return "COLPAL GLOBAL";
     }
   }
 
@@ -78,8 +75,7 @@ extension FlavorX on Flavor {
         return Colors.red;
       case Flavor.SLMG:
         return Color(0xff94080c);
-      case Flavor.COLPALPH:
-      case Flavor.COLPALKE:
+      case Flavor.COLPALGLOBAL:
         return Colors.red;
     }
   }
