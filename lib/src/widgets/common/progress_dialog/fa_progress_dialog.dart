@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'progress_dialog.dart';
 
-Widget _defaultProgressWidget = Image.asset(Images.doubleRingLoader);
+Widget _defaultProgressWidget =
+    Image.asset(Images.doubleRingLoader, package: 'fa_flutter_ui_kit');
 
 class FAProgressDialog {
   static ProgressDialog? _dialog;
