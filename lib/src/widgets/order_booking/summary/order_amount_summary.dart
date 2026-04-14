@@ -63,7 +63,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.distributorTitleText,
     this.decimalInfoString,
     this.breakDownListPadding =
-        const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+    const EdgeInsets.only(bottom: 2, left: 2, right: 2),
     this.compactNumber = false,
     this.payableAmountInSecondCurrency,
     this.isRestrictStockValueVisibility = false,
@@ -125,7 +125,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
             if (isDistributorVisible) ...[
               ListTile(
                 visualDensity:
-                    VisualDensity(horizontal: VisualDensity.minimumDensity),
+                VisualDensity(horizontal: VisualDensity.minimumDensity),
                 leading: SvgPicture.asset(
                   SvgIcons.distributorIcon,
                   height: 25,
@@ -160,20 +160,29 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   horizontal: VisualDensity.minimumDensity,
                   vertical: VisualDensity.minimumDensity),
               childrenPadding:
-                  EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
+              EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
               title: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    qtyTitleText ?? "Total Quantity",
-                    style: titleTextStyle,
+                  Flexible(
+                    flex: 2,
+                    child: Text(
+                      qtyTitleText ?? "Total Quantity",
+                      style: titleTextStyle,
+                    ),
                   ),
-                  Spacer(),
-                  Text(
-                    qtyDisplayText,
-                    style: subTitleTextStyle,
+                  SizedBox(width: 8),
+                  Flexible(
+                    flex: 3,
+                    child: Text(
+                      qtyDisplayText,
+                      style: subTitleTextStyle,
+                      textAlign: TextAlign.end,
+                    ),
                   ),
                 ],
               ),
+
               leading: SvgPicture.asset(
                 SvgIcons.boxIcon,
                 height: 25,
@@ -183,26 +192,35 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               children: [
                 ...List.generate(
                   quantityBreakdownList.length,
-                  (index) => Padding(
+                      (index) => Padding(
                     padding: breakDownListPadding,
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(quantityBreakdownList[index].type,
-                            style: subTitleTextStyle),
-                        Text(
-                            quantityBreakdownList[index].isContainSingleValue
-                                ? "${quantityBreakdownList[index].singleValue}"
-                                : "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
-                            style: subTitleTextStyle.copyWith(
-                                color: Colors.black)),
+                        Flexible(
+                          flex: 2,
+                          child: Text(quantityBreakdownList[index].type,
+                              style: subTitleTextStyle),
+                        ),
+                        SizedBox(width: 8),
+                        Flexible(
+                          flex: 3,
+                          child: Text(
+                              quantityBreakdownList[index].isContainSingleValue
+                                  ? "${quantityBreakdownList[index].singleValue}"
+                                  : "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
+                              style: subTitleTextStyle.copyWith(
+                                  color: Colors.black),
+                              textAlign: TextAlign.end),
+                        ),
                       ],
                     ),
                   ),
                 ),
               ],
               trailing:
-                  quantityBreakdownList.isEmpty ? SizedBox.shrink() : null,
+              quantityBreakdownList.isEmpty ? SizedBox.shrink() : null,
             ),
             DottedDivider(),
             if (discountWidget != null) ...[
@@ -222,30 +240,36 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   height: 25,
                   width: 25,
                 ),
-                title: Row(
+                title:Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      payableAmtTitleText ?? "Payable Amount",
-                      style: titleTextStyle,
+                    Flexible(
+                      flex: 2,
+                      child: Text(
+                        payableAmtTitleText ?? "Payable Amount",
+                        style: titleTextStyle,
+                      ),
                     ),
-                    Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "$currency $payableAmount",
-                          style: titleTextStyle,
-                        ),
-                        if (payableAmountInSecondCurrency != null)
+                    SizedBox(width: 8),
+                    Flexible(
+                      flex: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
                           Text(
-                            "(\u0024 $payableAmountInSecondCurrency)",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                      ],
+                            "$currency $payableAmount",
+                            style: titleTextStyle,
+                          ),
+                          if (payableAmountInSecondCurrency != null)
+                            Text(
+                              "(\u0024 $payableAmountInSecondCurrency)",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -258,37 +282,55 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     Padding(
                       padding: breakDownListPadding,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Margin (%)",
-                            style: subTitleTextStyle.copyWith(
-                                color: AppColors.colorGreenLight),
+                          Flexible(
+                            flex: 2,
+                            child: Text(
+                              "Margin (%)",
+                              style: subTitleTextStyle.copyWith(
+                                  color: AppColors.colorGreenLight),
+                            ),
                           ),
-                          Text(
-                            "$currency $marginAmount ($marginPercentage%)",
-                            style: subTitleTextStyle.copyWith(
-                                color: AppColors.colorGreenLight),
+                          SizedBox(width: 8),
+                          Flexible(
+                            flex: 3,
+                            child: Text(
+                              "$currency $marginAmount ($marginPercentage%)",
+                              style: subTitleTextStyle.copyWith(
+                                  color: AppColors.colorGreenLight),
+                              textAlign: TextAlign.end,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ...List.generate(
                     amountBreakdownList.length,
-                    (index) {
+                        (index) {
                       final amtBreakdownItem = amountBreakdownList[index];
                       return Padding(
                         padding: breakDownListPadding,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(amtBreakdownItem.type,
-                                style: amtBreakdownItem.typeStyle ??
-                                    subTitleTextStyle),
-                            Text(
-                              "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
-                              style: subTitleTextStyle.copyWith(
-                                color: amtBreakdownItem.color ?? Colors.black,
+                            Flexible(
+                              flex: 2,
+                              child: Text(amtBreakdownItem.type,
+                                  style: amtBreakdownItem.typeStyle ??
+                                      subTitleTextStyle),
+                            ),
+                            SizedBox(width: 8),
+                            Flexible(
+                              flex: 3,
+                              child: Text(
+                                "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
+                                style: subTitleTextStyle.copyWith(
+                                  color: amtBreakdownItem.color ?? Colors.black,
+                                ),
+                                textAlign: TextAlign.end,
                               ),
                             ),
                           ],
