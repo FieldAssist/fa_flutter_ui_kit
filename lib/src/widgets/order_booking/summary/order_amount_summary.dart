@@ -63,7 +63,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
     this.distributorTitleText,
     this.decimalInfoString,
     this.breakDownListPadding =
-        const EdgeInsets.only(bottom: 2, left: 2, right: 2),
+    const EdgeInsets.only(bottom: 2, left: 2, right: 2),
     this.compactNumber = false,
     this.payableAmountInSecondCurrency,
     this.isRestrictStockValueVisibility = false,
@@ -125,7 +125,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
             if (isDistributorVisible) ...[
               ListTile(
                 visualDensity:
-                    VisualDensity(horizontal: VisualDensity.minimumDensity),
+                VisualDensity(horizontal: VisualDensity.minimumDensity),
                 leading: SvgPicture.asset(
                   SvgIcons.distributorIcon,
                   height: 25,
@@ -160,7 +160,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   horizontal: VisualDensity.minimumDensity,
                   vertical: VisualDensity.minimumDensity),
               childrenPadding:
-                  EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
+              EdgeInsets.only(left: 16 + 45, right: 16, top: 8, bottom: 8),
               title: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -182,6 +182,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   ),
                 ],
               ),
+
               leading: SvgPicture.asset(
                 SvgIcons.boxIcon,
                 height: 25,
@@ -191,7 +192,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               children: [
                 ...List.generate(
                   quantityBreakdownList.length,
-                  (index) => Padding(
+                      (index) => Padding(
                     padding: breakDownListPadding,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +220,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 ),
               ],
               trailing:
-                  quantityBreakdownList.isEmpty ? SizedBox.shrink() : null,
+              quantityBreakdownList.isEmpty ? SizedBox.shrink() : null,
             ),
             DottedDivider(),
             if (discountWidget != null) ...[
@@ -239,7 +240,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   height: 25,
                   width: 25,
                 ),
-                title: Row(
+                title:Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
@@ -307,7 +308,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     ),
                   ...List.generate(
                     amountBreakdownList.length,
-                    (index) {
+                        (index) {
                       final amtBreakdownItem = amountBreakdownList[index];
                       return Padding(
                         padding: breakDownListPadding,
