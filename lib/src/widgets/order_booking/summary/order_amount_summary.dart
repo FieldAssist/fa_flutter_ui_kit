@@ -164,7 +164,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               title: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
+                  Expanded(
                     flex: 2,
                     child: Text(
                       qtyTitleText ?? "Total Quantity",
@@ -172,7 +172,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Flexible(
+                  Expanded(
                     flex: 3,
                     child: Text(
                       qtyDisplayText,
@@ -197,13 +197,13 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
+                        Expanded(
                           flex: 2,
                           child: Text(quantityBreakdownList[index].type,
                               style: subTitleTextStyle),
                         ),
                         SizedBox(width: 8),
-                        Flexible(
+                        Expanded(
                           flex: 3,
                           child: Text(
                               quantityBreakdownList[index].isContainSingleValue
@@ -242,7 +242,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
+                    Expanded(
                       flex: 2,
                       child: Text(
                         payableAmtTitleText ?? "Payable Amount",
@@ -250,7 +250,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Flexible(
+                    Expanded(
                       flex: 3,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -284,7 +284,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
+                          Expanded(
                             flex: 2,
                             child: Text(
                               "Margin (%)",
@@ -293,7 +293,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: 8),
-                          Flexible(
+                          Expanded(
                             flex: 3,
                             child: Text(
                               "$currency $marginAmount ($marginPercentage%)",
@@ -315,14 +315,14 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Flexible(
+                            Expanded(
                               flex: 2,
                               child: Text(amtBreakdownItem.type,
                                   style: amtBreakdownItem.typeStyle ??
                                       subTitleTextStyle),
                             ),
                             SizedBox(width: 8),
-                            Flexible(
+                            Expanded(
                               flex: 3,
                               child: Text(
                                 "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
