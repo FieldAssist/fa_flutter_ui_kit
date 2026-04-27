@@ -1,4 +1,5 @@
 import 'package:cool_flare/flare_actor.dart';
+import 'package:fa_flutter_ui_kit/src/constants/constants.dart';
 import 'package:fa_flutter_ui_kit/src/constants/flares.dart';
 import 'package:fa_flutter_ui_kit/src/constants/images.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'progress_dialog.dart';
 
 Widget _defaultProgressWidget =
-    Image.asset(Images.doubleRingLoader, package: 'fa_flutter_ui_kit');
+    Image.asset(Images.doubleRingLoader, package: Constants.appName);
 
 class FAProgressDialog {
   static ProgressDialog? _dialog;

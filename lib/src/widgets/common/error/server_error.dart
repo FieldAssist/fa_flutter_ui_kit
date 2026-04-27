@@ -21,6 +21,7 @@ class ServerErrorWidget extends StatelessWidget {
         children: [
           Image.asset(
             Images.superCommander,
+            package: Constants.appName,
             width: MediaQuery.of(context).size.shortestSide / 2,
           ),
           SizedBox(

@@ -41,6 +41,7 @@ class UnknownErrorWidget extends StatelessWidget {
           if (showErrorImage) ...[
             Image.asset(
               errorImage,
+              package: Constants.appName,
               width: MediaQuery.of(context).size.width * 0.5,
             ),
             SizedBox(

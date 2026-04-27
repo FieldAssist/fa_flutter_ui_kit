@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/src/constants/constants.dart';
 import 'package:fa_flutter_ui_kit/src/constants/images.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class FieldAssistLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       Images.fieldAssistFullLogo,
+      package: Constants.appName,
       color: foregroundColor,
       width: width,
       height: height,
