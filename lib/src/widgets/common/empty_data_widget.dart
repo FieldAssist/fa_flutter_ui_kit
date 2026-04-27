@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/src/constants/constants.dart';
 import 'package:fa_flutter_ui_kit/src/constants/images.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class EmptyDataWidget extends StatelessWidget {
           messageLogo ??
               Image.asset(
                 Images.binoculars,
+                package: Constants.appName,
                 width: MediaQuery.of(context).size.width * 0.5,
               ),
           Text(

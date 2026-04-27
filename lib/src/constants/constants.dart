@@ -1,6 +1,8 @@
 class Constants {
   Constants._();
 
+  static const String appName = "fa_flutter_ui_kit";
+
   static const String errorSomethingWentWrong = "Oops! Something went wrong.";
 
   static const String locationNotAvailable = "Location not available!";

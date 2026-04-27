@@ -1,4 +1,5 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:fa_flutter_ui_kit/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class NoItemsFound extends StatelessWidget {
@@ -27,7 +28,7 @@ class NoItemsFound extends StatelessWidget {
           children: <Widget>[
             Image.asset(
               "assets/images/empty_carton.png",
-              package: 'fa_flutter_ui_kit',
+              package: Constants.appName,
             ),
             SizedBox(
               height: 10,

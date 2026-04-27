@@ -24,6 +24,7 @@ class InternetNotAvailable extends StatelessWidget {
             ),*/
             Image.asset(
               Images.noInternet,
+              package: Constants.appName,
               width: MediaQuery.of(context).size.width * 0.5,
             ),
             SizedBox(
