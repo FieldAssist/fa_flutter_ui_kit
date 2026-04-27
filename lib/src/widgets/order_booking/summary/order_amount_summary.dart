@@ -101,7 +101,6 @@ class OrderAmountSummaryWidget extends StatelessWidget {
   final titleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
     color: Colors.black87,
-    fontSize: 15,
   );
   final subTitleTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -129,7 +128,6 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     VisualDensity(horizontal: VisualDensity.minimumDensity),
                 leading: SvgPicture.asset(
                   SvgIcons.distributorIcon,
-                  package: Constants.appName,
                   height: 25,
                   width: 25,
                 ),
@@ -186,7 +184,6 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               ),
               leading: SvgPicture.asset(
                 SvgIcons.boxIcon,
-                package: Constants.appName,
                 height: 25,
                 width: 25,
               ),
@@ -239,7 +236,6 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     left: 16 + 45, right: 16, top: 8, bottom: 8),
                 leading: SvgPicture.asset(
                   SvgIcons.cashIcon,
-                  package: Constants.appName,
                   height: 25,
                   width: 25,
                 ),

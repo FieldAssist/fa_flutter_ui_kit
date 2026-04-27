@@ -1,5 +1,4 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart';
-import 'package:fa_flutter_ui_kit/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class SvgAssetIcon extends StatelessWidget {
@@ -10,7 +9,7 @@ class SvgAssetIcon extends StatelessWidget {
     this.color,
     this.labelText = "",
     this.padding,
-    this.package = Constants.appName,
+    this.package,
   });
 
   final String path;
@@ -19,7 +18,7 @@ class SvgAssetIcon extends StatelessWidget {
   final Color? color;
   final String labelText;
   final double? padding;
-  final String package;
+  final String? package;
 
   @override
   Widget build(BuildContext context) {

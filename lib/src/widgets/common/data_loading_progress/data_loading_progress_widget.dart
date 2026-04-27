@@ -124,7 +124,7 @@ class DataLoadingProgressWidget extends StatelessWidget {
                                       : Svgs.checkMarkRounded,
                                   height: 20,
                                   width: 20,
-                                  package: Constants.appName,
+                                  package: 'fa_flutter_ui_kit',
                                 )
                               // status == apiStatus.error
                               else
