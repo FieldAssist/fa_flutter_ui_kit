@@ -47,11 +47,14 @@ class CurrencyUtil {
         roundNumber(inputValue, fractionDigits: requiredDecimalDigits);
     final compactResult = _getCompactFormatResult(normalizedValue);
     final compactValue = compactResult.value;
-    final int usedDecimalDigits = (showExplicitDecimals ||
-            (useCompact && compactValue % 1 != 0) ||
-            inputValue % 1 != 0)
+    final int usedDecimalDigits = showExplicitDecimals
         ? requiredDecimalDigits
-        : 0;
+        : roundNumber(normalizedValue) == roundNumber(normalizedValue).toInt()
+            ? 0
+            : roundNumber(normalizedValue * 10) ==
+                    roundNumber(normalizedValue * 10).toInt()
+                ? 1
+                : requiredDecimalDigits;
     final localFormatter = locale.getCurrencyFormatNoSymbol(usedDecimalDigits);
 
     try {
