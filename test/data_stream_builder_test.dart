@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('DataStreamBuilder renders StreamErrorWidget when onErrorRefresh is null and an error occurs', (WidgetTester tester) async {
+  testWidgets(
+      'DataStreamBuilder renders StreamErrorWidget when onErrorRefresh is null and an error occurs',
+      (WidgetTester tester) async {
     final controller = StreamController<String>();
     addTearDown(controller.close);
 
@@ -33,7 +35,9 @@ void main() {
     // The exact UI for "no retry" depends on the implementation, but we know it shouldn't crash.
   });
 
-  testWidgets('DataStreamBuilder renders Retry button when onErrorRefresh is provided', (WidgetTester tester) async {
+  testWidgets(
+      'DataStreamBuilder renders Retry button when onErrorRefresh is provided',
+      (WidgetTester tester) async {
     final controller = StreamController<String>();
     addTearDown(controller.close);
     bool refreshCalled = false;

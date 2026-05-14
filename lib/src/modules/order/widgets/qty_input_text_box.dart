@@ -228,10 +228,10 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
           widget.qtyTextTrailingIcon == null
               ? Text(
                   widget.qtyText ?? "",
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold
-                      ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
                 )
               : GestureDetector(
                   onTap: widget.onQtyTextTap,
@@ -241,9 +241,7 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                       Text(
                         widget.qtyText ?? "",
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontSize: 8,
-                            fontWeight: FontWeight.bold
-                            ),
+                            fontSize: 8, fontWeight: FontWeight.bold),
                       ),
                       if (widget.qtyTextTrailingIcon != null)
                         widget.qtyTextTrailingIcon!,

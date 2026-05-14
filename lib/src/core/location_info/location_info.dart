@@ -7,6 +7,7 @@ import 'package:fa_flutter_ui_kit/src/core/location_info/models/place_mark_data/
 import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 abstract class LocationInfo {
   LocationData get currentLocation;
@@ -34,6 +35,8 @@ abstract class LocationInfo {
   Future<bool> isLocationEnabled();
 
   Future<bool> isLocationPermissionGranted();
+
+  Future<LocationData?> getInstantLocationFromNative();
 }
 
 class LocationInfoImpl implements LocationInfo {
@@ -51,6 +54,9 @@ class LocationInfoImpl implements LocationInfo {
   Timer? locationCheckTimer;
 
   StreamSubscription<Position>? locationStreamSubs;
+
+  static const _locationChannel =
+      MethodChannel('com.fieldassist.location_channel');
 
   @override
   LocationData get currentLocation {
@@ -397,6 +403,31 @@ class LocationInfoImpl implements LocationInfo {
   Future<bool> isLocationPermissionGranted() async {
     final permission = await Geolocator.checkPermission();
     return _isPermissionGranted(permission);
+  }
+
+  /// Implement getInstantLocationFromNative method in MainActivity.kt in the
+  /// source project.
+  @override
+  Future<LocationData?> getInstantLocationFromNative() async {
+    /// TODO : Will update for iOS as well.
+    if (Platform.isIOS) {
+      throw UnsupportedError(
+          'getInstantLocationFromNative is only supported on Android');
+    }
+    if ((await isLocationEnabled()) && (await isLocationPermissionGranted())) {
+      final result = await _locationChannel
+          .invokeMethod<Map>('getInstantLocationFromNative');
+      if (result == null) {
+        throw LocationException('${Constants.locationNotAvailable}');
+      }
+      return LocationData(
+        latitude: (result['latitude'] as num).toDouble(),
+        longitude: (result['longitude'] as num).toDouble(),
+        accuracy: (result['accuracy'] as num).toInt(),
+        captureTime: DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000,
+      );
+    }
+    return null;
   }
 }
 

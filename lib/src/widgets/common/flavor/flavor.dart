@@ -15,7 +15,7 @@ enum Flavor {
   DeliveryApp,
   HCCB,
   FAONE,
-COLPALGLOBAL,
+  COLPALGLOBAL,
 }
 
 extension FlavorX on Flavor {
@@ -50,7 +50,7 @@ extension FlavorX on Flavor {
         return "Delivery App";
       case Flavor.FAONE:
         return "FieldAssist One";
-       case Flavor.COLPALGLOBAL:
+      case Flavor.COLPALGLOBAL:
         return "COLPAL GLOBAL";
     }
   }

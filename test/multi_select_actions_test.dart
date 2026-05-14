@@ -5,7 +5,9 @@ import 'package:fa_flutter_ui_kit/src/widgets/common/multi_select_items/util/mul
 class TestActions with MultiSelectActions<int> {}
 
 void main() {
-  test('separateSelected separates selected and non-selected items and sorts them', () {
+  test(
+      'separateSelected separates selected and non-selected items and sorts them',
+      () {
     final actions = TestActions();
 
     final item1 = MultiSelectItem(1, 'Apple');

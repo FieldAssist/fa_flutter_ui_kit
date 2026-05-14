@@ -19,25 +19,27 @@ void main() {
       expect(util.yearLength(2), 365);
     });
 
-    test('yearLength correctly calculates days up to year 5 (including one leap year)', () {
+    test(
+        'yearLength correctly calculates days up to year 5 (including one leap year)',
+        () {
       // Years 1, 2, 3 are 365 days. Year 4 is 366 days.
       // Total = 365 * 3 + 366 = 1095 + 366 = 1461
       expect(util.yearLength(5), 1461);
     });
 
     test('yearLength correctly handles century non-leap year (1900)', () {
-        // Just checking consistency, not manual calculation for this one,
-        // rely on the benchmark comparison for extensive checks.
-        // But we can check a known range.
-        // 1900 is not a leap year.
-        // so yearLength(1901) - yearLength(1900) should be 365.
-        expect(util.yearLength(1901) - util.yearLength(1900), 365);
+      // Just checking consistency, not manual calculation for this one,
+      // rely on the benchmark comparison for extensive checks.
+      // But we can check a known range.
+      // 1900 is not a leap year.
+      // so yearLength(1901) - yearLength(1900) should be 365.
+      expect(util.yearLength(1901) - util.yearLength(1900), 365);
     });
 
     test('yearLength correctly handles century leap year (2000)', () {
-        // 2000 is a leap year.
-        // so yearLength(2001) - yearLength(2000) should be 366.
-        expect(util.yearLength(2001) - util.yearLength(2000), 366);
+      // 2000 is a leap year.
+      // so yearLength(2001) - yearLength(2000) should be 366.
+      expect(util.yearLength(2001) - util.yearLength(2000), 366);
     });
 
     test('yearLength correctly handles standard leap year (2024)', () {
