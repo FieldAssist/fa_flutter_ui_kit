@@ -118,17 +118,17 @@ compileSdkVersion 32
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Abhisheksainii>
-            <img src=https://avatars.githubusercontent.com/u/78199221?v=4 width="100;"  alt=Abhishek Saini/>
-            <br />
-            <sub style="font-size:14px"><b>Abhishek Saini</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/devbindal>
             <img src=https://avatars.githubusercontent.com/u/81467330?v=4 width="100;"  alt=Dev Bindal/>
             <br />
             <sub style="font-size:14px"><b>Dev Bindal</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Abhisheksainii>
+            <img src=https://avatars.githubusercontent.com/u/78199221?v=4 width="100;"  alt=Abhishek Saini/>
+            <br />
+            <sub style="font-size:14px"><b>Abhishek Saini</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -191,6 +191,13 @@ compileSdkVersion 32
     </td>
 </tr>
 <tr>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Ketan-Karki>
+            <img src=https://avatars.githubusercontent.com/u/145958804?v=4 width="100;"  alt=Ketan Karki/>
+            <br />
+            <sub style="font-size:14px"><b>Ketan Karki</b></sub>
+        </a>
+    </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/abhinavdroid>
             <img src=https://avatars.githubusercontent.com/u/144682274?v=4 width="100;"  alt=Abhinav Gupta/>
