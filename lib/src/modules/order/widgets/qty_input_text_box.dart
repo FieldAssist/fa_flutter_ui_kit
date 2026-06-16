@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:fa_flutter_ui_kit/src/config/colors.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/number_keyboard/keyboard_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -228,10 +227,15 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
           widget.qtyTextTrailingIcon == null
               ? Text(
                   widget.qtyText ?? "",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall
-                      ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        // Bump the price label to 10 on tablets (8 on phones);
+                        // an 8px base is too small once magnified on a tablet.
+                        fontSize:
+                            MediaQuery.of(context).size.shortestSide >= 600
+                                ? 12
+                                : 8,
+                        fontWeight: FontWeight.bold,
+                      ),
                 )
               : GestureDetector(
                   onTap: widget.onQtyTextTap,
@@ -241,7 +245,11 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                       Text(
                         widget.qtyText ?? "",
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontSize: 8, fontWeight: FontWeight.bold),
+                            fontSize:
+                                MediaQuery.of(context).size.shortestSide >= 600
+                                    ? 12
+                                    : 8,
+                            fontWeight: FontWeight.bold),
                       ),
                       if (widget.qtyTextTrailingIcon != null)
                         widget.qtyTextTrailingIcon!,
