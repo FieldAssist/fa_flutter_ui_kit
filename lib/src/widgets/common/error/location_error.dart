@@ -212,7 +212,7 @@ class LocationErrorWidget extends StatelessWidget {
                 color: AppColors.kLightGrey,
               ),
             ),
-            Spacer(),
+            SizedBox(width: 8,),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Row(
