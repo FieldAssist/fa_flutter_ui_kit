@@ -37,10 +37,6 @@ abstract class LocationInfo {
   Future<bool> isLocationPermissionGranted();
 
   Future<LocationData?> getInstantLocationFromNative();
-
-  /// Cancels the location-service check timer and the position stream
-  /// subscription. Safe to call multiple times.
-  void dispose();
 }
 
 class LocationInfoImpl implements LocationInfo {
@@ -205,6 +201,8 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   void _startLocationFetchStream() {
+    _streamReconnectTimer?.cancel();
+    _streamReconnectAttempts = 0;
     positionStream ??= Geolocator.getPositionStream(
       locationSettings: getLocationSetting(),
     ).bufferTime(const Duration(seconds: 2)).transform<Position>(
@@ -251,7 +249,13 @@ class LocationInfoImpl implements LocationInfo {
     locationStreamSubs?.cancel();
   }
 
-  @override
+  /// Cancels the location-service check timer and the position stream
+  /// subscription. Safe to call multiple times.
+  ///
+  /// Deliberately not part of the [LocationInfo] interface: this class is
+  /// registered as an app-lifetime singleton with no current caller, and
+  /// [LocationInfo] is implemented (not extended) elsewhere, so adding an
+  /// interface method here would force every implementer to add it too.
   void dispose() {
     locationCheckTimer?.cancel();
     locationCheckTimer = null;
@@ -322,13 +326,7 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   Future<void> _startFetchingLocation() async {
-    Position location;
-    location = await _getLocation();
-    if (location == null) {
-      throw LocationException(
-        '${Constants.locationNotAvailable}',
-      );
-    }
+    final location = await _getLocation();
     await _onLocationFetch(location);
   }
 
