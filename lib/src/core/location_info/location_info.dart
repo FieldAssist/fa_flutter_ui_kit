@@ -37,6 +37,10 @@ abstract class LocationInfo {
   Future<bool> isLocationPermissionGranted();
 
   Future<LocationData?> getInstantLocationFromNative();
+
+  /// Cancels the location-service check timer and the position stream
+  /// subscription. Safe to call multiple times.
+  void dispose();
 }
 
 class LocationInfoImpl implements LocationInfo {
@@ -45,6 +49,15 @@ class LocationInfoImpl implements LocationInfo {
   final bool enforceGeocoding;
 
   LocationInfoImpl({required this.navKey, this.enforceGeocoding = true});
+
+  /// Overrides the [isMobile] platform check so tests can exercise the
+  /// mobile-only code paths (the service-check timer and position stream) on
+  /// the test VM, where `Platform.isAndroid`/`Platform.isIOS` are always
+  /// false. Has no effect outside of tests.
+  @visibleForTesting
+  bool debugForceMobile = false;
+
+  bool get _treatAsMobile => isMobile || debugForceMobile;
 
   final String defaultLocationReason =
       'Your current location helps your manager in reviewing work done by you';
@@ -55,12 +68,30 @@ class LocationInfoImpl implements LocationInfo {
 
   StreamSubscription<Position>? locationStreamSubs;
 
-  /// Number of consecutive failed location checks observed by
-  /// [_startLocationServiceCheckTimer]. Some OEM devices (e.g. Samsung
-  /// tablets with aggressive background throttling) intermittently fail the
-  /// underlying Play Services location settings check even when location is
-  /// genuinely enabled, so a single failure is not treated as conclusive.
+  /// Number of consecutive failed checks required before
+  /// [_startLocationServiceCheckTimer] surfaces the error page. Some OEM
+  /// devices (e.g. Samsung tablets with aggressive background throttling)
+  /// intermittently fail the underlying Play Services location settings
+  /// check even when location is genuinely enabled, so a single failure is
+  /// not treated as conclusive.
+  static const _kConsecutiveLocationFailureThreshold = 2;
+
+  /// Backoff delays used by [_scheduleStreamReconnect] to resubscribe to the
+  /// position stream after it errors out, before giving up and leaving
+  /// recovery to the location-service check timer / manual retry.
+  static const _kStreamReconnectDelays = [
+    Duration(seconds: 2),
+    Duration(seconds: 5),
+    Duration(seconds: 10),
+  ];
+
   int _consecutiveLocationCheckFailures = 0;
+
+  bool _isCheckingLocationStatus = false;
+
+  int _streamReconnectAttempts = 0;
+
+  Timer? _streamReconnectTimer;
 
   static const _locationChannel =
       MethodChannel('com.fieldassist.location_channel');
@@ -80,7 +111,7 @@ class LocationInfoImpl implements LocationInfo {
 
   @override
   Future initLocation() async {
-    if (isMobile) {
+    if (_treatAsMobile) {
       /// For iOS, location will be asked at day start time so not showing this
       /// on Splash page.
       /// This is done because iOS app gets rejected if we ask for location
@@ -184,34 +215,56 @@ class LocationInfoImpl implements LocationInfo {
       }),
     ).shareValue();
     locationStreamSubs ??= positionStream?.listen((position) async {
-      if (position != null) {
-        final locationData = await _parseLocation(position);
-        _setLocation(locationData);
-      }
+      _streamReconnectAttempts = 0;
+      final locationData = await _parseLocation(position);
+      _setLocation(locationData);
     }, onError: (Object e, StackTrace s) {
       /// The platform position stream can error out (e.g. location services
       /// disabled mid-session). Reset the memoized stream/subscription so a
-      /// subsequent retry actually resubscribes instead of being a no-op due
-      /// to the `??=` guards above.
+      /// subsequent resubscribe actually attaches a fresh stream instead of
+      /// being a no-op due to the `??=` guards above, and schedule a backoff
+      /// retry so a transient failure self-heals without requiring the user
+      /// to manually retry.
       logger.e(e, s);
       positionStream = null;
       locationStreamSubs = null;
+      _scheduleStreamReconnect();
     });
+  }
+
+  void _scheduleStreamReconnect() {
+    _streamReconnectTimer?.cancel();
+    if (_streamReconnectAttempts >= _kStreamReconnectDelays.length) {
+      logger.e(
+        'Location: exhausted position stream reconnect attempts; '
+        'leaving recovery to the location service check timer or a manual retry.',
+        StackTrace.current,
+      );
+      return;
+    }
+    final delay = _kStreamReconnectDelays[_streamReconnectAttempts];
+    _streamReconnectAttempts++;
+    _streamReconnectTimer = Timer(delay, _startLocationFetchStream);
   }
 
   void stopLocationFetchStream() {
     locationStreamSubs?.cancel();
   }
 
+  @override
+  void dispose() {
+    locationCheckTimer?.cancel();
+    locationCheckTimer = null;
+    locationStreamSubs?.cancel();
+    locationStreamSubs = null;
+    positionStream = null;
+    _streamReconnectTimer?.cancel();
+    _streamReconnectTimer = null;
+  }
+
   void _setLocation(LocationData location) {
-    if (location != null) {
-      _deviceLocation.value = location;
-      //prefsHelper.lastLocation = jsonEncode(_deviceLocation.value.toJson());
-    } else {
-      throw LocationException(
-        '${Constants.locationNotAvailable}',
-      );
-    }
+    _deviceLocation.value = location;
+    //prefsHelper.lastLocation = jsonEncode(_deviceLocation.value.toJson());
   }
 
   Future<LocationData> _parseLocation(Position location) async {
@@ -261,7 +314,7 @@ class LocationInfoImpl implements LocationInfo {
     final locationData = await _parseLocation(location);
     _setLocation(locationData);
     _startLocationServiceCheckTimer();
-    if (isMobile) {
+    if (_treatAsMobile) {
       _startLocationFetchStream();
     } else {
       logger.i('Location: Not stating location stream');
@@ -285,41 +338,66 @@ class LocationInfoImpl implements LocationInfo {
       _consecutiveLocationCheckFailures = 0;
       locationCheckTimer =
           Timer.periodic(const Duration(seconds: 1), (t) async {
-        final isLocationOk = await _checkLocationStatus();
+        if (_isCheckingLocationStatus) {
+          /// The previous tick's check is still awaiting the platform call
+          /// (can happen when the underlying call is slow/flaky). Skip this
+          /// tick rather than let overlapping checks race on
+          /// [_consecutiveLocationCheckFailures].
+          return;
+        }
+        _isCheckingLocationStatus = true;
+        final bool isLocationOk;
+        try {
+          isLocationOk = await _checkLocationStatus();
+        } finally {
+          _isCheckingLocationStatus = false;
+        }
+
         if (isLocationOk) {
           _consecutiveLocationCheckFailures = 0;
           return;
         }
 
         _consecutiveLocationCheckFailures++;
-        if (_consecutiveLocationCheckFailures < 2) {
-          /// Ignore a single failed check: on some devices the underlying
+        if (_consecutiveLocationCheckFailures <
+            _kConsecutiveLocationFailureThreshold) {
+          /// Ignore isolated failures: on some devices the underlying
           /// platform call is flaky and fails transiently even though
-          /// location is genuinely enabled. Confirm on the next tick before
-          /// surfacing an error to the user.
+          /// location is genuinely enabled. Require consecutive failures
+          /// before surfacing an error to the user.
           return;
         }
 
         t.cancel();
-        if (navKey != null) {
-          await navKey!.currentState?.push(
-            MaterialPageRoute(
-              builder: (_) => AppErrorPage(
-                LocationException(
-                  '${Constants.locationNotAvailable}'
-                  '',
-                ),
-                onRetryTap: () async {
+        if (navKey == null) {
+          logger.e(
+            'Location: service check failed and no navKey is available to '
+            'surface the error page; location monitoring has stopped silently.',
+            StackTrace.current,
+          );
+          return;
+        }
+        await navKey!.currentState?.push(
+          MaterialPageRoute(
+            builder: (_) => AppErrorPage(
+              LocationException(
+                '${Constants.locationNotAvailable}'
+                '',
+              ),
+              onRetryTap: () async {
+                try {
                   if (await _checkLocationStatus()) {
                     navKey!.currentState?.pop();
                     _startLocationServiceCheckTimer();
                     await initLocation();
                   }
-                },
-              ),
+                } catch (e, s) {
+                  logger.e(e, s);
+                }
+              },
             ),
-          );
-        }
+          ),
+        );
       });
     }
   }
@@ -331,8 +409,16 @@ class LocationInfoImpl implements LocationInfo {
   Future<bool> _checkLocationStatus() async {
     try {
       final checkPermission = await isLocationPermissionGranted();
+      if (!checkPermission) {
+        logger.e('Location: permission not granted', StackTrace.current);
+        return false;
+      }
       final geolocationStatus = await isLocationEnabled();
-      return checkPermission && geolocationStatus;
+      if (!geolocationStatus) {
+        logger.e('Location: service reported disabled', StackTrace.current);
+        return false;
+      }
+      return true;
     } catch (e, s) {
       logger.e(e, s);
       return false;
@@ -376,16 +462,14 @@ class LocationInfoImpl implements LocationInfo {
 
   @override
   Stream<LocationData> get locationStream {
-    if (isMobile && positionStream != null) {
+    if (_treatAsMobile && positionStream != null) {
       return positionStream!.transform(
         StreamTransformer.fromHandlers(
           handleData: (data, sink) async {
-            if (data != null) {
-              /// Adding the current location because
-              /// it is already fetched and parsed from [positionStream] listener
-              if (_deviceLocation.value != null) {
-                sink.add(currentLocation);
-              }
+            /// Adding the current location because it is already fetched
+            /// and parsed from [positionStream] listener
+            if (_deviceLocation.value != null) {
+              sink.add(currentLocation);
             }
           },
         ),

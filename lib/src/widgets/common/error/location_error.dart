@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/config/colors.dart';
+import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../rounded_action_button.dart';
 
-class LocationErrorWidget extends StatelessWidget {
+class LocationErrorWidget extends StatefulWidget {
   const LocationErrorWidget({
     required this.error,
     this.onRefreshTap,
@@ -18,7 +21,28 @@ class LocationErrorWidget extends StatelessWidget {
 
   final bool pop;
   final bool hasSettingButton;
-  final VoidCallback? onRefreshTap;
+
+  /// May be a plain [VoidCallback] or an async `Future<void> Function()`.
+  final FutureOr<void> Function()? onRefreshTap;
+
+  @override
+  State<LocationErrorWidget> createState() => _LocationErrorWidgetState();
+}
+
+class _LocationErrorWidgetState extends State<LocationErrorWidget> {
+  bool _isRefreshing = false;
+
+  Future<void> _handleRefreshTap() async {
+    if (_isRefreshing) return;
+    setState(() => _isRefreshing = true);
+    try {
+      await Future.sync(() => widget.onRefreshTap?.call());
+    } catch (e, s) {
+      logger.e(e, s);
+    } finally {
+      if (mounted) setState(() => _isRefreshing = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +59,7 @@ class LocationErrorWidget extends StatelessWidget {
               height: 8,
             ),
             Text(
-              error,
+              widget.error,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -234,15 +258,15 @@ class LocationErrorWidget extends StatelessWidget {
                         color: AppColors.kDarkBlue,
                       ),
                       showIcon: true,
-                      ontap: onRefreshTap,
+                      ontap: _isRefreshing ? null : _handleRefreshTap,
                       gradient: null,
                     ),
                   ),
-                  if (hasSettingButton)
+                  if (widget.hasSettingButton)
                     SizedBox(
                       width: 8,
                     ),
-                  if (hasSettingButton)
+                  if (widget.hasSettingButton)
                     Flexible(
                       child: RoundedRectangleButton(
                         text: "Open Settings",
@@ -253,16 +277,22 @@ class LocationErrorWidget extends StatelessWidget {
                             color: Colors.white),
                         showIcon: false,
                         color: AppColors.kDarkBlue,
-                        ontap: () async {
-                          final isServiceEnabled =
-                              await Geolocator.isLocationServiceEnabled();
-                          if (!isServiceEnabled) {
-                            await Geolocator.openLocationSettings();
-                          } else {
-                            await Geolocator.openAppSettings();
-                          }
-                          onRefreshTap?.call();
-                        },
+                        ontap: _isRefreshing
+                            ? null
+                            : () async {
+                                try {
+                                  final isServiceEnabled = await Geolocator
+                                      .isLocationServiceEnabled();
+                                  if (!isServiceEnabled) {
+                                    await Geolocator.openLocationSettings();
+                                  } else {
+                                    await Geolocator.openAppSettings();
+                                  }
+                                } catch (e, s) {
+                                  logger.e(e, s);
+                                }
+                                await _handleRefreshTap();
+                              },
                         gradient: LinearGradient(
                           begin: Alignment(1.00, 1.01),
                           end: Alignment(0.05, 0.14),

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
+import 'package:fa_flutter_ui_kit/src/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 
-class UnknownErrorWidget extends StatelessWidget {
+class UnknownErrorWidget extends StatefulWidget {
   const UnknownErrorWidget(
     this.onTap, {
     this.pop = true,
@@ -18,7 +21,8 @@ class UnknownErrorWidget extends StatelessWidget {
     this.messageStyle,
   });
 
-  final VoidCallback? onTap;
+  /// May be a plain [VoidCallback] or an async `Future<void> Function()`.
+  final FutureOr<void> Function()? onTap;
   final bool pop;
   final String? message;
   final String errorImage;
@@ -31,26 +35,45 @@ class UnknownErrorWidget extends StatelessWidget {
   final TextStyle? errorTitleStyle, errorSubtitleStyle, messageStyle;
 
   @override
+  State<UnknownErrorWidget> createState() => _UnknownErrorWidgetState();
+}
+
+class _UnknownErrorWidgetState extends State<UnknownErrorWidget> {
+  bool _isRetrying = false;
+
+  Future<void> _handleTap() async {
+    if (_isRetrying) return;
+    setState(() => _isRetrying = true);
+    try {
+      await Future.sync(() => widget.onTap?.call());
+    } catch (e, s) {
+      logger.e(e, s);
+    } finally {
+      if (mounted) setState(() => _isRetrying = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding,
+      padding: widget.padding,
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (showErrorImage) ...[
+          if (widget.showErrorImage) ...[
             Image.asset(
-              errorImage,
+              widget.errorImage,
               width: MediaQuery.of(context).size.width * 0.5,
             ),
             SizedBox(
               height: 50,
             )
           ],
-          if (showErrorTitle) ...[
+          if (widget.showErrorTitle) ...[
             Text(
-              errorTitle,
-              style: errorTitleStyle ??
+              widget.errorTitle,
+              style: widget.errorTitleStyle ??
                   TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
@@ -60,10 +83,10 @@ class UnknownErrorWidget extends StatelessWidget {
               height: 20,
             )
           ],
-          if (showErrorSubtitle) ...[
+          if (widget.showErrorSubtitle) ...[
             Text(
-              errorSubtitle,
-              style: errorSubtitleStyle ??
+              widget.errorSubtitle,
+              style: widget.errorSubtitleStyle ??
                   TextStyle(
                     fontSize: 15,
                   ),
@@ -75,7 +98,7 @@ class UnknownErrorWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if (pop)
+              if (widget.pop)
                 Flexible(
                   child: OutlinedIconButton(
                     endAction: () {
@@ -85,10 +108,10 @@ class UnknownErrorWidget extends StatelessWidget {
                     endText: Text('GO BACK'),
                   ),
                 ),
-              if (onTap != null)
+              if (widget.onTap != null)
                 Flexible(
                   child: OutlinedIconButton(
-                    endAction: onTap!,
+                    endAction: _handleTap,
                     endIcon: Icon(
                       Icons.replay,
                       color: Colors.green,
@@ -103,14 +126,14 @@ class UnknownErrorWidget extends StatelessWidget {
                 ),
             ],
           ),
-          if (message != null)
+          if (widget.message != null)
             SizedBox(
               height: 30,
             ),
-          if (message != null)
+          if (widget.message != null)
             Text(
-              message ?? '',
-              style: messageStyle ??
+              widget.message ?? '',
+              style: widget.messageStyle ??
                   TextStyle(
                     color: Colors.grey.shade600,
                     fontSize: 10,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,12 @@ class AppErrorPage extends StatelessWidget {
   });
 
   final dynamic e;
-  final VoidCallback? onRetryTap;
+
+  /// May be a plain [VoidCallback] or an async `Future<void> Function()`;
+  /// either is accepted so existing synchronous callers keep working while
+  /// retry flows that need to await work (and guard against double-taps)
+  /// can do so.
+  final FutureOr<void> Function()? onRetryTap;
   final bool hasSettingButton;
 
   @override
