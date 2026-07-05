@@ -200,9 +200,18 @@ class LocationInfoImpl implements LocationInfo {
     }
   }
 
-  void _startLocationFetchStream() {
-    _streamReconnectTimer?.cancel();
-    _streamReconnectAttempts = 0;
+  /// [isFreshStart] should be true only when called from a genuinely new
+  /// connect (initial connect or a user-initiated retry via
+  /// [initLocation]), so the backoff counter resets for that new attempt.
+  /// The reconnect [Timer] created by [_scheduleStreamReconnect] calls this
+  /// again internally without it, so consecutive automatic reconnects keep
+  /// escalating through the delay list instead of resetting back to the
+  /// first delay (and never reaching the give-up threshold) on every retry.
+  void _startLocationFetchStream({bool isFreshStart = false}) {
+    if (isFreshStart) {
+      _streamReconnectTimer?.cancel();
+      _streamReconnectAttempts = 0;
+    }
     positionStream ??= Geolocator.getPositionStream(
       locationSettings: getLocationSetting(),
     ).bufferTime(const Duration(seconds: 2)).transform<Position>(
@@ -319,7 +328,7 @@ class LocationInfoImpl implements LocationInfo {
     _setLocation(locationData);
     _startLocationServiceCheckTimer();
     if (_treatAsMobile) {
-      _startLocationFetchStream();
+      _startLocationFetchStream(isFreshStart: true);
     } else {
       logger.i('Location: Not stating location stream');
     }
