@@ -55,6 +55,13 @@ class LocationInfoImpl implements LocationInfo {
 
   StreamSubscription<Position>? locationStreamSubs;
 
+  /// Number of consecutive failed location checks observed by
+  /// [_startLocationServiceCheckTimer]. Some OEM devices (e.g. Samsung
+  /// tablets with aggressive background throttling) intermittently fail the
+  /// underlying Play Services location settings check even when location is
+  /// genuinely enabled, so a single failure is not treated as conclusive.
+  int _consecutiveLocationCheckFailures = 0;
+
   static const _locationChannel =
       MethodChannel('com.fieldassist.location_channel');
 
@@ -181,6 +188,14 @@ class LocationInfoImpl implements LocationInfo {
         final locationData = await _parseLocation(position);
         _setLocation(locationData);
       }
+    }, onError: (Object e, StackTrace s) {
+      /// The platform position stream can error out (e.g. location services
+      /// disabled mid-session). Reset the memoized stream/subscription so a
+      /// subsequent retry actually resubscribes instead of being a no-op due
+      /// to the `??=` guards above.
+      logger.e(e, s);
+      positionStream = null;
+      locationStreamSubs = null;
     });
   }
 
@@ -267,36 +282,60 @@ class LocationInfoImpl implements LocationInfo {
   void _startLocationServiceCheckTimer() {
     final isTimerActive = locationCheckTimer?.isActive ?? false;
     if (!isTimerActive) {
+      _consecutiveLocationCheckFailures = 0;
       locationCheckTimer =
           Timer.periodic(const Duration(seconds: 1), (t) async {
-        final _checkPermission = await isLocationPermissionGranted();
-        final geolocationStatus = await isLocationEnabled();
-        if (!_checkPermission || !geolocationStatus) {
-          t.cancel();
-          if (navKey != null) {
-            await navKey!.currentState?.push(
-              MaterialPageRoute(
-                builder: (_) => AppErrorPage(
-                  LocationException(
-                    '${Constants.locationNotAvailable}'
-                    '',
-                  ),
-                  onRetryTap: () async {
-                    final _checkPermission =
-                        await isLocationPermissionGranted();
-                    final geolocationStatus = await isLocationEnabled();
-                    if (_checkPermission && geolocationStatus) {
-                      navKey!.currentState?.pop();
-                      _startLocationServiceCheckTimer();
-                      await initLocation();
-                    }
-                  },
+        final isLocationOk = await _checkLocationStatus();
+        if (isLocationOk) {
+          _consecutiveLocationCheckFailures = 0;
+          return;
+        }
+
+        _consecutiveLocationCheckFailures++;
+        if (_consecutiveLocationCheckFailures < 2) {
+          /// Ignore a single failed check: on some devices the underlying
+          /// platform call is flaky and fails transiently even though
+          /// location is genuinely enabled. Confirm on the next tick before
+          /// surfacing an error to the user.
+          return;
+        }
+
+        t.cancel();
+        if (navKey != null) {
+          await navKey!.currentState?.push(
+            MaterialPageRoute(
+              builder: (_) => AppErrorPage(
+                LocationException(
+                  '${Constants.locationNotAvailable}'
+                  '',
                 ),
+                onRetryTap: () async {
+                  if (await _checkLocationStatus()) {
+                    navKey!.currentState?.pop();
+                    _startLocationServiceCheckTimer();
+                    await initLocation();
+                  }
+                },
               ),
-            );
-          }
+            ),
+          );
         }
       });
+    }
+  }
+
+  /// Returns whether location permission is granted and location services
+  /// are enabled. Any exception from the underlying platform call (e.g. a
+  /// Play Services hiccup on certain OEM devices) is treated as a failed
+  /// check rather than being left to crash uncaught.
+  Future<bool> _checkLocationStatus() async {
+    try {
+      final checkPermission = await isLocationPermissionGranted();
+      final geolocationStatus = await isLocationEnabled();
+      return checkPermission && geolocationStatus;
+    } catch (e, s) {
+      logger.e(e, s);
+      return false;
     }
   }
 
