@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/colors.dart';
+
 enum Flavor {
   PROD,
   DEV,
@@ -16,6 +18,7 @@ enum Flavor {
   HCCB,
   FAONE,
   COLPALGLOBAL,
+  MARS,
 }
 
 extension FlavorX on Flavor {
@@ -52,6 +55,8 @@ extension FlavorX on Flavor {
         return "FieldAssist One";
       case Flavor.COLPALGLOBAL:
         return "COLPAL GLOBAL";
+      case Flavor.MARS:
+        return "MARS";
     }
   }
 
@@ -77,6 +82,8 @@ extension FlavorX on Flavor {
         return Color(0xff94080c);
       case Flavor.COLPALGLOBAL:
         return Colors.red;
+      case Flavor.MARS:
+        return AppColors.kMarsBlue;
     }
   }
 }
