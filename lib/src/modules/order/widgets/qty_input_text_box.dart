@@ -264,7 +264,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     if (!widget.isEditable) {
       return;
     }
-    FocusScope.of(context).requestFocus(_focusNode);
+    if (widget.keyboardController == null) {
+      FocusScope.of(context).requestFocus(_focusNode);
+    }
     final newValue = double.tryParse(textController.text) ?? 0;
     final decreasedValue = newValue > 0 ? newValue - widget.editStepValue : 0;
     final newText =
@@ -282,7 +284,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     if (!widget.isEditable) {
       return;
     }
-    FocusScope.of(context).requestFocus(_focusNode);
+    if (widget.keyboardController == null) {
+      FocusScope.of(context).requestFocus(_focusNode);
+    }
     final newValue = double.tryParse(textController.text) ?? 0;
     final increasedValue = newValue + widget.editStepValue;
     final newText =
