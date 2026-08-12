@@ -32,6 +32,7 @@ class SearchList<T> extends StatefulWidget {
     required this.selectedItem,
     required this.itemBuilder,
     this.onBottomBarTap,
+    this.bottomBarIdentifier,
     this.bottomBarTitle = 'NEXT',
     this.onSearch,
     this.bottomBarColor = const Color(0xff0097cd),
@@ -69,6 +70,20 @@ class SearchList<T> extends StatefulWidget {
   final GetSelectedItem<T> selectedItem;
   final OnItemSearch<T>? onSearch;
   final VoidCallback? onBottomBarTap;
+
+  /// Optional accessibility identifier for the bottom action bar, surfaced as
+  /// the platform's accessibility id (Android `resource-id`).
+  ///
+  /// Exists so UI tests can target the bar by a stable id instead of by its
+  /// label. The label is a poor selector: it is chosen by the HOST screen and
+  /// they disagree — callers pass "Continue", "NEXT", or the widget's own
+  /// default — and it is localized, so a translated build breaks any test that
+  /// matches on it.
+  ///
+  /// Null by default, which leaves the bar exactly as it was: `Semantics`
+  /// with a null identifier adds no id.
+  final String? bottomBarIdentifier;
+
   final String bottomBarTitle;
   final bool displayBottomBarIcon;
   final BottomActionBuilder? bottomActionBuilder;
@@ -286,17 +301,20 @@ class _SearchListState<T> extends State<SearchList<T>> {
                 ? null
                 : widget.bottomActionBuilder != null
                     ? widget.bottomActionBuilder!.call()
-                    : BottomActionButton(
-                        title: widget.bottomBarTitle,
-                        showIcon: widget.displayBottomBarIcon,
-                        onPressed: widget.onBottomBarTap,
-                        color: widget.bottomBarColor,
-                        gradient: widget.bottomGradient,
-                        titleColor: widget.bottomBarTitleColor,
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: widget.bottomBarTitleColor,
-                          size: 18,
+                    : Semantics(
+                        identifier: widget.bottomBarIdentifier,
+                        child: BottomActionButton(
+                          title: widget.bottomBarTitle,
+                          showIcon: widget.displayBottomBarIcon,
+                          onPressed: widget.onBottomBarTap,
+                          color: widget.bottomBarColor,
+                          gradient: widget.bottomGradient,
+                          titleColor: widget.bottomBarTitleColor,
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            color: widget.bottomBarTitleColor,
+                            size: 18,
+                          ),
                         ),
                       ),
           )
