@@ -10,6 +10,7 @@ class QuantityBreakdown {
     this.totalProductCount = 0,
     this.isContainSingleValue = false,
     this.singleValue = "",
+    this.identifier,
   });
 
   final String type;
@@ -17,6 +18,15 @@ class QuantityBreakdown {
   final int totalProductCount;
   final bool isContainSingleValue;
   final String singleValue;
+
+  /// Optional `Semantics(identifier:)` for E2E tests.
+  ///
+  /// Pass a STABLE KIND, never [type]. `type` is the rendered label and is
+  /// company-config driven (`nomenClature?.buyAgain ?? kBestSeller`), so keying
+  /// on it would make an admin renaming a row look like a UI change to a
+  /// structural regression check. Which rows exist IS structure; what they are
+  /// called is not.
+  final String? identifier;
 }
 
 class AmountBreakdown {
@@ -27,11 +37,16 @@ class AmountBreakdown {
     this.amtPrefix = "",
     this.valueStyle,
     this.typeStyle,
+    this.identifier,
   });
 
   final String type;
   final double amount;
   final Color? color;
+
+  /// Optional `Semantics(identifier:)` for E2E tests — see
+  /// [QuantityBreakdown.identifier]. Pass a stable kind, not [type].
+  final String? identifier;
 
   /// It can be used to denote negative (-) amount
   /// Eg: -₹ 100 so you can pass amtPrefix as "-"
@@ -191,29 +206,35 @@ class OrderAmountSummaryWidget extends StatelessWidget {
               children: [
                 ...List.generate(
                   quantityBreakdownList.length,
-                  (index) => Padding(
-                    padding: breakDownListPadding,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(quantityBreakdownList[index].type,
-                              style: subTitleTextStyle),
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                              quantityBreakdownList[index].isContainSingleValue
-                                  ? "${quantityBreakdownList[index].singleValue}"
-                                  : "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
-                              style: subTitleTextStyle.copyWith(
-                                  color: Colors.black),
-                              textAlign: TextAlign.end),
-                        ),
-                      ],
+                  (index) => Semantics(
+                    identifier: quantityBreakdownList[index].identifier ?? '',
+                    // The row's two Texts merge into this node, which is what we
+                    // want: the id marks that the ROW EXISTS. Its values are data
+                    // and deliberately not addressable.
+                    child: Padding(
+                      padding: breakDownListPadding,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(quantityBreakdownList[index].type,
+                                style: subTitleTextStyle),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                                quantityBreakdownList[index].isContainSingleValue
+                                    ? "${quantityBreakdownList[index].singleValue}"
+                                    : "${quantityBreakdownList[index].orderedProductCount} / ${quantityBreakdownList[index].totalProductCount}",
+                                style: subTitleTextStyle.copyWith(
+                                    color: Colors.black),
+                                textAlign: TextAlign.end),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -309,30 +330,34 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                     amountBreakdownList.length,
                     (index) {
                       final amtBreakdownItem = amountBreakdownList[index];
-                      return Padding(
-                        padding: breakDownListPadding,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Text(amtBreakdownItem.type,
-                                  style: amtBreakdownItem.typeStyle ??
-                                      subTitleTextStyle),
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
-                                style: subTitleTextStyle.copyWith(
-                                  color: amtBreakdownItem.color ?? Colors.black,
-                                ),
-                                textAlign: TextAlign.end,
+                      return Semantics(
+                        identifier: amtBreakdownItem.identifier ?? '',
+                        child: Padding(
+                          padding: breakDownListPadding,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Text(amtBreakdownItem.type,
+                                    style: amtBreakdownItem.typeStyle ??
+                                        subTitleTextStyle),
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 8),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  "${amtBreakdownItem.amtPrefix}$currency ${currencyUtil.formatNumber(amtBreakdownItem.amount, compact: compactNumber)}",
+                                  style: subTitleTextStyle.copyWith(
+                                    color:
+                                        amtBreakdownItem.color ?? Colors.black,
+                                  ),
+                                  textAlign: TextAlign.end,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
