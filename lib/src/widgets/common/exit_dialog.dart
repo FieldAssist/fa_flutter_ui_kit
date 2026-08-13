@@ -12,6 +12,9 @@ class ExitDialog extends StatelessWidget {
     this.leftButtonFunction,
     this.leftButtonColor,
     this.rightButtonColor,
+    this.dialogIdentifier,
+    this.leftActionIdentifier,
+    this.rightActionIdentifier,
   });
 
   final VoidCallback rightButtonFunction;
@@ -23,6 +26,16 @@ class ExitDialog extends StatelessWidget {
   final Color? rightButtonColor;
   final Color? leftButtonColor;
 
+  /// Optional `Semantics(identifier:)` values for E2E tests.
+  ///
+  /// The default labels are 'NO' / 'YES' and callers override them freely
+  /// ('Cancel' / 'Keep' on the keep-in-van confirm), so text cannot identify
+  /// these buttons. Key by POSITION-ROLE — left is the dismiss action, right is
+  /// the commit action — which holds whatever the labels say.
+  final String? dialogIdentifier;
+  final String? leftActionIdentifier;
+  final String? rightActionIdentifier;
+
   final _btnTextStyle = TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.normal,
@@ -31,7 +44,11 @@ class ExitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return Semantics(
+      identifier: dialogIdentifier ?? '',
+      // Without this the dialog's own id swallows both action buttons.
+      explicitChildNodes: true,
+      child: AlertDialog(
       contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       insetPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -59,7 +76,9 @@ class ExitDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Expanded(
-                  child: MaterialButton(
+                  child: Semantics(
+                    identifier: leftActionIdentifier ?? '',
+                    child: MaterialButton(
                     onPressed: () {
                       Navigator.pop(context);
                       leftButtonFunction?.call();
@@ -74,12 +93,15 @@ class ExitDialog extends StatelessWidget {
                       style: _btnTextStyle,
                     ),
                   ),
+                  ),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Expanded(
-                  child: MaterialButton(
+                  child: Semantics(
+                    identifier: rightActionIdentifier ?? '',
+                    child: MaterialButton(
                     onPressed: () {
                       Navigator.pop(context);
                       rightButtonFunction.call();
@@ -94,11 +116,13 @@ class ExitDialog extends StatelessWidget {
                       style: _btnTextStyle,
                     ),
                   ),
+                  ),
                 ),
               ],
             ),
           ],
         ),
+      ),
       ),
     );
   }
