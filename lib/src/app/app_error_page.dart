@@ -18,8 +18,7 @@ class AppErrorPage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: BaseScaffold(
-          appBody: Column(
-            mainAxisSize: MainAxisSize.min,
+          appBody: ListView(
             children: [
               getWidget(),
             ],

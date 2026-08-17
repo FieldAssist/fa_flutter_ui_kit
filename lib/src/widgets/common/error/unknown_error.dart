@@ -44,7 +44,7 @@ class UnknownErrorWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.5,
             ),
             SizedBox(
-              height: 50,
+              height: 30,
             )
           ],
           if (showErrorTitle) ...[
@@ -69,7 +69,7 @@ class UnknownErrorWidget extends StatelessWidget {
                   ),
             ),
             SizedBox(
-              height: 100,
+              height: 40,
             )
           ],
           Row(
@@ -108,13 +108,16 @@ class UnknownErrorWidget extends StatelessWidget {
               height: 30,
             ),
           if (message != null)
-            Text(
-              message ?? '',
-              style: messageStyle ??
-                  TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 10,
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                message ?? '',
+                style: messageStyle ??
+                    TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 12,
+                    ),
+              ),
             ),
         ],
       ),
