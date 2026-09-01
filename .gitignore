@@ -83,3 +83,8 @@ build/
 
 # FVM Version Cache
 .fvm/
+
+# Agent runtime notes (never committed)
+AI_AGENT_CHANGES/
+AGENT.md
+AGENTS.md
