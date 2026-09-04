@@ -61,6 +61,7 @@ class SearchList<T> extends StatefulWidget {
     this.showCrossbutton = false,
     this.bottomGradient,
     this.actionWidget,
+    this.searchBarTrailing,
     Key? key,
   })  : assert(!showDefaultAppBar ? textEditingController != null : true),
         super(key: key);
@@ -111,6 +112,10 @@ class SearchList<T> extends StatefulWidget {
   final bool showBackButton;
   final LinearGradient? bottomGradient;
   final Widget? actionWidget;
+
+  /// Optional widget rendered beside the search field (e.g. a filter button).
+  /// Null by default, so every existing consumer renders byte-identically.
+  final Widget? searchBarTrailing;
 
   @override
   _SearchListState<T> createState() => _SearchListState<T>();
@@ -236,6 +241,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
             queryTextController: searchQueryController!,
             searchFieldLabel: widget.searchBarTitle ?? 'Search',
             showCrossbutton: widget.showCrossbutton,
+            trailing: widget.searchBarTrailing,
           ),
           Expanded(child: _child),
         ],
@@ -290,6 +296,7 @@ class _SearchListState<T> extends State<SearchList<T>> {
                                   widget.searchBarTitle ?? 'Search',
                               showCrossbutton: widget.showCrossbutton,
                               borderRadius: 14,
+                              trailing: widget.searchBarTrailing,
                             ),
                         ],
                       ),
