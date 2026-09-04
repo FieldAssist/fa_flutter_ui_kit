@@ -142,12 +142,18 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
     );
 
     return Padding(
+      // [REQ-177 rework] stable key so tests can target this Padding directly instead of
+      // relying on tree-order (find.byType(Padding).first also matches ancestor framework
+      // widgets in some hosts).
+      key: const Key('integrated-search-textfield-padding'),
       padding: const EdgeInsets.all(8.0),
       child: widget.trailing == null
           ? searchCard
           : Row(
               children: <Widget>[
                 Expanded(child: searchCard),
+                // [REQ-177 rework] gap so a trailing icon/button doesn't sit flush against the Card edge.
+                const SizedBox(width: 8),
                 widget.trailing!,
               ],
             ),
