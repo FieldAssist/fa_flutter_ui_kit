@@ -30,6 +30,7 @@ class LocationErrorWidget extends StatelessWidget {
             Image.asset(
               Images.superCommander,
               width: MediaQuery.of(context).size.shortestSide / 2,
+              package: kUiKitPackage,
             ),
             SizedBox(
               height: 8,

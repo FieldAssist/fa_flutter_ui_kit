@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:fa_flutter_ui_kit/src/constants/images.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,7 @@ class EmptyDataWidget extends StatelessWidget {
               Image.asset(
                 Images.binoculars,
                 width: MediaQuery.of(context).size.width * 0.5,
+                package: kUiKitPackage,
               ),
           Text(
             '$firstMessage',

@@ -43,6 +43,7 @@ flutter:
     - assets/flare/
     - assets/data/
     - assets/svg/
+    - assets/icons/
 
   fonts:
     - family: Trueno

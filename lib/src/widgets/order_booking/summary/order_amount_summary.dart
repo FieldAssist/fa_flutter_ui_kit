@@ -145,6 +145,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   SvgIcons.distributorIcon,
                   height: 25,
                   width: 25,
+                  package: kUiKitPackage,
                 ),
                 minLeadingWidth: 40,
                 title: Row(
@@ -201,6 +202,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                 SvgIcons.boxIcon,
                 height: 25,
                 width: 25,
+                package: kUiKitPackage,
               ),
               initiallyExpanded: quantityBreakdownList.isEmpty ? false : true,
               children: [
@@ -259,6 +261,7 @@ class OrderAmountSummaryWidget extends StatelessWidget {
                   SvgIcons.cashIcon,
                   height: 25,
                   width: 25,
+                  package: kUiKitPackage,
                 ),
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
