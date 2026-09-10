@@ -61,6 +61,19 @@ flutter:
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
+    # MT 2.0 design-system font. Consumed via FaText tokens
+    # (package: fa_flutter_ui_kit), never via ThemeData.fontFamily —
+    # that stays whatever the host app sets.
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
     - family: Poppins
       fonts:
         - asset: assets/fonts/poppins_bd.ttf
