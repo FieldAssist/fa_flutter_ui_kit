@@ -1,11 +1,6 @@
 import 'package:fa_flutter_ui_kit/design.dart';
 import 'package:flutter/material.dart';
 
-/// Gallery for the Modern Trade 2.0 design system.
-///
-/// Doubles as the proof that branding flows through the tokens: switching the
-/// seed re-tints the header, the brand pill and every brand-derived role,
-/// while success/warning/danger stay put.
 class DesignGalleryPage extends StatefulWidget {
   const DesignGalleryPage({super.key});
 
@@ -21,12 +16,19 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
     'Navy': Color(0xFF002E6C),
   };
 
+  static const _icons = <String, FaIconAsset>{
+    'package2': FaIcons.package2,
+    'addAPhoto': FaIcons.addAPhoto,
+    'download': FaIcons.download,
+    'factCheck': FaIcons.factCheck,
+    'arrowOutward': FaIcons.arrowOutward,
+    'verified': FaIcons.verified,
+  };
+
   String _seedName = 'MT 2.0';
 
   @override
   Widget build(BuildContext context) {
-    // The tokens ride on ThemeData, so swapping them is a theme swap — exactly
-    // what a host app does when company branding arrives.
     return Theme(
       data: FaTheme.light(seed: _seeds[_seedName]!),
       child: Builder(builder: _buildGallery),
@@ -34,6 +36,8 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
   }
 
   Widget _buildGallery(BuildContext context) {
+    final colors = context.faColors;
+    final text = context.faText;
     return FaScaffold(
       header: FaTopNav(
         title: 'Design System',
@@ -67,12 +71,85 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
               spacing: FaSpace.x8,
               runSpacing: FaSpace.x8,
               children: [
-                for (final tone in FaTone.values)
-                  FaPill(
-                    label: tone.name,
-                    tone: tone,
-                    leading: const Icon(Icons.circle),
+                for (final tone in FaTone.values) ...[
+                  FaPill(label: tone.name, tone: tone),
+                  FaPill(label: tone.name, tone: tone, size: FaPillSize.md),
+                ],
+              ],
+            ),
+          ),
+          _Section(
+            title: 'Icons',
+            child: Wrap(
+              spacing: FaSpace.x12,
+              runSpacing: FaSpace.x12,
+              children: [
+                for (final entry in _icons.entries)
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FaIconTile(icon: entry.value),
+                      const SizedBox(height: FaSpace.x4),
+                      Text(entry.key, style: text.caption),
+                    ],
                   ),
+              ],
+            ),
+          ),
+          _Section(
+            title: 'Activity card',
+            child: Row(
+              children: [
+                Expanded(
+                  child: FaCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const FaIconTile(icon: FaIcons.package2),
+                            const Spacer(),
+                            FaIconCircleButton(
+                              icon: FaIcons.arrowOutward,
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: FaSpace.x12),
+                        Text(
+                          'Opening Stock',
+                          style: text.cardTitle
+                              .copyWith(color: colors.textPrimary),
+                        ),
+                        const SizedBox(height: FaSpace.x2),
+                        Text(
+                          'Enter opening quantities',
+                          style: text.caption
+                              .copyWith(color: colors.textSecondary),
+                        ),
+                        const SizedBox(height: FaSpace.x12),
+                        const FaPill(
+                          label: 'Not Started',
+                          size: FaPillSize.md,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          _Section(
+            title: 'Progress',
+            child: Row(
+              children: [
+                for (final value in [0.0, 0.5, 1.0]) ...[
+                  FaProgressRing(
+                    value: value,
+                    label: Text('${(value * 100).round()}%', style: text.s12.w600),
+                  ),
+                  const SizedBox(width: FaSpace.x16),
+                ],
               ],
             ),
           ),
@@ -81,12 +158,13 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Swatch('canvas', context.faColors.canvas),
-                _Swatch('surface', context.faColors.surface),
-                _Swatch('surfaceAlt', context.faColors.surfaceAlt),
-                _Swatch('border', context.faColors.border),
-                _Swatch('brand', context.faColors.brand),
-                _Swatch('brandDeep', context.faColors.brandDeep),
+                _Swatch('canvas', colors.canvas),
+                _Swatch('surface', colors.surface),
+                _Swatch('surfaceAlt', colors.surfaceAlt),
+                _Swatch('border', colors.border),
+                _Swatch('icon', colors.icon),
+                _Swatch('brand', colors.brand),
+                _Swatch('brandDeep', colors.brandDeep),
               ],
             ),
           ),
@@ -95,11 +173,11 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('16 / w600 — cardTitle', style: context.faText.cardTitle),
-                Text('14 / w400 — body', style: context.faText.body),
-                Text('14 / w600 — bodyStrong', style: context.faText.bodyStrong),
-                Text('12 / w500 — pillLabel', style: context.faText.pillLabel),
-                Text('11 / w400 — caption', style: context.faText.caption),
+                Text('14 / w600 — cardTitle', style: text.cardTitle),
+                Text('14 / w400 — body', style: text.body),
+                Text('14 / w600 — bodyStrong', style: text.bodyStrong),
+                Text('12 / w500 — pillLabel', style: text.pillLabel),
+                Text('11 / w400 — caption', style: text.caption),
               ],
             ),
           ),
@@ -107,9 +185,15 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
             title: 'Gradients',
             child: Column(
               children: [
-                _GradientBar('headerBackdrop', context.faGradients.headerBackdrop),
+                _GradientBar(
+                  'headerBackdrop',
+                  context.faGradients.headerBackdrop,
+                ),
                 const SizedBox(height: FaSpace.x8),
-                _GradientBar('primaryAction', context.faGradients.primaryAction),
+                _GradientBar(
+                  'primaryAction',
+                  context.faGradients.primaryAction,
+                ),
               ],
             ),
           ),
@@ -127,21 +211,18 @@ class _Section extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: FaSpace.x16),
-      padding: const EdgeInsets.all(FaSpace.x16),
-      decoration: BoxDecoration(
-        color: context.faColors.surface,
-        borderRadius: BorderRadius.circular(FaRadius.xxl),
-        border: Border.all(color: context.faColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: context.faText.sectionTitle),
-          const SizedBox(height: FaSpace.x12),
-          child,
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: FaSpace.x16),
+      child: FaCard(
+        padding: const EdgeInsets.all(FaSpace.x16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: context.faText.sectionTitle),
+            const SizedBox(height: FaSpace.x12),
+            child,
+          ],
+        ),
       ),
     );
   }
