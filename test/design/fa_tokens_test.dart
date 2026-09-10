@@ -62,12 +62,26 @@ void main() {
       expect(branded.status.danger.ink, defaulted.status.danger.ink);
     });
 
+    test('keeps the accent tone fixed regardless of branding', () {
+      final branded = FaColors.fromSeed(const Color(0xFF00695C));
+
+      expect(branded.status.accent.tint, FaColorRamp.violet.s50);
+    });
+
     test('matches the MT 2.0 canvas and verified-pill values by default', () {
       final colors = FaColors.fromSeed(FaTheme.defaultSeed);
 
       expect(colors.canvas, const Color(0xFFF5F6FA));
       expect(colors.status.success.tint, const Color(0xFFE9FFE8));
       expect(colors.status.success.ink, const Color(0xFF008400));
+    });
+
+    test('matches the MT 2.0 card border, neutral glyph and ring green', () {
+      final colors = FaColors.fromSeed(FaTheme.defaultSeed);
+
+      expect(colors.border, const Color(0xFFE2E8F0));
+      expect(colors.icon, const Color(0xFF374151));
+      expect(colors.status.success.solid, const Color(0xFF48C054));
     });
 
     test('resolves every tone', () {
@@ -107,7 +121,7 @@ void main() {
     test('maps semantic aliases onto grid entries', () {
       expect(tokens.navTitle, tokens.s16.w500);
       expect(tokens.pillLabel, tokens.s12.w500);
-      expect(tokens.cardTitle, tokens.s16.w600);
+      expect(tokens.cardTitle, tokens.s14.w600);
     });
   });
 

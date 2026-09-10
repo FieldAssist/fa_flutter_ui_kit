@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// An 11-stop colour ramp, Tailwind-shaped (`50` lightest → `950` darkest).
-///
-/// This is the **primitive** layer: a ramp carries no meaning, only shades.
-/// Meaning is assigned by [FaColors], which picks stops for semantic roles.
-/// Widgets must never read a ramp directly.
 @immutable
 class FaColorRamp {
   const FaColorRamp({
@@ -27,41 +22,35 @@ class FaColorRamp {
   final Color s300;
   final Color s400;
   final Color s500;
-
-  /// The ramp's anchor. A brand seed always lands here.
   final Color s600;
   final Color s700;
   final Color s800;
   final Color s900;
   final Color s950;
 
-  /// Modern Trade 2.0's default brand ramp.
-  ///
-  /// Stops marked *(Figma)* are lifted verbatim from the MT 2.0 file; the rest
-  /// are Tailwind `blue`, which is what the design library is built on. Note
-  /// [s900]: Figma's header gradient uses `#153885`, not Tailwind's `#1E3A8A`.
+  // Tailwind ramps; stops marked "Figma" are measured from the MT 2.0 file
+  // where it deviates from Tailwind.
   static const blue = FaColorRamp(
-    s50: Color(0xFFEFF6FF), // (Figma) "In Progress" pill tint
+    s50: Color(0xFFEFF6FF),
     s100: Color(0xFFDBEAFE),
     s200: Color(0xFFBFDBFE),
     s300: Color(0xFF93C5FD),
     s400: Color(0xFF60A5FA),
     s500: Color(0xFF3B82F6),
-    s600: Color(0xFF2563EB), // (Figma) brand
+    s600: Color(0xFF2563EB),
     s700: Color(0xFF1D4ED8),
     s800: Color(0xFF1E40AF),
-    s900: Color(0xFF153885), // (Figma) header gradient, top stop
+    s900: Color(0xFF153885), // Figma
     s950: Color(0xFF172554),
   );
 
-  /// Neutral ramp for canvas, borders and body copy.
   static const grey = FaColorRamp(
     s50: Color(0xFFF9FAFB),
-    s100: Color(0xFFF3F4F6), // (Figma) "Not started" pill tint
-    s200: Color(0xFFE5E7EB), // (Figma) card border
+    s100: Color(0xFFF3F4F6),
+    s200: Color(0xFFE5E7EB),
     s300: Color(0xFFD1D5DB),
     s400: Color(0xFF9CA3AF),
-    s500: Color(0xFF6B7280), // (Figma) secondary text, home indicator
+    s500: Color(0xFF6B7280),
     s600: Color(0xFF4B5563),
     s700: Color(0xFF374151),
     s800: Color(0xFF1F2937),
@@ -70,17 +59,31 @@ class FaColorRamp {
   );
 
   static const green = FaColorRamp(
-    s50: Color(0xFFE9FFE8), // (Figma) "Verified" / "Completed" pill tint
+    s50: Color(0xFFE9FFE8), // Figma
     s100: Color(0xFFDCFCE7),
     s200: Color(0xFFBBF7D0),
     s300: Color(0xFF86EFAC),
     s400: Color(0xFF4ADE80),
-    s500: Color(0xFF22C55E),
-    s600: Color(0xFF008400), // (Figma) "Verified" pill ink
+    s500: Color(0xFF48C054), // Figma
+    s600: Color(0xFF008400), // Figma
     s700: Color(0xFF15803D),
     s800: Color(0xFF166534),
     s900: Color(0xFF14532D),
     s950: Color(0xFF052E16),
+  );
+
+  static const violet = FaColorRamp(
+    s50: Color(0xFFF5F3FF),
+    s100: Color(0xFFEDE9FE),
+    s200: Color(0xFFDDD6FE),
+    s300: Color(0xFFC4B5FD),
+    s400: Color(0xFFA78BFA),
+    s500: Color(0xFF8B5CF6),
+    s600: Color(0xFF7C3AED),
+    s700: Color(0xFF6D28D9),
+    s800: Color(0xFF5B21B6),
+    s900: Color(0xFF4C1D95),
+    s950: Color(0xFF2E1065),
   );
 
   static const amber = FaColorRamp(
@@ -111,19 +114,12 @@ class FaColorRamp {
     s950: Color(0xFF450A0A),
   );
 
-  /// Lightness targets used when deriving a ramp from an arbitrary seed.
-  /// Index 6 (`s600`) is a placeholder — the seed's own lightness is used there.
   static const List<double> _lightness = [
     0.97, 0.93, 0.87, 0.78, 0.68, 0.60, -1, 0.44, 0.36, 0.28, 0.20,
   ];
 
-  /// Derives a ramp from a company-branding colour.
-  ///
-  /// The seed becomes [s600]; the other stops keep the seed's hue and
-  /// saturation and move along [_lightness]. Passing the MT 2.0 brand returns
-  /// [blue] unchanged, so the default theme stays pixel-exact to Figma rather
-  /// than approximated.
   factory FaColorRamp.fromSeed(Color seed) {
+    // The default seed keeps the Figma-tuned ramp instead of a derived one.
     if (seed == blue.s600) {
       return blue;
     }

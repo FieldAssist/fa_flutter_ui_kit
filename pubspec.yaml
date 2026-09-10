@@ -43,6 +43,7 @@ flutter:
     - assets/flare/
     - assets/data/
     - assets/svg/
+    - assets/icons/
 
   fonts:
     - family: Trueno
@@ -61,9 +62,6 @@ flutter:
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
-    # MT 2.0 design-system font. Consumed via FaText tokens
-    # (package: fa_flutter_ui_kit), never via ThemeData.fontFamily —
-    # that stays whatever the host app sets.
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter-Regular.ttf

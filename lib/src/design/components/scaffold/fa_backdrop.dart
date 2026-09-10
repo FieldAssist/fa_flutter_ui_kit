@@ -37,7 +37,7 @@ final class FaBackdropNone extends FaBackdrop {
 }
 
 final class FaBackdropBrandCurve extends FaBackdrop {
-  const FaBackdropBrandCurve({this.depth = 158, this.sagitta = 16});
+  const FaBackdropBrandCurve({this.depth = 162, this.sagitta = 13});
 
   /// Screen top to the curve's lowest point.
   final double depth;

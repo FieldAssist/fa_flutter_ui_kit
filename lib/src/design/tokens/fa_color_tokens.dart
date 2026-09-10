@@ -3,12 +3,6 @@ import 'package:flutter/material.dart';
 import 'fa_color_ramp.dart';
 import 'fa_status_ramp.dart';
 
-/// Semantic colour roles for MT 2.0 surfaces.
-///
-/// This is the only colour API widgets are allowed to touch — reach it with
-/// `context.faColors`, never by constructing a [Color] in widget code.
-/// Roles are named for the job they do, so a company re-brand changes one seed
-/// instead of every call site.
 @immutable
 class FaColors extends ThemeExtension<FaColors> {
   const FaColors({
@@ -16,6 +10,8 @@ class FaColors extends ThemeExtension<FaColors> {
     required this.surface,
     required this.surfaceAlt,
     required this.border,
+    required this.shadow,
+    required this.icon,
     required this.textPrimary,
     required this.textSecondary,
     required this.textTertiary,
@@ -25,7 +21,6 @@ class FaColors extends ThemeExtension<FaColors> {
     required this.status,
   });
 
-  /// Derives every role from a company-branding colour.
   factory FaColors.fromSeed(Color seed) {
     final brandRamp = FaColorRamp.fromSeed(seed);
     const grey = FaColorRamp.grey;
@@ -33,7 +28,9 @@ class FaColors extends ThemeExtension<FaColors> {
       canvas: const Color(0xFFF5F6FA),
       surface: Colors.white,
       surfaceAlt: const Color(0xFFF8F9FB),
-      border: grey.s200,
+      border: const Color(0xFFE2E8F0),
+      shadow: const Color(0x14000000),
+      icon: grey.s700,
       textPrimary: grey.s900,
       textSecondary: grey.s500,
       textTertiary: grey.s400,
@@ -44,34 +41,22 @@ class FaColors extends ThemeExtension<FaColors> {
     );
   }
 
-  /// Used when a host app has not wired [FaTheme] into its `ThemeData`.
-  /// Keeps the kit renderable in isolation (example gallery, widget tests)
-  /// instead of throwing deep inside a build.
+  // Lets kit widgets render when the host theme carries no tokens
+  // (widget tests, the example gallery).
   static final FaColors fallback = FaColors.fromSeed(FaColorRamp.blue.s600);
 
-  /// Screen background behind all content. `#F5F6FA` in MT 2.0.
   final Color canvas;
-
-  /// Raised content: cards, sheets, the bottom bar.
   final Color surface;
-
-  /// Recessed strip inside a surface — e.g. an activity card's "Start" footer.
   final Color surfaceAlt;
-
   final Color border;
+  final Color shadow;
+  final Color icon;
   final Color textPrimary;
   final Color textSecondary;
   final Color textTertiary;
-
-  /// The company's primary. Actions, links, selected states.
   final Color brand;
-
-  /// Dark end of the brand ramp. Top stop of the header gradient.
   final Color brandDeep;
-
-  /// Content drawn on [brand] or on the header gradient.
   final Color onBrand;
-
   final FaStatusColors status;
 
   @override
@@ -80,6 +65,8 @@ class FaColors extends ThemeExtension<FaColors> {
     Color? surface,
     Color? surfaceAlt,
     Color? border,
+    Color? shadow,
+    Color? icon,
     Color? textPrimary,
     Color? textSecondary,
     Color? textTertiary,
@@ -93,6 +80,8 @@ class FaColors extends ThemeExtension<FaColors> {
         surface: surface ?? this.surface,
         surfaceAlt: surfaceAlt ?? this.surfaceAlt,
         border: border ?? this.border,
+        shadow: shadow ?? this.shadow,
+        icon: icon ?? this.icon,
         textPrimary: textPrimary ?? this.textPrimary,
         textSecondary: textSecondary ?? this.textSecondary,
         textTertiary: textTertiary ?? this.textTertiary,
@@ -112,6 +101,8 @@ class FaColors extends ThemeExtension<FaColors> {
       surface: Color.lerp(surface, other.surface, t)!,
       surfaceAlt: Color.lerp(surfaceAlt, other.surfaceAlt, t)!,
       border: Color.lerp(border, other.border, t)!,
+      shadow: Color.lerp(shadow, other.shadow, t)!,
+      icon: Color.lerp(icon, other.icon, t)!,
       textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       textTertiary: Color.lerp(textTertiary, other.textTertiary, t)!,
