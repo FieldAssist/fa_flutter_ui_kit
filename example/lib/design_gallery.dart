@@ -23,6 +23,7 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
     'factCheck': FaIcons.factCheck,
     'arrowOutward': FaIcons.arrowOutward,
     'verified': FaIcons.verified,
+    'lock': FaIcons.lock,
   };
 
   String _seedName = 'MT 2.0';

@@ -7,6 +7,7 @@ abstract final class FaIcons {
   static const arrowOutward =
       FaIconAsset('arrow_outward', width: 10, height: 10);
   static const verified = FaIconAsset('verified', width: 12, height: 11);
+  static const lock = FaIconAsset('lock', width: 14, height: 18);
 
   // Multi-colour gradient glyph; tinting would flatten it.
   static const addAPhoto =
