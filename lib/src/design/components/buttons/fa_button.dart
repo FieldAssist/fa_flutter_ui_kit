@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 import '../../icons/fa_icon_asset.dart';
@@ -6,6 +8,7 @@ import '../../tokens/fa_radius.dart';
 import '../../tokens/fa_spacing.dart';
 import '../../tokens/fa_status_ramp.dart';
 import '../icon/fa_svg_icon.dart';
+import 'fa_tap_guard.dart';
 
 enum FaButtonVariant { filled, outlined }
 
@@ -25,8 +28,9 @@ enum FaButtonSize {
 /// MT 2.0's fully rounded button.
 ///
 /// It sizes to its label; give it a tight width, e.g.
-/// `SizedBox(width: double.infinity)`, to stretch it.
-class FaButton extends StatelessWidget {
+/// `SizedBox(width: double.infinity)`, to stretch it. Taps are ignored while
+/// the Future returned by [onTap] is still running.
+class FaButton extends StatefulWidget {
   const FaButton({
     required this.label,
     required this.onTap,
@@ -39,7 +43,7 @@ class FaButton extends StatelessWidget {
   });
 
   final String label;
-  final VoidCallback onTap;
+  final FutureOr<void> Function() onTap;
   final FaButtonVariant variant;
   final FaButtonSize size;
   final FaTone tone;
@@ -47,16 +51,22 @@ class FaButton extends StatelessWidget {
   final FaIconAsset? trailingIcon;
 
   @override
+  State<FaButton> createState() => _FaButtonState();
+}
+
+class _FaButtonState extends State<FaButton> with FaTapGuard {
+  @override
   Widget build(BuildContext context) {
     final colors = context.faColors;
     final text = context.faText;
-    final ramp = colors.status.of(tone);
+    final ramp = colors.status.of(widget.tone);
     // Brand keeps the company primary, one step deeper than its status ramp.
-    final solid = tone == FaTone.brand ? colors.brand : ramp.solid;
-    final filled = variant == FaButtonVariant.filled;
+    final solid = widget.tone == FaTone.brand ? colors.brand : ramp.solid;
+    final filled = widget.variant == FaButtonVariant.filled;
     final ink = filled ? colors.onBrand : solid;
-    final leading = leadingIcon;
-    final trailing = trailingIcon;
+    final leading = widget.leadingIcon;
+    final trailing = widget.trailingIcon;
+    final size = widget.size;
     final labelStyle = switch (size) {
       FaButtonSize.regular => text.s14.w500,
       FaButtonSize.compact => text.s12.w500,
@@ -64,7 +74,7 @@ class FaButton extends StatelessWidget {
     return Semantics(
       button: true,
       child: GestureDetector(
-        onTap: onTap,
+        onTap: () => guardTap(widget.onTap),
         behavior: HitTestBehavior.opaque,
         child: DecoratedBox(
           decoration: BoxDecoration(
@@ -91,7 +101,7 @@ class FaButton extends StatelessWidget {
                   ],
                   Flexible(
                     child: Text(
-                      label,
+                      widget.label,
                       style: labelStyle.copyWith(color: ink),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
