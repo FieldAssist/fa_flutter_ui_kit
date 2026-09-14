@@ -24,6 +24,8 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
     'arrowOutward': FaIcons.arrowOutward,
     'verified': FaIcons.verified,
     'lock': FaIcons.lock,
+    'visibility': FaIcons.visibility,
+    'warning': FaIcons.warning,
   };
 
   String _seedName = 'MT 2.0';
@@ -97,47 +99,86 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
               ],
             ),
           ),
-          _Section(
-            title: 'Activity card',
+          const _Section(
+            title: 'Activity cards',
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: FaCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const FaIconTile(icon: FaIcons.package2),
-                            const Spacer(),
-                            FaIconCircleButton(
-                              icon: FaIcons.arrowOutward,
-                              onTap: () {},
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: FaSpace.x12),
-                        Text(
-                          'Opening Stock',
-                          style: text.cardTitle
-                              .copyWith(color: colors.textPrimary),
-                        ),
-                        const SizedBox(height: FaSpace.x2),
-                        Text(
-                          'Enter opening quantities',
-                          style: text.caption
-                              .copyWith(color: colors.textSecondary),
-                        ),
-                        const SizedBox(height: FaSpace.x12),
-                        const FaPill(
-                          label: 'Not Started',
-                          size: FaPillSize.md,
-                        ),
-                      ],
+                  child: _ActivityCard(
+                    icon: FaIcons.package2,
+                    title: 'Opening Stock',
+                    hint: 'Enter opening quantities',
+                    status: FaPill(label: 'Completed', tone: FaTone.success),
+                  ),
+                ),
+                SizedBox(width: FaSpace.x12),
+                Expanded(
+                  child: Opacity(
+                    opacity: FaOpacity.disabled,
+                    child: _ActivityCard(
+                      icon: FaIcons.lock,
+                      tone: FaTone.neutral,
+                      title: 'Closing Stock',
+                      hint: 'Enter closing quantities',
+                      status: FaPill(label: 'Not Started'),
                     ),
                   ),
                 ),
               ],
+            ),
+          ),
+          _Section(
+            title: 'Buttons',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: FaButton(label: 'Resume', onTap: () {}),
+                ),
+                const SizedBox(height: FaSpace.x12),
+                FaButton(
+                  label: 'Proceed',
+                  variant: FaButtonVariant.outlined,
+                  size: FaButtonSize.compact,
+                  trailingIcon: FaIcons.arrowOutward,
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+          _Section(
+            title: 'Dialog',
+            child: FaButton(
+              label: 'Show dialog',
+              variant: FaButtonVariant.outlined,
+              onTap: () => FaDialog.show(
+                context,
+                icon: FaIcons.warning,
+                title: 'Resume Inward?',
+                message: 'You have unsaved entries. Resume them or start fresh.',
+                primaryLabel: 'Resume',
+                secondaryLabel: 'Start Fresh',
+              ),
+            ),
+          ),
+          const _Section(
+            title: 'Skeleton',
+            child: FaSkeleton(
+              child: Column(
+                children: [
+                  FaSkeletonBox(height: 72),
+                  SizedBox(height: FaSpace.x12),
+                  Row(
+                    children: [
+                      Expanded(child: FaSkeletonBox(height: 140)),
+                      SizedBox(width: FaSpace.x12),
+                      Expanded(child: FaSkeletonBox(height: 140)),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           _Section(
@@ -174,11 +215,14 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text('24 / w600 — dialog title', style: text.s24.w600),
                 Text('14 / w600 — cardTitle', style: text.cardTitle),
                 Text('14 / w400 — body', style: text.body),
                 Text('14 / w600 — bodyStrong', style: text.bodyStrong),
+                Text('13 / w400 — dialog text action', style: text.s13.w400),
                 Text('12 / w500 — pillLabel', style: text.pillLabel),
                 Text('11 / w400 — caption', style: text.caption),
+                Text('10 / w400 — card hint', style: text.s10.w400),
               ],
             ),
           ),
@@ -197,6 +241,68 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ActivityCard extends StatelessWidget {
+  const _ActivityCard({
+    required this.icon,
+    required this.title,
+    required this.hint,
+    required this.status,
+    this.tone = FaTone.brand,
+  });
+
+  final FaIconAsset icon;
+  final FaTone tone;
+  final String title;
+  final String hint;
+  final Widget status;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.faColors;
+    final text = context.faText;
+    return FaCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              FaIconTile(icon: icon, tone: tone),
+              const Spacer(),
+              status,
+            ],
+          ),
+          const SizedBox(height: FaSpace.x10),
+          Text(
+            title,
+            style: text.cardTitle.copyWith(color: colors.textPrimary),
+          ),
+          const SizedBox(height: FaSpace.x2),
+          Text(
+            hint,
+            style: text.s10.w400.copyWith(color: colors.textSecondary),
+          ),
+          const SizedBox(height: FaSpace.x10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FaIconCircleButton(icon: FaIcons.visibility, onTap: () {}),
+              Flexible(
+                child: FaButton(
+                  label: 'Proceed',
+                  variant: FaButtonVariant.outlined,
+                  size: FaButtonSize.compact,
+                  trailingIcon: FaIcons.arrowOutward,
+                  onTap: () {},
+                ),
+              ),
+            ],
           ),
         ],
       ),
