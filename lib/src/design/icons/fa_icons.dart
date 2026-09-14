@@ -8,8 +8,11 @@ abstract final class FaIcons {
       FaIconAsset('arrow_outward', width: 10, height: 10);
   static const verified = FaIconAsset('verified', width: 12, height: 11);
   static const lock = FaIconAsset('lock', width: 14, height: 18);
+  static const visibility = FaIconAsset('visibility', width: 16, height: 11);
 
-  // Multi-colour gradient glyph; tinting would flatten it.
+  // Multi-colour glyphs; tinting would flatten them.
   static const addAPhoto =
       FaIconAsset('add_a_photo', width: 18, height: 16, tintable: false);
+  static const warning =
+      FaIconAsset('warning', width: 40, height: 36, tintable: false);
 }

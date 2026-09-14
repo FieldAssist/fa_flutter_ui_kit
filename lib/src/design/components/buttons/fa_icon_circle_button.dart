@@ -12,7 +12,7 @@ class FaIconCircleButton extends StatelessWidget {
     super.key,
   });
 
-  static const double diameter = 28;
+  static const double diameter = 30;
 
   // Matches FaIconTile so a card's top row keeps its Figma height.
   static const double tapTarget = 40;

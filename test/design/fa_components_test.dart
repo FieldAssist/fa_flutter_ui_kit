@@ -1,5 +1,5 @@
 import 'package:fa_flutter_core/fa_flutter_core.dart'
-    show SvgAssetLoader, SvgPicture;
+    show Shimmer, SvgAssetLoader, SvgPicture;
 import 'package:fa_flutter_ui_kit/design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +19,37 @@ BoxDecoration _decorationIn(WidgetTester tester, Type owner) => tester
 
 SvgPicture _svgIn(WidgetTester tester) =>
     tester.widget<SvgPicture>(find.byType(SvgPicture));
+
+// Returns the pending result inside a record: an async function returning the
+// future itself would wait for the dialog to close.
+Future<({Future<FaDialogAction?> action})> _openDialog(
+  WidgetTester tester, {
+  String? secondaryLabel,
+}) async {
+  late Future<FaDialogAction?> action;
+  await tester.pumpWidget(
+    kitHost(
+      Builder(
+        builder: (context) => Center(
+          child: GestureDetector(
+            onTap: () => action = FaDialog.show(
+              context,
+              icon: FaIcons.warning,
+              title: 'Resume Inward?',
+              message: 'You have unsaved entries.',
+              primaryLabel: 'Resume',
+              secondaryLabel: secondaryLabel,
+            ),
+            child: const Text('open'),
+          ),
+        ),
+      ),
+    ),
+  );
+  await tester.tap(find.text('open'));
+  await tester.pumpAndSettle();
+  return (action: action);
+}
 
 void main() {
   group('FaPill', () {
@@ -236,6 +267,178 @@ void main() {
       final decoration = _decorationIn(tester, FaIconCircleButton);
       expect(decoration.shape, BoxShape.circle);
       expect(decoration.color, _defaults.status.neutral.tint);
+    });
+  });
+
+  group('FaButton', () {
+    testWidgets('fills with the brand and inks the label on-brand',
+        (tester) async {
+      await tester.pumpWidget(
+        kitHost(Center(child: FaButton(label: 'Resume', onTap: () {}))),
+      );
+
+      expect(_decorationIn(tester, FaButton).color, _defaults.brand);
+      expect(
+        tester.widget<Text>(find.text('Resume')).style?.color,
+        _defaults.onBrand,
+      );
+    });
+
+    testWidgets('outlines with the brand over its tint', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(
+              label: 'Proceed',
+              variant: FaButtonVariant.outlined,
+              onTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      final decoration = _decorationIn(tester, FaButton);
+      expect(decoration.color, _defaults.status.brand.tint);
+      expect(decoration.border, Border.all(color: _defaults.brand));
+      expect(
+        tester.widget<Text>(find.text('Proceed')).style?.color,
+        _defaults.brand,
+      );
+    });
+
+    testWidgets('inks a trailing icon like its label', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(
+              label: 'Proceed',
+              variant: FaButtonVariant.outlined,
+              trailingIcon: FaIcons.arrowOutward,
+              onTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        _svgIn(tester).colorFilter,
+        ColorFilter.mode(_defaults.brand, BlendMode.srcIn),
+      );
+    });
+
+    for (final (size, height) in [
+      (FaButtonSize.regular, 44.0),
+      (FaButtonSize.compact, 30.0),
+    ]) {
+      testWidgets('is $height points tall at ${size.name} size',
+          (tester) async {
+        await tester.pumpWidget(
+          kitHost(
+            Center(
+              child: FaButton(label: 'Proceed', size: size, onTap: () {}),
+            ),
+          ),
+        );
+
+        expect(tester.getSize(find.byType(FaButton)).height, height);
+      });
+    }
+
+    testWidgets('stretches to a tight width', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: SizedBox(
+              width: 300,
+              child: FaButton(label: 'Resume', onTap: () {}),
+            ),
+          ),
+        ),
+      );
+
+      expect(tester.getSize(find.byType(FaButton)).width, 300);
+    });
+
+    testWidgets('reports a tap', (tester) async {
+      var taps = 0;
+      await tester.pumpWidget(
+        kitHost(
+          Center(child: FaButton(label: 'Resume', onTap: () => taps++)),
+        ),
+      );
+
+      await tester.tap(find.byType(FaButton));
+
+      expect(taps, 1);
+    });
+  });
+
+  group('FaDialog', () {
+    testWidgets('shows its title and message', (tester) async {
+      await _openDialog(tester);
+
+      expect(find.text('Resume Inward?'), findsOneWidget);
+      expect(find.text('You have unsaved entries.'), findsOneWidget);
+    });
+
+    testWidgets('completes with primary when the primary action is tapped',
+        (tester) async {
+      final dialog = await _openDialog(tester);
+
+      await tester.tap(find.text('Resume'));
+      await tester.pumpAndSettle();
+
+      expect(await dialog.action, FaDialogAction.primary);
+    });
+
+    testWidgets('completes with secondary when the text action is tapped',
+        (tester) async {
+      final dialog = await _openDialog(tester, secondaryLabel: 'Start Fresh');
+
+      await tester.tap(find.text('Start Fresh'));
+      await tester.pumpAndSettle();
+
+      expect(await dialog.action, FaDialogAction.secondary);
+    });
+
+    testWidgets('completes with null when dismissed', (tester) async {
+      final dialog = await _openDialog(tester);
+
+      await tester.tapAt(const Offset(4, 4));
+      await tester.pumpAndSettle();
+
+      expect(await dialog.action, isNull);
+    });
+
+    testWidgets('leaves out the text action without a secondary label',
+        (tester) async {
+      await _openDialog(tester);
+
+      expect(find.byType(TextButton), findsNothing);
+    });
+  });
+
+  group('FaSkeleton', () {
+    testWidgets('shimmers over its placeholder boxes', (tester) async {
+      await tester.pumpWidget(
+        kitHost(const FaSkeleton(child: FaSkeletonBox(height: 40))),
+      );
+
+      expect(
+        find.descendant(
+          of: find.byType(Shimmer),
+          matching: find.byType(FaSkeletonBox),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('lays a box out at the size it is given', (tester) async {
+      await tester.pumpWidget(
+        kitHost(const Center(child: FaSkeletonBox(width: 120, height: 40))),
+      );
+
+      expect(tester.getSize(find.byType(FaSkeletonBox)), const Size(120, 40));
     });
   });
 

@@ -12,12 +12,15 @@ class FaText extends ThemeExtension<FaText> {
   final String fontFamily;
   final String? fontPackage;
 
+  FaTextSize get s10 => FaTextSize._(this, 10, 16);
   FaTextSize get s11 => FaTextSize._(this, 11, 18);
   FaTextSize get s12 => FaTextSize._(this, 12, 16);
+  FaTextSize get s13 => FaTextSize._(this, 13, 16);
   FaTextSize get s14 => FaTextSize._(this, 14, 21);
   FaTextSize get s16 => FaTextSize._(this, 16, 24);
   FaTextSize get s18 => FaTextSize._(this, 18, 26);
   FaTextSize get s20 => FaTextSize._(this, 20, 28);
+  FaTextSize get s24 => FaTextSize._(this, 24, 28);
 
   TextStyle get navTitle => s16.w500;
   TextStyle get navSubtitle => s12.w400;
