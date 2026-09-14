@@ -149,6 +149,20 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
             ),
           ),
           _Section(
+            title: 'Bottom bar',
+            child: FaBottomBar(
+              child: SizedBox(
+                width: double.infinity,
+                child: FaButton(
+                  label: 'Checkout',
+                  tone: FaTone.danger,
+                  leadingIcon: FaIcons.logout,
+                  onTap: () {},
+                ),
+              ),
+            ),
+          ),
+          _Section(
             title: 'Dialog',
             child: FaButton(
               label: 'Show dialog',

@@ -371,6 +371,130 @@ void main() {
 
       expect(taps, 1);
     });
+
+    testWidgets('fills a danger tone with its solid colour', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(
+              label: 'Checkout',
+              tone: FaTone.danger,
+              onTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        _decorationIn(tester, FaButton).color,
+        _defaults.status.danger.solid,
+      );
+    });
+
+    testWidgets('outlines a danger tone over its tint', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(
+              label: 'Checkout',
+              tone: FaTone.danger,
+              variant: FaButtonVariant.outlined,
+              onTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      final decoration = _decorationIn(tester, FaButton);
+      expect(decoration.color, _defaults.status.danger.tint);
+      expect(
+        decoration.border,
+        Border.all(color: _defaults.status.danger.solid),
+      );
+    });
+
+    testWidgets('puts a leading icon before the label', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(
+              label: 'Checkout',
+              leadingIcon: FaIcons.logout,
+              onTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        tester.getCenter(find.byType(SvgPicture)).dx,
+        lessThan(tester.getCenter(find.text('Checkout')).dx),
+      );
+    });
+
+    testWidgets('inks a leading icon like its label', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(
+              label: 'Checkout',
+              leadingIcon: FaIcons.logout,
+              onTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        _svgIn(tester).colorFilter,
+        ColorFilter.mode(_defaults.onBrand, BlendMode.srcIn),
+      );
+    });
+  });
+
+  group('FaBottomBar', () {
+    const action = Key('action');
+
+    Widget bar({double systemInset = 0}) => kitHost(
+          MediaQuery(
+            data: MediaQueryData(
+              padding: EdgeInsets.only(bottom: systemInset),
+            ),
+            child: const Align(
+              alignment: Alignment.bottomCenter,
+              child: FaBottomBar(child: SizedBox(key: action, height: 44)),
+            ),
+          ),
+        );
+
+    double gapBelowAction(WidgetTester tester) =>
+        tester.getBottomLeft(find.byType(FaBottomBar)).dy -
+        tester.getBottomLeft(find.byKey(action)).dy;
+
+    testWidgets('paints the surface with a top border', (tester) async {
+      await tester.pumpWidget(bar());
+
+      final decoration = _decorationIn(tester, FaBottomBar);
+      expect(decoration.color, _defaults.surface);
+      expect(
+        decoration.border,
+        Border(top: BorderSide(color: _defaults.border)),
+      );
+    });
+
+    testWidgets('lifts its child above the system gesture area',
+        (tester) async {
+      await tester.pumpWidget(bar(systemInset: 34));
+
+      expect(gapBelowAction(tester), 34);
+    });
+
+    testWidgets('keeps a 16 point gap below its child without an inset',
+        (tester) async {
+      await tester.pumpWidget(bar());
+
+      expect(gapBelowAction(tester), FaSpace.x16);
+    });
   });
 
   group('FaDialog', () {

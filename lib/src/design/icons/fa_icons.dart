@@ -9,6 +9,7 @@ abstract final class FaIcons {
   static const verified = FaIconAsset('verified', width: 12, height: 11);
   static const lock = FaIconAsset('lock', width: 14, height: 18);
   static const visibility = FaIconAsset('visibility', width: 16, height: 11);
+  static const logout = FaIconAsset('logout', width: 24, height: 24);
 
   // Multi-colour glyphs; tinting would flatten them.
   static const addAPhoto =

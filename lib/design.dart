@@ -26,6 +26,7 @@ export 'src/design/components/icon_tile/fa_icon_tile.dart';
 export 'src/design/components/pill/fa_pill.dart';
 export 'src/design/components/progress/fa_progress_ring.dart';
 export 'src/design/components/scaffold/fa_backdrop.dart';
+export 'src/design/components/scaffold/fa_bottom_bar.dart';
 export 'src/design/components/scaffold/fa_scaffold.dart';
 export 'src/design/components/scaffold/fa_top_nav.dart';
 export 'src/design/components/skeleton/fa_skeleton.dart';

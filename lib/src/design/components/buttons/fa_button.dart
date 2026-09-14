@@ -4,6 +4,7 @@ import '../../icons/fa_icon_asset.dart';
 import '../../theme/fa_theme_context.dart';
 import '../../tokens/fa_radius.dart';
 import '../../tokens/fa_spacing.dart';
+import '../../tokens/fa_status_ramp.dart';
 import '../icon/fa_svg_icon.dart';
 
 enum FaButtonVariant { filled, outlined }
@@ -31,6 +32,8 @@ class FaButton extends StatelessWidget {
     required this.onTap,
     this.variant = FaButtonVariant.filled,
     this.size = FaButtonSize.regular,
+    this.tone = FaTone.brand,
+    this.leadingIcon,
     this.trailingIcon,
     super.key,
   });
@@ -39,15 +42,21 @@ class FaButton extends StatelessWidget {
   final VoidCallback onTap;
   final FaButtonVariant variant;
   final FaButtonSize size;
+  final FaTone tone;
+  final FaIconAsset? leadingIcon;
   final FaIconAsset? trailingIcon;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.faColors;
     final text = context.faText;
+    final ramp = colors.status.of(tone);
+    // Brand keeps the company primary, one step deeper than its status ramp.
+    final solid = tone == FaTone.brand ? colors.brand : ramp.solid;
     final filled = variant == FaButtonVariant.filled;
-    final ink = filled ? colors.onBrand : colors.brand;
-    final icon = trailingIcon;
+    final ink = filled ? colors.onBrand : solid;
+    final leading = leadingIcon;
+    final trailing = trailingIcon;
     final labelStyle = switch (size) {
       FaButtonSize.regular => text.s14.w500,
       FaButtonSize.compact => text.s12.w500,
@@ -59,9 +68,9 @@ class FaButton extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: filled ? colors.brand : colors.status.brand.tint,
+            color: filled ? solid : ramp.tint,
             borderRadius: BorderRadius.circular(FaRadius.pill),
-            border: filled ? null : Border.all(color: colors.brand),
+            border: filled ? null : Border.all(color: solid),
           ),
           child: SizedBox(
             height: size.height,
@@ -70,12 +79,16 @@ class FaButton extends StatelessWidget {
               // label.
               padding: EdgeInsetsDirectional.only(
                 start: size.padding,
-                end: icon == null ? size.padding : FaSpace.x10,
+                end: trailing == null ? size.padding : FaSpace.x10,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  if (leading != null) ...[
+                    FaSvgIcon(leading, color: ink),
+                    const SizedBox(width: FaSpace.x6),
+                  ],
                   Flexible(
                     child: Text(
                       label,
@@ -84,9 +97,9 @@ class FaButton extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  if (icon != null) ...[
+                  if (trailing != null) ...[
                     const SizedBox(width: FaSpace.x6),
-                    FaSvgIcon(icon, color: ink),
+                    FaSvgIcon(trailing, color: ink),
                   ],
                 ],
               ),
