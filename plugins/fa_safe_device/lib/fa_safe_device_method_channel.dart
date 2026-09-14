@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:safe_device/safe_device.dart';
+import 'package:store_checker/store_checker.dart';
 import 'fa_safe_device_platform_interface.dart';
 
 /// An implementation of [FaSafeDevicePlatform] that uses method channels.
@@ -35,8 +36,7 @@ class MethodChannelFaSafeDevice extends FaSafeDevicePlatform {
 
   @override
   Future<bool> isDeveloperModeEnabled() async {
-    final isDeveloperModeEnabled =
-        await SafeDevice.isDevelopmentModeEnable;
+    final isDeveloperModeEnabled = await SafeDevice.isDevelopmentModeEnable;
     return isDeveloperModeEnabled;
   }
 
@@ -50,5 +50,17 @@ class MethodChannelFaSafeDevice extends FaSafeDevicePlatform {
   Future<bool> isRealDevice() async {
     final isRealDevice = await SafeDevice.isRealDevice;
     return isRealDevice;
+  }
+
+  @override
+  Future<bool> isInstalledFromStore() async {
+    final source = await StoreChecker.getSource;
+    switch (source) {
+      case Source.IS_INSTALLED_FROM_PLAY_STORE:
+      case Source.IS_INSTALLED_FROM_APP_STORE:
+        return true;
+      default:
+        return false;
+    }
   }
 }
