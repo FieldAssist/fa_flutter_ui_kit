@@ -51,4 +51,8 @@ abstract class FaSafeDevicePlatform extends PlatformInterface {
   Future<bool> isRealDevice() async {
     throw UnimplementedError('isRealDevice() has not been implemented.');
   }
+
+  Future<bool> isInstalledFromStore() async {
+    throw UnimplementedError('isInstalledFromStore() has not been implemented.');
+  }
 }
