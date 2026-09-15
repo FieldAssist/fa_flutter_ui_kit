@@ -19,7 +19,7 @@ void main() {
       ),
     );
 
-    // [REQ-177 rework, Vipin] find.byKey('search-trailing') can never fail here since that
+    // find.byKey('search-trailing') can never fail here since that
     // key is only ever attached by a caller-supplied trailing widget — assert the actual
     // structural invariant instead: the outer Padding's child is the Card itself, not a Row.
     final padding = tester.widget<Padding>(
@@ -44,7 +44,7 @@ void main() {
     expect(find.byKey(const Key('search-trailing')), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
 
-    // [REQ-177 rework, Vipin] find.byType(Row) alone also matches the suffixIcon Row inside
+    // find.byType(Row) alone also matches the suffixIcon Row inside
     // the TextField's decoration, so it passes even if `trailing` were placed elsewhere.
     // Assert the actual wiring: the outer Padding's child is a Row whose children are
     // Expanded(searchCard) followed by the trailing widget itself.

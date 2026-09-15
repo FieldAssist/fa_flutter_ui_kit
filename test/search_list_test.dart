@@ -1,6 +1,6 @@
-// [REQ-177 rework, Vipin] SearchList.searchBarTrailing is plumbed to IntegratedSearchTextField
+// SearchList.searchBarTrailing is plumbed to IntegratedSearchTextField
 // on both the SearchBarInBody and SearchWithAppBar code paths, but neither was pumped by a
-// widget test — untested since #209 was opened. Covers both here.
+// widget test. Covers both here.
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/search_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
