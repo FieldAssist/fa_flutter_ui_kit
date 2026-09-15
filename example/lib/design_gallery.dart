@@ -177,6 +177,29 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
               ),
             ),
           ),
+          _Section(
+            title: 'Bottom sheet',
+            child: FaButton(
+              label: 'Show bottom sheet',
+              variant: FaButtonVariant.outlined,
+              onTap: () => FaBottomSheet.show<void>(
+                context,
+                builder: (sheetContext) => FaBottomSheet(
+                  title: 'Invoice Details',
+                  subtitle: 'All fields are optional',
+                  action: SizedBox(
+                    width: double.infinity,
+                    child: FaButton(
+                      label: 'Confirm Inward',
+                      onTap: () => Navigator.of(sheetContext).pop(),
+                    ),
+                  ),
+                  child: const _FormFieldsDemo(),
+                ),
+              ),
+            ),
+          ),
+          const _Section(title: 'Form fields', child: _FormFieldsDemo()),
           const _Section(
             title: 'Skeleton',
             child: FaSkeleton(
@@ -320,6 +343,59 @@ class _ActivityCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _FormFieldsDemo extends StatefulWidget {
+  const _FormFieldsDemo();
+
+  @override
+  State<_FormFieldsDemo> createState() => _FormFieldsDemoState();
+}
+
+class _FormFieldsDemoState extends State<_FormFieldsDemo> {
+  final _invoice = TextEditingController();
+  DateTime? _date;
+  bool _hasImage = false;
+
+  @override
+  void dispose() {
+    _invoice.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final today = DateTime.now();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FaTextField(
+          label: 'Invoice Number',
+          hint: 'Optional',
+          controller: _invoice,
+        ),
+        const SizedBox(height: FaSpace.x16),
+        FaDateField(
+          label: 'Delivery Date',
+          hint: 'Select date',
+          value: _date,
+          format: (date) => '${date.day}/${date.month}/${date.year}',
+          firstDate: DateTime(2000),
+          lastDate: today,
+          onChanged: (date) => setState(() => _date = date),
+        ),
+        const SizedBox(height: FaSpace.x16),
+        FaImagePickerTile(
+          label: 'Document Image',
+          hint: 'Add image',
+          attachedLabel: 'Image attached',
+          hasImage: _hasImage,
+          onPick: () => setState(() => _hasImage = true),
+          onRemove: () => setState(() => _hasImage = false),
+        ),
+      ],
     );
   }
 }

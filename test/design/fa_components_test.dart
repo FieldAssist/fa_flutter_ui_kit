@@ -766,4 +766,205 @@ void main() {
       expect(region.value.statusBarIconBrightness, Brightness.dark);
     });
   });
+
+  group('FaTextField', () {
+    testWidgets('adds an asterisk to the label of a required field',
+        (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaTextField(
+              label: 'Customer Name',
+              controller: controller,
+              isRequired: true,
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is RichText && w.text.toPlainText() == 'Customer Name*',
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('reports typed text through onChanged', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      String? typed;
+
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaTextField(
+              label: 'Invoice Number',
+              controller: controller,
+              onChanged: (value) => typed = value,
+            ),
+          ),
+        ),
+      );
+      await tester.enterText(find.byType(TextField), 'INV-1');
+
+      expect(typed, 'INV-1');
+    });
+  });
+
+  group('FaDateField', () {
+    Future<void> pumpDateField(
+      WidgetTester tester, {
+      DateTime? value,
+      ValueChanged<DateTime>? onChanged,
+    }) =>
+        tester.pumpWidget(
+          kitHost(
+            Material(
+              child: FaDateField(
+                label: 'Delivery Date',
+                hint: 'Select date',
+                value: value,
+                format: (date) => '${date.day}/${date.month}/${date.year}',
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2026, 9, 15),
+                onChanged: onChanged ?? (_) {},
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('shows the hint while no date is set', (tester) async {
+      await pumpDateField(tester);
+
+      expect(find.text('Select date'), findsOneWidget);
+    });
+
+    testWidgets('shows the set date through format', (tester) async {
+      await pumpDateField(tester, value: DateTime(2026, 9, 14));
+
+      expect(find.text('14/9/2026'), findsOneWidget);
+    });
+
+    testWidgets('reports the day confirmed in the picker', (tester) async {
+      DateTime? picked;
+      await pumpDateField(tester, onChanged: (date) => picked = date);
+
+      await tester.tap(find.text('Select date'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+
+      // the picker opens on lastDate when nothing is set
+      expect(picked, DateTime(2026, 9, 15));
+    });
+  });
+
+  group('FaImagePickerTile', () {
+    Future<void> pumpTile(
+      WidgetTester tester, {
+      bool hasImage = false,
+      bool isUploading = false,
+      VoidCallback? onPick,
+      VoidCallback? onRemove,
+    }) =>
+        tester.pumpWidget(
+          kitHost(
+            Material(
+              child: FaImagePickerTile(
+                label: 'Document Image',
+                hint: 'Add image',
+                attachedLabel: 'Image attached',
+                hasImage: hasImage,
+                isUploading: isUploading,
+                onPick: onPick ?? () {},
+                onRemove: onRemove ?? () {},
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('picks when the empty tile is tapped', (tester) async {
+      var picks = 0;
+      await pumpTile(tester, onPick: () => picks++);
+
+      await tester.tap(find.text('Add image'));
+
+      expect(picks, 1);
+    });
+
+    testWidgets('removes through the close button once attached',
+        (tester) async {
+      var removals = 0;
+      await pumpTile(tester, hasImage: true, onRemove: () => removals++);
+
+      await tester.tap(find.byIcon(Icons.close));
+
+      expect(removals, 1);
+    });
+
+    testWidgets('ignores taps while uploading', (tester) async {
+      var picks = 0;
+      await pumpTile(tester, isUploading: true, onPick: () => picks++);
+
+      await tester.tap(find.byType(CircularProgressIndicator));
+
+      expect(picks, 0);
+    });
+  });
+
+  group('FaBottomSheet', () {
+    Future<void> openSheet(WidgetTester tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Builder(
+            builder: (context) => Center(
+              child: GestureDetector(
+                onTap: () => FaBottomSheet.show<void>(
+                  context,
+                  builder: (_) => const FaBottomSheet(
+                    title: 'Invoice Details',
+                    subtitle: 'All fields are optional',
+                    action: Text('Confirm Inward'),
+                    child: Text('fields'),
+                  ),
+                ),
+                child: const Text('open'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('shows its title, subtitle, content and action',
+        (tester) async {
+      await openSheet(tester);
+
+      expect(
+        [
+          find.text('Invoice Details'),
+          find.text('All fields are optional'),
+          find.text('fields'),
+          find.text('Confirm Inward'),
+        ].every((finder) => finder.evaluate().length == 1),
+        isTrue,
+        reason: 'every sheet part renders once',
+      );
+    });
+
+    testWidgets('closes when the close button is tapped', (tester) async {
+      await openSheet(tester);
+
+      await tester.tap(find.byIcon(Icons.close));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Invoice Details'), findsNothing);
+    });
+  });
 }
