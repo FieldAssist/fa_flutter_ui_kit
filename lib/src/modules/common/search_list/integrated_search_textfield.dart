@@ -18,6 +18,7 @@ class IntegratedSearchTextField extends StatefulWidget {
     required this.queryTextController,
     this.showCrossbutton = false,
     this.borderRadius = 5,
+    this.trailing,
     Key? key,
   }) : super(key: key);
 
@@ -36,6 +37,10 @@ class IntegratedSearchTextField extends StatefulWidget {
   final VoidCallback? onMicTap;
   final double borderRadius;
 
+  // [REQ-177] Optional widget rendered beside the search field (e.g. a filter button).
+  // Null by default, so every existing consumer's widget tree is unchanged.
+  final Widget? trailing;
+
   // final SearchListBloc _searchListBloc=SearchListBloc();
 
   @override
@@ -49,94 +54,109 @@ class _IntegratedSearchTextFieldState extends State<IntegratedSearchTextField> {
   FlutterTts _flutterTts = FlutterTts();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: widget.elevation ?? 0,
-        child: TextField(
-          onTap: widget.onTap,
-          controller: widget.queryTextController,
-          style: TextStyle(color: Colors.black),
-          autofocus: widget.autoFocus ?? true,
-          textInputAction: widget.textInputAction,
-          keyboardType: widget.keyboardType,
-          onSubmitted: widget.onSubmitted,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: widget.bgColor,
-            prefixIcon: widget.prefixIcon,
-            isDense: true,
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            hintText: widget.searchFieldLabel,
-            suffixIcon: Row(
-              children: <Widget>[
-                if (widget.showCrossbutton)
-                  Container(
-                    width: 18,
-                    height: 18,
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(9),
-                      color: Colors.black.withOpacity(0.4),
-                    ),
-                    child: InkWell(
-                      onTap: widget.queryTextController.clear,
-                      child: Icon(
-                        Icons.close,
-                        size: 12,
-                        color: Colors.white,
-                      ),
+    final searchCard = Card(
+      elevation: widget.elevation ?? 0,
+      child: TextField(
+        onTap: widget.onTap,
+        controller: widget.queryTextController,
+        style: TextStyle(color: Colors.black),
+        autofocus: widget.autoFocus ?? true,
+        textInputAction: widget.textInputAction,
+        keyboardType: widget.keyboardType,
+        onSubmitted: widget.onSubmitted,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: widget.bgColor,
+          prefixIcon: widget.prefixIcon,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          hintText: widget.searchFieldLabel,
+          suffixIcon: Row(
+            children: <Widget>[
+              if (widget.showCrossbutton)
+                Container(
+                  width: 18,
+                  height: 18,
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    color: Colors.black.withOpacity(0.4),
+                  ),
+                  child: InkWell(
+                    onTap: widget.queryTextController.clear,
+                    child: Icon(
+                      Icons.close,
+                      size: 12,
+                      color: Colors.white,
                     ),
                   ),
-                if (widget.searchThroughMic)
-                  SizedBox(
-                    width: 20,
-                    child: IconButton(
-                      onPressed: widget.onMicTap ??
-                          () async {
-                            await _speakPrompt();
-                            await Future.delayed(
-                              const Duration(seconds: 1),
+                ),
+              if (widget.searchThroughMic)
+                SizedBox(
+                  width: 20,
+                  child: IconButton(
+                    onPressed: widget.onMicTap ??
+                        () async {
+                          await _speakPrompt();
+                          await Future.delayed(
+                            const Duration(seconds: 1),
+                          );
+                          var available = await speech.initialize();
+                          if (available) {
+                            await speech.listen(
+                              onResult: (result) {
+                                setState(() {
+                                  print(widget.queryTextController.text);
+                                  recognizedText = result.recognizedWords;
+                                  widget.queryTextController.text =
+                                      recognizedText;
+                                });
+                                if (result.finalResult) {
+                                  speech.stop();
+                                }
+                              },
                             );
-                            var available = await speech.initialize();
-                            if (available) {
-                              await speech.listen(
-                                onResult: (result) {
-                                  setState(() {
-                                    print(widget.queryTextController.text);
-                                    recognizedText = result.recognizedWords;
-                                    widget.queryTextController.text =
-                                        recognizedText;
-                                  });
-                                  if (result.finalResult) {
-                                    speech.stop();
-                                  }
-                                },
-                              );
-                            }
-                          },
-                      icon: Icon(Icons.mic),
-                    ),
+                          }
+                        },
+                    icon: Icon(Icons.mic),
                   ),
-              ],
-            ),
-            suffixIconConstraints: BoxConstraints(
-              maxHeight: 38,
-              maxWidth: 38,
-            ),
-            hintStyle: TextStyle(
-              color: Colors.black26,
-            ),
+                ),
+            ],
+          ),
+          suffixIconConstraints: BoxConstraints(
+            maxHeight: 38,
+            maxWidth: 38,
+          ),
+          hintStyle: TextStyle(
+            color: Colors.black26,
           ),
         ),
       ),
+    );
+
+    return Padding(
+      // [REQ-177 rework] stable key so tests can target this Padding directly instead of
+      // relying on tree-order (find.byType(Padding).first also matches ancestor framework
+      // widgets in some hosts).
+      key: const Key('integrated-search-textfield-padding'),
+      padding: const EdgeInsets.all(8.0),
+      child: widget.trailing == null
+          ? searchCard
+          : Row(
+              children: <Widget>[
+                Expanded(child: searchCard),
+                // [REQ-177 rework] gap so a trailing icon/button doesn't sit flush against the Card edge.
+                const SizedBox(width: 8),
+                widget.trailing!,
+              ],
+            ),
     );
   }
 
