@@ -1211,4 +1211,121 @@ void main() {
       expect(find.text('Invoice Details'), findsNothing);
     });
   });
+
+  group('FaSegmentedTabs', () {
+    Future<void> pumpTabs(
+      WidgetTester tester, {
+      required int selectedIndex,
+      required ValueChanged<int> onChanged,
+    }) =>
+        tester.pumpWidget(
+          kitHost(
+            Center(
+              child: FaSegmentedTabs(
+                tabs: const [
+                  FaSegmentedTab(label: 'All', count: 4),
+                  FaSegmentedTab(label: 'Tracked', count: 2),
+                  FaSegmentedTab(label: 'Non Tracked', count: 6),
+                ],
+                selectedIndex: selectedIndex,
+                onChanged: onChanged,
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('shows every segment with its count', (tester) async {
+      await pumpTabs(tester, selectedIndex: 0, onChanged: (_) {});
+
+      expect(
+        ['All', '4', 'Tracked', '2', 'Non Tracked', '6']
+            .every((label) => find.text(label).evaluate().length == 1),
+        isTrue,
+        reason: 'each label and each count renders once',
+      );
+    });
+
+    testWidgets('reports the index of the segment that was tapped',
+        (tester) async {
+      final tapped = <int>[];
+
+      await pumpTabs(tester, selectedIndex: 0, onChanged: tapped.add);
+      await tester.tap(find.text('Tracked'));
+
+      expect(tapped, [1]);
+    });
+  });
+
+  group('FaCalendarRange', () {
+    // July 2026 starts on a Wednesday, so 12 and 14 appear only once each.
+    final july = DateTime(2026, 7, 12);
+
+    Future<void> pumpCalendar(
+      WidgetTester tester, {
+      required DateTimeRange range,
+      required ValueChanged<DateTimeRange> onChanged,
+      DateTime? lastDate,
+    }) =>
+        tester.pumpWidget(
+          kitHost(
+            Material(
+              child: FaCalendarRange(
+                range: range,
+                firstDate: DateTime(2026),
+                lastDate: lastDate ?? DateTime(2026, 12, 31),
+                onChanged: onChanged,
+                formatMonth: (month) => 'July 2026',
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('first tap starts a new range on the tapped day',
+        (tester) async {
+      DateTimeRange? chosen;
+
+      await pumpCalendar(
+        tester,
+        range: DateTimeRange(start: july, end: july),
+        onChanged: (range) => chosen = range,
+      );
+      await tester.tap(find.text('16'));
+
+      // a range of one day until a second day closes it
+      expect(chosen, DateTimeRange(start: DateTime(2026, 7, 16), end: DateTime(2026, 7, 16)));
+    });
+
+    testWidgets('second tap before the first closes the range backwards',
+        (tester) async {
+      final chosen = <DateTimeRange>[];
+
+      await pumpCalendar(
+        tester,
+        range: DateTimeRange(start: july, end: july),
+        onChanged: chosen.add,
+      );
+      await tester.tap(find.text('16'));
+      await tester.pump();
+      await tester.tap(find.text('14'));
+
+      expect(
+        chosen.last,
+        DateTimeRange(start: DateTime(2026, 7, 14), end: DateTime(2026, 7, 16)),
+      );
+    });
+
+    testWidgets('a day after lastDate is not selectable', (tester) async {
+      DateTimeRange? chosen;
+
+      await pumpCalendar(
+        tester,
+        range: DateTimeRange(start: july, end: july),
+        onChanged: (range) => chosen = range,
+        lastDate: DateTime(2026, 7, 15),
+      );
+      await tester.tap(find.text('16'));
+
+      expect(chosen, isNull);
+    });
+  });
 }
