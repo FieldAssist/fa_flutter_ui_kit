@@ -815,6 +815,250 @@ void main() {
     });
   });
 
+  group('FaTextField error', () {
+    testWidgets('shows the error text under the field', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaTextField(
+              label: 'Phone Number',
+              controller: controller,
+              errorText: 'Invalid Phone Number',
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Invalid Phone Number'), findsOneWidget);
+    });
+  });
+
+  group('FaSwitch', () {
+    testWidgets('reports the flipped value', (tester) async {
+      bool? flipped;
+
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaSwitch(value: false, onChanged: (v) => flipped = v),
+          ),
+        ),
+      );
+      await tester.tap(find.byType(Switch));
+
+      expect(flipped, isTrue);
+    });
+
+    testWidgets('paints an on toggle in the brand colour', (tester) async {
+      await tester.pumpWidget(
+        kitHost(Material(child: FaSwitch(value: true, onChanged: (_) {}))),
+      );
+
+      final track =
+          tester.widget<Switch>(find.byType(Switch)).trackColor!;
+
+      expect(track.resolve({WidgetState.selected}), _defaults.brand);
+    });
+
+    testWidgets('does not report a tap without a handler', (tester) async {
+      await tester.pumpWidget(
+        kitHost(const Material(child: FaSwitch(value: false, onChanged: null))),
+      );
+      await tester.tap(find.byType(Switch));
+
+      expect(tester.widget<Switch>(find.byType(Switch)).value, isFalse);
+    });
+  });
+
+  group('FaChoiceChips', () {
+    Future<void> pumpChips(
+      WidgetTester tester, {
+      String? selected,
+      required ValueChanged<String?> onSelected,
+    }) =>
+        tester.pumpWidget(
+          kitHost(
+            Material(
+              child: FaChoiceChips(
+                label: 'Age Group',
+                options: const ['15-25', '25-35', '35-40'],
+                selected: selected,
+                onSelected: onSelected,
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('reports the option that was tapped', (tester) async {
+      String? picked;
+
+      await pumpChips(tester, onSelected: (v) => picked = v);
+      await tester.tap(find.text('25-35'));
+
+      expect(picked, '25-35');
+    });
+
+    testWidgets('clears the answer when the chosen option is tapped again',
+        (tester) async {
+      String? picked = '25-35';
+
+      await pumpChips(tester, selected: '25-35', onSelected: (v) => picked = v);
+      await tester.tap(find.text('25-35'));
+
+      expect(picked, isNull);
+    });
+
+    testWidgets('fills the chosen chip with the brand colour', (tester) async {
+      await pumpChips(tester, selected: '15-25', onSelected: (_) {});
+
+      final chosen = tester.widget<Container>(
+        find
+            .ancestor(of: find.text('15-25'), matching: find.byType(Container))
+            .first,
+      );
+
+      expect((chosen.decoration! as BoxDecoration).color, _defaults.brand);
+    });
+
+    testWidgets('shows its error text', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaChoiceChips(
+              label: 'Age Group',
+              options: const ['15-25'],
+              onSelected: (_) {},
+              errorText: 'Please enter a value',
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Please enter a value'), findsOneWidget);
+    });
+  });
+
+  group('FaRating', () {
+    testWidgets('reports the star that was tapped', (tester) async {
+      int? rated;
+
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaRating(label: 'Refer us?', onChanged: (v) => rated = v),
+          ),
+        ),
+      );
+      await tester.tap(find.byType(IconButton).at(3));
+
+      expect(rated, 4);
+    });
+
+    testWidgets('fills every star up to the rating', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaRating(label: 'Refer us?', value: 3, onChanged: (_) {}),
+          ),
+        ),
+      );
+
+      expect(find.byIcon(Icons.star_rounded), findsNWidgets(3));
+      expect(find.byIcon(Icons.star_border_rounded), findsNWidgets(2));
+    });
+
+    testWidgets('clears the rating when its own star is tapped again',
+        (tester) async {
+      int? rated = 2;
+
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaRating(
+              label: 'Refer us?',
+              value: 2,
+              onChanged: (v) => rated = v,
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.byType(IconButton).at(1));
+
+      expect(rated, isNull);
+    });
+  });
+
+  group('FaQtyStepper', () {
+    Future<void> pumpStepper(
+      WidgetTester tester, {
+      required int value,
+      int min = 0,
+      int? max,
+      ValueChanged<int>? onChanged,
+    }) =>
+        tester.pumpWidget(
+          kitHost(
+            Material(
+              child: Center(
+                child: FaQtyStepper(
+                  value: value,
+                  min: min,
+                  max: max,
+                  caption: 'Pack',
+                  onChanged: onChanged ?? (_) {},
+                ),
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('steps up by one', (tester) async {
+      int? stepped;
+
+      await pumpStepper(tester, value: 2, onChanged: (v) => stepped = v);
+      await tester.tap(find.byIcon(Icons.add_rounded));
+
+      expect(stepped, 3);
+    });
+
+    testWidgets('steps down by one', (tester) async {
+      int? stepped;
+
+      await pumpStepper(tester, value: 2, onChanged: (v) => stepped = v);
+      await tester.tap(find.byIcon(Icons.remove_rounded));
+
+      expect(stepped, 1);
+    });
+
+    testWidgets('does not step past the maximum', (tester) async {
+      int? stepped;
+
+      await pumpStepper(tester, value: 5, max: 5, onChanged: (v) => stepped = v);
+      await tester.tap(find.byIcon(Icons.add_rounded));
+
+      expect(stepped, isNull);
+    });
+
+    testWidgets('does not step below the minimum', (tester) async {
+      int? stepped;
+
+      await pumpStepper(tester, value: 0, onChanged: (v) => stepped = v);
+      await tester.tap(find.byIcon(Icons.remove_rounded));
+
+      expect(stepped, isNull);
+    });
+
+    testWidgets('shows its caption under the counter', (tester) async {
+      await pumpStepper(tester, value: 1);
+
+      expect(find.text('Pack'), findsOneWidget);
+      expect(find.text('1'), findsOneWidget);
+    });
+  });
+
   group('FaDateField', () {
     Future<void> pumpDateField(
       WidgetTester tester, {

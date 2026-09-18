@@ -17,6 +17,7 @@ class FaTextField extends StatelessWidget {
     this.inputFormatters,
     this.maxLength,
     this.onChanged,
+    this.errorText,
     super.key,
   });
 
@@ -30,6 +31,9 @@ class FaTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLength;
   final ValueChanged<String>? onChanged;
+
+  /// Shown under the field, which outlines in the danger colour while it is set.
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +68,13 @@ class FaTextField extends StatelessWidget {
               horizontal: FaSpace.x12,
               vertical: FaSpace.x12,
             ),
+            errorText: errorText,
+            errorStyle: text.s12.w400.copyWith(color: colors.status.danger.solid),
             border: outline(colors.border),
             enabledBorder: outline(colors.border),
             focusedBorder: outline(colors.brand),
+            errorBorder: outline(colors.status.danger.solid),
+            focusedErrorBorder: outline(colors.status.danger.solid),
           ),
         ),
       ],
