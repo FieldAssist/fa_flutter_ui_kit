@@ -68,6 +68,21 @@ void main() {
       expect(branded.status.accent.tint, FaColorRamp.violet.s50);
     });
 
+    test('separates the input outline from the card border', () {
+      final colors = FaColors.fromSeed(FaTheme.defaultSeed);
+
+      expect(colors.borderStrong, const Color(0xFFCBD5E1));
+      expect(colors.track, FaColorRamp.grey.s200);
+      expect(colors.trackStrong, FaColorRamp.grey.s300);
+    });
+
+    test('reads headings darker than the body text they sit above', () {
+      final colors = FaColors.fromSeed(FaTheme.defaultSeed);
+
+      expect(colors.textPrimary, const Color(0xFF030712));
+      expect(colors.textStrong, const Color(0xFF374151));
+    });
+
     test('matches the MT 2.0 canvas and verified-pill values by default', () {
       final colors = FaColors.fromSeed(FaTheme.defaultSeed);
 
@@ -79,8 +94,8 @@ void main() {
     test('matches the MT 2.0 card border, neutral glyph and ring green', () {
       final colors = FaColors.fromSeed(FaTheme.defaultSeed);
 
-      expect(colors.border, const Color(0xFFE2E8F0));
-      expect(colors.icon, const Color(0xFF374151));
+      expect(colors.border, const Color(0xFFE0E7EF));
+      expect(colors.icon, const Color(0xFF4B5563));
       expect(colors.status.success.solid, const Color(0xFF48C054));
     });
 
@@ -119,7 +134,7 @@ void main() {
     });
 
     test('maps semantic aliases onto grid entries', () {
-      expect(tokens.navTitle, tokens.s16.w500);
+      expect(tokens.navTitle, tokens.s16.w600);
       expect(tokens.pillLabel, tokens.s12.w500);
       expect(tokens.cardTitle, tokens.s14.w600);
     });
@@ -142,6 +157,31 @@ void main() {
 
       expect(gradients.primaryAction.colors.first, seed);
       expect(gradients.primaryAction.colors.last, const Color(0xFFFF559B));
+    });
+
+    test('a company gradient replaces the MT call-to-action sweep', () {
+      const branded = LinearGradient(
+        colors: [Color(0xFF00695C), Color(0xFF9CCC65)],
+      );
+
+      final gradients = FaGradients.fromSeed(
+        const Color(0xFF00695C),
+        primaryAction: branded,
+      );
+
+      expect(gradients.primaryAction, branded);
+      // the header keeps following the seed either way
+      expect(gradients.headerBackdrop.colors.last, const Color(0xFF00695C));
+    });
+
+    test('the theme passes a company gradient through to the tokens', () {
+      const branded = LinearGradient(colors: [Color(0xFF00695C), Colors.white]);
+
+      final gradients = FaTheme.extensions(primaryAction: branded)
+          .whereType<FaGradients>()
+          .single;
+
+      expect(gradients.primaryAction, branded);
     });
   });
 }

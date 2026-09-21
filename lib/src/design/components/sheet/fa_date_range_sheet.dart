@@ -5,7 +5,6 @@ import '../../tokens/fa_radius.dart';
 import '../../tokens/fa_spacing.dart';
 import '../buttons/fa_button.dart';
 import '../field/fa_calendar_range.dart';
-import '../field/fa_field_label.dart';
 import '../field/fa_text_field.dart';
 import 'fa_bottom_sheet.dart';
 
@@ -27,6 +26,9 @@ class FaDateRangeSheet extends StatefulWidget {
     required this.lastDate,
     required this.formatDate,
     required this.formatMonth,
+    this.leading,
+    this.today,
+    this.actionIcon,
     super.key,
   });
 
@@ -41,6 +43,14 @@ class FaDateRangeSheet extends StatefulWidget {
   final String Function(DateTime date) formatDate;
   final String Function(DateTime month) formatMonth;
 
+  /// The sheet header's glyph, usually a calendar [FaIconTile].
+  final Widget? leading;
+
+  /// Outlined in the calendar; the kit has no clock of its own.
+  final DateTime? today;
+
+  final IconData? actionIcon;
+
   @override
   State<FaDateRangeSheet> createState() => _FaDateRangeSheetState();
 }
@@ -54,6 +64,8 @@ class _FaDateRangeSheetState extends State<FaDateRangeSheet> {
     final colors = context.faColors;
     return FaBottomSheet(
       title: widget.title,
+      leading: widget.leading,
+      headerTone: FaSheetHeaderTone.muted,
       action: SizedBox(
         width: double.infinity,
         child: FaButton(
@@ -67,7 +79,7 @@ class _FaDateRangeSheetState extends State<FaDateRangeSheet> {
         children: [
           Text(
             widget.sectionLabel,
-            style: text.sectionTitle.copyWith(color: colors.textPrimary),
+            style: text.cardTitle.copyWith(color: colors.textStrong),
           ),
           const SizedBox(height: FaSpace.x12),
           Row(
@@ -92,6 +104,7 @@ class _FaDateRangeSheetState extends State<FaDateRangeSheet> {
             range: _range,
             firstDate: widget.firstDate,
             lastDate: widget.lastDate,
+            today: widget.today,
             formatMonth: widget.formatMonth,
             onChanged: (range) => setState(() => _range = range),
           ),
@@ -116,32 +129,36 @@ class _DateDisplay extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        FaFieldLabel(label),
+        Text(
+          label,
+          style: text.s12.w400.copyWith(color: colors.textSecondary),
+        ),
+        const SizedBox(height: FaSpace.x4),
         Container(
           constraints: const BoxConstraints(minHeight: FaTextField.minHeight),
           padding: const EdgeInsets.symmetric(
-            horizontal: FaSpace.x12,
+            horizontal: FaSpace.x8,
             vertical: FaSpace.x10,
           ),
           decoration: BoxDecoration(
             color: colors.surface,
             borderRadius: BorderRadius.circular(FaRadius.md),
-            border: Border.all(color: colors.border),
+            border: Border.all(color: colors.borderStrong),
           ),
           child: Row(
             children: [
               Icon(
                 Icons.calendar_today_outlined,
-                size: 16,
+                size: 20,
                 color: colors.icon,
               ),
-              const SizedBox(width: FaSpace.x8),
+              const SizedBox(width: FaSpace.x6),
               Flexible(
                 child: Text(
                   value,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: text.body.copyWith(color: colors.textPrimary),
+                  style: text.body.copyWith(color: colors.textSecondary),
                 ),
               ),
             ],

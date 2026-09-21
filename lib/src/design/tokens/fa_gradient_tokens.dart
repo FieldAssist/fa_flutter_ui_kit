@@ -13,7 +13,11 @@ class FaGradients extends ThemeExtension<FaGradients> {
     required this.primaryAction,
   });
 
-  factory FaGradients.fromSeed(Color seed) {
+  /// [primaryAction] is the company's own call-to-action sweep, from its
+  /// theme configuration. Without one the MT 2.0 sweep is used, which only
+  /// fits the default brand — so a branded app should always pass its own
+  /// rather than paint its buttons in MT's indigo and pink.
+  factory FaGradients.fromSeed(Color seed, {LinearGradient? primaryAction}) {
     final ramp = FaColorRamp.fromSeed(seed);
     return FaGradients(
       // Verified on MT 2.0 "Outlet Detail": vertical, dark at the top.
@@ -22,14 +26,12 @@ class FaGradients extends ThemeExtension<FaGradients> {
         end: Alignment.bottomCenter,
         colors: [ramp.s900, ramp.s600],
       ),
-      // The CTA sweep. Its indigo and pink stops are design accents rather
-      // than brand colours, so they stay fixed while the first stop follows
-      // the seed.
-      primaryAction: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [ramp.s600, _ctaMid, _ctaAccent],
-      ),
+      primaryAction: primaryAction ??
+          LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [ramp.s600, _ctaMid, _ctaAccent],
+          ),
     );
   }
 

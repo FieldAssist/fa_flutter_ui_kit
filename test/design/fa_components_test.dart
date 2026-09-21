@@ -271,13 +271,19 @@ void main() {
   });
 
   group('FaButton', () {
-    testWidgets('fills with the brand and inks the label on-brand',
+    testWidgets('sweeps a brand button with the call-to-action gradient',
         (tester) async {
       await tester.pumpWidget(
         kitHost(Center(child: FaButton(label: 'Resume', onTap: () {}))),
       );
 
-      expect(_decorationIn(tester, FaButton).color, _defaults.brand);
+      final decoration = _decorationIn(tester, FaButton);
+      // the sweep replaces the flat fill rather than sitting over it
+      expect(decoration.color, isNull);
+      expect(
+        decoration.gradient,
+        FaGradients.fromSeed(FaTheme.defaultSeed).primaryAction,
+      );
       expect(
         tester.widget<Text>(find.text('Resume')).style?.color,
         _defaults.onBrand,
@@ -578,7 +584,7 @@ void main() {
       final decoration = _decorationIn(tester, FaCard);
       expect(decoration.color, _defaults.surface);
       expect(decoration.border, Border.all(color: _defaults.border));
-      expect(decoration.borderRadius, BorderRadius.circular(FaRadius.xxl));
+      expect(decoration.borderRadius, BorderRadius.circular(FaRadius.xl));
       expect(decoration.boxShadow?.single.color, _defaults.shadow);
     });
   });
@@ -847,9 +853,25 @@ void main() {
           ),
         ),
       );
-      await tester.tap(find.byType(Switch));
+      await tester.tap(find.byType(FaSwitch));
 
       expect(flipped, isTrue);
+    });
+
+    testWidgets('is the track the design draws, not Material\'s',
+        (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: Center(child: FaSwitch(value: false, onChanged: (_) {})),
+          ),
+        ),
+      );
+
+      expect(
+        tester.getSize(find.byType(FaSwitch)),
+        const Size(FaSwitch.width, FaSwitch.height),
+      );
     });
 
     testWidgets('paints an on toggle in the brand colour', (tester) async {
@@ -857,19 +879,25 @@ void main() {
         kitHost(Material(child: FaSwitch(value: true, onChanged: (_) {}))),
       );
 
-      final track =
-          tester.widget<Switch>(find.byType(Switch)).trackColor!;
+      expect(_decorationIn(tester, FaSwitch).color, _defaults.brand);
+    });
 
-      expect(track.resolve({WidgetState.selected}), _defaults.brand);
+    testWidgets('rests an off toggle on the track colour', (tester) async {
+      await tester.pumpWidget(
+        kitHost(Material(child: FaSwitch(value: false, onChanged: (_) {}))),
+      );
+
+      expect(_decorationIn(tester, FaSwitch).color, _defaults.track);
     });
 
     testWidgets('does not report a tap without a handler', (tester) async {
       await tester.pumpWidget(
         kitHost(const Material(child: FaSwitch(value: false, onChanged: null))),
       );
-      await tester.tap(find.byType(Switch));
+      await tester.tap(find.byType(FaSwitch), warnIfMissed: false);
+      await tester.pump();
 
-      expect(tester.widget<Switch>(find.byType(Switch)).value, isFalse);
+      expect(_decorationIn(tester, FaSwitch).color, _defaults.track);
     });
   });
 

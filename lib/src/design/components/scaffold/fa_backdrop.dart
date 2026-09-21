@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/fa_theme_context.dart';
+import 'fa_top_nav.dart';
 
 /// The painted area behind a screen's header.
 ///
@@ -22,6 +23,10 @@ sealed class FaBackdrop {
 
   /// A brand gradient with a straight bottom edge.
   const factory FaBackdrop.brandFlat({double height}) = FaBackdropBrandFlat;
+
+  /// A plain surface strip behind the status bar and header, as the list
+  /// screens are drawn.
+  const factory FaBackdrop.surface() = FaBackdropSurface;
 
   /// Anything else the caller wants to paint up there.
   const factory FaBackdrop.custom(Widget child) = FaBackdropCustom;
@@ -68,6 +73,16 @@ final class FaBackdropBrandFlat extends FaBackdrop {
         decoration: BoxDecoration(
           gradient: context.faGradients.headerBackdrop,
         ),
+      );
+}
+
+final class FaBackdropSurface extends FaBackdrop {
+  const FaBackdropSurface();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        height: MediaQuery.paddingOf(context).top + FaTopNav.height,
+        color: context.faColors.surface,
       );
 }
 

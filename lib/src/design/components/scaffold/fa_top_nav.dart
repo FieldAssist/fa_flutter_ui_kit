@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 import '../../theme/fa_theme_context.dart';
 import '../../tokens/fa_spacing.dart';
 
+/// What a header sits on, which decides its ink.
+enum FaNavTone {
+  /// Over [FaBackdrop.brandCurve] or [FaBackdrop.brandFlat].
+  brand,
+
+  /// Over the plain canvas, as the list screens are drawn.
+  surface,
+}
+
 /// MT 2.0's screen header.
 ///
 /// It draws no background of its own: it sits on whatever the screen's
@@ -19,6 +28,7 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
     this.subtitle,
     this.leading,
     this.actions,
+    this.tone = FaNavTone.brand,
     super.key,
   }) : child = null;
 
@@ -28,6 +38,7 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
     required Widget this.child,
     this.leading,
     this.actions,
+    this.tone = FaNavTone.brand,
     super.key,
   })  : title = null,
         subtitle = null;
@@ -40,12 +51,18 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
   final Widget? child;
   final Widget? leading;
   final List<Widget>? actions;
+  final FaNavTone tone;
 
   @override
   Size get preferredSize => const Size.fromHeight(height);
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.faColors;
+    final ink = switch (tone) {
+      FaNavTone.brand => colors.onBrand,
+      FaNavTone.surface => colors.icon,
+    };
     // The status bar inset is absorbed here rather than by the caller:
     // `Scaffold` reserves `preferredSize.height + MediaQuery.padding.top` for
     // a header, and normally only `AppBar` consumes that extra strip.
@@ -55,15 +72,20 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
         height: height,
         child: Padding(
           padding: const EdgeInsets.all(FaSpace.x8),
-          child: Row(
-            children: [
-              if (leading != null) ...[
-                leading!,
-                const SizedBox(width: FaSpace.x14),
+          // Actions are arbitrary widgets, so the tone reaches them as ambient
+          // ink rather than as a parameter each one has to forward.
+          child: IconTheme.merge(
+            data: IconThemeData(color: ink),
+            child: Row(
+              children: [
+                if (leading != null) ...[
+                  leading!,
+                  const SizedBox(width: FaSpace.x14),
+                ],
+                Expanded(child: child ?? _title(context)),
+                ...?actions,
               ],
-              Expanded(child: child ?? _title(context)),
-              ...?actions,
-            ],
+            ),
           ),
         ),
       ),
@@ -71,16 +93,20 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _title(BuildContext context) {
+    final colors = context.faColors;
     final text = context.faText;
-    final onBrand = context.faColors.onBrand;
     final subtitle = this.subtitle;
+    final (titleInk, subtitleInk) = switch (tone) {
+      FaNavTone.brand => (colors.onBrand, colors.onBrand),
+      FaNavTone.surface => (colors.textPrimary, colors.textSecondary),
+    };
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title ?? '',
-          style: text.navTitle.copyWith(color: onBrand),
+          style: text.navTitle.copyWith(color: titleInk),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -88,7 +114,7 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(height: FaSpace.x2),
           Text(
             subtitle,
-            style: text.navSubtitle.copyWith(color: onBrand),
+            style: text.navSubtitle.copyWith(color: subtitleInk),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -100,8 +126,9 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
 
 /// An icon button sized for [FaTopNav].
 ///
-/// Tinted with `onBrand` so it reads against the header gradient, and given a
-/// 48px minimum tap target rather than the glyph's own 24px.
+/// Takes its colour from the header's ambient [IconTheme], so it reads against
+/// a brand gradient and against a plain surface alike, and is given a 48px
+/// minimum tap target rather than the glyph's own 24px.
 class FaNavAction extends StatelessWidget {
   const FaNavAction({
     required this.icon,
@@ -136,7 +163,7 @@ class FaNavAction extends StatelessWidget {
           child: Icon(
             icon,
             size: _glyphSize,
-            color: context.faColors.onBrand,
+            color: IconTheme.of(context).color ?? context.faColors.onBrand,
           ),
         ),
       ),

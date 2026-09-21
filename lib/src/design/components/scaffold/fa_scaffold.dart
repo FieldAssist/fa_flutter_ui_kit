@@ -97,7 +97,7 @@ class FaScaffold extends StatelessWidget {
         FaBackdropBrandCurve() ||
         FaBackdropBrandFlat() =>
           SystemUiOverlayStyle.light,
-        FaBackdropNone() => SystemUiOverlayStyle.dark,
+        FaBackdropNone() || FaBackdropSurface() => SystemUiOverlayStyle.dark,
         FaBackdropCustom() => SystemUiOverlayStyle.light,
       };
 }

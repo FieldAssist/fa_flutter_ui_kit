@@ -22,7 +22,7 @@ class FaText extends ThemeExtension<FaText> {
   FaTextSize get s20 => FaTextSize._(this, 20, 28);
   FaTextSize get s24 => FaTextSize._(this, 24, 28);
 
-  TextStyle get navTitle => s16.w500;
+  TextStyle get navTitle => s16.w600;
   TextStyle get navSubtitle => s12.w400;
   TextStyle get pillLabel => s12.w500;
   TextStyle get screenTitle => s18.w700;

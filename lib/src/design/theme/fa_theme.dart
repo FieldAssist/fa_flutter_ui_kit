@@ -32,14 +32,19 @@ abstract final class FaTheme {
   /// [fontFamily] defaults to Inter, which this package ships. An app that
   /// must render MT surfaces in its own face passes the family here and sets
   /// [fontPackage] to `null`.
+  /// [primaryAction] is the company's call-to-action gradient, which fills
+  /// every primary button. Pass the one the app's theme configuration
+  /// resolves; the MT 2.0 sweep stands in only when a company has no theme
+  /// of its own.
   static List<ThemeExtension<dynamic>> extensions({
     Color seed = defaultSeed,
+    LinearGradient? primaryAction,
     String fontFamily = 'Inter',
     String? fontPackage = 'fa_flutter_ui_kit',
   }) =>
       <ThemeExtension<dynamic>>[
         FaColors.fromSeed(seed),
-        FaGradients.fromSeed(seed),
+        FaGradients.fromSeed(seed, primaryAction: primaryAction),
         FaText(fontFamily: fontFamily, fontPackage: fontPackage),
       ];
 

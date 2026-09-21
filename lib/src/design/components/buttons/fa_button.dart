@@ -61,9 +61,14 @@ class _FaButtonState extends State<FaButton> with FaTapGuard {
     final text = context.faText;
     final ramp = colors.status.of(widget.tone);
     // Brand keeps the company primary, one step deeper than its status ramp.
-    final solid = widget.tone == FaTone.brand ? colors.brand : ramp.solid;
+    final isBrand = widget.tone == FaTone.brand;
+    final solid = isBrand ? colors.brand : ramp.solid;
     final filled = widget.variant == FaButtonVariant.filled;
     final ink = filled ? colors.onBrand : solid;
+    // Every primary call to action carries the CTA sweep; the status tones
+    // stay flat so a destructive action still reads as one.
+    final gradient =
+        filled && isBrand ? context.faGradients.primaryAction : null;
     final leading = widget.leadingIcon;
     final trailing = widget.trailingIcon;
     final size = widget.size;
@@ -78,7 +83,8 @@ class _FaButtonState extends State<FaButton> with FaTapGuard {
         behavior: HitTestBehavior.opaque,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: filled ? solid : ramp.tint,
+            color: gradient != null ? null : (filled ? solid : ramp.tint),
+            gradient: gradient,
             borderRadius: BorderRadius.circular(FaRadius.pill),
             border: filled ? null : Border.all(color: solid),
           ),

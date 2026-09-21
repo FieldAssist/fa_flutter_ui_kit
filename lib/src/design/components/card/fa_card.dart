@@ -20,13 +20,13 @@ class FaCard extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surface,
-        borderRadius: BorderRadius.circular(FaRadius.xxl),
+        borderRadius: BorderRadius.circular(FaRadius.xl),
         border: Border.all(color: colors.border),
         boxShadow: [
           BoxShadow(
             color: colors.shadow,
-            offset: const Offset(0, 2),
-            blurRadius: 3,
+            offset: const Offset(0, 4),
+            blurRadius: 10,
           ),
         ],
       ),

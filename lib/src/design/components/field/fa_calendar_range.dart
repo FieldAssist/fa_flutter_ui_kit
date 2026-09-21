@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../theme/fa_theme_context.dart';
 import '../../tokens/fa_radius.dart';
 import '../../tokens/fa_spacing.dart';
-import '../../tokens/fa_status_ramp.dart';
 
 /// MT 2.0's inline month calendar for choosing a range of days.
 ///
@@ -12,8 +11,9 @@ import '../../tokens/fa_status_ramp.dart';
 /// [lastDate], and days of the neighbouring months, are shown but not
 /// tappable.
 ///
-/// The kit has no date formatting of its own, so the month heading arrives
-/// through [formatMonth].
+/// The kit has no clock and no date formatting of its own, so the month
+/// heading arrives through [formatMonth] and the day to outline through
+/// [today].
 class FaCalendarRange extends StatefulWidget {
   const FaCalendarRange({
     required this.range,
@@ -21,16 +21,21 @@ class FaCalendarRange extends StatefulWidget {
     required this.lastDate,
     required this.onChanged,
     required this.formatMonth,
+    this.today,
     super.key,
   });
 
-  static const double dayHeight = 40;
+  static const double dayHeight = 44;
 
   final DateTimeRange range;
   final DateTime firstDate;
   final DateTime lastDate;
   final ValueChanged<DateTimeRange> onChanged;
   final String Function(DateTime month) formatMonth;
+
+  /// Outlined rather than filled, so the current day stays visible next to the
+  /// chosen range.
+  final DateTime? today;
 
   @override
   State<FaCalendarRange> createState() => _FaCalendarRangeState();
@@ -43,11 +48,9 @@ class _FaCalendarRangeState extends State<FaCalendarRange> {
   /// to be tapped.
   DateTime? _pendingStart;
 
-  bool get _canGoBack =>
-      DateUtils.monthDelta(widget.firstDate, _month) > 0;
+  bool get _canGoBack => DateUtils.monthDelta(widget.firstDate, _month) > 0;
 
-  bool get _canGoForward =>
-      DateUtils.monthDelta(_month, widget.lastDate) > 0;
+  bool get _canGoForward => DateUtils.monthDelta(_month, widget.lastDate) > 0;
 
   void _shiftMonth(int months) => setState(
         () => _month = DateUtils.addMonthsToMonthDate(_month, months),
@@ -70,6 +73,7 @@ class _FaCalendarRangeState extends State<FaCalendarRange> {
 
   @override
   Widget build(BuildContext context) {
+    final today = widget.today;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -78,26 +82,32 @@ class _FaCalendarRangeState extends State<FaCalendarRange> {
           onPrevious: _canGoBack ? () => _shiftMonth(-1) : null,
           onNext: _canGoForward ? () => _shiftMonth(1) : null,
         ),
-        const SizedBox(height: FaSpace.x12),
+        const SizedBox(height: FaSpace.x16),
         const _WeekdayHeader(),
-        const SizedBox(height: FaSpace.x4),
         for (final week in _weeksOf(context, _month))
-          Row(
-            children: [
-              for (final day in week)
-                Expanded(
-                  child: _Day(
-                    day: day,
-                    isThisMonth: day.month == _month.month,
-                    range: widget.range,
-                    onTap: _isSelectable(day) ? () => _select(day) : null,
+          Padding(
+            padding: const EdgeInsets.only(top: _rowGap),
+            child: Row(
+              children: [
+                for (final day in week)
+                  Expanded(
+                    child: _Day(
+                      day: day,
+                      isThisMonth: day.month == _month.month,
+                      isToday: today != null && DateUtils.isSameDay(day, today),
+                      range: widget.range,
+                      onTap: _isSelectable(day) ? () => _select(day) : null,
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
       ],
     );
   }
+
+  /// The hairline the design leaves between week rows.
+  static const double _rowGap = 1;
 
   bool _isSelectable(DateTime day) =>
       day.month == _month.month &&
@@ -148,7 +158,7 @@ class _MonthHeader extends StatelessWidget {
           child: Text(
             label,
             textAlign: TextAlign.center,
-            style: text.sectionTitle.copyWith(color: colors.textPrimary),
+            style: text.s14.w700.copyWith(color: colors.textPrimary),
           ),
         ),
         _Arrow(icon: Icons.chevron_right, onTap: onNext),
@@ -160,7 +170,7 @@ class _MonthHeader extends StatelessWidget {
 class _Arrow extends StatelessWidget {
   const _Arrow({required this.icon, required this.onTap});
 
-  static const double _size = 36;
+  static const double _size = 30;
 
   final IconData icon;
   final VoidCallback? onTap;
@@ -177,13 +187,14 @@ class _Arrow extends StatelessWidget {
         child: Container(
           constraints: const BoxConstraints(minWidth: _size, minHeight: _size),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(FaRadius.lg),
+            color: colors.surface,
+            borderRadius: BorderRadius.circular(FaRadius.chip),
             border: Border.all(color: colors.border),
           ),
           child: Icon(
             icon,
             size: 18,
-            color: onTap == null ? colors.textTertiary : colors.textPrimary,
+            color: onTap == null ? colors.textTertiary : colors.icon,
           ),
         ),
       ),
@@ -208,7 +219,7 @@ class _WeekdayHeader extends StatelessWidget {
                   (localizations.firstDayOfWeekIndex + day) %
                       DateTime.daysPerWeek],
               textAlign: TextAlign.center,
-              style: text.s12.w400.copyWith(color: colors.textSecondary),
+              style: text.s12.w400.copyWith(color: colors.textTertiary),
             ),
           ),
       ],
@@ -220,12 +231,14 @@ class _Day extends StatelessWidget {
   const _Day({
     required this.day,
     required this.isThisMonth,
+    required this.isToday,
     required this.range,
     required this.onTap,
   });
 
   final DateTime day;
   final bool isThisMonth;
+  final bool isToday;
   final DateTimeRange range;
   final VoidCallback? onTap;
 
@@ -240,9 +253,13 @@ class _Day extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.faColors;
-    final brand = colors.status.of(FaTone.brand);
     final isSelected = isThisMonth && _isEdge;
     final isInside = isThisMonth && _isInside;
+    final ink = isSelected
+        ? colors.onBrand
+        : onTap == null
+            ? colors.textTertiary
+            : colors.textStrong;
     return Semantics(
       button: onTap != null,
       selected: isSelected,
@@ -253,25 +270,21 @@ class _Day extends StatelessWidget {
           constraints: const BoxConstraints(
             minHeight: FaCalendarRange.dayHeight,
           ),
-          margin: const EdgeInsets.symmetric(vertical: FaSpace.x2),
           decoration: BoxDecoration(
             color: isSelected
-                ? brand.solid
+                ? colors.brand
                 : isInside
-                    ? brand.tint
-                    : Colors.transparent,
-            borderRadius: BorderRadius.circular(FaRadius.md),
+                    ? colors.status.brand.tint
+                    : colors.surface,
+            borderRadius: BorderRadius.circular(FaRadius.sm),
+            border: isToday && !isSelected
+                ? Border.all(color: colors.brand)
+                : null,
           ),
           child: Center(
             child: Text(
               '${day.day}',
-              style: context.faText.cardTitle.copyWith(
-                color: isSelected
-                    ? colors.onBrand
-                    : onTap == null
-                        ? colors.textTertiary
-                        : colors.textPrimary,
-              ),
+              style: context.faText.s14.w400.copyWith(color: ink),
             ),
           ),
         ),

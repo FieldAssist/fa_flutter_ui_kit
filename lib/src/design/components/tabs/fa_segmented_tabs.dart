@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../theme/fa_theme_context.dart';
 import '../../tokens/fa_radius.dart';
 import '../../tokens/fa_spacing.dart';
-import '../../tokens/fa_status_ramp.dart';
 
 /// One segment of [FaSegmentedTabs].
 class FaSegmentedTab {
@@ -23,7 +22,10 @@ class FaSegmentedTabs extends StatelessWidget {
     super.key,
   });
 
-  static const double minHeight = 48;
+  static const double minHeight = 41;
+
+  /// The groove around the raised pill, thinner than the spacing scale goes.
+  static const double _trackInset = 3;
 
   final List<FaSegmentedTab> tabs;
   final int selectedIndex;
@@ -33,10 +35,10 @@ class FaSegmentedTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(minHeight: minHeight),
-      padding: const EdgeInsets.all(FaSpace.x4),
+      padding: const EdgeInsets.all(_trackInset),
       decoration: BoxDecoration(
-        color: context.faColors.surfaceAlt,
-        borderRadius: BorderRadius.circular(FaRadius.xl),
+        color: context.faColors.track,
+        borderRadius: BorderRadius.circular(FaRadius.lg),
       ),
       child: Row(
         children: [
@@ -83,7 +85,7 @@ class _Segment extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: FaSpace.x8,
-              vertical: FaSpace.x8,
+              vertical: FaSpace.x4,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -93,8 +95,8 @@ class _Segment extends StatelessWidget {
                     tab.label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: text.cardTitle.copyWith(
-                      color: isSelected ? colors.brand : colors.textSecondary,
+                    style: text.s12.w500.copyWith(
+                      color: isSelected ? colors.brand : colors.textTertiary,
                     ),
                   ),
                 ),
@@ -112,7 +114,7 @@ class _Segment extends StatelessWidget {
 class _Count extends StatelessWidget {
   const _Count({required this.count, required this.isSelected});
 
-  static const double _size = 20;
+  static const double _size = 16;
 
   final int count;
   final bool isSelected;
@@ -120,20 +122,19 @@ class _Count extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.faColors;
-    final brand = colors.status.of(FaTone.brand);
     return Container(
       constraints: const BoxConstraints(minWidth: _size, minHeight: _size),
       padding: const EdgeInsets.symmetric(horizontal: FaSpace.x4),
       decoration: BoxDecoration(
-        color: isSelected ? brand.solid : colors.border,
+        color: isSelected ? colors.brand : colors.trackStrong,
         borderRadius: BorderRadius.circular(FaRadius.pill),
       ),
       child: Center(
         widthFactor: 1,
         child: Text(
           '$count',
-          style: context.faText.s11.w600.copyWith(
-            color: isSelected ? colors.onBrand : colors.textSecondary,
+          style: context.faText.s12.w600.copyWith(
+            color: isSelected ? colors.onBrand : colors.textTertiary,
           ),
         ),
       ),

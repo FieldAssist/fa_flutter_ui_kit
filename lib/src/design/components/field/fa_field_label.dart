@@ -20,7 +20,7 @@ class FaFieldLabel extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           text: label,
-          style: style.copyWith(color: colors.textPrimary),
+          style: style.copyWith(color: colors.textSecondary),
           children: [
             if (isRequired)
               TextSpan(

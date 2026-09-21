@@ -31,7 +31,7 @@ class FaColorRamp {
   // Tailwind ramps; stops marked "Figma" are measured from the MT 2.0 file
   // where it deviates from Tailwind.
   static const blue = FaColorRamp(
-    s50: Color(0xFFEFF6FF),
+    s50: Color(0xFFECF2FF), // Figma
     s100: Color(0xFFDBEAFE),
     s200: Color(0xFFBFDBFE),
     s300: Color(0xFF93C5FD),

@@ -22,7 +22,7 @@ class FaIconTile extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: ramp.tint,
-          borderRadius: BorderRadius.circular(FaRadius.lg),
+          borderRadius: BorderRadius.circular(FaRadius.chip),
         ),
         child: Center(child: FaSvgIcon(icon, color: ramp.ink)),
       ),
