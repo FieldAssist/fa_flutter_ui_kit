@@ -51,12 +51,19 @@ class FaQtyStepper extends StatelessWidget {
                 isEnabled: _canDecrease,
                 onTap: () => onChanged!(value - 1),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: FaSpace.x8),
-                child: Text(
-                  '$value',
-                  style: context.faText.bodyStrong
-                      .copyWith(color: colors.textPrimary),
+              // Given less room than it wants, the value shrinks rather
+              // than overflowing the row it shares with other steppers.
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: FaSpace.x8),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      '$value',
+                      style: context.faText.bodyStrong
+                          .copyWith(color: colors.textPrimary),
+                    ),
+                  ),
                 ),
               ),
               _StepButton(
@@ -71,6 +78,8 @@ class FaQtyStepper extends StatelessWidget {
           const SizedBox(height: FaSpace.x4),
           Text(
             caption!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: context.faText.caption.copyWith(color: colors.textSecondary),
           ),
         ],
