@@ -42,3 +42,4 @@ export 'src/design/components/sheet/fa_bottom_sheet.dart';
 export 'src/design/components/sheet/fa_date_range_sheet.dart';
 export 'src/design/components/skeleton/fa_skeleton.dart';
 export 'src/design/components/tabs/fa_segmented_tabs.dart';
+export 'src/design/components/tabs/fa_tab_pill_group.dart';

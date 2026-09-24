@@ -46,6 +46,8 @@ void main() {
       MaterialApp(
         theme: FaTheme.light(),
         home: FaScaffold(
+          // The hub's straddle: its identity block reaches up into the band.
+          contentOverlap: FaBackdropBrandCurve.defaultOverhang,
           header: FaTopNav(
             title: 'Outlet Details',
             actions: [FaNavAction(icon: Icons.call, onTap: () {})],

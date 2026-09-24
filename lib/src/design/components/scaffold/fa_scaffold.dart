@@ -25,6 +25,7 @@ class FaScaffold extends StatelessWidget {
     this.bottomBar,
     this.floatingActionButton,
     this.background,
+    this.contentOverlap = 0,
     this.resizeToAvoidBottomInset,
     super.key,
   });
@@ -43,6 +44,11 @@ class FaScaffold extends StatelessWidget {
   /// Defaults to the canvas token.
   final Color? background;
 
+  /// How far the body may reach up into [backdrop]. Zero keeps content off
+  /// the backdrop entirely; a screen with a hero that straddles the band —
+  /// the hub's outlet avatar — asks for as much as it needs.
+  final double contentOverlap;
+
   final bool? resizeToAvoidBottomInset;
 
   @override
@@ -50,11 +56,13 @@ class FaScaffold extends StatelessWidget {
     final header = this.header;
     // With `extendBodyBehindAppBar` the body starts at the very top of the
     // screen, which is what lets the backdrop run behind the status bar. Body
-    // content is pushed clear of the header again here, so callers can lay out
-    // from the top of their own content.
+    // content is pushed clear of the backdrop again here — and clipped to the
+    // same line — so a scrolling list passes under the band instead of over
+    // it, and callers still lay out from the top of their own content.
     final topInset = header == null
         ? 0.0
-        : MediaQuery.paddingOf(context).top + header.preferredSize.height;
+        : (backdrop.contentInset(context) - contentOverlap)
+            .clamp(0.0, double.infinity);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: _overlayStyle,
@@ -82,7 +90,7 @@ class FaScaffold extends StatelessWidget {
               top: false,
               child: Padding(
                 padding: EdgeInsets.only(top: topInset),
-                child: body,
+                child: ClipRect(child: body),
               ),
             ),
           ],

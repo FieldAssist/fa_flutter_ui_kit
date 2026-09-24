@@ -15,10 +15,10 @@ sealed class FaBackdrop {
 
   /// MT 2.0's default: a brand gradient whose bottom edge bows downward.
   ///
-  /// [depth] is the distance from the top of the screen to the curve's lowest
-  /// point, and [sagitta] how far that point sits below the edges. The
-  /// defaults are measured from the MT 2.0 "Outlet Detail" screen.
-  const factory FaBackdrop.brandCurve({double depth, double sagitta}) =
+  /// [overhang] is how far the band reaches below the header and [sagitta]
+  /// how far its lowest point drops below its edges. The defaults are
+  /// measured from the MT 2.0 "Outlet Detail" screen.
+  const factory FaBackdrop.brandCurve({double overhang, double sagitta}) =
       FaBackdropBrandCurve;
 
   /// A brand gradient with a straight bottom edge.
@@ -32,20 +32,37 @@ sealed class FaBackdrop {
   const factory FaBackdrop.custom(Widget child) = FaBackdropCustom;
 
   Widget build(BuildContext context);
+
+  /// Where a screen's content may start: the backdrop's own bottom, so no
+  /// content is painted on it unless the screen asks to overlap.
+  double contentInset(BuildContext context);
 }
+
+/// Status bar plus header — the strip every backdrop covers at least.
+double _headerBottom(BuildContext context) =>
+    MediaQuery.paddingOf(context).top + FaTopNav.height;
 
 final class FaBackdropNone extends FaBackdrop {
   const FaBackdropNone();
 
   @override
   Widget build(BuildContext context) => const SizedBox.shrink();
+
+  @override
+  double contentInset(BuildContext context) => _headerBottom(context);
 }
 
 final class FaBackdropBrandCurve extends FaBackdrop {
-  const FaBackdropBrandCurve({this.depth = 162, this.sagitta = 13});
+  const FaBackdropBrandCurve({
+    this.overhang = defaultOverhang,
+    this.sagitta = 13,
+  });
 
-  /// Screen top to the curve's lowest point.
-  final double depth;
+  /// The MT 2.0 "Outlet Detail" band, measured below its header.
+  static const double defaultOverhang = 61;
+
+  /// How far the band reaches below the header.
+  final double overhang;
 
   /// How far the lowest point drops below the left and right edges.
   final double sagitta;
@@ -54,26 +71,37 @@ final class FaBackdropBrandCurve extends FaBackdrop {
   Widget build(BuildContext context) => ClipPath(
         clipper: _CurveClipper(sagitta),
         child: Container(
-          height: depth,
+          // Measured from the header, so the band keeps its shape whatever
+          // the device's status bar costs.
+          height: contentInset(context),
           decoration: BoxDecoration(
             gradient: context.faGradients.headerBackdrop,
           ),
         ),
       );
+
+  @override
+  double contentInset(BuildContext context) =>
+      _headerBottom(context) + overhang;
 }
 
 final class FaBackdropBrandFlat extends FaBackdrop {
-  const FaBackdropBrandFlat({this.height = 158});
+  const FaBackdropBrandFlat({this.height});
 
-  final double height;
+  /// Defaults to the header's own height.
+  final double? height;
 
   @override
   Widget build(BuildContext context) => Container(
-        height: height,
+        height: contentInset(context),
         decoration: BoxDecoration(
           gradient: context.faGradients.headerBackdrop,
         ),
       );
+
+  @override
+  double contentInset(BuildContext context) =>
+      height ?? _headerBottom(context);
 }
 
 final class FaBackdropSurface extends FaBackdrop {
@@ -81,18 +109,28 @@ final class FaBackdropSurface extends FaBackdrop {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: MediaQuery.paddingOf(context).top + FaTopNav.height,
+        height: contentInset(context),
         color: context.faColors.surface,
       );
+
+  @override
+  double contentInset(BuildContext context) => _headerBottom(context);
 }
 
 final class FaBackdropCustom extends FaBackdrop {
-  const FaBackdropCustom(this.child);
+  const FaBackdropCustom(this.child, {this.contentInsetOf});
 
   final Widget child;
 
+  /// Where content may start; the header's bottom when not given.
+  final double Function(BuildContext context)? contentInsetOf;
+
   @override
   Widget build(BuildContext context) => child;
+
+  @override
+  double contentInset(BuildContext context) =>
+      contentInsetOf?.call(context) ?? _headerBottom(context);
 }
 
 /// Clips a rectangle so its bottom edge bows downward by [sagitta].

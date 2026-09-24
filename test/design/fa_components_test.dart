@@ -713,6 +713,63 @@ void main() {
       expect(tester.getTopLeft(find.byType(ClipPath)).dy, 0);
     });
 
+    testWidgets('starts the body below the backdrop, not on it',
+        (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          const FaScaffold(
+            header: FaTopNav(title: 'Outlet Details'),
+            body: SizedBox(key: Key('body')),
+          ),
+        ),
+      );
+
+      // the curve's own bottom, so a card is never painted on the gradient
+      expect(
+        tester.getTopLeft(find.byKey(const Key('body'))).dy,
+        tester.getSize(find.byType(ClipPath)).height,
+      );
+    });
+
+    testWidgets('contentOverlap lifts the body into the backdrop',
+        (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          const FaScaffold(
+            header: FaTopNav(title: 'Outlet Details'),
+            contentOverlap: 40,
+            body: SizedBox(key: Key('body')),
+          ),
+        ),
+      );
+
+      expect(
+        tester.getSize(find.byType(ClipPath)).height -
+            tester.getTopLeft(find.byKey(const Key('body'))).dy,
+        40,
+      );
+    });
+
+    testWidgets('clips the body, so scrolled content passes under the band',
+        (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          const FaScaffold(
+            header: FaTopNav(title: 'Outlet Details'),
+            body: SizedBox(),
+          ),
+        ),
+      );
+
+      expect(
+        find.descendant(
+          of: find.byType(FaScaffold),
+          matching: find.byType(ClipRect),
+        ),
+        findsWidgets,
+      );
+    });
+
     testWidgets('spans the backdrop across the screen, not the content',
         (tester) async {
       await tester.pumpWidget(
@@ -1281,6 +1338,61 @@ void main() {
       await tester.tap(find.text('Tracked'));
 
       expect(tapped, [1]);
+    });
+
+    testWidgets('selected pill fills the track height', (tester) async {
+      await pumpTabs(tester, selectedIndex: 0, onChanged: (_) {});
+
+      // the pill stretches to the track's height less its 3px inset each side
+      final pill = tester.getSize(
+        find
+            .ancestor(of: find.text('All'), matching: find.byType(DecoratedBox))
+            .first,
+      );
+      expect(pill.height, FaSegmentedTabs.minHeight - 6);
+    });
+
+    testWidgets('segments sit a gap apart', (tester) async {
+      await pumpTabs(tester, selectedIndex: 0, onChanged: (_) {});
+
+      Rect pillOf(String label) => tester.getRect(
+            find
+                .ancestor(
+                  of: find.text(label),
+                  matching: find.byType(DecoratedBox),
+                )
+                .first,
+          );
+
+      expect(pillOf('Tracked').left - pillOf('All').right, FaSpace.x6);
+    });
+
+    testWidgets('count badge is 16 high and at least as wide', (tester) async {
+      await pumpTabs(tester, selectedIndex: 0, onChanged: (_) {});
+
+      final badge = tester.getSize(
+        find.ancestor(of: find.text('4'), matching: find.byType(Container)).first,
+      );
+
+      // a single digit reads as a square-ish badge, never an upright oval
+      expect((badge.height, badge.width >= badge.height), (16.0, true));
+    });
+
+    testWidgets('only the selected pill casts a shadow', (tester) async {
+      await pumpTabs(tester, selectedIndex: 1, onChanged: (_) {});
+
+      BoxDecoration pillOf(String label) => tester
+          .widget<DecoratedBox>(
+            find
+                .ancestor(of: find.text(label), matching: find.byType(DecoratedBox))
+                .first,
+          )
+          .decoration as BoxDecoration;
+
+      expect(
+        (pillOf('All').boxShadow, pillOf('Tracked').boxShadow?.length),
+        (null, 2),
+      );
     });
   });
 

@@ -40,17 +40,23 @@ class FaSegmentedTabs extends StatelessWidget {
         color: context.faColors.track,
         borderRadius: BorderRadius.circular(FaRadius.lg),
       ),
-      child: Row(
-        children: [
-          for (final (index, tab) in tabs.indexed)
-            Expanded(
-              child: _Segment(
-                tab: tab,
-                isSelected: index == selectedIndex,
-                onTap: () => onChanged(index),
+      // The raised pill fills the track's height, as the Figma pill does.
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final (index, tab) in tabs.indexed) ...[
+              if (index > 0) const SizedBox(width: FaSpace.x6),
+              Expanded(
+                child: _Segment(
+                  tab: tab,
+                  isSelected: index == selectedIndex,
+                  onTap: () => onChanged(index),
+                ),
               ),
-            ),
-        ],
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -81,6 +87,21 @@ class _Segment extends StatelessWidget {
           decoration: BoxDecoration(
             color: isSelected ? colors.surface : Colors.transparent,
             borderRadius: BorderRadius.circular(FaRadius.lg),
+            // MT 2.0's small shadow: two soft layers lifting the pill.
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: colors.shadow,
+                      offset: const Offset(0, 1),
+                      blurRadius: 1.5,
+                    ),
+                    BoxShadow(
+                      color: colors.shadow,
+                      offset: const Offset(0, 1),
+                      blurRadius: 1,
+                    ),
+                  ]
+                : null,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -123,16 +144,21 @@ class _Count extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.faColors;
     return Container(
-      constraints: const BoxConstraints(minWidth: _size, minHeight: _size),
+      // A fixed height, so one digit reads as a square-ish badge rather than
+      // an upright oval; the text's own line box would make it taller.
+      height: _size,
+      constraints: const BoxConstraints(minWidth: _size),
       padding: const EdgeInsets.symmetric(horizontal: FaSpace.x4),
       decoration: BoxDecoration(
         color: isSelected ? colors.brand : colors.trackStrong,
-        borderRadius: BorderRadius.circular(FaRadius.pill),
+        // Rounded, not a pill: a two-digit count must not read as an oval.
+        borderRadius: BorderRadius.circular(FaRadius.lg),
       ),
       child: Center(
         widthFactor: 1,
         child: Text(
           '$count',
+          strutStyle: const StrutStyle(height: 1, forceStrutHeight: true),
           style: context.faText.s12.w600.copyWith(
             color: isSelected ? colors.onBrand : colors.textTertiary,
           ),
