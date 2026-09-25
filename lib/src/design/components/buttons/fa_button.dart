@@ -10,7 +10,14 @@ import '../../tokens/fa_status_ramp.dart';
 import '../icon/fa_svg_icon.dart';
 import 'fa_tap_guard.dart';
 
-enum FaButtonVariant { filled, outlined }
+enum FaButtonVariant {
+  filled,
+  outlined,
+
+  /// Grey fill, light border, dark label; [FaButton.tone] is ignored. A
+  /// low-emphasis action beside a filled one, e.g. Save Draft.
+  secondary,
+}
 
 enum FaButtonSize {
   /// Dialogs and bottom bars.
@@ -64,7 +71,12 @@ class _FaButtonState extends State<FaButton> with FaTapGuard {
     final isBrand = widget.tone == FaTone.brand;
     final solid = isBrand ? colors.brand : ramp.solid;
     final filled = widget.variant == FaButtonVariant.filled;
-    final ink = filled ? colors.onBrand : solid;
+    final secondary = widget.variant == FaButtonVariant.secondary;
+    final ink = filled
+        ? colors.onBrand
+        : secondary
+            ? colors.textStrong
+            : solid;
     // Every primary call to action carries the CTA sweep; the status tones
     // stay flat so a destructive action still reads as one.
     final gradient =
@@ -83,10 +95,18 @@ class _FaButtonState extends State<FaButton> with FaTapGuard {
         behavior: HitTestBehavior.opaque,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: gradient != null ? null : (filled ? solid : ramp.tint),
+            color: gradient != null
+                ? null
+                : filled
+                    ? solid
+                    : secondary
+                        ? colors.track
+                        : ramp.tint,
             gradient: gradient,
             borderRadius: BorderRadius.circular(FaRadius.pill),
-            border: filled ? null : Border.all(color: solid),
+            border: filled
+                ? null
+                : Border.all(color: secondary ? colors.border : solid),
           ),
           child: SizedBox(
             height: size.height,

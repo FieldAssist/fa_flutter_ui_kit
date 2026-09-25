@@ -6,6 +6,8 @@ abstract final class FaIcons {
   static const factCheck = FaIconAsset('fact_check', width: 16, height: 15);
   static const arrowOutward =
       FaIconAsset('arrow_outward', width: 10, height: 10);
+  static const arrowForward =
+      FaIconAsset('arrow_forward', width: 24, height: 24);
   static const verified = FaIconAsset('verified', width: 12, height: 11);
   static const lock = FaIconAsset('lock', width: 14, height: 18);
   static const visibility = FaIconAsset('visibility', width: 16, height: 11);
@@ -18,4 +20,6 @@ abstract final class FaIcons {
       FaIconAsset('add_a_photo', width: 18, height: 16, tintable: false);
   static const warning =
       FaIconAsset('warning', width: 40, height: 36, tintable: false);
+  static const lightbulb =
+      FaIconAsset('lightbulb', width: 20, height: 20, tintable: false);
 }
