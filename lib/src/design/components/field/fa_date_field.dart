@@ -17,6 +17,8 @@ class FaDateField extends StatelessWidget {
     required this.lastDate,
     required this.onChanged,
     this.hint,
+    this.isRequired = false,
+    this.errorText,
     super.key,
   });
 
@@ -29,17 +31,24 @@ class FaDateField extends StatelessWidget {
   final DateTime lastDate;
   final ValueChanged<DateTime> onChanged;
   final String? hint;
+  final bool isRequired;
+
+  /// Shown under the field, which outlines in the danger colour while it is
+  /// set, as [FaTextField] does.
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.faColors;
     final text = context.faText;
     final value = this.value;
+    final errorText = this.errorText;
+    final danger = colors.status.danger.solid;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        FaFieldLabel(label),
+        FaFieldLabel(label, isRequired: isRequired),
         Semantics(
           button: true,
           child: GestureDetector(
@@ -55,7 +64,9 @@ class FaDateField extends StatelessWidget {
               decoration: BoxDecoration(
                 color: colors.surface,
                 borderRadius: BorderRadius.circular(FaRadius.md),
-                border: Border.all(color: colors.border),
+                border: Border.all(
+                  color: errorText == null ? colors.border : danger,
+                ),
               ),
               child: Row(
                 children: [
@@ -79,6 +90,17 @@ class FaDateField extends StatelessWidget {
             ),
           ),
         ),
+        if (errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: FaSpace.x12,
+              top: FaSpace.x6,
+            ),
+            child: Text(
+              errorText,
+              style: text.s12.w400.copyWith(color: danger),
+            ),
+          ),
       ],
     );
   }
