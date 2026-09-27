@@ -18,6 +18,8 @@ class FaTextField extends StatelessWidget {
     this.maxLength,
     this.onChanged,
     this.errorText,
+    this.readOnly = false,
+    this.maxLines = 1,
     super.key,
   });
 
@@ -34,6 +36,13 @@ class FaTextField extends StatelessWidget {
 
   /// Shown under the field, which outlines in the danger colour while it is set.
   final String? errorText;
+
+  /// Shows the value without letting it change: a computed answer, or a form
+  /// opened only to look.
+  final bool readOnly;
+
+  /// More than 1 grows the field for a paragraph; null grows it without limit.
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +63,8 @@ class FaTextField extends StatelessWidget {
           inputFormatters: inputFormatters,
           maxLength: maxLength,
           onChanged: onChanged,
+          readOnly: readOnly,
+          maxLines: maxLines,
           style: text.body.copyWith(color: colors.textPrimary),
           cursorColor: colors.brand,
           decoration: InputDecoration(
@@ -69,7 +80,8 @@ class FaTextField extends StatelessWidget {
               vertical: FaSpace.x12,
             ),
             errorText: errorText,
-            errorStyle: text.s12.w400.copyWith(color: colors.status.danger.solid),
+            errorStyle:
+                text.s12.w400.copyWith(color: colors.status.danger.solid),
             border: outline(colors.borderStrong),
             enabledBorder: outline(colors.borderStrong),
             focusedBorder: outline(colors.brand),

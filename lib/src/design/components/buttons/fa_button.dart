@@ -46,6 +46,7 @@ class FaButton extends StatefulWidget {
     this.tone = FaTone.brand,
     this.leadingIcon,
     this.trailingIcon,
+    this.enabled = true,
     super.key,
   });
 
@@ -56,6 +57,9 @@ class FaButton extends StatefulWidget {
   final FaTone tone;
   final FaIconAsset? leadingIcon;
   final FaIconAsset? trailingIcon;
+
+  /// False greys the button out and ignores taps, whatever [variant].
+  final bool enabled;
 
   @override
   State<FaButton> createState() => _FaButtonState();
@@ -72,15 +76,18 @@ class _FaButtonState extends State<FaButton> with FaTapGuard {
     final solid = isBrand ? colors.brand : ramp.solid;
     final filled = widget.variant == FaButtonVariant.filled;
     final secondary = widget.variant == FaButtonVariant.secondary;
-    final ink = filled
-        ? colors.onBrand
-        : secondary
-            ? colors.textStrong
-            : solid;
+    final enabled = widget.enabled;
+    final ink = !enabled
+        ? colors.textTertiary
+        : filled
+            ? colors.onBrand
+            : secondary
+                ? colors.textStrong
+                : solid;
     // Every primary call to action carries the CTA sweep; the status tones
     // stay flat so a destructive action still reads as one.
     final gradient =
-        filled && isBrand ? context.faGradients.primaryAction : null;
+        enabled && filled && isBrand ? context.faGradients.primaryAction : null;
     final leading = widget.leadingIcon;
     final trailing = widget.trailingIcon;
     final size = widget.size;
@@ -90,21 +97,24 @@ class _FaButtonState extends State<FaButton> with FaTapGuard {
     };
     return Semantics(
       button: true,
+      enabled: enabled,
       child: GestureDetector(
-        onTap: () => guardTap(widget.onTap),
+        onTap: enabled ? () => guardTap(widget.onTap) : null,
         behavior: HitTestBehavior.opaque,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: gradient != null
-                ? null
-                : filled
-                    ? solid
-                    : secondary
-                        ? colors.track
-                        : ramp.tint,
+            color: !enabled
+                ? colors.track
+                : gradient != null
+                    ? null
+                    : filled
+                        ? solid
+                        : secondary
+                            ? colors.track
+                            : ramp.tint,
             gradient: gradient,
             borderRadius: BorderRadius.circular(FaRadius.pill),
-            border: filled
+            border: filled || !enabled
                 ? null
                 : Border.all(color: secondary ? colors.border : solid),
           ),

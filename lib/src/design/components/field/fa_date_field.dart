@@ -29,7 +29,9 @@ class FaDateField extends StatelessWidget {
   final String Function(DateTime date) format;
   final DateTime firstDate;
   final DateTime lastDate;
-  final ValueChanged<DateTime> onChanged;
+
+  /// Null shows the date without letting it change.
+  final ValueChanged<DateTime>? onChanged;
   final String? hint;
   final bool isRequired;
 
@@ -53,7 +55,7 @@ class FaDateField extends StatelessWidget {
           button: true,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () => _pick(context),
+            onTap: onChanged == null ? null : () => _pick(context),
             child: Container(
               constraints:
                   const BoxConstraints(minHeight: FaTextField.minHeight),
@@ -119,7 +121,7 @@ class FaDateField extends StatelessWidget {
       lastDate: lastDate,
     );
     if (picked != null) {
-      onChanged(picked);
+      onChanged?.call(picked);
     }
   }
 }

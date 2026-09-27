@@ -338,6 +338,41 @@ void main() {
   });
 
   group('FaButton', () {
+    testWidgets('disabled: greys out without the gradient', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(label: 'Complete', enabled: false, onTap: () {}),
+          ),
+        ),
+      );
+
+      final decoration = _decorationIn(tester, FaButton);
+      expect(
+        (decoration.color, decoration.gradient),
+        (_defaults.track, null),
+      );
+    });
+
+    testWidgets('disabled: a tap does nothing', (tester) async {
+      var taps = 0;
+      await tester.pumpWidget(
+        kitHost(
+          Center(
+            child: FaButton(
+              label: 'Complete',
+              enabled: false,
+              onTap: () => taps++,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Complete'));
+
+      expect(taps, 0);
+    });
+
     testWidgets('sweeps a brand button with the call-to-action gradient',
         (tester) async {
       await tester.pumpWidget(
@@ -1540,6 +1575,146 @@ void main() {
       await tester.tap(find.text('16'));
 
       expect(chosen, isNull);
+    });
+  });
+
+  group('FaSelectField', () {
+    testWidgets('shows the chosen value', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaSelectField(label: 'Running?', value: 'Yes', onTap: () {}),
+          ),
+        ),
+      );
+
+      expect(find.text('Yes'), findsOneWidget);
+    });
+
+    testWidgets('nothing chosen → shows the hint', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child:
+                FaSelectField(label: 'Running?', hint: 'Select', onTap: () {}),
+          ),
+        ),
+      );
+
+      expect(find.text('Select'), findsOneWidget);
+    });
+
+    testWidgets('read-only → no chevron', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          const Material(
+            child: FaSelectField(label: 'Running?', value: 'Yes', onTap: null),
+          ),
+        ),
+      );
+
+      expect(find.byIcon(Icons.keyboard_arrow_down), findsNothing);
+    });
+  });
+
+  group('FaOptionsSheet', () {
+    testWidgets('single: returns the tapped option', (tester) async {
+      String? picked;
+      await tester.pumpWidget(
+        kitHost(
+          Builder(
+            builder: (context) => Center(
+              child: GestureDetector(
+                onTap: () async => picked = await FaOptionsSheet.single(
+                  context,
+                  title: 'Running?',
+                  options: const ['Yes', 'No'],
+                ),
+                child: const Text('open'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('No'));
+      await tester.pumpAndSettle();
+
+      expect(picked, 'No');
+    });
+
+    testWidgets('multiple: returns the checked options in option order',
+        (tester) async {
+      List<String>? picked;
+      await tester.pumpWidget(
+        kitHost(
+          Builder(
+            builder: (context) => Center(
+              child: GestureDetector(
+                onTap: () async => picked = await FaOptionsSheet.multiple(
+                  context,
+                  title: 'Brands',
+                  options: const ['A', 'B', 'C'],
+                  doneLabel: 'Done',
+                ),
+                child: const Text('open'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('C'));
+      await tester.tap(find.text('A'));
+      await tester.pump();
+      await tester.tap(find.text('Done'));
+      await tester.pumpAndSettle();
+
+      expect(picked, ['A', 'C']);
+    });
+  });
+
+  group('FaImagesField', () {
+    testWidgets('read-only → no attach field', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaImagesField(
+              label: 'Photos',
+              attachLabel: 'Attach Image',
+              images: const [],
+              onView: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Attach Image'), findsNothing);
+    });
+
+    testWidgets('editable: a tap on the field adds a photo', (tester) async {
+      var adds = 0;
+      await tester.pumpWidget(
+        kitHost(
+          Material(
+            child: FaImagesField(
+              label: 'Photos',
+              attachLabel: 'Attach Image',
+              images: const [],
+              onView: (_) {},
+              onAdd: () => adds++,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Attach Image'));
+
+      expect(adds, 1);
     });
   });
 }
