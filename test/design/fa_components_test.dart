@@ -12,7 +12,8 @@ final _defaults = FaColors.fromSeed(FaTheme.defaultSeed);
 BoxDecoration _decorationIn(WidgetTester tester, Type owner) => tester
     .widget<DecoratedBox>(
       find
-          .descendant(of: find.byType(owner), matching: find.byType(DecoratedBox))
+          .descendant(
+              of: find.byType(owner), matching: find.byType(DecoratedBox))
           .first,
     )
     .decoration as BoxDecoration;
@@ -61,7 +62,8 @@ void main() {
         ),
       );
 
-      expect(_decorationIn(tester, FaPill).color, _defaults.status.success.tint);
+      expect(
+          _decorationIn(tester, FaPill).color, _defaults.status.success.tint);
       expect(
         tester.widget<Text>(find.text('Verified')).style?.color,
         _defaults.status.success.ink,
@@ -133,6 +135,71 @@ void main() {
           )
           .padding;
       expect(padding, const EdgeInsets.symmetric(horizontal: 10, vertical: 4));
+    });
+
+    testWidgets('outlined: draws a border in the tone', (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          const Center(
+            child: FaPill(
+              label: 'Mandatory',
+              tone: FaTone.danger,
+              outlined: true,
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        _decorationIn(tester, FaPill).border,
+        Border.all(color: _defaults.status.danger.border),
+      );
+    });
+
+    testWidgets('outlined: uses soft corners, not a pill shape',
+        (tester) async {
+      await tester.pumpWidget(
+        kitHost(
+          const Center(child: FaPill(label: 'Draft', outlined: true)),
+        ),
+      );
+
+      expect(
+        _decorationIn(tester, FaPill).borderRadius,
+        BorderRadius.circular(FaRadius.xl),
+      );
+    });
+  });
+
+  group('FaSegmentedProgress', () {
+    final segments = find.descendant(
+      of: find.byType(FaSegmentedProgress),
+      matching: find.byType(Container),
+    );
+
+    List<Color?> segmentColors(WidgetTester tester) => tester
+        .widgetList<Container>(segments)
+        .map((c) => (c.decoration as BoxDecoration?)?.color)
+        .toList();
+
+    testWidgets('draws one segment per item', (tester) async {
+      await tester.pumpWidget(
+        kitHost(const FaSegmentedProgress(total: 5, done: 2)),
+      );
+
+      expect(segments, findsNWidgets(5));
+    });
+
+    testWidgets('fills the first done segments in brand, the rest as track',
+        (tester) async {
+      await tester.pumpWidget(
+        kitHost(const FaSegmentedProgress(total: 3, done: 1)),
+      );
+
+      expect(
+        segmentColors(tester),
+        [_defaults.brand, _defaults.track, _defaults.track],
+      );
     });
   });
 
@@ -1121,7 +1188,8 @@ void main() {
     testWidgets('does not step past the maximum', (tester) async {
       int? stepped;
 
-      await pumpStepper(tester, value: 5, max: 5, onChanged: (v) => stepped = v);
+      await pumpStepper(tester,
+          value: 5, max: 5, onChanged: (v) => stepped = v);
       await tester.tap(find.byIcon(Icons.add_rounded));
 
       expect(stepped, isNull);
@@ -1371,7 +1439,9 @@ void main() {
       await pumpTabs(tester, selectedIndex: 0, onChanged: (_) {});
 
       final badge = tester.getSize(
-        find.ancestor(of: find.text('4'), matching: find.byType(Container)).first,
+        find
+            .ancestor(of: find.text('4'), matching: find.byType(Container))
+            .first,
       );
 
       // a single digit reads as a square-ish badge, never an upright oval
@@ -1384,7 +1454,8 @@ void main() {
       BoxDecoration pillOf(String label) => tester
           .widget<DecoratedBox>(
             find
-                .ancestor(of: find.text(label), matching: find.byType(DecoratedBox))
+                .ancestor(
+                    of: find.text(label), matching: find.byType(DecoratedBox))
                 .first,
           )
           .decoration as BoxDecoration;
@@ -1432,7 +1503,10 @@ void main() {
       await tester.tap(find.text('16'));
 
       // a range of one day until a second day closes it
-      expect(chosen, DateTimeRange(start: DateTime(2026, 7, 16), end: DateTime(2026, 7, 16)));
+      expect(
+          chosen,
+          DateTimeRange(
+              start: DateTime(2026, 7, 16), end: DateTime(2026, 7, 16)));
     });
 
     testWidgets('second tap before the first closes the range backwards',
