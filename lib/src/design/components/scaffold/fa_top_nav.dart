@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../icons/fa_icon_asset.dart';
 import '../../theme/fa_theme_context.dart';
 import '../../tokens/fa_spacing.dart';
+import '../icon/fa_svg_icon.dart';
 
 /// What a header sits on, which decides its ink.
 enum FaNavTone {
@@ -131,11 +133,19 @@ class FaTopNav extends StatelessWidget implements PreferredSizeWidget {
 /// minimum tap target rather than the glyph's own 24px.
 class FaNavAction extends StatelessWidget {
   const FaNavAction({
-    required this.icon,
+    required IconData this.icon,
     required this.onTap,
     this.semanticLabel,
     super.key,
-  });
+  }) : asset = null;
+
+  /// A glyph from [FaIcons] rather than a Material one.
+  const FaNavAction.asset({
+    required FaIconAsset this.asset,
+    required this.onTap,
+    this.semanticLabel,
+    super.key,
+  }) : icon = null;
 
   /// Minimum tap target. Material's accessibility floor, not a Figma value —
   /// the design's 56x53 action boxes are wider but no shorter.
@@ -143,7 +153,8 @@ class FaNavAction extends StatelessWidget {
 
   static const double _glyphSize = 24;
 
-  final IconData icon;
+  final IconData? icon;
+  final FaIconAsset? asset;
   final VoidCallback onTap;
   final String? semanticLabel;
 
@@ -155,18 +166,19 @@ class FaNavAction extends StatelessWidget {
       child: InkResponse(
         onTap: onTap,
         radius: minTapTarget / 2,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            minWidth: minTapTarget,
-            minHeight: minTapTarget,
-          ),
-          child: Icon(
-            icon,
-            size: _glyphSize,
-            color: IconTheme.of(context).color ?? context.faColors.onBrand,
-          ),
+        child: SizedBox.square(
+          dimension: minTapTarget,
+          child: Center(child: _glyph(context)),
         ),
       ),
     );
+  }
+
+  Widget _glyph(BuildContext context) {
+    final color = IconTheme.of(context).color ?? context.faColors.onBrand;
+    final asset = this.asset;
+    return asset != null
+        ? FaSvgIcon(asset, color: color)
+        : Icon(icon, size: _glyphSize, color: color);
   }
 }

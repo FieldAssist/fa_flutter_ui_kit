@@ -14,6 +14,14 @@ abstract final class FaIcons {
   static const logout = FaIconAsset('logout', width: 24, height: 24);
   static const addShoppingCart =
       FaIconAsset('add_shopping_cart', width: 24, height: 24);
+  static const arrowBack = FaIconAsset('arrow_back', width: 24, height: 24);
+  static const refresh = FaIconAsset('refresh', width: 24, height: 24);
+  static const calendarToday =
+      FaIconAsset('calendar_today', width: 24, height: 24);
+  static const mail = FaIconAsset('mail', width: 16, height: 16);
+  static const call = FaIconAsset('call', width: 16, height: 16);
+  static const subTasksFlow =
+      FaIconAsset('sub_tasks_flow', width: 14, height: 14);
 
   // Multi-colour glyphs; tinting would flatten them.
   static const addAPhoto =

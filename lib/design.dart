@@ -22,6 +22,7 @@ export 'src/design/components/buttons/fa_icon_circle_button.dart';
 export 'src/design/components/card/fa_card.dart';
 export 'src/design/components/card/fa_header_panel.dart';
 export 'src/design/components/dialog/fa_dialog.dart';
+export 'src/design/components/empty/fa_empty_state.dart';
 export 'src/design/components/field/fa_calendar_range.dart';
 export 'src/design/components/field/fa_choice_chips.dart';
 export 'src/design/components/field/fa_date_field.dart';
