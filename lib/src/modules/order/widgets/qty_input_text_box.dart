@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fa_flutter_ui_kit/src/modules/common/number_keyboard/keyboard_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class QtyInputTextBox extends StatefulWidget {
   const QtyInputTextBox({
@@ -165,6 +166,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                   child: Container(
                     child: TextFormField(
                       keyboardType: TextInputType.number,
+                      // Quantities are whole numbers; the system keypad also
+                      // offers '-', ',' and '.'.
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       focusNode:
                           widget.keyboardController != null ? _focusNode : null,
                       enabled: widget.isEditable,
