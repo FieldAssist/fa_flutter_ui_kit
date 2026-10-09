@@ -2,6 +2,7 @@ import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/integrated_search_textfield.dart';
 import 'package:fa_flutter_ui_kit/src/modules/common/search_list/search_app_bar.dart';
 import 'package:fa_flutter_ui_kit/src/widgets/common/index.dart';
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 
 class SearchListItem {
@@ -145,6 +146,21 @@ class _SearchListState<T> extends State<SearchList<T>> {
       isItemSelectedMap: selectedItemMap,
       onSearch: widget.onSearch ?? (_, q) => true,
     );
+  }
+
+  @override
+  void didUpdateWidget(covariant SearchList<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!listEquals(oldWidget.data, widget.data)) {
+      _bloc.updateSearchItems(widget.data);
+    }
+  }
+
+  @override
+  void dispose() {
+    searchQueryController!.removeListener(_onSearchQueryChanged);
+    _bloc.dispose();
+    super.dispose();
   }
 
   void _onSearchQueryChanged() {
@@ -331,12 +347,15 @@ class _SearchListState<T> extends State<SearchList<T>> {
 
 class SearchListBloc<T> {
   SearchListBloc(
-      {required this.searchItems,
+      {required List<T> searchItems,
       required this.isItemSelectedMap,
-      required this.onSearch});
+      required this.onSearch})
+      : _subjectSearchItems = BehaviorSubject.seeded(searchItems);
 
-  final List<T> searchItems;
+  final BehaviorSubject<List<T>> _subjectSearchItems;
   final isItemSelectedMap;
+
+  List<T> get searchItems => _subjectSearchItems.value;
 
   T? lastSelectedItem;
 
@@ -370,8 +389,9 @@ class SearchListBloc<T> {
     //   ),
     // );
 
-    return Rx.combineLatest2<String, T?, Map<T, bool>>(
-        listSearchQuery, selectedItemStream, (query, item) {
+    return Rx.combineLatest3<String, T?, List<T>, Map<T, bool>>(
+        listSearchQuery, selectedItemStream, _subjectSearchItems.stream,
+        (query, _, searchItems) {
       var itemList = searchItems;
       var searchItemMap = <T, bool>{};
       if (query.isNotEmpty) {
@@ -396,6 +416,14 @@ class SearchListBloc<T> {
     _subjectListSearchQuery.add(query);
   }
 
+  /// Swaps in new items; the query and existing selections carry over.
+  void updateSearchItems(List<T> items) {
+    for (final item in items) {
+      isItemSelectedMap.putIfAbsent(item, () => false);
+    }
+    _subjectSearchItems.add(items);
+  }
+
   void updateSelectedItem(T selectedItem) {
     if (isItemSelectedMap[selectedItem]) {
       isItemSelectedMap[selectedItem] = false;
@@ -418,5 +446,6 @@ class SearchListBloc<T> {
   void dispose() {
     _subjectListSearchQuery.close();
     _subjectSelectedItem.close();
+    _subjectSearchItems.close();
   }
 }
