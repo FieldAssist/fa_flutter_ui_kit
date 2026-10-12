@@ -7,6 +7,9 @@ import 'package:flutter/services.dart';
 
 import '../config/ui_common_colors.dart';
 import '../config/ui_common_texts.dart';
+import '../image_file_utils.dart';
+import 'camera_host.dart';
+import 'camera_image_picker_util.dart';
 
 /// Opens an editor for the image's remark. Injected so this page never
 /// imports IR, which supplies its own sheet.
