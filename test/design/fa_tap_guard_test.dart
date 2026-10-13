@@ -107,7 +107,7 @@ void main() {
         kitHost(
           Center(
             child: FaIconCircleButton(
-              icon: FaIcons.visibility,
+              icon: kTestIcon,
               onTap: () {
                 taps++;
                 return pending.future;

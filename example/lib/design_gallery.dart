@@ -1,6 +1,8 @@
 import 'package:fa_flutter_ui_kit/design.dart';
 import 'package:flutter/material.dart';
 
+import 'gallery_icons.dart';
+
 class DesignGalleryPage extends StatefulWidget {
   const DesignGalleryPage({super.key});
 
@@ -17,15 +19,15 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
   };
 
   static const _icons = <String, FaIconAsset>{
-    'package2': FaIcons.package2,
+    'package2': GalleryIcons.package2,
     'addAPhoto': FaIcons.addAPhoto,
-    'download': FaIcons.download,
-    'factCheck': FaIcons.factCheck,
-    'arrowOutward': FaIcons.arrowOutward,
-    'verified': FaIcons.verified,
-    'lock': FaIcons.lock,
-    'visibility': FaIcons.visibility,
-    'warning': FaIcons.warning,
+    'download': GalleryIcons.download,
+    'factCheck': GalleryIcons.factCheck,
+    'arrowOutward': GalleryIcons.arrowOutward,
+    'verified': GalleryIcons.verified,
+    'lock': GalleryIcons.lock,
+    'visibility': GalleryIcons.visibility,
+    'warning': GalleryIcons.warning,
   };
 
   String _seedName = 'MT 2.0';
@@ -106,7 +108,7 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
               children: [
                 Expanded(
                   child: _ActivityCard(
-                    icon: FaIcons.package2,
+                    icon: GalleryIcons.package2,
                     title: 'Opening Stock',
                     hint: 'Enter opening quantities',
                     status: FaPill(label: 'Completed', tone: FaTone.success),
@@ -117,7 +119,7 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
                   child: Opacity(
                     opacity: FaOpacity.disabled,
                     child: _ActivityCard(
-                      icon: FaIcons.lock,
+                      icon: GalleryIcons.lock,
                       tone: FaTone.neutral,
                       title: 'Closing Stock',
                       hint: 'Enter closing quantities',
@@ -142,7 +144,7 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
                   label: 'Proceed',
                   variant: FaButtonVariant.outlined,
                   size: FaButtonSize.compact,
-                  trailingIcon: FaIcons.arrowOutward,
+                  trailingIcon: GalleryIcons.arrowOutward,
                   onTap: () {},
                 ),
               ],
@@ -156,7 +158,7 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
                 child: FaButton(
                   label: 'Checkout',
                   tone: FaTone.danger,
-                  leadingIcon: FaIcons.logout,
+                  leadingIcon: GalleryIcons.logout,
                   onTap: () {},
                 ),
               ),
@@ -169,7 +171,7 @@ class _DesignGalleryPageState extends State<DesignGalleryPage> {
               variant: FaButtonVariant.outlined,
               onTap: () => FaDialog.show(
                 context,
-                icon: FaIcons.warning,
+                icon: GalleryIcons.warning,
                 title: 'Resume Inward?',
                 message: 'You have unsaved entries. Resume them or start fresh.',
                 primaryLabel: 'Resume',
@@ -329,13 +331,13 @@ class _ActivityCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FaIconCircleButton(icon: FaIcons.visibility, onTap: () {}),
+              FaIconCircleButton(icon: GalleryIcons.visibility, onTap: () {}),
               Flexible(
                 child: FaButton(
                   label: 'Proceed',
                   variant: FaButtonVariant.outlined,
                   size: FaButtonSize.compact,
-                  trailingIcon: FaIcons.arrowOutward,
+                  trailingIcon: GalleryIcons.arrowOutward,
                   onTap: () {},
                 ),
               ),

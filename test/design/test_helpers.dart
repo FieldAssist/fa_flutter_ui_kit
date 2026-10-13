@@ -15,6 +15,9 @@ class KitAssetBundle extends CachingAssetBundle {
       );
 }
 
+/// A tintable icon from the kit's own assets, for component tests.
+const kTestIcon = FaIconAsset('add_a_photo', width: 18, height: 16);
+
 Widget kitHost(Widget child, {Color? seed = FaTheme.defaultSeed}) =>
     MaterialApp(
       theme: seed == null

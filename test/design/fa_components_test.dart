@@ -35,7 +35,7 @@ Future<({Future<FaDialogAction?> action})> _openDialog(
           child: GestureDetector(
             onTap: () => action = FaDialog.show(
               context,
-              icon: FaIcons.warning,
+              icon: kTestIcon,
               title: 'Resume Inward?',
               message: 'You have unsaved entries.',
               primaryLabel: 'Resume',
@@ -206,10 +206,10 @@ void main() {
   group('FaSvgIcon', () {
     testWidgets('lays out at the icon\'s own size', (tester) async {
       await tester.pumpWidget(
-        kitHost(const Center(child: FaSvgIcon(FaIcons.download))),
+        kitHost(const Center(child: FaSvgIcon(kTestIcon))),
       );
 
-      expect(tester.getSize(find.byType(FaSvgIcon)), const Size(13, 13));
+      expect(tester.getSize(find.byType(FaSvgIcon)), const Size(18, 16));
     });
 
     testWidgets('tints a tintable icon with the ambient icon colour',
@@ -221,7 +221,7 @@ void main() {
           const Center(
             child: IconTheme(
               data: IconThemeData(color: ink),
-              child: FaSvgIcon(FaIcons.package2),
+              child: FaSvgIcon(kTestIcon),
             ),
           ),
         ),
@@ -243,11 +243,11 @@ void main() {
 
     testWidgets('loads the SVG from the kit package', (tester) async {
       await tester.pumpWidget(
-        kitHost(const Center(child: FaSvgIcon(FaIcons.verified))),
+        kitHost(const Center(child: FaSvgIcon(FaIcons.addAPhoto))),
       );
 
       final loader = _svgIn(tester).bytesLoader as SvgAssetLoader;
-      expect(loader.assetName, 'assets/icons/verified.svg');
+      expect(loader.assetName, 'assets/icons/add_a_photo.svg');
       expect(loader.packageName, 'fa_flutter_ui_kit');
     });
   });
@@ -255,7 +255,7 @@ void main() {
   group('FaIconTile', () {
     testWidgets('is a 40 point square', (tester) async {
       await tester.pumpWidget(
-        kitHost(const Center(child: FaIconTile(icon: FaIcons.package2))),
+        kitHost(const Center(child: FaIconTile(icon: kTestIcon))),
       );
 
       expect(tester.getSize(find.byType(FaIconTile)), const Size.square(40));
@@ -265,7 +265,7 @@ void main() {
       await tester.pumpWidget(
         kitHost(
           const Center(
-            child: FaIconTile(icon: FaIcons.package2, tone: FaTone.accent),
+            child: FaIconTile(icon: kTestIcon, tone: FaTone.accent),
           ),
         ),
       );
@@ -288,7 +288,7 @@ void main() {
         kitHost(
           Center(
             child: FaIconCircleButton(
-              icon: FaIcons.arrowOutward,
+              icon: kTestIcon,
               onTap: () {},
             ),
           ),
@@ -307,7 +307,7 @@ void main() {
         kitHost(
           Center(
             child: FaIconCircleButton(
-              icon: FaIcons.arrowOutward,
+              icon: kTestIcon,
               onTap: () => taps++,
             ),
           ),
@@ -324,7 +324,7 @@ void main() {
         kitHost(
           Center(
             child: FaIconCircleButton(
-              icon: FaIcons.arrowOutward,
+              icon: kTestIcon,
               onTap: () {},
             ),
           ),
@@ -421,7 +421,7 @@ void main() {
             child: FaButton(
               label: 'Proceed',
               variant: FaButtonVariant.outlined,
-              trailingIcon: FaIcons.arrowOutward,
+              trailingIcon: kTestIcon,
               onTap: () {},
             ),
           ),
@@ -527,7 +527,7 @@ void main() {
           Center(
             child: FaButton(
               label: 'Checkout',
-              leadingIcon: FaIcons.logout,
+              leadingIcon: kTestIcon,
               onTap: () {},
             ),
           ),
@@ -546,7 +546,7 @@ void main() {
           Center(
             child: FaButton(
               label: 'Checkout',
-              leadingIcon: FaIcons.logout,
+              leadingIcon: kTestIcon,
               onTap: () {},
             ),
           ),
