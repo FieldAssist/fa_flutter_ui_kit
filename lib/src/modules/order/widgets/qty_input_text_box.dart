@@ -32,6 +32,7 @@ class QtyInputTextBox extends StatefulWidget {
     Key? key,
     this.isReadOnly,
     this.editStepValue = 1,
+    this.wholeNumbersOnly = false,
   }) : super(key: key);
 
   final TextEditingController textController;
@@ -66,6 +67,10 @@ class QtyInputTextBox extends StatefulWidget {
   final int? minValue;
 
   final num editStepValue;
+
+  /// Typed input keeps digits only: the system keypad also offers '-', ','
+  /// and '.'. Off by default, so screens that take decimals keep them.
+  final bool wholeNumbersOnly;
 
   @override
   _QtyInputTextBoxState createState() => _QtyInputTextBoxState();
@@ -166,9 +171,9 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
                   child: Container(
                     child: TextFormField(
                       keyboardType: TextInputType.number,
-                      // Quantities are whole numbers; the system keypad also
-                      // offers '-', ',' and '.'.
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      inputFormatters: widget.wholeNumbersOnly
+                          ? [FilteringTextInputFormatter.digitsOnly]
+                          : null,
                       focusNode:
                           widget.keyboardController != null ? _focusNode : null,
                       enabled: widget.isEditable,
