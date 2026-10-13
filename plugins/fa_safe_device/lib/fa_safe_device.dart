@@ -24,4 +24,8 @@ class FaSafeDevice {
   Future<bool> isRealDevice() {
     return FaSafeDevicePlatform.instance.isRealDevice();
   }
+
+  Future<bool> isInstalledFromStore() {
+    return FaSafeDevicePlatform.instance.isInstalledFromStore();
+  }
 }
