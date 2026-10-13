@@ -1,5 +1,6 @@
 import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_kit_sample_app/design_gallery.dart';
 import 'package:ui_kit_sample_app/widget_preview.dart';
 
 enum Position { bottom, center }
@@ -118,6 +119,18 @@ class IndexScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('UI Widgets'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.palette_outlined),
+              tooltip: 'MT 2.0 design system',
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => const DesignGalleryPage(),
+                ),
+              ),
+            ),
+          ],
         ),
         body: ListView.builder(
           itemCount: _list.length,
