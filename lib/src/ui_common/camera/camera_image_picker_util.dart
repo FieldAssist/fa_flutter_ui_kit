@@ -31,6 +31,15 @@ class CameraImagePickerUtil {
 
   Future<File?> getImgFileFromGallery() => _pick(ImageSource.gallery);
 
+  /// Records a clip with the phone's camera app, at most [maxDuration] long.
+  Future<File?> getVideoFileFromCamera({required Duration maxDuration}) async {
+    final xFile = await _imgPicker.pickVideo(
+      source: ImageSource.camera,
+      maxDuration: maxDuration,
+    );
+    return xFile == null ? null : File(xFile.path);
+  }
+
   Future<File?> _pick(ImageSource source) async {
     final xFile = await _imgPicker.pickImage(source: source);
     return xFile == null ? null : File(xFile.path);
