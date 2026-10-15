@@ -16,6 +16,8 @@ class ProductBarcodeScannerPage extends StatefulWidget {
     this.title,
     this.subtitle,
     this.formats = const [BarcodeFormat.all],
+    this.screenIdentifier,
+    this.closeIdentifier,
     super.key,
   });
 
@@ -27,6 +29,11 @@ class ProductBarcodeScannerPage extends StatefulWidget {
   /// (e.g. `[BarcodeFormat.qrCode]`) makes detection faster, avoids
   /// false-positives from nearby 1D codes, and renders a square window.
   final List<BarcodeFormat> formats;
+
+  /// Optional `Semantics(identifier:)` values for E2E tests: the page itself
+  /// and its close button. Null adds no id, so callers are unaffected.
+  final String? screenIdentifier;
+  final String? closeIdentifier;
 
   bool get _isQrOnly =>
       formats.length == 1 && formats.first == BarcodeFormat.qrCode;
@@ -92,69 +99,78 @@ class _ProductBarcodeScannerPageState extends State<ProductBarcodeScannerPage> {
     final subtitle = widget.subtitle ?? UiCommonTexts().kScanProductBarcodeHint;
     final overlayColor = UiCommonColors.kBlackC.withOpacity(0.6);
 
-    return Scaffold(
-      backgroundColor: UiCommonColors.kBlackC,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: UiCommonColors.kTransparent,
-        elevation: 0,
-        leading: _circleIconButton(
-          icon: Icons.close,
-          onPressed: () => Navigator.of(context).maybePop(),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                color: UiCommonColors.kWhite,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+    return Semantics(
+      identifier: widget.screenIdentifier,
+      // Only with an id: explicitChildNodes reaches descendants even on an
+      // unannotated node, so it would otherwise change the tree.
+      explicitChildNodes: widget.screenIdentifier != null,
+      child: Scaffold(
+        backgroundColor: UiCommonColors.kBlackC,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: UiCommonColors.kTransparent,
+          elevation: 0,
+          leading: Semantics(
+            identifier: widget.closeIdentifier,
+            child: _circleIconButton(
+              icon: Icons.close,
+              onPressed: () => Navigator.of(context).maybePop(),
             ),
-            const SizedBox(height: 2),
-            Text(
-              subtitle,
-              style: TextStyle(
-                color: UiCommonColors.kWhite.withOpacity(0.75),
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: UiCommonColors.kWhite,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: UiCommonColors.kWhite.withOpacity(0.75),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            ValueListenableBuilder<MobileScannerState>(
+              valueListenable: _controller,
+              builder: (context, state, _) {
+                final isOn = state.torchState == TorchState.on;
+                return _circleIconButton(
+                  icon: isOn ? Icons.flash_on : Icons.flash_off,
+                  onPressed: () => unawaited(_controller.toggleTorch()),
+                );
+              },
+            ),
+          ],
+        ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            MobileScanner(
+              controller: _controller,
+              onDetect: _onDetect,
+            ),
+            IgnorePointer(
+              child: CustomPaint(
+                painter: _ScannerOverlayPainter(
+                  overlayColor: overlayColor,
+                  isSquare: widget._isQrOnly,
+                ),
               ),
             ),
           ],
         ),
-        actions: [
-          ValueListenableBuilder<MobileScannerState>(
-            valueListenable: _controller,
-            builder: (context, state, _) {
-              final isOn = state.torchState == TorchState.on;
-              return _circleIconButton(
-                icon: isOn ? Icons.flash_on : Icons.flash_off,
-                onPressed: () => unawaited(_controller.toggleTorch()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          MobileScanner(
-            controller: _controller,
-            onDetect: _onDetect,
-          ),
-          IgnorePointer(
-            child: CustomPaint(
-              painter: _ScannerOverlayPainter(
-                overlayColor: overlayColor,
-                isSquare: widget._isQrOnly,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

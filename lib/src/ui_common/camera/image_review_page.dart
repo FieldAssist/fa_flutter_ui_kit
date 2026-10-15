@@ -169,110 +169,123 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: BaseAppBar(
-        title: Text(UiCommonTexts().kPreview),
-      ),
-      body: Center(
-        child: ResponsiveContainer(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Stack(
-                children: [
-                  Positioned.fill(child: _buildImagePreview()),
-                  Positioned(
-                    top: 12,
-                    right: 12,
-                    child: _buildZoomControls(),
-                  ),
-                ],
+    return Semantics(
+      identifier: cameraSemanticIds.reviewScreen,
+      // Only with an id: explicitChildNodes reaches descendants even on an
+      // unannotated node, so it would otherwise change the tree.
+      explicitChildNodes: cameraSemanticIds.reviewScreen != null,
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: BaseAppBar(
+          title: Text(UiCommonTexts().kPreview),
+        ),
+        body: Center(
+          child: ResponsiveContainer(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Stack(
+                  children: [
+                    Positioned.fill(child: _buildImagePreview()),
+                    Positioned(
+                      top: 12,
+                      right: 12,
+                      child: _buildZoomControls(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _CircleAction(
-                  label: UiCommonTexts().kRetake,
-                  icon: Icons.rotate_left,
-                  foreground: cameraHost.primaryColor,
-                  background: UiCommonColors.kWhite,
-                  border: cameraHost.primaryColor,
-                  onTap: _openCamera,
-                ),
-                if (widget.enableRemarks &&
-                    (file != null || _remarks.isNotEmpty)) ...[
-                  const SizedBox(width: 24),
-                  _CircleAction(
-                    label: UiCommonTexts().kRemarks,
-                    icon: Icons.chat_outlined,
-                    foreground: UiCommonColors.kGreyE,
-                    background: UiCommonColors.kGreyQ,
-                    // A remark exists: the dot says so without opening the
-                    // sheet, the way an unread badge would.
-                    showDot: _remarks.isNotEmpty,
-                    onTap: _openRemarksSheet,
-                  ),
-                ],
-                if (file != null) ...[
-                  const SizedBox(width: 24),
-                  _CircleAction(
-                    label: UiCommonTexts().kCrop,
-                    icon: Icons.crop,
-                    foreground: UiCommonColors.kGreyE,
-                    background: UiCommonColors.kGreyQ,
-                    onTap: _cropImage,
-                  ),
-                ],
-              ],
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              // Transparent button over an Ink fill so the tenant gradient (or
-              // primary colour when none is configured) shows through.
-              child: Ink(
-                decoration: BoxDecoration(
-                  gradient: cameraHost.primaryGradient,
-                  color: cameraHost.primaryColor,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ElevatedButton.icon(
-                  onPressed: _keepImage,
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: UiCommonColors.kWhite,
-                    backgroundColor: UiCommonColors.kTransparent,
-                    shadowColor: UiCommonColors.kTransparent,
-                    elevation: 0,
-                    // minimumSize, never a fixed height, so accessibility text
-                    // scaling can grow the button instead of clipping its label.
-                    minimumSize: const Size.fromHeight(52),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+        bottomNavigationBar: SafeArea(
+          minimum: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Semantics(
+                    identifier: cameraSemanticIds.reviewRetakeButton,
+                    child: _CircleAction(
+                      label: UiCommonTexts().kRetake,
+                      icon: Icons.rotate_left,
+                      foreground: cameraHost.primaryColor,
+                      background: UiCommonColors.kWhite,
+                      border: cameraHost.primaryColor,
+                      onTap: _openCamera,
                     ),
                   ),
-                  icon: const Icon(Icons.check, size: 20),
-                  label: Text(
-                    UiCommonTexts().kKeep,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                  if (widget.enableRemarks &&
+                      (file != null || _remarks.isNotEmpty)) ...[
+                    const SizedBox(width: 24),
+                    _CircleAction(
+                      label: UiCommonTexts().kRemarks,
+                      icon: Icons.chat_outlined,
+                      foreground: UiCommonColors.kGreyE,
+                      background: UiCommonColors.kGreyQ,
+                      // A remark exists: the dot says so without opening the
+                      // sheet, the way an unread badge would.
+                      showDot: _remarks.isNotEmpty,
+                      onTap: _openRemarksSheet,
+                    ),
+                  ],
+                  if (file != null) ...[
+                    const SizedBox(width: 24),
+                    _CircleAction(
+                      label: UiCommonTexts().kCrop,
+                      icon: Icons.crop,
+                      foreground: UiCommonColors.kGreyE,
+                      background: UiCommonColors.kGreyQ,
+                      onTap: _cropImage,
+                    ),
+                  ],
+                ],
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                // Transparent button over an Ink fill so the tenant gradient
+                // (or primary colour when none is configured) shows through.
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: cameraHost.primaryGradient,
+                    color: cameraHost.primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Semantics(
+                    identifier: cameraSemanticIds.reviewKeepButton,
+                    child: ElevatedButton.icon(
+                      onPressed: _keepImage,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: UiCommonColors.kWhite,
+                        backgroundColor: UiCommonColors.kTransparent,
+                        shadowColor: UiCommonColors.kTransparent,
+                        elevation: 0,
+                        // minimumSize, never a fixed height, so accessibility
+                        // text scaling can grow the button instead of clipping
+                        // its label.
+                        minimumSize: const Size.fromHeight(52),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: const Icon(Icons.check, size: 20),
+                      label: Text(
+                        UiCommonTexts().kKeep,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

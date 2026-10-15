@@ -20,6 +20,7 @@ class CommonButtonV2 extends StatefulWidget {
     this.margin,
     this.child,
     this.enabled = true,
+    this.identifier,
     super.key,
   }) : _borderColor = enabled ? color : UiCommonColors.kWhite;
 
@@ -40,6 +41,11 @@ class CommonButtonV2 extends StatefulWidget {
   final Widget? child;
   final bool enabled;
 
+  /// Optional `Semantics(identifier:)` for E2E tests — the label is
+  /// caller-supplied and often localised, so text is no stable selector.
+  /// Null adds no id, so callers are unaffected.
+  final String? identifier;
+
   @override
   FaState<CommonButtonV2> createState() => _CommonButtonV2State();
 }
@@ -48,61 +54,64 @@ class _CommonButtonV2State extends FaState<CommonButtonV2> {
   @override
   Widget build(BuildContext context) {
     //TODO: this needs to be removed
-    return GestureDetector(
-      onTap: () => widget.enabled ? asyncDebounce(widget.onPressed) : null,
-      child: widget.child ??
-          Container(
-            height: widget.height,
-            width: widget.width,
-            margin: widget.margin,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: widget.enabled
-                  ? (widget.showborder ? UiCommonColors.kWhite : widget.color)
-                  : (widget.showborder
-                      ? null
-                      : Theme.of(context).disabledColor),
-              gradient: widget.enabled ? widget.gradient : null,
-              border: widget.showborder
-                  ? Border.all(
-                      color: widget.enabled
-                          ? widget._borderColor ?? UiCommonColors.kBlack
-                          : Theme.of(context).disabledColor,
-                    )
-                  : null,
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (widget.iconLeading)
-                    widget.icon ?? const SizedBox.shrink()
-                  else
-                    Flexible(
-                      child: Text(
-                        widget.text ?? '',
-                        style: widget.style ?? textStyle(),
+    return Semantics(
+      identifier: widget.identifier,
+      child: GestureDetector(
+        onTap: () => widget.enabled ? asyncDebounce(widget.onPressed) : null,
+        child: widget.child ??
+            Container(
+              height: widget.height,
+              width: widget.width,
+              margin: widget.margin,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                color: widget.enabled
+                    ? (widget.showborder ? UiCommonColors.kWhite : widget.color)
+                    : (widget.showborder
+                        ? null
+                        : Theme.of(context).disabledColor),
+                gradient: widget.enabled ? widget.gradient : null,
+                border: widget.showborder
+                    ? Border.all(
+                        color: widget.enabled
+                            ? widget._borderColor ?? UiCommonColors.kBlack
+                            : Theme.of(context).disabledColor,
+                      )
+                    : null,
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.iconLeading)
+                      widget.icon ?? const SizedBox.shrink()
+                    else
+                      Flexible(
+                        child: Text(
+                          widget.text ?? '',
+                          style: widget.style ?? textStyle(),
+                        ),
                       ),
-                    ),
-                  // add space between text and icon only when required
-                  if (widget.icon != null)
-                    const SizedBox(
-                      width: 8,
-                    ),
-                  if (widget.iconLeading)
-                    Flexible(
-                      child: Text(
-                        widget.text ?? '',
-                        style: widget.style ?? textStyle(),
+                    // add space between text and icon only when required
+                    if (widget.icon != null)
+                      const SizedBox(
+                        width: 8,
                       ),
-                    )
-                  else
-                    widget.icon ?? const SizedBox.shrink(),
-                ],
+                    if (widget.iconLeading)
+                      Flexible(
+                        child: Text(
+                          widget.text ?? '',
+                          style: widget.style ?? textStyle(),
+                        ),
+                      )
+                    else
+                      widget.icon ?? const SizedBox.shrink(),
+                  ],
+                ),
               ),
             ),
-          ),
+      ),
     );
   }
 
