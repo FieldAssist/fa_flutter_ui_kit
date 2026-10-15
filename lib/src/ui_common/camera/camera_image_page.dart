@@ -360,6 +360,7 @@ class CameraImagePageState extends State<CameraImagePage> {
   }
 
   Widget get _imgCaptureBtn => ImageCaptureButton(
+        identifier: cameraSemanticIds.shutterButton,
         onTakePhoto: () async {
           if (_capturing || !mounted) {
             return;

@@ -8,11 +8,16 @@ class ImageCaptureButton extends StatelessWidget {
     required this.onTakePhoto,
     this.buttonText,
     this.enabled = true,
+    this.identifier,
   });
 
   final String? buttonText;
   final VoidCallback onTakePhoto;
   final bool enabled;
+
+  /// Optional `Semantics(identifier:)` on the shutter, for E2E tests. Null
+  /// adds no id, so callers are unaffected.
+  final String? identifier;
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +25,21 @@ class ImageCaptureButton extends StatelessWidget {
       height: 100,
       child: Column(
         children: <Widget>[
-          FloatingActionButton(
-            heroTag: null,
-            backgroundColor: UiCommonColors.kWhite,
-            //Image.asset('assets/icons/photo-camera.svg', width: 46, height: 46,),
-            // Provide an onPressed callback.
-            onPressed: enabled ? onTakePhoto : null,
-            child: Icon(
-              Icons.camera_alt_rounded,
-              color:
-                  !enabled ? UiCommonColors.kGrey500 : UiCommonColors.kBlack54,
-              size: 36,
+          Semantics(
+            identifier: identifier,
+            child: FloatingActionButton(
+              heroTag: null,
+              backgroundColor: UiCommonColors.kWhite,
+              //Image.asset('assets/icons/photo-camera.svg', width: 46, height: 46,),
+              // Provide an onPressed callback.
+              onPressed: enabled ? onTakePhoto : null,
+              child: Icon(
+                Icons.camera_alt_rounded,
+                color: !enabled
+                    ? UiCommonColors.kGrey500
+                    : UiCommonColors.kBlack54,
+                size: 36,
+              ),
             ),
           ),
           SizedBox(height: 10),
