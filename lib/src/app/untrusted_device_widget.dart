@@ -8,6 +8,7 @@ class UntrustedDeviceWidget extends StatelessWidget {
   final bool isAutoTimeEnabled;
   final bool isJailBroken;
   final bool isRealDevice;
+  final bool isInstalledFromStore;
 
   const UntrustedDeviceWidget({
     Key? key,
@@ -16,6 +17,7 @@ class UntrustedDeviceWidget extends StatelessWidget {
     required this.isAutoTimeEnabled,
     required this.isJailBroken,
     required this.isRealDevice,
+    this.isInstalledFromStore = true,
   }) : super(key: key);
 
   @override
@@ -88,6 +90,15 @@ class UntrustedDeviceWidget extends StatelessWidget {
                     onTap: () => AppSettings.openAppSettings(
                         type: AppSettingsType.security, asAnotherTask: true),
                     icon: Icons.phone_iphone,
+                  ),
+                if (!isInstalledFromStore)
+                  _buildSettingItem(
+                    title: 'App not installed from Play Store',
+                    description:
+                        'Please install the app from the Play Store.\n1. Tap Open Settings and uninstall this app\n2. Install it again from the Play Store',
+                    onTap: () => AppSettings.openAppSettings(
+                        type: AppSettingsType.settings, asAnotherTask: true),
+                    icon: Icons.shop,
                   ),
               ],
             ),
