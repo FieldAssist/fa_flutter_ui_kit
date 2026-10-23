@@ -3,9 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-import '../config/ui_common_colors.dart';
-import '../config/ui_common_texts.dart';
-
 /// Sideways rotation from upright portrait in degrees, from accelerometer
 /// gravity: 0 upright, ±90 landscape, ±180 upside-down. Leaning forward or
 /// back does not change it. Null when the phone is within 30° of flat, where
@@ -78,41 +75,5 @@ class _TiltGuardState extends State<TiltGuard> {
         initialData: true,
         builder: (context, snapshot) =>
             widget.builder(context, snapshot.hasError || snapshot.data!),
-      );
-}
-
-/// "Hold your phone straight" over a camera preview, announced to screen
-/// readers when it appears.
-class TiltWarningBanner extends StatelessWidget {
-  const TiltWarningBanner({super.key});
-
-  @override
-  Widget build(BuildContext context) => Semantics(
-        liveRegion: true,
-        child: Container(
-          margin: const EdgeInsets.all(12),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          constraints: const BoxConstraints(minHeight: 44),
-          decoration: BoxDecoration(
-            color: UiCommonColors.kBlack87,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.screen_rotation_outlined,
-                color: UiCommonColors.kWhite,
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  UiCommonTexts().kHoldPhoneStraight,
-                  style: const TextStyle(color: UiCommonColors.kWhite),
-                ),
-              ),
-            ],
-          ),
-        ),
       );
 }

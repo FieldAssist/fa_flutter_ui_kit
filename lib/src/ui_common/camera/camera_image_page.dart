@@ -15,7 +15,7 @@ import '../config/ui_common_texts.dart';
 import '../image_file_utils.dart';
 import '../logger.dart';
 import 'camera_host.dart';
-import 'tilt_guard.dart';
+import 'camera_guide.dart';
 import 'widgets/camera_switch_button.dart';
 import 'widgets/image_capture_button.dart';
 
@@ -32,7 +32,7 @@ class CameraImagePage extends StatefulWidget {
     this.title,
     this.showZoomControls = false,
     this.useCunningScanner = false,
-    this.maxRollDegrees,
+    this.guide,
     Key? key,
   }) : super(key: key);
 
@@ -46,9 +46,9 @@ class CameraImagePage extends StatefulWidget {
   final bool showZoomControls;
   final bool useCunningScanner;
 
-  /// When set, the shutter is disabled and a "hold straight" banner shows
-  /// while the phone is rolled past this many degrees from upright.
-  final double? maxRollDegrees;
+  /// Adds a Guide button and the capture guide overlay; the shutter is
+  /// disabled while the phone is tilted. Null keeps the plain camera.
+  final CameraGuideConfig? guide;
 
   @override
   CameraImagePageState createState() => CameraImagePageState();
@@ -88,20 +88,29 @@ class CameraImagePageState extends State<CameraImagePage> {
 
   @override
   Widget build(BuildContext context) {
-    final maxRoll = widget.maxRollDegrees;
-    return maxRoll == null
+    final guide = widget.guide;
+    return guide == null
         ? _page(isLevel: true)
-        : TiltGuard(
-            maxRollDegrees: maxRoll,
-            builder: (_, isLevel) => _page(isLevel: isLevel),
+        : CameraGuide(
+            config: guide,
+            builder: (_, state) => _page(
+              isLevel: state.isLevel,
+              overlay: state.overlay,
+              openGuide: state.openGuide,
+            ),
           );
   }
 
-  Widget _page({required bool isLevel}) {
+  Widget _page({
+    required bool isLevel,
+    Widget? overlay,
+    VoidCallback? openGuide,
+  }) {
     return Scaffold(
       appBar: BaseAppBar(
         title: Text(widget.title ?? UiCommonTexts().kTakePicture),
         actions: [
+          if (openGuide != null) CameraGuideButton(onPressed: openGuide),
           if (widget.useCunningScanner)
             IconButton(
               icon: const Icon(Icons.document_scanner),
@@ -158,13 +167,6 @@ class CameraImagePageState extends State<CameraImagePage> {
                       ),
                     ),
                   ),
-                if (!isLevel)
-                  const Positioned(
-                    top: 8,
-                    left: 0,
-                    right: 0,
-                    child: Center(child: TiltWarningBanner()),
-                  ),
                 // Zoom controls
                 if (_isZoomSupported)
                   Positioned(
@@ -175,6 +177,7 @@ class CameraImagePageState extends State<CameraImagePage> {
                       child: _buildZoomControls(),
                     ),
                   ),
+                if (overlay != null) Positioned.fill(child: overlay),
               ],
             );
           }
@@ -384,6 +387,7 @@ class CameraImagePageState extends State<CameraImagePage> {
 
   Widget _imgCaptureBtn(bool isLevel) => ImageCaptureButton(
         enabled: isLevel,
+        emphasizeState: widget.guide != null,
         identifier: cameraSemanticIds.shutterButton,
         onTakePhoto: () async {
           if (_capturing || !mounted) {

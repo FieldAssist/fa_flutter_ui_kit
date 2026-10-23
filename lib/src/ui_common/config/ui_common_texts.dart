@@ -28,8 +28,7 @@ class UiCommonTexts {
   String get errorSomethingWentWrong =>
       _tr("errorSomethingWentWrong") ?? "Oops! Something went wrong.";
 
-  String get kHoldPhoneStraight =>
-      _tr("kHoldPhoneStraight") ?? "Hold your phone straight";
+  String get kGuide => _tr("kGuide") ?? "Guide";
 
   String get kKeep => _tr("kKeep") ?? "Keep";
 

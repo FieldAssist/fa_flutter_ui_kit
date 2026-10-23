@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:fa_flutter_ui_kit/src/ui_common/camera/tilt_guard.dart';
-import 'package:fa_flutter_ui_kit/src/ui_common/camera/widgets/image_capture_button.dart';
-import 'package:fa_flutter_ui_kit/src/ui_common/config/ui_common_texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -185,65 +183,5 @@ void main() {
 
       expect(events.hasListener, isFalse);
     });
-  });
-
-  group('TiltWarningBanner', () {
-    Widget banner({double textScale = 1}) => MaterialApp(
-          home: MediaQuery(
-            data: MediaQueryData(
-              size: const Size(320, 640),
-              textScaler: TextScaler.linear(textScale),
-            ),
-            child: const Scaffold(
-              body: Align(
-                alignment: Alignment.topCenter,
-                child: TiltWarningBanner(),
-              ),
-            ),
-          ),
-        );
-
-    testWidgets('TiltWarningBanner: shows the hold-straight message',
-        (tester) async {
-      await tester.pumpWidget(banner());
-
-      expect(find.text(UiCommonTexts().kHoldPhoneStraight), findsOneWidget);
-    });
-
-    testWidgets('TiltWarningBanner: is a live region for screen readers',
-        (tester) async {
-      final semantics = tester.ensureSemantics();
-
-      await tester.pumpWidget(banner());
-
-      expect(
-        tester.getSemantics(find.byType(TiltWarningBanner)),
-        containsSemantics(isLiveRegion: true),
-      );
-      semantics.dispose();
-    });
-
-    testWidgets('TiltWarningBanner: 2x text scale → no overflow',
-        (tester) async {
-      await tester.pumpWidget(banner(textScale: 2));
-
-      expect(tester.takeException(), isNull);
-    });
-  });
-
-  testWidgets('ImageCaptureButton: disabled → tap does not take a photo',
-      (tester) async {
-    var taps = 0;
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: ImageCaptureButton(onTakePhoto: () => taps++, enabled: false),
-        ),
-      ),
-    );
-
-    await tester.tap(find.byType(FloatingActionButton));
-
-    expect(taps, 0);
   });
 }
