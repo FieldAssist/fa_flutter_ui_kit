@@ -26,6 +26,7 @@ dependencies:
   image_cropper: ^11.0.0
   mobile_scanner: ^7.4.0
   path: ^1.9.1
+  sensors_plus: 6.1.2
 
   # Core
   fa_flutter_core:
