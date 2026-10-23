@@ -4,23 +4,16 @@ import 'package:sensors_plus/sensors_plus.dart';
 import '../config/ui_common_texts.dart';
 import 'tilt_guard.dart';
 
-/// A capture guide for a camera screen: an overlay [guide] shown on request,
-/// on open when [showOnOpen], and forced while the phone is rolled past
+/// A capture guide for a camera screen: an overlay [guide] the user opens
+/// with the Guide button, also forced while the phone is rolled past
 /// [maxRollDegrees].
 class CameraGuideConfig {
-  const CameraGuideConfig({
-    required this.maxRollDegrees,
-    required this.guide,
-    this.showOnOpen = false,
-  });
+  const CameraGuideConfig({required this.maxRollDegrees, required this.guide});
 
   final double maxRollDegrees;
 
-  /// Builds the overlay, which fills the camera preview and draws its own
-  /// scrim. It calls `onFinished` once it has played through once: a guide
-  /// the user opened (or shown on open) then closes; a tilt-forced one stays.
-  final Widget Function(VoidCallback onFinished) guide;
-  final bool showOnOpen;
+  /// Fills the camera preview; draws its own scrim. Loops while shown.
+  final Widget guide;
 }
 
 class CameraGuideState {
@@ -36,13 +29,14 @@ class CameraGuideState {
   /// The guide to stack over the preview, or null when hidden.
   final Widget? overlay;
 
-  /// Shows the guide until the user taps it away.
+  /// Shows the guide until the user closes it.
   final VoidCallback openGuide;
 }
 
 /// Builds the camera screen with the guide's current [CameraGuideState]. A
-/// guide the user opened (or [CameraGuideConfig.showOnOpen]) is dismissed by
-/// a tap; one forced by a tilt ignores taps and hides once the phone is level.
+/// guide the user opened loops until OK or a tap closes it; one forced by a
+/// tilt has no OK, ignores taps and closes once the phone is level. Leaving
+/// the app closes both, and nothing plays or listens while it is away.
 class CameraGuide extends StatefulWidget {
   const CameraGuide({
     required this.config,
@@ -61,14 +55,56 @@ class CameraGuide extends StatefulWidget {
   State<CameraGuide> createState() => _CameraGuideState();
 }
 
-class _CameraGuideState extends State<CameraGuide> {
-  late bool _requested = widget.config.showOnOpen;
+class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
+  bool _requested = false;
 
-  void _closeRequested() {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      _close();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void _close() {
     if (mounted && _requested) {
       setState(() => _requested = false);
     }
   }
+
+  Widget _overlay({required bool closable}) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: closable ? _close : null,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            widget.config.guide,
+            if (closable)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 24,
+                child: Center(
+                  child: FilledButton(
+                    onPressed: _close,
+                    child: Text(UiCommonTexts().kOk),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => TiltGuard(
@@ -78,15 +114,8 @@ class _CameraGuideState extends State<CameraGuide> {
           context,
           CameraGuideState(
             isLevel: isLevel,
-            overlay: _requested || !isLevel
-                ? GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: isLevel ? _closeRequested : null,
-                    child: SizedBox.expand(
-                      child: widget.config.guide(_closeRequested),
-                    ),
-                  )
-                : null,
+            overlay:
+                _requested || !isLevel ? _overlay(closable: isLevel) : null,
             openGuide: () => setState(() => _requested = true),
           ),
         ),

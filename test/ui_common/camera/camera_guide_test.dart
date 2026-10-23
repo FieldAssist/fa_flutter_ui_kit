@@ -19,30 +19,19 @@ void main() {
   group('CameraGuide', () {
     late StreamController<AccelerometerEvent> events;
 
-    setUp(() => events = StreamController<AccelerometerEvent>());
+    setUp(() => events = StreamController<AccelerometerEvent>.broadcast());
 
     tearDown(() => events.close());
 
-    Future<void> pump(WidgetTester tester, {bool showOnOpen = false}) =>
-        tester.pumpWidget(
+    Future<void> pump(WidgetTester tester) => tester.pumpWidget(
           MaterialApp(
             home: CameraGuide(
-              config: CameraGuideConfig(
+              config: const CameraGuideConfig(
                 maxRollDegrees: 10,
-                guide: (onFinished) => ColoredBox(
+                guide: ColoredBox(
                   color: Colors.black54,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('GUIDE'),
-                      TextButton(
-                        onPressed: onFinished,
-                        child: const Text('played once'),
-                      ),
-                    ],
-                  ),
+                  child: Center(child: Text('GUIDE')),
                 ),
-                showOnOpen: showOnOpen,
               ),
               events: events.stream,
               builder: (_, state) => Stack(
@@ -71,34 +60,48 @@ void main() {
       await tester.pump();
     }
 
-    testWidgets('CameraGuide: showOnOpen → guide visible on open',
-        (tester) async {
-      await pump(tester, showOnOpen: true);
-
-      expect(find.text('GUIDE'), findsOneWidget);
-    });
-
-    testWidgets('CameraGuide: shown on open, tap → dismissed', (tester) async {
-      await pump(tester, showOnOpen: true);
-
-      await tester.tap(find.text('GUIDE'));
-      await tester.pump();
-
-      expect(find.text('GUIDE'), findsNothing);
-    });
-
-    testWidgets('CameraGuide: showOnOpen false → no guide', (tester) async {
-      await pump(tester);
-
-      expect(find.text('GUIDE'), findsNothing);
-    });
-
-    testWidgets('CameraGuide: openGuide → visible, tap → dismissed',
-        (tester) async {
-      await pump(tester);
+    Future<void> openGuide(WidgetTester tester) async {
       await tester.tap(find.text('open'));
       await tester.pump();
+    }
+
+    Future<void> lifecycle(WidgetTester tester, AppLifecycleState s) async {
+      tester.binding.handleAppLifecycleStateChanged(s);
+      await tester.pump();
+    }
+
+    final ok = find.text(UiCommonTexts().kOk);
+
+    testWidgets('CameraGuide: camera opens → no guide', (tester) async {
+      await pump(tester);
+
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: Guide tapped → guide with an OK button',
+        (tester) async {
+      await pump(tester);
+
+      await openGuide(tester);
+
       expect(find.text('GUIDE'), findsOneWidget);
+      expect(ok, findsOneWidget);
+    });
+
+    testWidgets('CameraGuide: opened by Guide, OK → closed', (tester) async {
+      await pump(tester);
+      await openGuide(tester);
+
+      await tester.tap(ok);
+      await tester.pump();
+
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: opened by Guide, tap anywhere → closed',
+        (tester) async {
+      await pump(tester);
+      await openGuide(tester);
 
       await tester.tap(find.text('GUIDE'));
       await tester.pump();
@@ -106,13 +109,25 @@ void main() {
       expect(find.text('GUIDE'), findsNothing);
     });
 
-    testWidgets('CameraGuide: tilted 30° → guide shown, not level',
+    testWidgets('CameraGuide: opened by Guide, left alone → keeps looping',
+        (tester) async {
+      await pump(tester);
+      await openGuide(tester);
+
+      await tester.pump(const Duration(minutes: 1));
+
+      expect(find.text('GUIDE'), findsOneWidget);
+    });
+
+    testWidgets('CameraGuide: tilted 30° → guide, no OK, not level',
         (tester) async {
       await pump(tester);
 
       await tilt(tester, 30);
 
       expect(find.text('GUIDE'), findsOneWidget);
+      // a tilt-forced guide closes by straightening, not by a button
+      expect(ok, findsNothing);
       expect(find.text('level=false'), findsOneWidget);
     });
 
@@ -123,11 +138,10 @@ void main() {
       await tester.tap(find.text('GUIDE'));
       await tester.pump();
 
-      // a tilt-forced guide cannot be skipped
       expect(find.text('GUIDE'), findsOneWidget);
     });
 
-    testWidgets('CameraGuide: tilted then straight → guide hides itself',
+    testWidgets('CameraGuide: tilted then straight → guide closes itself',
         (tester) async {
       await pump(tester);
       await tilt(tester, 30);
@@ -149,85 +163,82 @@ void main() {
     });
 
     testWidgets(
-        'CameraGuide: opened by button, tilted, straight → stays until tapped',
+        'CameraGuide: opened by Guide, tilted, straight → stays with OK',
         (tester) async {
       await pump(tester);
-      await tester.tap(find.text('open'));
+      await openGuide(tester);
       await tilt(tester, 30);
 
       await tilt(tester, 0);
 
-      // the user asked for it and has not dismissed it yet
+      // the user asked for it and has not closed it yet
       expect(find.text('GUIDE'), findsOneWidget);
-    });
-
-    testWidgets('CameraGuide: opened by button, tap while tilted → stays',
-        (tester) async {
-      await pump(tester);
-      await tester.tap(find.text('open'));
-      await tilt(tester, 30);
-
-      await tester.tap(find.text('GUIDE'));
-      await tester.pump();
-
-      expect(find.text('GUIDE'), findsOneWidget);
-    });
-
-    testWidgets('CameraGuide: shown on open, played once → closes itself',
-        (tester) async {
-      await pump(tester, showOnOpen: true);
-
-      await tester.tap(find.text('played once'));
-      await tester.pump();
-
-      expect(find.text('GUIDE'), findsNothing);
-    });
-
-    testWidgets('CameraGuide: opened by button, played once → closes itself',
-        (tester) async {
-      await pump(tester);
-      await tester.tap(find.text('open'));
-      await tester.pump();
-
-      await tester.tap(find.text('played once'));
-      await tester.pump();
-
-      expect(find.text('GUIDE'), findsNothing);
-    });
-
-    testWidgets('CameraGuide: tilted, played once → keeps showing',
-        (tester) async {
-      await pump(tester);
-      await tilt(tester, 30);
-
-      await tester.tap(find.text('played once'));
-      await tester.pump();
-
-      // a tilt-forced guide loops until the phone is straight
-      expect(find.text('GUIDE'), findsOneWidget);
-    });
-
-    testWidgets(
-        'CameraGuide: button-opened, tilted, played once, straight → closed',
-        (tester) async {
-      await pump(tester);
-      await tester.tap(find.text('open'));
-      await tilt(tester, 30);
-      await tester.tap(find.text('played once'));
-      await tester.pump();
-
-      await tilt(tester, 0);
-
-      expect(find.text('GUIDE'), findsNothing);
+      expect(ok, findsOneWidget);
     });
 
     testWidgets('CameraGuide: sensor error → level, no guide', (tester) async {
       await pump(tester);
 
       events.addError(Exception('no accelerometer'));
-      // a stream error reaches the builder one frame after the event
       await tester.pump();
       await tester.pump();
+
+      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: app backgrounded → sensor released',
+        (tester) async {
+      await pump(tester);
+
+      await lifecycle(tester, AppLifecycleState.paused);
+
+      expect(events.hasListener, isFalse);
+    });
+
+    testWidgets('CameraGuide: app back in foreground → sensor listened again',
+        (tester) async {
+      await pump(tester);
+      await lifecycle(tester, AppLifecycleState.paused);
+
+      await lifecycle(tester, AppLifecycleState.resumed);
+
+      expect(events.hasListener, isTrue);
+    });
+
+    testWidgets(
+        'CameraGuide: tilted, backgrounded and back → closed until next reading',
+        (tester) async {
+      await pump(tester);
+      await tilt(tester, 30);
+      // a paused app draws no frames, so check once it is back
+      await lifecycle(tester, AppLifecycleState.paused);
+
+      await lifecycle(tester, AppLifecycleState.resumed);
+
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: opened by Guide, app backgrounded → closed',
+        (tester) async {
+      await pump(tester);
+      await openGuide(tester);
+      await lifecycle(tester, AppLifecycleState.paused);
+
+      await lifecycle(tester, AppLifecycleState.resumed);
+
+      // nothing left playing behind or after the background trip
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: backgrounded while tilted, resumed level → ok',
+        (tester) async {
+      await pump(tester);
+      await tilt(tester, 30);
+      await lifecycle(tester, AppLifecycleState.paused);
+      await lifecycle(tester, AppLifecycleState.resumed);
+
+      await tilt(tester, 0);
 
       expect(find.text('level=true'), findsOneWidget);
       expect(find.text('GUIDE'), findsNothing);

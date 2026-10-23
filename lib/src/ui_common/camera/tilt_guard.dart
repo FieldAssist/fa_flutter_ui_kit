@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ bool nextIsLevel({
 /// Rebuilds [builder] with whether the phone is held within
 /// [maxRollDegrees] of upright. Level until the first reading and whenever
 /// the sensor errors, so a phone without an accelerometer is never blocked.
+/// The sensor is listened to only while the app is in the foreground.
 class TiltGuard extends StatefulWidget {
   const TiltGuard({
     required this.maxRollDegrees,
@@ -51,29 +53,58 @@ class TiltGuard extends StatefulWidget {
   State<TiltGuard> createState() => _TiltGuardState();
 }
 
-class _TiltGuardState extends State<TiltGuard> {
-  late final Stream<bool> _isLevel = _levelStream();
+class _TiltGuardState extends State<TiltGuard> with WidgetsBindingObserver {
+  late final Stream<AccelerometerEvent> _events = widget.events ??
+      accelerometerEventStream(samplingPeriod: SensorInterval.uiInterval);
+  StreamSubscription<AccelerometerEvent>? _subscription;
+  bool _isLevel = true;
 
-  Stream<bool> _levelStream() {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _listen();
+  }
+
+  void _listen() {
     var level = true;
-    final events = widget.events ??
-        accelerometerEventStream(samplingPeriod: SensorInterval.uiInterval);
-    return events
-        .map(
-          (e) => level = nextIsLevel(
-            wasLevel: level,
-            roll: rollDegrees(e.x, e.y, e.z),
-            max: widget.maxRollDegrees,
-          ),
-        )
-        .distinct();
+    _subscription ??= _events.listen(
+      (e) {
+        level = nextIsLevel(
+          wasLevel: level,
+          roll: rollDegrees(e.x, e.y, e.z),
+          max: widget.maxRollDegrees,
+        );
+        _show(level);
+      },
+      onError: (Object _) => _show(true),
+    );
+  }
+
+  void _release() {
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    _show(true);
+  }
+
+  // Only flips between level and tilted rebuild; readings in between do not.
+  void _show(bool level) {
+    if (mounted && level != _isLevel) {
+      setState(() => _isLevel = level);
+    }
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<bool>(
-        stream: _isLevel,
-        initialData: true,
-        builder: (context, snapshot) =>
-            widget.builder(context, snapshot.hasError || snapshot.data!),
-      );
+  void didChangeAppLifecycleState(AppLifecycleState state) =>
+      state == AppLifecycleState.resumed ? _listen() : _release();
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(_subscription?.cancel());
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.builder(context, _isLevel);
 }
