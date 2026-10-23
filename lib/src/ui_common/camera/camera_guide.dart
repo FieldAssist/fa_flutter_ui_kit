@@ -1,52 +1,36 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import '../config/ui_common_texts.dart';
 import 'tilt_guard.dart';
 
-/// A capture guide for a camera screen: an overlay [guide] the user opens
-/// with the Guide button, also forced while the phone is rolled past
-/// [maxRollDegrees].
-class CameraGuideConfig {
-  const CameraGuideConfig({required this.maxRollDegrees, required this.guide});
+const _maxRollDegrees = 10.0;
 
-  final double maxRollDegrees;
-
-  /// Fills the camera preview; draws its own scrim. Loops while shown.
-  final Widget guide;
-}
-
-class CameraGuideState {
-  const CameraGuideState({
-    required this.isLevel,
-    required this.overlay,
-    required this.openGuide,
-  });
-
-  /// False while tilted; the shutter should be disabled.
-  final bool isLevel;
-
-  /// The guide to stack over the preview, or null when hidden.
-  final Widget? overlay;
-
-  /// Shows the guide until the user closes it.
-  final VoidCallback openGuide;
-}
-
-/// Builds the camera screen with the guide's current [CameraGuideState]. A
-/// guide the user opened loops until a tap closes it; one forced by a tilt
-/// ignores taps and closes once the phone is level. Leaving
-/// the app closes both, and nothing plays or listens while it is away.
+/// Builds a camera screen with a capture [guide]: the overlay the user opens
+/// with the Guide button (looping until a tap closes it), also forced while
+/// the phone is rolled more than 10° (ignoring taps, closing once level).
+/// Leaving the app closes it and releases the sensor. A null [guide] is the
+/// plain camera: always level, no overlay, no Guide button, no sensor.
 class CameraGuide extends StatefulWidget {
   const CameraGuide({
-    required this.config,
+    required this.guide,
     required this.builder,
     this.events,
     super.key,
   });
 
-  final CameraGuideConfig config;
-  final Widget Function(BuildContext context, CameraGuideState state) builder;
+  /// Fills the camera preview; draws its own scrim.
+  final Widget? guide;
+
+  /// [overlay] goes over the preview; [openGuide] is null without a guide.
+  final Widget Function(
+    BuildContext context,
+    bool isLevel,
+    Widget? overlay,
+    VoidCallback? openGuide,
+  ) builder;
 
   /// Accelerometer readings; the device sensor when null.
   final Stream<AccelerometerEvent>? events;
@@ -56,53 +40,83 @@ class CameraGuide extends StatefulWidget {
 }
 
 class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
+  late final Stream<AccelerometerEvent> _events = widget.events ??
+      accelerometerEventStream(samplingPeriod: SensorInterval.uiInterval);
+  StreamSubscription<AccelerometerEvent>? _subscription;
+  bool _isLevel = true;
   bool _requested = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    if (widget.guide != null) {
+      WidgetsBinding.instance.addObserver(this);
+      _listen();
+    }
+  }
+
+  void _listen() {
+    var level = true;
+    _subscription ??= _events.listen(
+      (e) {
+        level = nextIsLevel(
+          wasLevel: level,
+          roll: rollDegrees(e.x, e.y, e.z),
+          max: _maxRollDegrees,
+        );
+        _setLevel(level);
+      },
+      onError: (Object _) => _setLevel(true),
+    );
+  }
+
+  // Only flips between level and tilted rebuild; readings in between do not.
+  void _setLevel(bool level) {
+    if (mounted && level != _isLevel) {
+      setState(() => _isLevel = level);
+    }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != AppLifecycleState.resumed) {
-      _close();
+    if (state == AppLifecycleState.resumed) {
+      _listen();
+      return;
     }
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    setState(() {
+      _isLevel = true;
+      _requested = false;
+    });
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    unawaited(_subscription?.cancel());
     super.dispose();
   }
 
-  void _close() {
-    if (mounted && _requested) {
-      setState(() => _requested = false);
-    }
-  }
-
-  Widget _overlay({required bool closable}) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: closable ? _close : null,
-        child: SizedBox.expand(child: widget.config.guide),
-      );
-
   @override
-  Widget build(BuildContext context) => TiltGuard(
-        maxRollDegrees: widget.config.maxRollDegrees,
-        events: widget.events,
-        builder: (context, isLevel) => widget.builder(
-          context,
-          CameraGuideState(
-            isLevel: isLevel,
-            overlay:
-                _requested || !isLevel ? _overlay(closable: isLevel) : null,
-            openGuide: () => setState(() => _requested = true),
-          ),
-        ),
-      );
+  Widget build(BuildContext context) {
+    final guide = widget.guide;
+    if (guide == null) {
+      return widget.builder(context, true, null, null);
+    }
+    return widget.builder(
+      context,
+      _isLevel,
+      _requested || !_isLevel
+          ? GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _isLevel ? () => setState(() => _requested = false) : null,
+              child: SizedBox.expand(child: guide),
+            )
+          : null,
+      () => setState(() => _requested = true),
+    );
+  }
 }
 
 /// The "? Guide" pill for a camera app bar.

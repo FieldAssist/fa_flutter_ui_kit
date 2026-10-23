@@ -1,10 +1,7 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:fa_flutter_ui_kit/src/ui_common/camera/tilt_guard.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sensors_plus/sensors_plus.dart';
 
 const _g = 9.81;
 
@@ -17,11 +14,6 @@ double _rad(double deg) => deg * pi / 180;
       y: _g * cos(_rad(pitch)) * cos(_rad(roll)),
       z: _g * sin(_rad(pitch)),
     );
-
-AccelerometerEvent _event(double roll, {double pitch = 0}) {
-  final v = _gravity(roll, pitch: pitch);
-  return AccelerometerEvent(v.x, v.y, v.z, DateTime(2026, 10, 23));
-}
 
 void main() {
   group('rollDegrees', () {
@@ -96,92 +88,6 @@ void main() {
       }
 
       expect(seen, [false, false, false, false]);
-    });
-  });
-
-  group('TiltGuard', () {
-    late StreamController<AccelerometerEvent> events;
-
-    setUp(() => events = StreamController<AccelerometerEvent>());
-
-    tearDown(() => events.close());
-
-    Widget guard() => MaterialApp(
-          home: TiltGuard(
-            maxRollDegrees: 10,
-            events: events.stream,
-            builder: (_, isLevel) => Text('level=$isLevel'),
-          ),
-        );
-
-    testWidgets('TiltGuard: no reading yet → level', (tester) async {
-      await tester.pumpWidget(guard());
-
-      expect(find.text('level=true'), findsOneWidget);
-    });
-
-    testWidgets('TiltGuard: 30° reading → tilted', (tester) async {
-      await tester.pumpWidget(guard());
-
-      events.add(_event(30));
-      await tester.pump();
-
-      expect(find.text('level=false'), findsOneWidget);
-    });
-
-    testWidgets('TiltGuard: 30° then upright → level', (tester) async {
-      await tester.pumpWidget(guard());
-
-      events
-        ..add(_event(30))
-        ..add(_event(0));
-      await tester.pump();
-
-      expect(find.text('level=true'), findsOneWidget);
-    });
-
-    testWidgets('TiltGuard: phone flat → level', (tester) async {
-      await tester.pumpWidget(guard());
-
-      events.add(AccelerometerEvent(0, 0, _g, DateTime(2026, 10, 23)));
-      await tester.pump();
-
-      expect(find.text('level=true'), findsOneWidget);
-    });
-
-    testWidgets('TiltGuard: sensor error → level, no exception',
-        (tester) async {
-      await tester.pumpWidget(guard());
-
-      events.addError(Exception('no accelerometer'));
-      // a stream error reaches the builder one frame after the event
-      await tester.pump();
-      await tester.pump();
-
-      expect(find.text('level=true'), findsOneWidget);
-      expect(tester.takeException(), isNull);
-    });
-
-    testWidgets('TiltGuard: tilted then sensor error → level', (tester) async {
-      await tester.pumpWidget(guard());
-      events.add(_event(30));
-      await tester.pump();
-
-      events.addError(Exception('sensor lost'));
-      // a stream error reaches the builder one frame after the event
-      await tester.pump();
-      await tester.pump();
-
-      expect(find.text('level=true'), findsOneWidget);
-    });
-
-    testWidgets('TiltGuard: removed from tree → stops listening',
-        (tester) async {
-      await tester.pumpWidget(guard());
-
-      await tester.pumpWidget(const SizedBox());
-
-      expect(events.hasListener, isFalse);
     });
   });
 }

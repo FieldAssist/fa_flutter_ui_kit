@@ -46,9 +46,9 @@ class CameraImagePage extends StatefulWidget {
   final bool showZoomControls;
   final bool useCunningScanner;
 
-  /// Adds a Guide button and the capture guide overlay; the shutter is
-  /// disabled while the phone is tilted. Null keeps the plain camera.
-  final CameraGuideConfig? guide;
+  /// The capture guide overlay (see [CameraGuide]); adds a Guide button and
+  /// disables the shutter while tilted. Null keeps the plain camera.
+  final Widget? guide;
 
   @override
   CameraImagePageState createState() => CameraImagePageState();
@@ -87,25 +87,15 @@ class CameraImagePageState extends State<CameraImagePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final guide = widget.guide;
-    return guide == null
-        ? _page(isLevel: true)
-        : CameraGuide(
-            config: guide,
-            builder: (_, state) => _page(
-              isLevel: state.isLevel,
-              overlay: state.overlay,
-              openGuide: state.openGuide,
-            ),
-          );
-  }
+  Widget build(BuildContext context) =>
+      CameraGuide(guide: widget.guide, builder: _page);
 
-  Widget _page({
-    required bool isLevel,
+  Widget _page(
+    BuildContext context,
+    bool isLevel,
     Widget? overlay,
     VoidCallback? openGuide,
-  }) {
+  ) {
     return Scaffold(
       appBar: BaseAppBar(
         title: Text(widget.title ?? UiCommonTexts().kTakePicture),

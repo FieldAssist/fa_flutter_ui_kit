@@ -7,7 +7,6 @@ export 'src/ui_common/camera/camera_host.dart';
 export 'src/ui_common/camera/camera_image_page.dart';
 export 'src/ui_common/camera/camera_image_picker_util.dart';
 export 'src/ui_common/camera/image_review_page.dart';
-export 'src/ui_common/camera/tilt_guard.dart';
 export 'src/ui_common/common_button.dart';
 export 'src/ui_common/common_button_v2.dart';
 export 'src/ui_common/fa_state.dart';

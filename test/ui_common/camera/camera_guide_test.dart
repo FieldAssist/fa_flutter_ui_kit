@@ -23,30 +23,30 @@ void main() {
 
     tearDown(() => events.close());
 
-    Future<void> pump(WidgetTester tester) => tester.pumpWidget(
+    Future<void> pump(WidgetTester tester, {bool withGuide = true}) =>
+        tester.pumpWidget(
           MaterialApp(
             home: CameraGuide(
-              config: const CameraGuideConfig(
-                maxRollDegrees: 10,
-                guide: ColoredBox(
-                  color: Colors.black54,
-                  child: Center(child: Text('GUIDE')),
-                ),
-              ),
+              guide: withGuide
+                  ? const ColoredBox(
+                      color: Colors.black54,
+                      child: Center(child: Text('GUIDE')),
+                    )
+                  : null,
               events: events.stream,
-              builder: (_, state) => Stack(
+              builder: (_, isLevel, overlay, openGuide) => Stack(
                 children: [
                   Column(
                     children: [
-                      Text('level=${state.isLevel}'),
-                      TextButton(
-                        onPressed: state.openGuide,
-                        child: const Text('open'),
-                      ),
+                      Text('level=$isLevel'),
+                      if (openGuide != null)
+                        TextButton(
+                          onPressed: openGuide,
+                          child: const Text('open'),
+                        ),
                     ],
                   ),
-                  if (state.overlay != null)
-                    Positioned.fill(child: state.overlay!),
+                  if (overlay != null) Positioned.fill(child: overlay),
                 ],
               ),
             ),
@@ -70,10 +70,61 @@ void main() {
       await tester.pump();
     }
 
-    testWidgets('CameraGuide: camera opens → no guide', (tester) async {
+    testWidgets('CameraGuide: camera opens → level, no guide', (tester) async {
       await pump(tester);
 
       expect(find.text('GUIDE'), findsNothing);
+      expect(find.text('level=true'), findsOneWidget);
+    });
+
+    testWidgets('CameraGuide: no guide → plain camera, no Guide action',
+        (tester) async {
+      await pump(tester, withGuide: false);
+
+      expect(find.text('open'), findsNothing);
+      expect(find.text('level=true'), findsOneWidget);
+    });
+
+    testWidgets('CameraGuide: no guide → sensor never listened to',
+        (tester) async {
+      await pump(tester, withGuide: false);
+
+      await tilt(tester, 30);
+
+      expect(events.hasListener, isFalse);
+      expect(find.text('level=true'), findsOneWidget);
+    });
+
+    testWidgets('CameraGuide: phone flat → level, no guide', (tester) async {
+      await pump(tester);
+
+      events.add(AccelerometerEvent(0, 0, 9.81, DateTime(2026, 10, 23)));
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: tilted then sensor error → level, guide gone',
+        (tester) async {
+      await pump(tester);
+      await tilt(tester, 30);
+
+      events.addError(Exception('sensor lost'));
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: camera closed → sensor released', (tester) async {
+      await pump(tester);
+
+      await tester.pumpWidget(const SizedBox());
+
+      expect(events.hasListener, isFalse);
     });
 
     testWidgets('CameraGuide: Guide tapped → guide shown', (tester) async {

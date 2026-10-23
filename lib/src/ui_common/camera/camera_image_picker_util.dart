@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
 
-import 'camera_guide.dart';
 import 'camera_image_page.dart';
 
 /// Get the image from camera directly, without native handling of the camera ;)
@@ -15,7 +14,7 @@ class CameraImagePickerUtil {
     bool useInAppCamera = false,
     bool showZoomControls = true,
     bool useCunningScanner = true,
-    CameraGuideConfig? guide,
+    Widget? guide,
   }) async {
     if (useInAppCamera) {
       return Navigator.of(context!).push<File>(

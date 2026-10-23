@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import '../config/ui_common_colors.dart';
 import '../config/ui_common_texts.dart';
 import '../image_file_utils.dart';
-import 'camera_guide.dart';
 import 'camera_host.dart';
 import 'camera_image_picker_util.dart';
 
@@ -62,7 +61,7 @@ class ImageReviewPage extends StatefulWidget {
   final MultiShotCaptureOpener? openMultiShotCapture;
 
   /// Passed to the Retake camera; see [CameraImagePage.guide].
-  final CameraGuideConfig? guide;
+  final Widget? guide;
 
   @override
   _ImageReviewPageState createState() => _ImageReviewPageState();
