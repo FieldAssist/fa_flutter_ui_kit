@@ -16,8 +16,10 @@ class CameraGuideConfig {
 
   final double maxRollDegrees;
 
-  /// Fills the camera preview; draws its own scrim.
-  final Widget guide;
+  /// Builds the overlay, which fills the camera preview and draws its own
+  /// scrim. It calls `onFinished` once it has played through once: a guide
+  /// the user opened (or shown on open) then closes; a tilt-forced one stays.
+  final Widget Function(VoidCallback onFinished) guide;
   final bool showOnOpen;
 }
 
@@ -62,6 +64,12 @@ class CameraGuide extends StatefulWidget {
 class _CameraGuideState extends State<CameraGuide> {
   late bool _requested = widget.config.showOnOpen;
 
+  void _closeRequested() {
+    if (mounted && _requested) {
+      setState(() => _requested = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => TiltGuard(
         maxRollDegrees: widget.config.maxRollDegrees,
@@ -73,10 +81,10 @@ class _CameraGuideState extends State<CameraGuide> {
             overlay: _requested || !isLevel
                 ? GestureDetector(
                     behavior: HitTestBehavior.opaque,
-                    onTap: isLevel
-                        ? () => setState(() => _requested = false)
-                        : null,
-                    child: SizedBox.expand(child: widget.config.guide),
+                    onTap: isLevel ? _closeRequested : null,
+                    child: SizedBox.expand(
+                      child: widget.config.guide(_closeRequested),
+                    ),
                   )
                 : null,
             openGuide: () => setState(() => _requested = true),

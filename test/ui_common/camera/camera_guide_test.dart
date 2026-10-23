@@ -29,9 +29,18 @@ void main() {
             home: CameraGuide(
               config: CameraGuideConfig(
                 maxRollDegrees: 10,
-                guide: const ColoredBox(
+                guide: (onFinished) => ColoredBox(
                   color: Colors.black54,
-                  child: Center(child: Text('GUIDE')),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('GUIDE'),
+                      TextButton(
+                        onPressed: onFinished,
+                        child: const Text('played once'),
+                      ),
+                    ],
+                  ),
                 ),
                 showOnOpen: showOnOpen,
               ),
@@ -162,6 +171,54 @@ void main() {
       await tester.pump();
 
       expect(find.text('GUIDE'), findsOneWidget);
+    });
+
+    testWidgets('CameraGuide: shown on open, played once → closes itself',
+        (tester) async {
+      await pump(tester, showOnOpen: true);
+
+      await tester.tap(find.text('played once'));
+      await tester.pump();
+
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: opened by button, played once → closes itself',
+        (tester) async {
+      await pump(tester);
+      await tester.tap(find.text('open'));
+      await tester.pump();
+
+      await tester.tap(find.text('played once'));
+      await tester.pump();
+
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: tilted, played once → keeps showing',
+        (tester) async {
+      await pump(tester);
+      await tilt(tester, 30);
+
+      await tester.tap(find.text('played once'));
+      await tester.pump();
+
+      // a tilt-forced guide loops until the phone is straight
+      expect(find.text('GUIDE'), findsOneWidget);
+    });
+
+    testWidgets(
+        'CameraGuide: button-opened, tilted, played once, straight → closed',
+        (tester) async {
+      await pump(tester);
+      await tester.tap(find.text('open'));
+      await tilt(tester, 30);
+      await tester.tap(find.text('played once'));
+      await tester.pump();
+
+      await tilt(tester, 0);
+
+      expect(find.text('GUIDE'), findsNothing);
     });
 
     testWidgets('CameraGuide: sensor error → level, no guide', (tester) async {
