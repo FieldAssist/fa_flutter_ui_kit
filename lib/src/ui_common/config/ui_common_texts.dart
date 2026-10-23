@@ -40,8 +40,6 @@ class UiCommonTexts {
   String get kNoInternetConnectionBanner =>
       _tr("kNoInternetConnectionBanner") ?? "No Internet Connection";
 
-  String get kOk => _tr("kOk") ?? "OK";
-
   String get kPreview => _tr("kPreview") ?? "Preview";
 
   String get kRemarks => _tr("kRemarks") ?? "Remarks";

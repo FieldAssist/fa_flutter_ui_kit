@@ -70,32 +70,18 @@ void main() {
       await tester.pump();
     }
 
-    final ok = find.text(UiCommonTexts().kOk);
-
     testWidgets('CameraGuide: camera opens → no guide', (tester) async {
       await pump(tester);
 
       expect(find.text('GUIDE'), findsNothing);
     });
 
-    testWidgets('CameraGuide: Guide tapped → guide with an OK button',
-        (tester) async {
+    testWidgets('CameraGuide: Guide tapped → guide shown', (tester) async {
       await pump(tester);
 
       await openGuide(tester);
 
       expect(find.text('GUIDE'), findsOneWidget);
-      expect(ok, findsOneWidget);
-    });
-
-    testWidgets('CameraGuide: opened by Guide, OK → closed', (tester) async {
-      await pump(tester);
-      await openGuide(tester);
-
-      await tester.tap(ok);
-      await tester.pump();
-
-      expect(find.text('GUIDE'), findsNothing);
     });
 
     testWidgets('CameraGuide: opened by Guide, tap anywhere → closed',
@@ -119,15 +105,13 @@ void main() {
       expect(find.text('GUIDE'), findsOneWidget);
     });
 
-    testWidgets('CameraGuide: tilted 30° → guide, no OK, not level',
+    testWidgets('CameraGuide: tilted 30° → guide shown, not level',
         (tester) async {
       await pump(tester);
 
       await tilt(tester, 30);
 
       expect(find.text('GUIDE'), findsOneWidget);
-      // a tilt-forced guide closes by straightening, not by a button
-      expect(ok, findsNothing);
       expect(find.text('level=false'), findsOneWidget);
     });
 
@@ -163,7 +147,7 @@ void main() {
     });
 
     testWidgets(
-        'CameraGuide: opened by Guide, tilted, straight → stays with OK',
+        'CameraGuide: opened by Guide, tilted, straight → stays until tapped',
         (tester) async {
       await pump(tester);
       await openGuide(tester);
@@ -173,7 +157,6 @@ void main() {
 
       // the user asked for it and has not closed it yet
       expect(find.text('GUIDE'), findsOneWidget);
-      expect(ok, findsOneWidget);
     });
 
     testWidgets('CameraGuide: sensor error → level, no guide', (tester) async {

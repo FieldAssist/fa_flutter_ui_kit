@@ -34,8 +34,8 @@ class CameraGuideState {
 }
 
 /// Builds the camera screen with the guide's current [CameraGuideState]. A
-/// guide the user opened loops until OK or a tap closes it; one forced by a
-/// tilt has no OK, ignores taps and closes once the phone is level. Leaving
+/// guide the user opened loops until a tap closes it; one forced by a tilt
+/// ignores taps and closes once the phone is level. Leaving
 /// the app closes both, and nothing plays or listens while it is away.
 class CameraGuide extends StatefulWidget {
   const CameraGuide({
@@ -86,24 +86,7 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
   Widget _overlay({required bool closable}) => GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: closable ? _close : null,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            widget.config.guide,
-            if (closable)
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 24,
-                child: Center(
-                  child: FilledButton(
-                    onPressed: _close,
-                    child: Text(UiCommonTexts().kOk),
-                  ),
-                ),
-              ),
-          ],
-        ),
+        child: SizedBox.expand(child: widget.config.guide),
       );
 
   @override
