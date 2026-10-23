@@ -36,6 +36,7 @@ class ImageReviewPage extends StatefulWidget {
     this.onRemarksCaptured,
     this.openRemarkEditor,
     this.openMultiShotCapture,
+    this.guide,
   })  : assert(
           !enableRemarks || openRemarkEditor != null,
           'enableRemarks needs an openRemarkEditor to open.',
@@ -58,6 +59,9 @@ class ImageReviewPage extends StatefulWidget {
 
   /// Supplied by the caller when [isMultiShotMode] is set.
   final MultiShotCaptureOpener? openMultiShotCapture;
+
+  /// Passed to the Retake camera; see [CameraImagePage.guide].
+  final Widget? guide;
 
   @override
   _ImageReviewPageState createState() => _ImageReviewPageState();
@@ -395,6 +399,7 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
       returnedFile = await CameraImagePickerUtil().getImgFileFromCamera(
         useInAppCamera: true,
         context: context,
+        guide: widget.guide,
       );
     }
 

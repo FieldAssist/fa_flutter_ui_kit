@@ -14,6 +14,7 @@ class CameraImagePickerUtil {
     bool useInAppCamera = false,
     bool showZoomControls = true,
     bool useCunningScanner = true,
+    Widget? guide,
   }) async {
     if (useInAppCamera) {
       return Navigator.of(context!).push<File>(
@@ -22,6 +23,7 @@ class CameraImagePickerUtil {
             needImageCompressed: false,
             showZoomControls: showZoomControls,
             useCunningScanner: useCunningScanner,
+            guide: guide,
           ),
         ),
       );

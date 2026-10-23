@@ -15,6 +15,7 @@ import '../config/ui_common_texts.dart';
 import '../image_file_utils.dart';
 import '../logger.dart';
 import 'camera_host.dart';
+import 'camera_guide.dart';
 import 'widgets/camera_switch_button.dart';
 import 'widgets/image_capture_button.dart';
 
@@ -31,6 +32,7 @@ class CameraImagePage extends StatefulWidget {
     this.title,
     this.showZoomControls = false,
     this.useCunningScanner = false,
+    this.guide,
     Key? key,
   }) : super(key: key);
 
@@ -43,6 +45,10 @@ class CameraImagePage extends StatefulWidget {
   final bool needImageCompressed;
   final bool showZoomControls;
   final bool useCunningScanner;
+
+  /// The capture guide overlay (see [CameraGuide]); adds a Guide button and
+  /// disables the shutter while tilted. Null keeps the plain camera.
+  final Widget? guide;
 
   @override
   CameraImagePageState createState() => CameraImagePageState();
@@ -81,11 +87,20 @@ class CameraImagePageState extends State<CameraImagePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) =>
+      CameraGuide(guide: widget.guide, builder: _page);
+
+  Widget _page(
+    BuildContext context,
+    bool isLevel,
+    Widget? overlay,
+    VoidCallback? openGuide,
+  ) {
     return Scaffold(
       appBar: BaseAppBar(
         title: Text(widget.title ?? UiCommonTexts().kTakePicture),
         actions: [
+          if (openGuide != null) CameraGuideButton(onPressed: openGuide),
           if (widget.useCunningScanner)
             IconButton(
               icon: const Icon(Icons.document_scanner),
@@ -152,6 +167,7 @@ class CameraImagePageState extends State<CameraImagePage> {
                       child: _buildZoomControls(),
                     ),
                   ),
+                if (overlay != null) Positioned.fill(child: overlay),
               ],
             );
           }
@@ -159,12 +175,12 @@ class CameraImagePageState extends State<CameraImagePage> {
       ),
       bottomNavigationBar: (cameras.length < 2 ||
               !widget.showSwitchCameraButton)
-          ? _imgCaptureBtn
+          ? _imgCaptureBtn(isLevel)
           : Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _imgCaptureBtn,
+                _imgCaptureBtn(isLevel),
                 SizedBox(width: 40),
                 CameraSwitchButton(
                   onPressed: () async {
@@ -359,7 +375,9 @@ class CameraImagePageState extends State<CameraImagePage> {
     super.dispose();
   }
 
-  Widget get _imgCaptureBtn => ImageCaptureButton(
+  Widget _imgCaptureBtn(bool isLevel) => ImageCaptureButton(
+        enabled: isLevel,
+        emphasizeState: widget.guide != null,
         identifier: cameraSemanticIds.shutterButton,
         onTakePhoto: () async {
           if (_capturing || !mounted) {
