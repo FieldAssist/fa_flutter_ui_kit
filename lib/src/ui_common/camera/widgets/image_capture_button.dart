@@ -9,6 +9,7 @@ class ImageCaptureButton extends StatelessWidget {
     this.buttonText,
     this.enabled = true,
     this.identifier,
+    this.emphasizeState = false,
   });
 
   final String? buttonText;
@@ -19,8 +20,23 @@ class ImageCaptureButton extends StatelessWidget {
   /// adds no id, so callers are unaffected.
   final String? identifier;
 
+  /// Primary when enabled, grey when disabled, so a blocked shutter reads as
+  /// off at a glance. False keeps the plain white shutter.
+  final bool emphasizeState;
+
   @override
   Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
+    final background = !emphasizeState
+        ? UiCommonColors.kWhite
+        : enabled
+            ? primary
+            : UiCommonColors.kGreyM;
+    final foreground = !enabled
+        ? UiCommonColors.kGrey500
+        : emphasizeState
+            ? UiCommonColors.kWhite
+            : UiCommonColors.kBlack54;
     return Container(
       height: 100,
       child: Column(
@@ -29,15 +45,13 @@ class ImageCaptureButton extends StatelessWidget {
             identifier: identifier,
             child: FloatingActionButton(
               heroTag: null,
-              backgroundColor: UiCommonColors.kWhite,
+              backgroundColor: background,
               //Image.asset('assets/icons/photo-camera.svg', width: 46, height: 46,),
               // Provide an onPressed callback.
               onPressed: enabled ? onTakePhoto : null,
               child: Icon(
                 Icons.camera_alt_rounded,
-                color: !enabled
-                    ? UiCommonColors.kGrey500
-                    : UiCommonColors.kBlack54,
+                color: foreground,
                 size: 36,
               ),
             ),
@@ -47,6 +61,8 @@ class ImageCaptureButton extends StatelessWidget {
             buttonText ?? UiCommonTexts().kTakePhoto,
             style: TextStyle(
               letterSpacing: 1,
+              color:
+                  emphasizeState && !enabled ? UiCommonColors.kGrey500 : null,
             ),
           ),
         ],
