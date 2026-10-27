@@ -33,7 +33,7 @@ class CameraImagePage extends StatefulWidget {
     this.showZoomControls = false,
     this.useCunningScanner = false,
     this.guide,
-    this.blockCaptureWhenTilted = true,
+    this.orientationSensitivity = OrientationSensitivity.hard,
     Key? key,
   }) : super(key: key);
 
@@ -51,8 +51,8 @@ class CameraImagePage extends StatefulWidget {
   /// disables the shutter while tilted. Null keeps the plain camera.
   final Widget? guide;
 
-  /// See [CameraGuide.blockCaptureWhenTilted].
-  final bool blockCaptureWhenTilted;
+  /// How [guide] treats a tilted phone; see [OrientationSensitivity].
+  final OrientationSensitivity orientationSensitivity;
 
   @override
   CameraImagePageState createState() => CameraImagePageState();
@@ -93,7 +93,7 @@ class CameraImagePageState extends State<CameraImagePage> {
   @override
   Widget build(BuildContext context) => CameraGuide(
         guide: widget.guide,
-        blockCaptureWhenTilted: widget.blockCaptureWhenTilted,
+        orientationSensitivity: widget.orientationSensitivity,
         builder: _page,
       );
 

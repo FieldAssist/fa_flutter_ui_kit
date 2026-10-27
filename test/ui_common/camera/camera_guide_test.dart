@@ -26,7 +26,7 @@ void main() {
     Future<void> pump(
       WidgetTester tester, {
       bool withGuide = true,
-      bool blockCaptureWhenTilted = true,
+      OrientationSensitivity sensitivity = OrientationSensitivity.hard,
     }) =>
         tester.pumpWidget(
           MaterialApp(
@@ -37,7 +37,7 @@ void main() {
                       child: Center(child: Text('GUIDE')),
                     )
                   : null,
-              blockCaptureWhenTilted: blockCaptureWhenTilted,
+              orientationSensitivity: sensitivity,
               events: events.stream,
               builder: (_, canCapture, overlay, openGuide, closeGuide) => Stack(
                 children: [
@@ -107,10 +107,10 @@ void main() {
       expect(find.text('capture=false'), findsOneWidget);
     });
 
-    group('soft (blockCaptureWhenTilted: false)', () {
+    group('soft', () {
       testWidgets('CameraGuide: soft, tilted → guide shown, can capture',
           (tester) async {
-        await pump(tester, blockCaptureWhenTilted: false);
+        await pump(tester, sensitivity: OrientationSensitivity.soft);
 
         await tilt(tester, 30);
 
@@ -120,7 +120,7 @@ void main() {
 
       testWidgets('CameraGuide: soft, tilted, shutter pressed → guide gone',
           (tester) async {
-        await pump(tester, blockCaptureWhenTilted: false);
+        await pump(tester, sensitivity: OrientationSensitivity.soft);
         await tilt(tester, 30);
 
         await pressShutter(tester);
@@ -130,7 +130,7 @@ void main() {
 
       testWidgets('CameraGuide: soft, tilted, tap guide → guide gone',
           (tester) async {
-        await pump(tester, blockCaptureWhenTilted: false);
+        await pump(tester, sensitivity: OrientationSensitivity.soft);
         await tilt(tester, 30);
 
         await tester.tap(find.text('GUIDE'));
@@ -141,7 +141,7 @@ void main() {
 
       testWidgets('CameraGuide: soft, closed, still tilted → stays closed',
           (tester) async {
-        await pump(tester, blockCaptureWhenTilted: false);
+        await pump(tester, sensitivity: OrientationSensitivity.soft);
         await tilt(tester, 30);
         await pressShutter(tester);
 
@@ -153,7 +153,7 @@ void main() {
 
       testWidgets('CameraGuide: soft, closed, straight then tilted → shown',
           (tester) async {
-        await pump(tester, blockCaptureWhenTilted: false);
+        await pump(tester, sensitivity: OrientationSensitivity.soft);
         await tilt(tester, 30);
         await pressShutter(tester);
         await tilt(tester, 0);
@@ -165,7 +165,7 @@ void main() {
 
       testWidgets('CameraGuide: soft, closed, backgrounded, tilted → shown',
           (tester) async {
-        await pump(tester, blockCaptureWhenTilted: false);
+        await pump(tester, sensitivity: OrientationSensitivity.soft);
         await tilt(tester, 30);
         await pressShutter(tester);
         await lifecycle(tester, AppLifecycleState.paused);
@@ -387,6 +387,23 @@ void main() {
       expect(find.text('capture=true'), findsOneWidget);
       expect(find.text('GUIDE'), findsNothing);
     });
+  });
+
+  group('OrientationSensitivity.parse', () {
+    for (final (value, expected) in [
+      ('soft', OrientationSensitivity.soft),
+      ('Soft', OrientationSensitivity.soft),
+      (' SOFT ', OrientationSensitivity.soft),
+      ('hard', OrientationSensitivity.hard),
+      ('Hard ', OrientationSensitivity.hard),
+      (null, OrientationSensitivity.hard),
+      ('', OrientationSensitivity.hard),
+      ('medium', OrientationSensitivity.hard),
+    ]) {
+      test('OrientationSensitivity.parse: "$value" → ${expected.name}', () {
+        expect(OrientationSensitivity.parse(value), expected);
+      });
+    }
   });
 
   group('CameraGuideButton', () {

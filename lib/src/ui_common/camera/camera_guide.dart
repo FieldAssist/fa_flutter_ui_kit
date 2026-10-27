@@ -8,17 +8,32 @@ import 'tilt_guard.dart';
 
 const _maxRollDegrees = 10.0;
 
+/// How a camera with a capture guide treats a phone rolled past 10°.
+enum OrientationSensitivity {
+  /// The shutter stays on; the guide only hints, and a tap or the shutter
+  /// closes it until the phone has been level again.
+  soft,
+
+  /// The shutter is off and the guide ignores taps until the phone is level.
+  hard;
+
+  /// [value] by name, ignoring case and surrounding spaces; anything else,
+  /// including null, is [hard].
+  static OrientationSensitivity parse(String? value) =>
+      values.asNameMap()[value?.trim().toLowerCase()] ?? hard;
+}
+
 /// Builds a camera screen with a capture [guide]: the overlay the user opens
 /// with the Guide button (looping until a tap or the shutter closes it), also
 /// shown while the phone is rolled more than 10° (see
-/// [blockCaptureWhenTilted]); a tilt guide closes by itself once level.
+/// [orientationSensitivity]); a tilt guide closes by itself once level.
 /// Leaving the app closes it and releases the sensor. A null [guide] is the
 /// plain camera: can always capture, no overlay, no Guide button, no sensor.
 class CameraGuide extends StatefulWidget {
   const CameraGuide({
     required this.guide,
     required this.builder,
-    this.blockCaptureWhenTilted = true,
+    this.orientationSensitivity = OrientationSensitivity.hard,
     this.events,
     super.key,
   });
@@ -36,10 +51,7 @@ class CameraGuide extends StatefulWidget {
     VoidCallback? closeGuide,
   ) builder;
 
-  /// True ("hard"): while tilted the shutter is off and the guide ignores
-  /// taps. False ("soft"): the shutter stays on, and a tap or the shutter
-  /// closes the tilt guide until the phone has been level again.
-  final bool blockCaptureWhenTilted;
+  final OrientationSensitivity orientationSensitivity;
 
   /// Accelerometer readings; the device sensor when null.
   final Stream<AccelerometerEvent>? events;
@@ -55,6 +67,9 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
   bool _isLevel = true;
   bool _requested = false;
   bool _tiltDismissed = false;
+
+  bool get _blocksCapture =>
+      widget.orientationSensitivity == OrientationSensitivity.hard;
 
   @override
   void initState() {
@@ -108,7 +123,7 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
   }
 
   void _close() {
-    if (!_isLevel && widget.blockCaptureWhenTilted) {
+    if (!_isLevel && _blocksCapture) {
       return;
     }
     setState(() {
@@ -130,11 +145,10 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
     if (guide == null) {
       return widget.builder(context, true, null, null, null);
     }
-    final hard = widget.blockCaptureWhenTilted;
-    final showsTiltGuide = !_isLevel && (hard || !_tiltDismissed);
+    final showsTiltGuide = !_isLevel && (_blocksCapture || !_tiltDismissed);
     return widget.builder(
       context,
-      _isLevel || !hard,
+      _isLevel || !_blocksCapture,
       _requested || showsTiltGuide
           ? GestureDetector(
               behavior: HitTestBehavior.opaque,
