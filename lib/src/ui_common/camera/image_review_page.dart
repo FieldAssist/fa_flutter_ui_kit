@@ -37,6 +37,7 @@ class ImageReviewPage extends StatefulWidget {
     this.openRemarkEditor,
     this.openMultiShotCapture,
     this.guide,
+    this.blockCaptureWhenTilted = true,
   })  : assert(
           !enableRemarks || openRemarkEditor != null,
           'enableRemarks needs an openRemarkEditor to open.',
@@ -62,6 +63,9 @@ class ImageReviewPage extends StatefulWidget {
 
   /// Passed to the Retake camera; see [CameraImagePage.guide].
   final Widget? guide;
+
+  /// Passed to the Retake camera with [guide].
+  final bool blockCaptureWhenTilted;
 
   @override
   _ImageReviewPageState createState() => _ImageReviewPageState();
@@ -400,6 +404,7 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
         useInAppCamera: true,
         context: context,
         guide: widget.guide,
+        blockCaptureWhenTilted: widget.blockCaptureWhenTilted,
       );
     }
 

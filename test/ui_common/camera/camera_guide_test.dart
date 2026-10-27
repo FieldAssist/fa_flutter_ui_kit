@@ -23,7 +23,11 @@ void main() {
 
     tearDown(() => events.close());
 
-    Future<void> pump(WidgetTester tester, {bool withGuide = true}) =>
+    Future<void> pump(
+      WidgetTester tester, {
+      bool withGuide = true,
+      bool blockCaptureWhenTilted = true,
+    }) =>
         tester.pumpWidget(
           MaterialApp(
             home: CameraGuide(
@@ -33,17 +37,23 @@ void main() {
                       child: Center(child: Text('GUIDE')),
                     )
                   : null,
+              blockCaptureWhenTilted: blockCaptureWhenTilted,
               events: events.stream,
-              builder: (_, isLevel, overlay, openGuide) => Stack(
+              builder: (_, canCapture, overlay, openGuide, closeGuide) => Stack(
                 children: [
                   Column(
                     children: [
-                      Text('level=$isLevel'),
+                      Text('capture=$canCapture'),
                       if (openGuide != null)
                         TextButton(
                           onPressed: openGuide,
                           child: const Text('open'),
                         ),
+                      // stands in for the shutter, which closes the guide
+                      TextButton(
+                        onPressed: closeGuide,
+                        child: const Text('shutter'),
+                      ),
                     ],
                   ),
                   if (overlay != null) Positioned.fill(child: overlay),
@@ -70,11 +80,109 @@ void main() {
       await tester.pump();
     }
 
-    testWidgets('CameraGuide: camera opens → level, no guide', (tester) async {
+    Future<void> pressShutter(WidgetTester tester) async {
+      await tester.tap(find.text('shutter'));
+      await tester.pump();
+    }
+
+    testWidgets('CameraGuide: opened by Guide, shutter pressed → closed',
+        (tester) async {
+      await pump(tester);
+      await openGuide(tester);
+
+      await pressShutter(tester);
+
+      expect(find.text('GUIDE'), findsNothing);
+    });
+
+    testWidgets('CameraGuide: hard, tilted, shutter pressed → guide stays',
+        (tester) async {
+      await pump(tester);
+      await tilt(tester, 30);
+
+      await pressShutter(tester);
+
+      // the shutter is blocked here, so nothing may close the guide
+      expect(find.text('GUIDE'), findsOneWidget);
+      expect(find.text('capture=false'), findsOneWidget);
+    });
+
+    group('soft (blockCaptureWhenTilted: false)', () {
+      testWidgets('CameraGuide: soft, tilted → guide shown, can capture',
+          (tester) async {
+        await pump(tester, blockCaptureWhenTilted: false);
+
+        await tilt(tester, 30);
+
+        expect(find.text('GUIDE'), findsOneWidget);
+        expect(find.text('capture=true'), findsOneWidget);
+      });
+
+      testWidgets('CameraGuide: soft, tilted, shutter pressed → guide gone',
+          (tester) async {
+        await pump(tester, blockCaptureWhenTilted: false);
+        await tilt(tester, 30);
+
+        await pressShutter(tester);
+
+        expect(find.text('GUIDE'), findsNothing);
+      });
+
+      testWidgets('CameraGuide: soft, tilted, tap guide → guide gone',
+          (tester) async {
+        await pump(tester, blockCaptureWhenTilted: false);
+        await tilt(tester, 30);
+
+        await tester.tap(find.text('GUIDE'));
+        await tester.pump();
+
+        expect(find.text('GUIDE'), findsNothing);
+      });
+
+      testWidgets('CameraGuide: soft, closed, still tilted → stays closed',
+          (tester) async {
+        await pump(tester, blockCaptureWhenTilted: false);
+        await tilt(tester, 30);
+        await pressShutter(tester);
+
+        await tilt(tester, 35);
+
+        // not back over the next shot while the phone stays tilted
+        expect(find.text('GUIDE'), findsNothing);
+      });
+
+      testWidgets('CameraGuide: soft, closed, straight then tilted → shown',
+          (tester) async {
+        await pump(tester, blockCaptureWhenTilted: false);
+        await tilt(tester, 30);
+        await pressShutter(tester);
+        await tilt(tester, 0);
+
+        await tilt(tester, 30);
+
+        expect(find.text('GUIDE'), findsOneWidget);
+      });
+
+      testWidgets('CameraGuide: soft, closed, backgrounded, tilted → shown',
+          (tester) async {
+        await pump(tester, blockCaptureWhenTilted: false);
+        await tilt(tester, 30);
+        await pressShutter(tester);
+        await lifecycle(tester, AppLifecycleState.paused);
+        await lifecycle(tester, AppLifecycleState.resumed);
+
+        await tilt(tester, 30);
+
+        expect(find.text('GUIDE'), findsOneWidget);
+      });
+    });
+
+    testWidgets('CameraGuide: camera opens → can capture, no guide',
+        (tester) async {
       await pump(tester);
 
       expect(find.text('GUIDE'), findsNothing);
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
     });
 
     testWidgets('CameraGuide: no guide → plain camera, no Guide action',
@@ -82,7 +190,7 @@ void main() {
       await pump(tester, withGuide: false);
 
       expect(find.text('open'), findsNothing);
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
     });
 
     testWidgets('CameraGuide: no guide → sensor never listened to',
@@ -92,17 +200,18 @@ void main() {
       await tilt(tester, 30);
 
       expect(events.hasListener, isFalse);
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
     });
 
-    testWidgets('CameraGuide: phone flat → level, no guide', (tester) async {
+    testWidgets('CameraGuide: phone flat → can capture, no guide',
+        (tester) async {
       await pump(tester);
 
       events.add(AccelerometerEvent(0, 0, 9.81, DateTime(2026, 10, 23)));
       await tester.pump();
       await tester.pump();
 
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
       expect(find.text('GUIDE'), findsNothing);
     });
 
@@ -115,7 +224,7 @@ void main() {
       await tester.pump();
       await tester.pump();
 
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
       expect(find.text('GUIDE'), findsNothing);
     });
 
@@ -156,14 +265,14 @@ void main() {
       expect(find.text('GUIDE'), findsOneWidget);
     });
 
-    testWidgets('CameraGuide: tilted 30° → guide shown, not level',
+    testWidgets('CameraGuide: tilted 30° → guide shown, capture blocked',
         (tester) async {
       await pump(tester);
 
       await tilt(tester, 30);
 
       expect(find.text('GUIDE'), findsOneWidget);
-      expect(find.text('level=false'), findsOneWidget);
+      expect(find.text('capture=false'), findsOneWidget);
     });
 
     testWidgets('CameraGuide: tilted, tap → guide stays', (tester) async {
@@ -184,7 +293,7 @@ void main() {
       await tilt(tester, 0);
 
       expect(find.text('GUIDE'), findsNothing);
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
     });
 
     testWidgets('CameraGuide: tilted then 9° → guide still shown',
@@ -210,14 +319,15 @@ void main() {
       expect(find.text('GUIDE'), findsOneWidget);
     });
 
-    testWidgets('CameraGuide: sensor error → level, no guide', (tester) async {
+    testWidgets('CameraGuide: sensor error → can capture, no guide',
+        (tester) async {
       await pump(tester);
 
       events.addError(Exception('no accelerometer'));
       await tester.pump();
       await tester.pump();
 
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
       expect(find.text('GUIDE'), findsNothing);
     });
 
@@ -274,7 +384,7 @@ void main() {
 
       await tilt(tester, 0);
 
-      expect(find.text('level=true'), findsOneWidget);
+      expect(find.text('capture=true'), findsOneWidget);
       expect(find.text('GUIDE'), findsNothing);
     });
   });

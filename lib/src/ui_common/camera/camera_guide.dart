@@ -9,14 +9,16 @@ import 'tilt_guard.dart';
 const _maxRollDegrees = 10.0;
 
 /// Builds a camera screen with a capture [guide]: the overlay the user opens
-/// with the Guide button (looping until a tap closes it), also forced while
-/// the phone is rolled more than 10° (ignoring taps, closing once level).
+/// with the Guide button (looping until a tap or the shutter closes it), also
+/// shown while the phone is rolled more than 10° (see
+/// [blockCaptureWhenTilted]); a tilt guide closes by itself once level.
 /// Leaving the app closes it and releases the sensor. A null [guide] is the
-/// plain camera: always level, no overlay, no Guide button, no sensor.
+/// plain camera: can always capture, no overlay, no Guide button, no sensor.
 class CameraGuide extends StatefulWidget {
   const CameraGuide({
     required this.guide,
     required this.builder,
+    this.blockCaptureWhenTilted = true,
     this.events,
     super.key,
   });
@@ -24,13 +26,20 @@ class CameraGuide extends StatefulWidget {
   /// Fills the camera preview; draws its own scrim.
   final Widget? guide;
 
-  /// [overlay] goes over the preview; [openGuide] is null without a guide.
+  /// [overlay] goes over the preview; the page calls [closeGuide] when the
+  /// shutter is pressed. Both callbacks are null without a guide.
   final Widget Function(
     BuildContext context,
-    bool isLevel,
+    bool canCapture,
     Widget? overlay,
     VoidCallback? openGuide,
+    VoidCallback? closeGuide,
   ) builder;
+
+  /// True ("hard"): while tilted the shutter is off and the guide ignores
+  /// taps. False ("soft"): the shutter stays on, and a tap or the shutter
+  /// closes the tilt guide until the phone has been level again.
+  final bool blockCaptureWhenTilted;
 
   /// Accelerometer readings; the device sensor when null.
   final Stream<AccelerometerEvent>? events;
@@ -45,6 +54,7 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
   StreamSubscription<AccelerometerEvent>? _subscription;
   bool _isLevel = true;
   bool _requested = false;
+  bool _tiltDismissed = false;
 
   @override
   void initState() {
@@ -73,7 +83,12 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
   // Only flips between level and tilted rebuild; readings in between do not.
   void _setLevel(bool level) {
     if (mounted && level != _isLevel) {
-      setState(() => _isLevel = level);
+      setState(() {
+        _isLevel = level;
+        if (level) {
+          _tiltDismissed = false;
+        }
+      });
     }
   }
 
@@ -88,6 +103,17 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
     setState(() {
       _isLevel = true;
       _requested = false;
+      _tiltDismissed = false;
+    });
+  }
+
+  void _close() {
+    if (!_isLevel && widget.blockCaptureWhenTilted) {
+      return;
+    }
+    setState(() {
+      _requested = false;
+      _tiltDismissed = !_isLevel;
     });
   }
 
@@ -102,19 +128,22 @@ class _CameraGuideState extends State<CameraGuide> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final guide = widget.guide;
     if (guide == null) {
-      return widget.builder(context, true, null, null);
+      return widget.builder(context, true, null, null, null);
     }
+    final hard = widget.blockCaptureWhenTilted;
+    final showsTiltGuide = !_isLevel && (hard || !_tiltDismissed);
     return widget.builder(
       context,
-      _isLevel,
-      _requested || !_isLevel
+      _isLevel || !hard,
+      _requested || showsTiltGuide
           ? GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: _isLevel ? () => setState(() => _requested = false) : null,
+              onTap: _close,
               child: SizedBox.expand(child: guide),
             )
           : null,
       () => setState(() => _requested = true),
+      _close,
     );
   }
 }

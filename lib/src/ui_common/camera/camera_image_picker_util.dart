@@ -15,6 +15,7 @@ class CameraImagePickerUtil {
     bool showZoomControls = true,
     bool useCunningScanner = true,
     Widget? guide,
+    bool blockCaptureWhenTilted = true,
   }) async {
     if (useInAppCamera) {
       return Navigator.of(context!).push<File>(
@@ -24,6 +25,7 @@ class CameraImagePickerUtil {
             showZoomControls: showZoomControls,
             useCunningScanner: useCunningScanner,
             guide: guide,
+            blockCaptureWhenTilted: blockCaptureWhenTilted,
           ),
         ),
       );

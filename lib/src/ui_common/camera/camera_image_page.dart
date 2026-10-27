@@ -33,6 +33,7 @@ class CameraImagePage extends StatefulWidget {
     this.showZoomControls = false,
     this.useCunningScanner = false,
     this.guide,
+    this.blockCaptureWhenTilted = true,
     Key? key,
   }) : super(key: key);
 
@@ -49,6 +50,9 @@ class CameraImagePage extends StatefulWidget {
   /// The capture guide overlay (see [CameraGuide]); adds a Guide button and
   /// disables the shutter while tilted. Null keeps the plain camera.
   final Widget? guide;
+
+  /// See [CameraGuide.blockCaptureWhenTilted].
+  final bool blockCaptureWhenTilted;
 
   @override
   CameraImagePageState createState() => CameraImagePageState();
@@ -87,14 +91,18 @@ class CameraImagePageState extends State<CameraImagePage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      CameraGuide(guide: widget.guide, builder: _page);
+  Widget build(BuildContext context) => CameraGuide(
+        guide: widget.guide,
+        blockCaptureWhenTilted: widget.blockCaptureWhenTilted,
+        builder: _page,
+      );
 
   Widget _page(
     BuildContext context,
-    bool isLevel,
+    bool canCapture,
     Widget? overlay,
     VoidCallback? openGuide,
+    VoidCallback? closeGuide,
   ) {
     return Scaffold(
       appBar: BaseAppBar(
@@ -175,12 +183,12 @@ class CameraImagePageState extends State<CameraImagePage> {
       ),
       bottomNavigationBar: (cameras.length < 2 ||
               !widget.showSwitchCameraButton)
-          ? _imgCaptureBtn(isLevel)
+          ? _imgCaptureBtn(canCapture, closeGuide)
           : Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _imgCaptureBtn(isLevel),
+                _imgCaptureBtn(canCapture, closeGuide),
                 SizedBox(width: 40),
                 CameraSwitchButton(
                   onPressed: () async {
@@ -375,14 +383,16 @@ class CameraImagePageState extends State<CameraImagePage> {
     super.dispose();
   }
 
-  Widget _imgCaptureBtn(bool isLevel) => ImageCaptureButton(
-        enabled: isLevel,
+  Widget _imgCaptureBtn(bool canCapture, VoidCallback? closeGuide) =>
+      ImageCaptureButton(
+        enabled: canCapture,
         emphasizeState: widget.guide != null,
         identifier: cameraSemanticIds.shutterButton,
         onTakePhoto: () async {
           if (_capturing || !mounted) {
             return;
           }
+          closeGuide?.call();
           _capturing = true;
           // Take the Picture in a try / catch bloc. If anything goes wrong,
           // catch the error.
