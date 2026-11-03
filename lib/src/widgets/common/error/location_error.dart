@@ -254,8 +254,7 @@ class LocationErrorWidget extends StatelessWidget {
                         showIcon: false,
                         color: AppColors.kDarkBlue,
                         ontap: () async {
-                          final isServiceEnabled =
-                              await Geolocator.isLocationServiceEnabled();
+                          final isServiceEnabled = await isLocationServiceOn();
                           if (!isServiceEnabled) {
                             await Geolocator.openLocationSettings();
                           } else {
