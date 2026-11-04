@@ -2,6 +2,7 @@
 /// barrel: other ui kit consumers declare classes with the same names.
 library;
 
+export 'src/ui_common/camera/camera_capture_action.dart';
 export 'src/ui_common/camera/camera_guide.dart';
 export 'src/ui_common/camera/camera_host.dart';
 export 'src/ui_common/camera/camera_image_page.dart';

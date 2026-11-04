@@ -21,6 +21,9 @@ class UiCommonTexts {
     }
   }
 
+  String get kAnalysingImageQuality =>
+      _tr("kAnalysingImageQuality") ?? "Analysing image quality…";
+
   String get kBackOnline => _tr("kBackOnline") ?? "Back Online";
 
   String get kCrop => _tr("kCrop") ?? "Crop";
@@ -41,6 +44,11 @@ class UiCommonTexts {
       _tr("kNoInternetConnectionBanner") ?? "No Internet Connection";
 
   String get kPreview => _tr("kPreview") ?? "Preview";
+
+  String get kQualityCheck => _tr("kQualityCheck") ?? "Quality check";
+
+  String get kQualityRetakeHint =>
+      _tr("kQualityRetakeHint") ?? "Retake for a cleaner shot, or keep it.";
 
   String get kRemarks => _tr("kRemarks") ?? "Remarks";
 
