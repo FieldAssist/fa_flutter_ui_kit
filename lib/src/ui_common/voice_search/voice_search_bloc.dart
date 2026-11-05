@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import 'speech_status.dart';
@@ -18,6 +19,8 @@ class VoiceSearchBloc {
   ValueStream<VoiceSearchState> get stateStream => _stateSubject.stream;
 
   final _stt = stt.SpeechToText();
+
+  static const _listenFor = Duration(seconds: 30);
 
   bool _listenStarted = false;
   bool _handled = false;
@@ -37,6 +40,7 @@ class VoiceSearchBloc {
       return;
     }
     _handled = true;
+    unawaited(_stt.cancel());
     _stateSubject.addDataSafely(
       _stateSubject.value.copyWith(speechState: VoiceSpeechState.failed),
     );
@@ -52,7 +56,17 @@ class VoiceSearchBloc {
   }
 
   // ignore: avoid_dynamic_calls
-  void _onError(error) => _showFailed();
+  void _onError(SpeechRecognitionError error) {
+    if (_handled) {
+      return;
+    }
+    final text = _stateSubject.value.recognizedText;
+    if (text.isNotEmpty) {
+      _deliver(text);
+    } else {
+      _showFailed();
+    }
+  }
 
   void _onStatus(String status) {
     if (_handled) {
@@ -108,14 +122,14 @@ class VoiceSearchBloc {
       return;
     }
 
-    // Watchdog: if no terminal event fires within 8 s, show failed.
-    _watchdogTimer = Timer(const Duration(seconds: 8), _showFailed);
+    // Watchdog: only a backstop for a recogniser that never reports a terminal event.
+    _watchdogTimer = Timer(_listenFor + const Duration(seconds: 5), _showFailed);
     _listenStarted = true;
 
     unawaited(
       _stt.listen(
         pauseFor: const Duration(seconds: 3),
-        listenFor: const Duration(seconds: 30),
+        listenFor: _listenFor,
         onResult: (result) {
           if (_handled) {
             return;
