@@ -95,7 +95,7 @@ class LocationInfoImpl implements LocationInfo {
 
       final permission = await Geolocator.requestPermission();
 
-      final geolocationStatus = await Geolocator.isLocationServiceEnabled();
+      final geolocationStatus = await isLocationEnabled();
       if (!geolocationStatus) {
         throw LocationException('Oops! Location is turned off');
       }
@@ -396,8 +396,7 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   @override
-  Future<bool> isLocationEnabled() async =>
-      Geolocator.isLocationServiceEnabled();
+  Future<bool> isLocationEnabled() => isLocationServiceOn();
 
   @override
   Future<bool> isLocationPermissionGranted() async {
@@ -428,6 +427,23 @@ class LocationInfoImpl implements LocationInfo {
       );
     }
     return null;
+  }
+}
+
+/// Whether device location is on.
+///
+/// On Android, geolocator reports a failed location-settings check as a
+/// `LOCATION_SERVICES_DISABLED` [PlatformException] instead of returning
+/// `false`. Its other APIs map that code to [LocationServiceDisabledException],
+/// so it is read as off here too.
+Future<bool> isLocationServiceOn() async {
+  try {
+    return await Geolocator.isLocationServiceEnabled();
+  } on PlatformException catch (e) {
+    if (e.code == 'LOCATION_SERVICES_DISABLED') {
+      return false;
+    }
+    rethrow;
   }
 }
 
