@@ -9,9 +9,12 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:io' as _i5;
+
+import 'dart:io' as _i6;
 
 import 'package:auto_route/auto_route.dart' as _i3;
+import 'package:fa_flutter_ui_kit/src/ui_common/camera/camera_guide.dart'
+    as _i5;
 import 'package:fa_flutter_ui_kit/src/ui_common/camera/camera_image_page.dart'
     as _i1;
 import 'package:fa_flutter_ui_kit/src/ui_common/camera/image_review_page.dart'
@@ -31,24 +34,29 @@ class CameraImagePageRoute extends _i3.PageRouteInfo<CameraImagePageRouteArgs> {
     String? title,
     bool showZoomControls = false,
     bool useCunningScanner = false,
+    _i4.Widget? guide,
+    _i5.OrientationSensitivity orientationSensitivity =
+        _i5.OrientationSensitivity.hard,
     _i4.Key? key,
     List<_i3.PageRouteInfo>? children,
   }) : super(
-          CameraImagePageRoute.name,
-          args: CameraImagePageRouteArgs(
-            showFrontCamera: showFrontCamera,
-            geoImageWaterMark: geoImageWaterMark,
-            isGeoImage: isGeoImage,
-            buttonText: buttonText,
-            showSwitchCameraButton: showSwitchCameraButton,
-            needImageCompressed: needImageCompressed,
-            title: title,
-            showZoomControls: showZoomControls,
-            useCunningScanner: useCunningScanner,
-            key: key,
-          ),
-          initialChildren: children,
-        );
+         CameraImagePageRoute.name,
+         args: CameraImagePageRouteArgs(
+           showFrontCamera: showFrontCamera,
+           geoImageWaterMark: geoImageWaterMark,
+           isGeoImage: isGeoImage,
+           buttonText: buttonText,
+           showSwitchCameraButton: showSwitchCameraButton,
+           needImageCompressed: needImageCompressed,
+           title: title,
+           showZoomControls: showZoomControls,
+           useCunningScanner: useCunningScanner,
+           guide: guide,
+           orientationSensitivity: orientationSensitivity,
+           key: key,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'CameraImagePageRoute';
 
@@ -68,6 +76,8 @@ class CameraImagePageRoute extends _i3.PageRouteInfo<CameraImagePageRouteArgs> {
         title: args.title,
         showZoomControls: args.showZoomControls,
         useCunningScanner: args.useCunningScanner,
+        guide: args.guide,
+        orientationSensitivity: args.orientationSensitivity,
         key: args.key,
       );
     },
@@ -85,6 +95,8 @@ class CameraImagePageRouteArgs {
     this.title,
     this.showZoomControls = false,
     this.useCunningScanner = false,
+    this.guide,
+    this.orientationSensitivity = _i5.OrientationSensitivity.hard,
     this.key,
   });
 
@@ -106,11 +118,15 @@ class CameraImagePageRouteArgs {
 
   final bool useCunningScanner;
 
+  final _i4.Widget? guide;
+
+  final _i5.OrientationSensitivity orientationSensitivity;
+
   final _i4.Key? key;
 
   @override
   String toString() {
-    return 'CameraImagePageRouteArgs{showFrontCamera: $showFrontCamera, geoImageWaterMark: $geoImageWaterMark, isGeoImage: $isGeoImage, buttonText: $buttonText, showSwitchCameraButton: $showSwitchCameraButton, needImageCompressed: $needImageCompressed, title: $title, showZoomControls: $showZoomControls, useCunningScanner: $useCunningScanner, key: $key}';
+    return 'CameraImagePageRouteArgs{showFrontCamera: $showFrontCamera, geoImageWaterMark: $geoImageWaterMark, isGeoImage: $isGeoImage, buttonText: $buttonText, showSwitchCameraButton: $showSwitchCameraButton, needImageCompressed: $needImageCompressed, title: $title, showZoomControls: $showZoomControls, useCunningScanner: $useCunningScanner, guide: $guide, orientationSensitivity: $orientationSensitivity, key: $key}';
   }
 
   @override
@@ -126,6 +142,8 @@ class CameraImagePageRouteArgs {
         title == other.title &&
         showZoomControls == other.showZoomControls &&
         useCunningScanner == other.useCunningScanner &&
+        guide == other.guide &&
+        orientationSensitivity == other.orientationSensitivity &&
         key == other.key;
   }
 
@@ -140,6 +158,8 @@ class CameraImagePageRouteArgs {
       title.hashCode ^
       showZoomControls.hashCode ^
       useCunningScanner.hashCode ^
+      guide.hashCode ^
+      orientationSensitivity.hashCode ^
       key.hashCode;
 }
 
@@ -147,7 +167,7 @@ class CameraImagePageRouteArgs {
 /// [_i2.ImageReviewPage]
 class ImageReviewPageRoute extends _i3.PageRouteInfo<ImageReviewPageRouteArgs> {
   ImageReviewPageRoute({
-    required _i5.File? file,
+    required _i6.File? file,
     required bool isMultiShotMode,
     String? imagePath,
     bool enforceCacheImageDelete = false,
@@ -156,22 +176,27 @@ class ImageReviewPageRoute extends _i3.PageRouteInfo<ImageReviewPageRouteArgs> {
     _i4.ValueChanged<String>? onRemarksCaptured,
     _i2.RemarkEditorOpener? openRemarkEditor,
     _i2.MultiShotCaptureOpener? openMultiShotCapture,
+    _i4.Widget? guide,
+    _i5.OrientationSensitivity orientationSensitivity =
+        _i5.OrientationSensitivity.hard,
     List<_i3.PageRouteInfo>? children,
   }) : super(
-          ImageReviewPageRoute.name,
-          args: ImageReviewPageRouteArgs(
-            file: file,
-            isMultiShotMode: isMultiShotMode,
-            imagePath: imagePath,
-            enforceCacheImageDelete: enforceCacheImageDelete,
-            enableRemarks: enableRemarks,
-            initialRemark: initialRemark,
-            onRemarksCaptured: onRemarksCaptured,
-            openRemarkEditor: openRemarkEditor,
-            openMultiShotCapture: openMultiShotCapture,
-          ),
-          initialChildren: children,
-        );
+         ImageReviewPageRoute.name,
+         args: ImageReviewPageRouteArgs(
+           file: file,
+           isMultiShotMode: isMultiShotMode,
+           imagePath: imagePath,
+           enforceCacheImageDelete: enforceCacheImageDelete,
+           enableRemarks: enableRemarks,
+           initialRemark: initialRemark,
+           onRemarksCaptured: onRemarksCaptured,
+           openRemarkEditor: openRemarkEditor,
+           openMultiShotCapture: openMultiShotCapture,
+           guide: guide,
+           orientationSensitivity: orientationSensitivity,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'ImageReviewPageRoute';
 
@@ -189,6 +214,8 @@ class ImageReviewPageRoute extends _i3.PageRouteInfo<ImageReviewPageRouteArgs> {
         onRemarksCaptured: args.onRemarksCaptured,
         openRemarkEditor: args.openRemarkEditor,
         openMultiShotCapture: args.openMultiShotCapture,
+        guide: args.guide,
+        orientationSensitivity: args.orientationSensitivity,
       );
     },
   );
@@ -205,9 +232,11 @@ class ImageReviewPageRouteArgs {
     this.onRemarksCaptured,
     this.openRemarkEditor,
     this.openMultiShotCapture,
+    this.guide,
+    this.orientationSensitivity = _i5.OrientationSensitivity.hard,
   });
 
-  final _i5.File? file;
+  final _i6.File? file;
 
   final bool isMultiShotMode;
 
@@ -225,9 +254,13 @@ class ImageReviewPageRouteArgs {
 
   final _i2.MultiShotCaptureOpener? openMultiShotCapture;
 
+  final _i4.Widget? guide;
+
+  final _i5.OrientationSensitivity orientationSensitivity;
+
   @override
   String toString() {
-    return 'ImageReviewPageRouteArgs{file: $file, isMultiShotMode: $isMultiShotMode, imagePath: $imagePath, enforceCacheImageDelete: $enforceCacheImageDelete, enableRemarks: $enableRemarks, initialRemark: $initialRemark, onRemarksCaptured: $onRemarksCaptured, openRemarkEditor: $openRemarkEditor, openMultiShotCapture: $openMultiShotCapture}';
+    return 'ImageReviewPageRouteArgs{file: $file, isMultiShotMode: $isMultiShotMode, imagePath: $imagePath, enforceCacheImageDelete: $enforceCacheImageDelete, enableRemarks: $enableRemarks, initialRemark: $initialRemark, onRemarksCaptured: $onRemarksCaptured, openRemarkEditor: $openRemarkEditor, openMultiShotCapture: $openMultiShotCapture, guide: $guide, orientationSensitivity: $orientationSensitivity}';
   }
 
   @override
@@ -242,7 +275,9 @@ class ImageReviewPageRouteArgs {
         initialRemark == other.initialRemark &&
         onRemarksCaptured == other.onRemarksCaptured &&
         openRemarkEditor == other.openRemarkEditor &&
-        openMultiShotCapture == other.openMultiShotCapture;
+        openMultiShotCapture == other.openMultiShotCapture &&
+        guide == other.guide &&
+        orientationSensitivity == other.orientationSensitivity;
   }
 
   @override
@@ -255,5 +290,7 @@ class ImageReviewPageRouteArgs {
       initialRemark.hashCode ^
       onRemarksCaptured.hashCode ^
       openRemarkEditor.hashCode ^
-      openMultiShotCapture.hashCode;
+      openMultiShotCapture.hashCode ^
+      guide.hashCode ^
+      orientationSensitivity.hashCode;
 }

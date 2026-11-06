@@ -6,8 +6,8 @@ part of 'place_mark_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PlaceMarkData _$$_PlaceMarkDataFromJson(Map<String, dynamic> json) =>
-    _$_PlaceMarkData(
+_PlaceMarkData _$PlaceMarkDataFromJson(Map<String, dynamic> json) =>
+    _PlaceMarkData(
       name: json['name'] as String?,
       street: json['street'] as String?,
       isoCountryCode: json['isoCountryCode'] as String?,
@@ -21,7 +21,7 @@ _$_PlaceMarkData _$$_PlaceMarkDataFromJson(Map<String, dynamic> json) =>
       subThoroughfare: json['subThoroughfare'] as String?,
     );
 
-Map<String, dynamic> _$$_PlaceMarkDataToJson(_$_PlaceMarkData instance) =>
+Map<String, dynamic> _$PlaceMarkDataToJson(_PlaceMarkData instance) =>
     <String, dynamic>{
       'name': instance.name,
       'street': instance.street,

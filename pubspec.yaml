@@ -4,52 +4,52 @@ version: 1.0.0
 homepage: https://github.com/FieldAssist/fa_flutter_ui_kit
 
 environment:
-  sdk: ">=3.5.0 <4.0.0"
-  flutter: ">=3.24.0"
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.9"
 
 dependencies:
   flutter:
     sdk: flutter
-  qr_code_scanner_plus: ^2.0.14
-  speech_to_text: ^7.3.0
-  flutter_tts: ^4.2.3
-  file_picker: ^10.3.6
-  auto_route: ^10.0.1
+  qr_code_scanner_plus: ^2.3.2
+  speech_to_text: ^7.5.0
+  flutter_tts: ^4.2.5
+  file_picker: ^13.3.2
+  auto_route: ^11.2.0
   collection: ^1.19.1
   csv_localizations:
     git:
       url: "https://github.com/singhtaranjeet/csv_localizations.git"
       ref: "master"
-  cunning_document_scanner: ^2.6.0
-  flutter_image_compress: ^2.3.0
-  image: ^4.3.0
-  image_cropper: ^11.0.0
-  mobile_scanner: ^7.4.0
+  cunning_document_scanner: ^3.0.4
+  flutter_image_compress: ^2.5.1
+  image: ^4.12.0
+  image_cropper: ^13.0.0
+  mobile_scanner: ^7.5.0
   path: ^1.9.1
-  sensors_plus: 6.1.2
+  sensors_plus: ^7.1.1
 
   # Core
   fa_flutter_core:
     git:
       url: https://github.com/FieldAssist/fa_flutter_core.git
-      ref: main
+      ref: new/3.47
 
   # Api service
   fa_flutter_api_client:
     git:
       url: https://github.com/FieldAssist/fa_flutter_api_client.git
-      ref: main
-  decimal: ^3.2.4
+      ref: new/3.47
+  decimal: ^3.2.6
   cool_flare: ^3.1.0
-  app_settings: ^6.1.1
+  app_settings: ^9.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^10.3.1
-  build_runner: ^2.10.2
-  freezed: ^3.2.3
-  json_serializable: ^6.11.1
+  auto_route_generator: ^10.6.0
+  build_runner: ^2.16.1
+  freezed: ^4.0.1
+  json_serializable: ^6.15.2
 
 flutter:
   assets:
