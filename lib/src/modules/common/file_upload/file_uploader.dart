@@ -1,5 +1,6 @@
-import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FileService {
   FileService._();
@@ -15,19 +16,20 @@ class FileService {
         .pickImage(source: source, imageQuality: imageQuality);
 
     if (pickedFile != null) {
+      final pickedFileSize = await pickedFile.length();
+
       if (requiredFileSize != null) {
         final fileSizeInBytes = requiredFileSize * 1024 * 1024;
-        final pickedFileSize = await pickedFile.length();
 
         if (pickedFileSize > fileSizeInBytes) {
           throw Exception("File size exceeds the $requiredFileSize MB limit");
         }
       }
 
-      return PlatformFile(
+      return _XFilePlatformFile(
+        pickedFile,
         name: name ?? pickedFile.name,
-        size: await pickedFile.length(),
-        path: pickedFile.path,
+        size: pickedFileSize,
       );
     }
 
@@ -42,18 +44,18 @@ class FileService {
 
   static Future<PlatformFile?> pickDocument(
       List<String>? extensions, double? requiredFileSize) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final pickedFile = await FilePicker.pickFile(
       type: FileType.custom,
       allowedExtensions: extensions ?? ['pdf', 'jpg', 'jpeg', 'png'],
     );
 
-    if (result != null && result.files.isNotEmpty) {
-      final pickedFile = result.files.first;
-
+    if (pickedFile != null) {
       if (requiredFileSize != null) {
         final fileSizeInBytes = requiredFileSize * 1024 * 1024;
 
-        if (pickedFile.size > fileSizeInBytes) {
+        // An unknown length counts as 0, as `PlatformFile.size` did before
+        // file_picker 13.
+        if ((await pickedFile.length() ?? 0) > fileSizeInBytes) {
           throw Exception("File size exceeds the $requiredFileSize MB limit");
         }
       }
@@ -63,4 +65,34 @@ class FileService {
 
     return null;
   }
+}
+
+/// file_picker 12+ made [PlatformFile] abstract, so an image from
+/// image_picker is wrapped to keep [FileService.pickImage]'s return type.
+final class _XFilePlatformFile extends PlatformFile {
+  _XFilePlatformFile(this.xFile, {required this.name, required int size})
+      : _size = size;
+
+  @override
+  final XFile xFile;
+
+  @override
+  final String name;
+
+  final int _size;
+
+  @override
+  Uri get uri => kIsWeb ? Uri.parse(xFile.path) : Uri.file(xFile.path);
+
+  @override
+  int? lengthSync() => _size;
+
+  @override
+  Future<int?> length() async => _size;
+
+  @override
+  Future<Uint8List> readAsBytes() => xFile.readAsBytes();
+
+  @override
+  Stream<Uint8List> readAsByteStream() => xFile.openRead();
 }

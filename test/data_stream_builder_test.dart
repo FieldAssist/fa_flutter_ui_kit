@@ -4,10 +4,22 @@ import 'package:fa_flutter_ui_kit/fa_flutter_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+/// The error widget's image (half the screen wide) decodes at a random point
+/// in the test. Once it has, the column is ~700px tall and overflows the
+/// default 800x600 surface, pushing RETRY off-screen. A tall surface keeps the
+/// result independent of that race.
+void _useTallView(WidgetTester tester) {
+  tester.view
+    ..physicalSize = const Size(800, 1200)
+    ..devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
 void main() {
   testWidgets(
       'DataStreamBuilder renders StreamErrorWidget when onErrorRefresh is null and an error occurs',
       (WidgetTester tester) async {
+    _useTallView(tester);
     final controller = StreamController<String>();
     addTearDown(controller.close);
 
@@ -38,6 +50,7 @@ void main() {
   testWidgets(
       'DataStreamBuilder renders Retry button when onErrorRefresh is provided',
       (WidgetTester tester) async {
+    _useTallView(tester);
     final controller = StreamController<String>();
     addTearDown(controller.close);
     bool refreshCalled = false;

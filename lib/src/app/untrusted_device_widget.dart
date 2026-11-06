@@ -31,7 +31,7 @@ class UntrustedDeviceWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(
+                const FaIcon(
                   FontAwesomeIcons.triangleExclamation,
                   size: 64,
                   color: Colors.orange,

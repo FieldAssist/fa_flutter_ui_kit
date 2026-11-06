@@ -514,8 +514,8 @@ class __MultiSelectChipFieldViewState<V>
                 : widget.selectedChipColor != null
                     ? widget.selectedChipColor
                     : Theme.of(context).primaryColor.withOpacity(0.33),
-        onSelected: (_) {
-          if (_) {
+        onSelected: (selected) {
+          if (selected) {
             _selectedValues.add(item.value);
             if (widget.state != null) {
               widget.state!.didChange(_selectedValues);

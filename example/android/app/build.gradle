@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.ui_kit_sample_app"
-    compileSdk 35
+    compileSdk 37
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21

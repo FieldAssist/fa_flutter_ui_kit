@@ -4,7 +4,7 @@ part 'country.freezed.dart';
 part 'country.g.dart';
 
 @freezed
-class Country with _$Country {
+abstract class Country with _$Country {
   factory Country({
     String? countryId,
     String? countryCode,

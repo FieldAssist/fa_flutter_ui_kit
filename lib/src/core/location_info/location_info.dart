@@ -319,7 +319,7 @@ class LocationInfoImpl implements LocationInfo {
     required double longitude,
   }) async {
     try {
-      final placemark = await placemarkFromCoordinates(
+      final placemark = await Geocoding().placemarkFromCoordinates(
         latitude,
         longitude,
       );
@@ -384,7 +384,7 @@ class LocationInfoImpl implements LocationInfo {
     required double longitude,
   }) async {
     try {
-      final placemark = await placemarkFromCoordinates(
+      final placemark = await Geocoding().placemarkFromCoordinates(
         latitude,
         longitude,
       );
