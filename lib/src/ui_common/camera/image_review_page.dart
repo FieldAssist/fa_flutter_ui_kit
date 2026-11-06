@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import '../config/ui_common_colors.dart';
 import '../config/ui_common_texts.dart';
 import '../image_file_utils.dart';
+import '../logger.dart';
+import 'camera_capture_action.dart';
 import 'camera_guide.dart';
 import 'camera_host.dart';
 import 'camera_image_picker_util.dart';
@@ -39,6 +41,8 @@ class ImageReviewPage extends StatefulWidget {
     this.openMultiShotCapture,
     this.guide,
     this.orientationSensitivity = OrientationSensitivity.hard,
+    this.runQualityCheck,
+    this.captureAction,
   })  : assert(
           !enableRemarks || openRemarkEditor != null,
           'enableRemarks needs an openRemarkEditor to open.',
@@ -68,6 +72,14 @@ class ImageReviewPage extends StatefulWidget {
   /// Passed to the Retake camera with [guide].
   final OrientationSensitivity orientationSensitivity;
 
+  /// Checks the photo when the preview opens and again after every Retake or
+  /// Crop, showing "Analysing image quality…" over the photo and then what
+  /// looks wrong. Advisory: Keep stays enabled. Null shows no check.
+  final ImageQualityCheck? runQualityCheck;
+
+  /// Passed to the Retake camera; see [CameraImagePage.captureAction].
+  final CameraCaptureAction? captureAction;
+
   @override
   _ImageReviewPageState createState() => _ImageReviewPageState();
 }
@@ -83,12 +95,56 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
   Size? _naturalImageSize;
   Size? _containerSize;
 
+  /// What the quality check found for the current photo; null while it runs
+  /// or when it did not run.
+  List<String>? _qualityWarnings;
+  bool _checkingQuality = false;
+
+  /// Bumped per check so a slow result for an earlier photo is dropped.
+  int _qualityRun = 0;
+
   @override
   void initState() {
     super.initState();
     file = widget.file;
     _remarks = widget.initialRemark;
-    WidgetsBinding.instance.addPostFrameCallback((_) => _resolveImageSize());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _resolveImageSize();
+      final opened = file;
+      if (opened != null) {
+        _checkQuality(opened);
+      }
+    });
+  }
+
+  /// Runs [ImageReviewPage.runQualityCheck] on [photo]. Fails open: an error
+  /// clears the banner.
+  Future<void> _checkQuality(File photo) async {
+    final check = widget.runQualityCheck;
+    if (check == null) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    final run = ++_qualityRun;
+    setState(() {
+      _checkingQuality = true;
+      _qualityWarnings = null;
+    });
+    List<String>? warnings;
+    try {
+      warnings = await check(photo);
+    } catch (e, s) {
+      faUiCommonLogger.e(e, s);
+    }
+    if (!mounted || run != _qualityRun) {
+      return;
+    }
+    setState(() {
+      _checkingQuality = false;
+      _qualityWarnings = warnings;
+    });
   }
 
   bool get _canEditRemarks => file != null;
@@ -202,6 +258,14 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
                       right: 12,
                       child: _buildZoomControls(),
                     ),
+                    if (_checkingQuality || _hasQualityWarnings)
+                      Positioned(
+                        top: 12,
+                        left: 12,
+                        // Clears the zoom controls on the right.
+                        right: 64,
+                        child: _buildQualityBanner(),
+                      ),
                   ],
                 ),
               ),
@@ -300,6 +364,99 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
     );
   }
 
+  bool get _hasQualityWarnings => _qualityWarnings?.isNotEmpty ?? false;
+
+  Widget _buildQualityBanner() {
+    if (_checkingQuality) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: UiCommonColors.kBlack.withValues(alpha: 0.72),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: UiCommonColors.kWhite,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Flexible(
+              child: Text(
+                UiCommonTexts().kAnalysingImageQuality,
+                style: const TextStyle(
+                  color: UiCommonColors.kWhite,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: _kQualityRed.withValues(alpha: 0.92),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.warning_amber_rounded,
+                color: UiCommonColors.kWhite,
+                size: 18,
+              ),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  UiCommonTexts().kQualityCheck,
+                  style: const TextStyle(
+                    color: UiCommonColors.kWhite,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          for (final warning in _qualityWarnings!)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                '•  $warning',
+                style: const TextStyle(
+                  color: UiCommonColors.kWhite,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          const SizedBox(height: 2),
+          Text(
+            UiCommonTexts().kQualityRetakeHint,
+            style: const TextStyle(
+              color: UiCommonColors.kWhite70,
+              fontSize: 11,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static const Color _kQualityRed = Color(0xFFB71C1C);
+
   Widget _buildZoomControls() {
     return Material(
       color: UiCommonColors.kWhite.withValues(alpha: 0.85),
@@ -339,6 +496,7 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
     _transformationController.value = Matrix4.identity();
     file = File(croppedFile.path);
     setState(() {});
+    _checkQuality(file!);
     WidgetsBinding.instance.addPostFrameCallback((_) => _resolveImageSize());
   }
 
@@ -406,6 +564,7 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
         context: context,
         guide: widget.guide,
         orientationSensitivity: widget.orientationSensitivity,
+        captureAction: widget.captureAction,
       );
     }
 
@@ -418,6 +577,7 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
     setState(() {
       file = returnedFile;
     });
+    _checkQuality(returnedFile);
     WidgetsBinding.instance.addPostFrameCallback((_) => _resolveImageSize());
   }
 }

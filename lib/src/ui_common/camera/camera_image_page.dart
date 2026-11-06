@@ -14,6 +14,7 @@ import '../config/ui_common_colors.dart';
 import '../config/ui_common_texts.dart';
 import '../image_file_utils.dart';
 import '../logger.dart';
+import 'camera_capture_action.dart';
 import 'camera_host.dart';
 import 'camera_guide.dart';
 import 'widgets/camera_switch_button.dart';
@@ -34,6 +35,7 @@ class CameraImagePage extends StatefulWidget {
     this.useCunningScanner = false,
     this.guide,
     this.orientationSensitivity = OrientationSensitivity.hard,
+    this.captureAction,
     Key? key,
   }) : super(key: key);
 
@@ -53,6 +55,10 @@ class CameraImagePage extends StatefulWidget {
 
   /// How [guide] treats a tilted phone; see [OrientationSensitivity].
   final OrientationSensitivity orientationSensitivity;
+
+  /// Another way to take the picture, shown as an app bar button (see
+  /// [CameraCaptureAction]). Null shows no button.
+  final CameraCaptureAction? captureAction;
 
   @override
   CameraImagePageState createState() => CameraImagePageState();
@@ -108,6 +114,11 @@ class CameraImagePageState extends State<CameraImagePage> {
       appBar: BaseAppBar(
         title: Text(widget.title ?? UiCommonTexts().kTakePicture),
         actions: [
+          if (widget.captureAction != null)
+            CameraCaptureActionButton(
+              action: widget.captureAction!,
+              onPressed: () => _captureWith(widget.captureAction!, closeGuide),
+            ),
           if (openGuide != null) CameraGuideButton(onPressed: openGuide),
           if (widget.useCunningScanner)
             IconButton(
@@ -417,6 +428,58 @@ class CameraImagePageState extends State<CameraImagePage> {
         },
         buttonText: widget.buttonText,
       );
+
+  /// Takes the picture with [action] instead of the shutter. The other flow
+  /// opens the camera itself, so this page lets go of the lens first and takes
+  /// it back if the user returns without a photo.
+  Future<void> _captureWith(
+    CameraCaptureAction action,
+    VoidCallback? closeGuide,
+  ) async {
+    if (_capturing || !mounted) {
+      return;
+    }
+    closeGuide?.call();
+    _capturing = true;
+    try {
+      await _releaseCamera();
+      if (!mounted) {
+        return;
+      }
+      final path = await action.capture(context);
+      if (!mounted) {
+        return;
+      }
+      if (path == null || path.isEmpty) {
+        await initController();
+        return;
+      }
+      await CommonProgressDialog.show(context);
+      final processedFile = await _onTakePicture(XFile(path), context);
+      await CommonProgressDialog.hide();
+      if (!mounted) {
+        return;
+      }
+      Navigator.pop(context, processedFile);
+    } catch (e, s) {
+      await CommonProgressDialog.hide();
+      faUiCommonLogger.e(e, s);
+      if (mounted && _controller == null) {
+        await initController();
+      }
+    } finally {
+      _capturing = false;
+    }
+  }
+
+  Future<void> _releaseCamera() async {
+    final oldController = _controller;
+    _controller = null;
+    setState(() {
+      _initializeControllerFuture = null;
+    });
+    await oldController?.dispose();
+  }
 
   /// POC: capture via the ML Kit document scanner instead of the live camera.
   /// Reuses [_onTakePicture] so scaling/compression/watermark stay identical

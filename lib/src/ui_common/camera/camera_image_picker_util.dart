@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fa_flutter_core/fa_flutter_core.dart';
 import 'package:flutter/material.dart';
 
+import 'camera_capture_action.dart';
 import 'camera_guide.dart';
 import 'camera_image_page.dart';
 
@@ -17,6 +18,7 @@ class CameraImagePickerUtil {
     bool useCunningScanner = true,
     Widget? guide,
     OrientationSensitivity orientationSensitivity = OrientationSensitivity.hard,
+    CameraCaptureAction? captureAction,
   }) async {
     if (useInAppCamera) {
       return Navigator.of(context!).push<File>(
@@ -27,6 +29,7 @@ class CameraImagePickerUtil {
             useCunningScanner: useCunningScanner,
             guide: guide,
             orientationSensitivity: orientationSensitivity,
+            captureAction: captureAction,
           ),
         ),
       );
