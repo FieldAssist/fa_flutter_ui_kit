@@ -293,6 +293,11 @@ class CameraImagePageState extends State<CameraImagePage> {
       CameraController(_camera!, ResolutionPreset.veryHigh);
 
   Future<void> initController() async {
+    // init() gets here after awaiting the camera list, so the page may already
+    // be closed. A controller built now would never be disposed.
+    if (!mounted) {
+      return;
+    }
     // Null out future first so FutureBuilder shows loading before dispose runs.
     // Without this, a frame between dispose() and the new setState() renders
     // CameraPreview against the already-disposed controller.
@@ -303,6 +308,9 @@ class CameraImagePageState extends State<CameraImagePage> {
     });
     if (oldController != null) {
       await oldController.dispose();
+      if (!mounted) {
+        return;
+      }
     }
     _controller = getCameraController();
     setState(() {
