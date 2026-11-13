@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:fa_flutter_core/fa_flutter_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_cropper/image_cropper.dart';
@@ -70,27 +71,43 @@ class ImageFileUtils {
     }
   }
 
+  /// Opens the native cropper on [file]. Returns null when the user cancels
+  /// or the native crop fails; [file] is then left as it was.
   static Future<CroppedFile?> getCroppedImage(File file) async {
-    final cropped = await ImageCropper().cropImage(
-      sourcePath: file.path,
-      compressQuality: 100,
-      maxWidth: 1080,
-      maxHeight: 1920,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Crop Image',
-          lockAspectRatio: false,
-          hideBottomControls: false,
-          initAspectRatio: CropAspectRatioPreset.original,
-        ),
-        IOSUiSettings(
-          title: 'Crop Image',
-          doneButtonTitle: 'Save',
-          cancelButtonTitle: 'Cancel',
-          hidesNavigationBar: false,
-        ),
-      ],
-    );
+    final CroppedFile? cropped;
+    try {
+      cropped = await ImageCropper().cropImage(
+        sourcePath: file.path,
+        compressQuality: 100,
+        maxWidth: 1080,
+        maxHeight: 1920,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Image',
+            lockAspectRatio: false,
+            hideBottomControls: false,
+            initAspectRatio: CropAspectRatioPreset.original,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+            doneButtonTitle: 'Save',
+            cancelButtonTitle: 'Cancel',
+            hidesNavigationBar: false,
+          ),
+        ],
+      );
+    } on PlatformException catch (e, s) {
+      // uCrop (Android) can round the crop a pixel past the bitmap and fail
+      // with "x + width must be <= bitmap.width()" (Yalantis/uCrop#408, not
+      // fixed upstream). The photo is untouched, so treat it as a cancel.
+      if (e.code != 'crop_error') {
+        rethrow;
+      }
+      // A warning, not `e`: hosts send `e` to crash reporting as a fatal,
+      // and a cancelled crop is not a crash.
+      faUiCommonLogger.w('Native crop failed, treated as cancel: $e\n$s');
+      return null;
+    }
 
     if (cropped != null) {
       if (file.existsSync()) {
