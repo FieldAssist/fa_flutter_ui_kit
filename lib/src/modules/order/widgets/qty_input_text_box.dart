@@ -108,6 +108,10 @@ class _QtyInputTextBoxState extends State<QtyInputTextBox> {
     _keyboardValueSubs ??=
         widget.keyboardController?.keyboardInput.listen((text) {
       if (text == null) {
+        // Backspace on an empty box has nothing to delete.
+        if (textController.text.isEmpty) {
+          return;
+        }
         final newText =
             textController.text.substring(0, textController.text.length - 1);
         final newSelection =

@@ -1,3 +1,4 @@
+import 'package:fa_flutter_ui_kit/src/modules/common/number_keyboard/keyboard_controller.dart';
 import 'package:fa_flutter_ui_kit/src/modules/order/widgets/qty_input_text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,5 +43,32 @@ void main() {
     await tester.enterText(find.byType(TextFormField), '1.5');
 
     expect(controller.text, '1.5');
+  });
+
+  testWidgets('QtyInputTextBox: in-app backspace on an empty box → stays empty',
+      (tester) async {
+    final keyboard = KeyboardController();
+    addTearDown(keyboard.dispose);
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: QtyInputTextBox(
+            textController: controller,
+            onInputChange: (_) {},
+            keyboardController: keyboard,
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.byType(TextFormField));
+    await tester.pump();
+
+    keyboard.setKeyboardInput(null);
+    await tester.pump();
+
+    // nothing to delete: no RangeError from substring(0, -1)
+    expect(controller.text, '');
   });
 }
