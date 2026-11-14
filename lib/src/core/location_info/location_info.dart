@@ -37,6 +37,11 @@ abstract class LocationInfo {
   Future<bool> isLocationPermissionGranted();
 
   Future<LocationData?> getInstantLocationFromNative();
+
+  /// Stops the location-off watcher and the position stream, e.g. when the
+  /// working day ends. The last fix is kept; the next [initLocation] starts
+  /// both again.
+  Future<void> stopLocationUpdates();
 }
 
 class LocationInfoImpl implements LocationInfo {
@@ -93,7 +98,13 @@ class LocationInfoImpl implements LocationInfo {
         }
       }
 
-      final permission = await Geolocator.requestPermission();
+      // Asked only when missing. On Android 10+ a request made while access
+      // is already "while in use" also asks for background access; the app
+      // asks for that on its own terms.
+      var permission = await Geolocator.checkPermission();
+      if (!_isPermissionGranted(permission)) {
+        permission = await Geolocator.requestPermission();
+      }
 
       final geolocationStatus = await isLocationEnabled();
       if (!geolocationStatus) {
@@ -111,7 +122,7 @@ class LocationInfoImpl implements LocationInfo {
       }
 
       if (_isPermissionGranted(permission) && geolocationStatus) {
-        await _fetchLocation();
+        await fetchLocation();
       } else {
         throw LocationException(
           '${Constants.locationNotAvailable}',
@@ -129,12 +140,23 @@ class LocationInfoImpl implements LocationInfo {
     }
   }
 
-  static Future<Position> _getLocation() async {
-    final location = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    return location;
+  /// A GPS fix, or null when none arrives within [_fixTimeLimit]. The limit
+  /// is geolocator's own, so the native request is cancelled, not left
+  /// running behind a retry.
+  static Future<Position?> _getLocation() async {
+    try {
+      return await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: _fixTimeLimit,
+        ),
+      );
+    } on TimeoutException {
+      return null;
+    }
   }
+
+  static const _fixTimeLimit = Duration(seconds: 10);
 
   bool _isPermissionGranted(LocationPermission permission) {
     return permission != LocationPermission.denied &&
@@ -188,6 +210,16 @@ class LocationInfoImpl implements LocationInfo {
     locationStreamSubs?.cancel();
   }
 
+  @override
+  Future<void> stopLocationUpdates() async {
+    locationCheckTimer?.cancel();
+    final subscription = locationStreamSubs;
+    // Cleared, so the `??=` in [_startLocationFetchStream] starts afresh.
+    locationStreamSubs = null;
+    positionStream = null;
+    await subscription?.cancel();
+  }
+
   void _setLocation(LocationData location) {
     if (location != null) {
       _deviceLocation.value = location;
@@ -225,21 +257,81 @@ class LocationInfoImpl implements LocationInfo {
     }
   }
 
-  Future _fetchLocation() async {
-    await _startFetchingLocation().timeout(const Duration(seconds: 10),
-        onTimeout: () async {
-      final position = await Geolocator.getLastKnownPosition()
-          .timeout(Duration(seconds: 5), onTimeout: () {
-        return null;
-      });
-      if (position == null) {
-        throw LocationException(
-          '${Constants.locationNotAvailable}',
-        );
-      } else {
-        await _onLocationFetch(position);
+  /// Gets a first fix: GPS, then a fallback position. With neither, throws
+  /// [LocationTimeoutException] — but only while the app is in front. A
+  /// while-in-use app gets no fix in the background, and a system dialog over
+  /// the app (Android's location-accuracy prompt) holds the request; neither
+  /// means the location is unavailable, so the fetch waits for the app to come
+  /// back and tries again.
+  @visibleForTesting
+  Future<void> fetchLocation() async {
+    while (true) {
+      if (await _startFetchingLocation()) {
+        return;
       }
-    });
+      final fallback = await _fallbackPosition();
+      if (fallback != null) {
+        await _onLocationFetch(fallback);
+        return;
+      }
+      if (_isInForeground) {
+        throw const LocationTimeoutException();
+      }
+      await _untilResumed();
+    }
+  }
+
+  /// No lifecycle state yet counts as in front, so a fetch never waits on a
+  /// resume that cannot come.
+  static bool get _isInForeground {
+    final state = WidgetsBinding.instance.lifecycleState;
+    return state == null || state == AppLifecycleState.resumed;
+  }
+
+  static Future<void> _untilResumed() {
+    final resumed = Completer<void>();
+    final listener = AppLifecycleListener(onResume: resumed.complete);
+    // It may have come back between the check and the listener.
+    if (_isInForeground && !resumed.isCompleted) {
+      resumed.complete();
+    }
+    return resumed.future.whenComplete(listener.dispose);
+  }
+
+  /// A position when GPS gave none in time: the OS's last known one, then on
+  /// Android the fused provider through the app's native channel, which can
+  /// return a fix another app took and never shows the settings dialog.
+  Future<Position?> _fallbackPosition() async {
+    final lastKnown = await Geolocator.getLastKnownPosition()
+        .timeout(const Duration(seconds: 5), onTimeout: () => null);
+    if (lastKnown != null || defaultTargetPlatform != TargetPlatform.android) {
+      return lastKnown;
+    }
+    try {
+      final native = await getInstantLocationFromNative()
+          .timeout(const Duration(seconds: 5));
+      final latitude = native?.latitude;
+      final longitude = native?.longitude;
+      if (latitude == null || longitude == null) {
+        return null;
+      }
+      return Position(
+        latitude: latitude,
+        longitude: longitude,
+        timestamp: DateTime.now(),
+        accuracy: native?.accuracy?.toDouble() ?? 0,
+        altitude: 0,
+        altitudeAccuracy: 0,
+        heading: 0,
+        headingAccuracy: 0,
+        speed: 0,
+        speedAccuracy: 0,
+      );
+    } catch (e, s) {
+      // Includes apps that don't implement the channel.
+      logger.e(e, s);
+      return null;
+    }
   }
 
   Future<void> _onLocationFetch(Position location) async {
@@ -253,15 +345,14 @@ class LocationInfoImpl implements LocationInfo {
     }
   }
 
-  Future<void> _startFetchingLocation() async {
-    Position location;
-    location = await _getLocation();
+  /// Whether a GPS fix arrived in time; when it did, it is now the location.
+  Future<bool> _startFetchingLocation() async {
+    final location = await _getLocation();
     if (location == null) {
-      throw LocationException(
-        '${Constants.locationNotAvailable}',
-      );
+      return false;
     }
     await _onLocationFetch(location);
+    return true;
   }
 
   void _startLocationServiceCheckTimer() {
@@ -282,14 +373,16 @@ class LocationInfoImpl implements LocationInfo {
                     '',
                   ),
                   onRetryTap: () async {
-                    final _checkPermission =
-                        await isLocationPermissionGranted();
-                    final geolocationStatus = await isLocationEnabled();
-                    if (_checkPermission && geolocationStatus) {
-                      navKey!.currentState?.pop();
-                      _startLocationServiceCheckTimer();
+                    // Fetch first and leave only with a fix: closing first
+                    // dropped the user back with no location and no message
+                    // when the fetch failed. A fix restarts this watcher.
+                    try {
                       await initLocation();
+                    } catch (e, s) {
+                      logger.e(e, s);
+                      return;
                     }
+                    navKey!.currentState?.pop();
                   },
                 ),
               ),
