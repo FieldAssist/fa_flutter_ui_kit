@@ -231,9 +231,35 @@ class CameraImagePageState extends State<CameraImagePage> {
     if (isLinux || isMac || isWindows) {
       await attachDefaultImage();
     } else {
+      await openCamera();
+    }
+  }
+
+  /// Finds a camera and starts its preview. initState and RETRY call init()
+  /// without awaiting it, so a failure here (no camera, or the camera service
+  /// failing to start) goes to the page's error state instead of escaping as
+  /// an uncaught error.
+  @visibleForTesting
+  Future<void> openCamera() async {
+    try {
       await initCameras();
       await initCamera();
       await initController();
+    } catch (e, s) {
+      // Other Errors are bugs, so they still crash. ArgumentError is this
+      // page's own "no camera" signal.
+      if (e is Error && e is! ArgumentError) {
+        rethrow;
+      }
+      // A warning, not `e`: hosts send `e` to crash reporting as a fatal.
+      faUiCommonLogger.w('Camera failed to open: $e\n$s');
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        // ignore(): the FutureBuilder only subscribes on the next build.
+        _initializeControllerFuture = Future<void>.error(e, s)..ignore();
+      });
     }
   }
 
@@ -432,11 +458,17 @@ class CameraImagePageState extends State<CameraImagePage> {
           }
           closeGuide?.call();
           _capturing = true;
-          // Take the Picture in a try / catch bloc. If anything goes wrong,
-          // catch the error.
           try {
             // Ensure that the camera is initialized.
             await _initializeControllerFuture;
+          } catch (_) {
+            // The error state already shows this failure, with RETRY.
+            _capturing = false;
+            return;
+          }
+          // Take the Picture in a try / catch bloc. If anything goes wrong,
+          // catch the error.
+          try {
             await CommonProgressDialog.show(context);
             final _xFile = await _controller!.takePicture();
             final _annotatedImg = await _onTakePicture(_xFile, context);
