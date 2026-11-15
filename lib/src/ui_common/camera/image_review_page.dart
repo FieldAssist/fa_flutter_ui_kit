@@ -516,7 +516,10 @@ class _ImageReviewPageState extends BaseState<ImageReviewPage> {
     if (widget.enableRemarks) {
       widget.onRemarksCaptured?.call(_remarks);
     }
-    if (!mounted) {
+    // Pop only while this page is the top route. An earlier Keep tap or a back
+    // press can pop it during the awaits, and a pop would then take the route
+    // below.
+    if (!mounted || ModalRoute.isCurrentOf(context) == false) {
       return;
     }
     Navigator.pop(context, compressedImage);
