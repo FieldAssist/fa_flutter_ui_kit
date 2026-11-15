@@ -307,7 +307,7 @@ class CameraImagePageState extends State<CameraImagePage> {
       _initializeControllerFuture = null;
     });
     if (oldController != null) {
-      await oldController.dispose();
+      await _disposeController(oldController);
       if (!mounted) {
         return;
       }
@@ -397,9 +397,28 @@ class CameraImagePageState extends State<CameraImagePage> {
     // Dispose of the controller when the widget is disposed.
     _focusTimer?.cancel();
     if (_controller != null) {
-      _controller!.dispose();
+      unawaited(_disposeController(_controller!));
     }
     super.dispose();
+  }
+
+  /// Disposes [controller]. On Android, the camera plugin's dispose releases
+  /// the last preview the plugin created, not necessarily this controller's,
+  /// and throws when that preview's surface is already released.
+  /// A controller whose initialize() failed before it got a preview of its own
+  /// hits this. The controller is already disposed on the Dart side by then.
+  /// The message match holds for camera_android_camerax 0.6.30 to 0.7.6+1;
+  /// re-check it when upgrading.
+  Future<void> _disposeController(CameraController controller) async {
+    try {
+      await controller.dispose();
+    } on PlatformException catch (e, s) {
+      if (!(e.message?.contains('releaseFlutterSurfaceTexture') ?? false)) {
+        rethrow;
+      }
+      // A warning, not `e`: hosts send `e` to crash reporting as a fatal.
+      faUiCommonLogger.w('Camera preview was already released: $e\n$s');
+    }
   }
 
   Widget _imgCaptureBtn(bool canCapture, VoidCallback? closeGuide) =>
@@ -486,7 +505,9 @@ class CameraImagePageState extends State<CameraImagePage> {
     setState(() {
       _initializeControllerFuture = null;
     });
-    await oldController?.dispose();
+    if (oldController != null) {
+      await _disposeController(oldController);
+    }
   }
 
   /// POC: capture via the ML Kit document scanner instead of the live camera.
