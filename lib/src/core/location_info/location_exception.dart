@@ -12,3 +12,19 @@ class LocationException extends MyException {
 class LocationTimeoutException extends LocationException {
   const LocationTimeoutException() : super(Constants.locationNotAvailable);
 }
+
+/// Device location is switched off, or the app may not use it. A setting the
+/// user controls, not a fault in the app, so a crash reporter can report it
+/// as non-fatal by type. The messages are the ones users already see.
+class LocationSettingException extends LocationException {
+  /// Location is switched off on the device.
+  const LocationSettingException.off() : super('Oops! Location is turned off');
+
+  /// The app is not allowed to read the location.
+  const LocationSettingException.denied()
+      : super('Please Allow Location Permission');
+
+  /// The app may read only an approximate location.
+  const LocationSettingException.imprecise()
+      : super('Please Enable Precise Location');
+}

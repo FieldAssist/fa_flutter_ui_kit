@@ -176,6 +176,96 @@ void main() {
         throwsA(isA<LocationTimeoutException>()),
       );
     });
+
+    test(
+        'location switched off mid-fetch → LocationSettingException, '
+        'the location-off message', () async {
+      locationOn().currentPosition =
+          () async => throw const LocationServiceDisabledException();
+
+      await expectLater(
+        locationInfo.fetchLocation(),
+        throwsA(
+          isA<LocationSettingException>().having(
+            (e) => e.message,
+            'message',
+            'Oops! Location is turned off',
+          ),
+        ),
+      );
+    });
+  });
+
+  group('locationSettingErrorOf', () {
+    const off = 'Oops! Location is turned off';
+    const denied = 'Please Allow Location Permission';
+    for (final (label, error, expected) in <(String, Object, String?)>[
+      (
+        'LocationServiceDisabledException',
+        const LocationServiceDisabledException(),
+        off,
+      ),
+      (
+        'PlatformException LOCATION_SERVICES_DISABLED',
+        PlatformException(code: 'LOCATION_SERVICES_DISABLED'),
+        off,
+      ),
+      (
+        'PermissionDeniedException',
+        const PermissionDeniedException(''),
+        denied
+      ),
+      (
+        'iOS kCLErrorDomain error 1',
+        const PositionUpdateException(
+          'The operation couldn’t be completed. (kCLErrorDomain error 1.)',
+        ),
+        denied,
+      ),
+      (
+        'iOS kCLErrorDomain error 10',
+        const PositionUpdateException(
+          'The operation couldn’t be completed. (kCLErrorDomain error 10.)',
+        ),
+        null,
+      ),
+      (
+        'LocationSettingException.imprecise',
+        const LocationSettingException.imprecise(),
+        'Please Enable Precise Location',
+      ),
+      ('LocationTimeoutException', const LocationTimeoutException(), null),
+      (
+        'plain LocationException',
+        const LocationException('Location not available!'),
+        null,
+      ),
+    ]) {
+      test('$label → ${expected ?? 'null'}', () {
+        expect(locationSettingErrorOf(error)?.message, expected);
+      });
+    }
+  });
+
+  group('withLocationSettingErrors', () {
+    test('location switched off in the stream → LocationSettingException',
+        () async {
+      final positions = withLocationSettingErrors(
+        Stream.error(const LocationServiceDisabledException()),
+      );
+
+      await expectLater(
+        positions,
+        emitsError(isA<LocationSettingException>()),
+      );
+    });
+
+    test('any other stream error → passes through unchanged', () async {
+      const failure = PositionUpdateException('kCLErrorDomain error 0.');
+      final positions = withLocationSettingErrors(Stream.error(failure));
+
+      await expectLater(positions, emitsError(same(failure)));
+    });
   });
 
   test('stopLocationUpdates: a fix was taken → the location-off watcher stops',

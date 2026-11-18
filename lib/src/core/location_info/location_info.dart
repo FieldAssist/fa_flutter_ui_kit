@@ -108,17 +108,15 @@ class LocationInfoImpl implements LocationInfo {
 
       final geolocationStatus = await isLocationEnabled();
       if (!geolocationStatus) {
-        throw LocationException('Oops! Location is turned off');
+        throw const LocationSettingException.off();
       }
       if (!_isPermissionGranted(permission)) {
-        throw LocationException('Please Allow Location Permission');
+        throw const LocationSettingException.denied();
       }
 
       final accuracy = await Geolocator.getLocationAccuracy();
       if (accuracy == LocationAccuracyStatus.reduced) {
-        throw LocationException(
-          'Please Enable Precise Location',
-        );
+        throw const LocationSettingException.imprecise();
       }
 
       if (_isPermissionGranted(permission) && geolocationStatus) {
@@ -142,7 +140,8 @@ class LocationInfoImpl implements LocationInfo {
 
   /// A GPS fix, or null when none arrives within [_fixTimeLimit]. The limit
   /// is geolocator's own, so the native request is cancelled, not left
-  /// running behind a retry.
+  /// running behind a retry. Location switched off or denied mid-fetch is
+  /// thrown as a [LocationSettingException].
   static Future<Position?> _getLocation() async {
     try {
       return await Geolocator.getCurrentPosition(
@@ -153,6 +152,12 @@ class LocationInfoImpl implements LocationInfo {
       );
     } on TimeoutException {
       return null;
+    } catch (error, stackTrace) {
+      final setting = locationSettingErrorOf(error);
+      if (setting == null) {
+        rethrow;
+      }
+      Error.throwWithStackTrace(setting, stackTrace);
     }
   }
 
@@ -189,8 +194,8 @@ class LocationInfoImpl implements LocationInfo {
   }
 
   void _startLocationFetchStream() {
-    positionStream ??= Geolocator.getPositionStream(
-      locationSettings: getLocationSetting(),
+    positionStream ??= withLocationSettingErrors(
+      Geolocator.getPositionStream(locationSettings: getLocationSetting()),
     ).bufferTime(const Duration(seconds: 2)).transform<Position>(
       StreamTransformer.fromHandlers(handleData: (d, sink) {
         if (d.isNotEmpty) {
@@ -539,6 +544,48 @@ Future<bool> isLocationServiceOn() async {
     rethrow;
   }
 }
+
+/// [error] as a [LocationSettingException] when it means location is switched
+/// off or the app may not use it: one already, or geolocator's own way of
+/// saying so. Null for any other error, which is a real failure.
+LocationSettingException? locationSettingErrorOf(Object error) {
+  if (error is LocationSettingException) {
+    return error;
+  }
+  if (error is LocationServiceDisabledException ||
+      (error is PlatformException &&
+          error.code == 'LOCATION_SERVICES_DISABLED')) {
+    return const LocationSettingException.off();
+  }
+  if (error is PermissionDeniedException ||
+      (error is PositionUpdateException &&
+          _clErrorDenied.hasMatch(error.message ?? ''))) {
+    return const LocationSettingException.denied();
+  }
+  return null;
+}
+
+/// iOS denied permission: kCLErrorDenied, code 1 of kCLErrorDomain.
+///
+/// geolocator_apple's `locationManager:didFailWithError:` sends only the
+/// NSError's `localizedDescription` across the channel, and it becomes
+/// [PositionUpdateException.message]; no code survives. That text is
+/// localised, so only the domain and the code are relied on: the first number
+/// after the domain must be exactly 1. Every other CoreLocation code is a real
+/// failure.
+final _clErrorDenied = RegExp(r'kCLErrorDomain\D*1(?!\d)');
+
+/// [positions] with each location-off or denied error rethrown as a
+/// [LocationSettingException]; any other error passes through unchanged.
+@visibleForTesting
+Stream<Position> withLocationSettingErrors(Stream<Position> positions) =>
+    positions.handleError(
+      (Object error, StackTrace stackTrace) => Error.throwWithStackTrace(
+        locationSettingErrorOf(error)!,
+        stackTrace,
+      ),
+      test: (error) => locationSettingErrorOf(error as Object) != null,
+    );
 
 extension PositionX on Position {
   LatLng get latLng => LatLng(latitude, longitude);
