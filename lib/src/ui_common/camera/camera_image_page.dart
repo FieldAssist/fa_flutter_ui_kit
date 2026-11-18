@@ -15,6 +15,7 @@ import '../config/ui_common_texts.dart';
 import '../image_file_utils.dart';
 import '../logger.dart';
 import 'camera_capture_action.dart';
+import 'camera_controller_dispose.dart';
 import 'camera_host.dart';
 import 'camera_guide.dart';
 import 'widgets/camera_switch_button.dart';
@@ -333,7 +334,7 @@ class CameraImagePageState extends State<CameraImagePage> {
       _initializeControllerFuture = null;
     });
     if (oldController != null) {
-      await _disposeController(oldController);
+      await disposeCameraController(oldController);
       if (!mounted) {
         return;
       }
@@ -423,28 +424,9 @@ class CameraImagePageState extends State<CameraImagePage> {
     // Dispose of the controller when the widget is disposed.
     _focusTimer?.cancel();
     if (_controller != null) {
-      unawaited(_disposeController(_controller!));
+      unawaited(disposeCameraController(_controller!));
     }
     super.dispose();
-  }
-
-  /// Disposes [controller]. On Android, the camera plugin's dispose releases
-  /// the last preview the plugin created, not necessarily this controller's,
-  /// and throws when that preview's surface is already released.
-  /// A controller whose initialize() failed before it got a preview of its own
-  /// hits this. The controller is already disposed on the Dart side by then.
-  /// The message match holds for camera_android_camerax 0.6.30 to 0.7.6+1;
-  /// re-check it when upgrading.
-  Future<void> _disposeController(CameraController controller) async {
-    try {
-      await controller.dispose();
-    } on PlatformException catch (e, s) {
-      if (!(e.message?.contains('releaseFlutterSurfaceTexture') ?? false)) {
-        rethrow;
-      }
-      // A warning, not `e`: hosts send `e` to crash reporting as a fatal.
-      faUiCommonLogger.w('Camera preview was already released: $e\n$s');
-    }
   }
 
   Widget _imgCaptureBtn(bool canCapture, VoidCallback? closeGuide) =>
@@ -538,7 +520,7 @@ class CameraImagePageState extends State<CameraImagePage> {
       _initializeControllerFuture = null;
     });
     if (oldController != null) {
-      await _disposeController(oldController);
+      await disposeCameraController(oldController);
     }
   }
 
