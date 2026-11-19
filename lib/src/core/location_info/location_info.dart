@@ -294,7 +294,7 @@ class LocationInfoImpl implements LocationInfo {
                         // initLocation still failed, most often no fix in
                         // time. The check timer above is running again, and
                         // the AppErrorPage drops this callback's future, so a
-                        // throw would only be uncaught (FD-3043).
+                        // throw would only be uncaught.
                         logger.w('Location: retry failed: $e\n$s');
                       }
                     }
