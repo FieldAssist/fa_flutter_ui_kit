@@ -288,7 +288,15 @@ class LocationInfoImpl implements LocationInfo {
                     if (_checkPermission && geolocationStatus) {
                       navKey!.currentState?.pop();
                       _startLocationServiceCheckTimer();
-                      await initLocation();
+                      try {
+                        await initLocation();
+                      } on LocationException catch (e, s) {
+                        // initLocation still failed, most often no fix in
+                        // time. The check timer above is running again, and
+                        // the AppErrorPage drops this callback's future, so a
+                        // throw would only be uncaught (FD-3043).
+                        logger.w('Location: retry failed: $e\n$s');
+                      }
                     }
                   },
                 ),
