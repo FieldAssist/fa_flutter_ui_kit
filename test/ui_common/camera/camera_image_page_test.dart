@@ -123,11 +123,28 @@ void main() {
     await state.initCameras();
     await state.initCamera();
     await state.initController();
-    await expectLater(state.initController(), throwsA(isA<CameraException>()));
+    await state.initController();
 
     await state.initController();
 
     // a new camera was created after disposing the failed one
     expect(platform.createCalls, 3);
+  });
+
+  testWidgets(
+      'initController: camera permission denied → completes and shows the '
+      'error state with RETRY', (tester) async {
+    CameraPlatform.instance = _FakeCameraPlatform(failingCreate: 1);
+    final key = GlobalKey<CameraImagePageState>();
+    await tester.pumpWidget(MaterialApp(home: _TestCameraImagePage(key: key)));
+    final state = key.currentState!;
+    await state.initCameras();
+    await state.initCamera();
+
+    await state.initController();
+    await tester.pumpAndSettle();
+
+    // the page's error state, from the failed controller future
+    expect(find.text('RETRY'), findsOneWidget);
   });
 }

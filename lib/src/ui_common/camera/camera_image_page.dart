@@ -343,7 +343,17 @@ class CameraImagePageState extends State<CameraImagePage> {
     setState(() {
       _initializeControllerFuture = _controller!.initialize();
     });
-    await _initializeControllerFuture;
+    try {
+      await _initializeControllerFuture;
+    } on Exception catch (e, s) {
+      // The FutureBuilder already shows this future's error, with RETRY.
+      // Callers that drop this future (switch camera, ultra-wide, zoom slider,
+      // capture action) would leak a rethrow as uncaught, e.g. a switch tap on
+      // the error state after the camera permission was denied.
+      // A warning, not `e`: hosts send `e` to crash reporting as a fatal.
+      faUiCommonLogger.w('Camera failed to open: $e\n$s');
+      return;
+    }
 
     // Initialize zoom levels after controller is ready
     if (widget.showFrontCamera == false && widget.showZoomControls) {
