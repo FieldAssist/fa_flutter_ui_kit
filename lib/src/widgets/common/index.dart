@@ -20,6 +20,7 @@ export 'launching_growth.dart';
 export 'linear_gradient_container.dart';
 export 'my_circular_progress.dart';
 export 'my_linear_progress_indicator.dart';
+export 'network_svg_icon/network_svg_icon.dart';
 export 'no_internet_widget.dart';
 export 'no_items_found.dart';
 export 'outlined_icon_button.dart';
