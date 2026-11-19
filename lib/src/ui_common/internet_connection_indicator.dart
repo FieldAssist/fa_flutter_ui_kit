@@ -40,6 +40,11 @@ class _InternetConnectionIndicatorState
   Future<void> _init() async {
     // Check initial status
     _isConnected = await widget.isConnected();
+    // Disposed during the check: dispose had no subscription to cancel yet,
+    // so subscribing now would call setState on a dead State.
+    if (!mounted) {
+      return;
+    }
 
     // Show indicator if initially offline
     if (!_isConnected && mounted) {
