@@ -345,11 +345,14 @@ class CameraImagePageState extends State<CameraImagePage> {
     });
     try {
       await _initializeControllerFuture;
-    } on Exception catch (e, s) {
+    } catch (e, s) {
       // The FutureBuilder already shows this future's error, with RETRY.
       // Callers that drop this future (switch camera, ultra-wide, zoom slider,
       // capture action) would leak a rethrow as uncaught, e.g. a switch tap on
       // the error state after the camera permission was denied.
+      // Errors too: initialize() runs only plugin code. camerax 0.6.30
+      // null-checks preview.getResolutionInfo(), which is null once another
+      // controller's create or dispose has unbound the plugin's one preview.
       // A warning, not `e`: hosts send `e` to crash reporting as a fatal.
       faUiCommonLogger.w('Camera failed to open: $e\n$s');
       return;
