@@ -116,6 +116,9 @@ class _CountryPickerState extends State<CountryPicker> {
     );
   }
 
+  Country _defaultCountry() =>
+      _countryList!.firstWhere((element) => element.dialCode == '91');
+
   Future<void> _getCountriesFromAssets() async {
     try {
       final List<Country>? list = await rootBundle.loadStructuredData(
@@ -128,17 +131,18 @@ class _CountryPickerState extends State<CountryPicker> {
       if (widget.selectedCountryId != null) {
         _selectedCountryId = widget.selectedCountryId;
       } else if (widget.selectedCountryName != null) {
+        // A name the asset doesn't list (a company's own country label)
+        // gets the same default as no name at all.
         _selectedCountryId = _countryList!
             .firstWhere(
               (element) =>
                   element.countryName?.toLowerCase() ==
                   widget.selectedCountryName?.toLowerCase(),
+              orElse: _defaultCountry,
             )
             .countryId;
       } else {
-        _selectedCountryId = _countryList!
-            .firstWhere((element) => element.dialCode == '91')
-            .countryId;
+        _selectedCountryId = _defaultCountry().countryId;
       }
     } catch (e, s) {
       logger.e(e, s);
