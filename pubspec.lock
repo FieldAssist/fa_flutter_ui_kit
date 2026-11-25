@@ -335,7 +335,7 @@ packages:
       path: "."
       ref: master
       resolved-ref: b9b353da098fecbc6f0e2ddd7dfc38bf4e6e2977
-      url: "https://github.com/singhtaranjeet/csv_localizations.git"
+      url: "https://github.com/FieldAssist/csv_localizations.git"
     source: git
     version: "1.7.0+5"
   cunning_document_scanner:

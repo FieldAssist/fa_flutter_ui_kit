@@ -18,7 +18,7 @@ dependencies:
   collection: ^1.19.1
   csv_localizations:
     git:
-      url: "https://github.com/singhtaranjeet/csv_localizations.git"
+      url: "https://github.com/FieldAssist/csv_localizations.git"
       ref: "master"
   cunning_document_scanner: ^2.6.0
   flutter_image_compress: ^2.3.0
